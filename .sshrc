@@ -1,4 +1,37 @@
 #!/usr/bin/env bash
+# https://github.com/Russell91/sshrc
+
+export SHELL=$(which bash)
+readonly TMUXDIR='/tmp/bdossantos_sshrc'
+readonly TMUXSERVER="${TMUXDIR}/tmux"
 
 # Using vi key bindings in bash
+# http://www.techrepublic.com/blog/linux-and-open-source/using-vi-key-bindings-in-bash-and-zsh/
 set -o vi
+
+tmuxrc() {
+  if [[ ! -d $TMUXDIR ]]; then
+    rm -rf "$TMUXDIR"
+    mkdir -p "$TMUXDIR"
+  fi
+
+  cp -rf $SSHHOME/.sshrc $SSHHOME/bashsshrc $SSHHOME/sshrc $SSHHOME/.sshrc.d/ \
+        $TMUXDIR
+
+  SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc tmux -S "$TMUXSERVER" "$@"
+}
+
+# load system-wide profile.d if needed
+if [[ -d /etc/profile.d ]]; then
+  for i in /etc/profile.d/*.sh; do
+    [[ -r $i ]] && source "$i"
+  done
+  unset i
+fi
+
+# Tmux on startup
+if [[ -r "$TMUXSERVER" ]]; then
+  [[ -z $TMUX ]] && tmux -S "$TMUXSERVER" a
+else
+  tmuxrc new
+fi
