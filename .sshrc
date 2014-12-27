@@ -29,6 +29,9 @@ if [[ -d /etc/profile.d ]]; then
   unset i
 fi
 
+# Aliases
+[[ -f "$SSHHOME/.sshrc.d/.aliases" ]] && source "$SSHHOME/.sshrc.d/.aliases"
+
 # Tmux on startup
 if [[ -r "$TMUXSERVER" ]]; then
   [[ -z $TMUX ]] && tmux -S "$TMUXSERVER" a
