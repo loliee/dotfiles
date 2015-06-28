@@ -1,0 +1,43 @@
+# Set case-sensitivity for completion, history lookup, etc.
+zstyle ':prezto:*:*' case-sensitive 'no'
+
+# Color output (auto set to 'no' on dumb terminals).
+zstyle ':prezto:*:*' color 'yes'
+
+# Set the Prezto modules to load (browse modules).
+# The order matters.
+zstyle ':prezto:load' pmodule \
+    'environment' \
+    'terminal' \
+    'editor' \
+    'history' \
+    'directory' \
+    'spectrum' \
+    'utility' \
+    'ssh' \
+    'completion' \
+    'syntax-highlighting' \
+    'history-substring-search' \
+    'prompt' \
+    'tmux' \
+
+zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:prompt' theme 'mlpure'
+
+# History
+zstyle ':prezto:module:history-substring-search' case-sensitive 'yes'
+zstyle ':prezto:module:history-substring-search:color' found 'bg=blue'
+# Syntax highlighter
+zstyle ':prezto:module:syntax-highlighting' highlighters \
+    'main' \
+    'brackets' \
+    'pattern' \
+    'cursor'
+zstyle ':prezto:module:syntax-highlighting' styles \
+    'builtin' 'fg=green' \
+    'command' 'fg=green' \
+    'function' 'fg=yellow' \
+    'reserved-word' 'fg=red' \
+    'path' 'fg=blue' \
+    'single-quoted-argument' 'fg=magenta' \
+    'double-quoted-argument' 'fg=magenta'

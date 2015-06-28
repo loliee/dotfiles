@@ -1,0 +1,55 @@
+[user]
+name = Maxime Loliée
+email = maxime@siliadev.com
+
+[color]
+ui = true
+branch = auto
+diff = auto
+interactive = auto
+status = auto
+
+[core]
+editor = vim
+excludesfile = ~/.gitignore-global
+
+[merge]
+tool = vimdiff
+
+[rebase]
+autosquash = true
+
+[fetch]
+prune = true
+
+[push]
+default = matching
+
+[commit]
+template = ~/.gitmessage
+
+[alias]
+a = git add -p
+bm = branch -m
+cm = commit -m
+ca = commit --amend
+cs = commit --squash
+st = status
+co = checkout
+dfm = diff master...
+po = push origin
+pof = push --force origin
+pod = push --delete origin
+sa = submodule add
+si = submodule init --recursive
+sr = submodule dinit
+su = submodule foreach git pull
+r  = reset
+rh  = reset --hard
+ri = rebase -i
+rc = rebase --continue
+ra = rebase --abort
+rso = remote set-url origin
+mc = merge --continue
+ma = merge --abort
+lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit

@@ -1,0 +1,248 @@
+#!/usr/bin/env bash
+
+unset PYTHONPATH
+export C_INCLUDE_PATH=/usr/local/Cellar/libxml2/2.9.2/include/libxml2:$C_INCLUDE_PATH
+
+xcode-select -p
+if [$? ne 0] echo 'Xcode PLIZs' && exit ;fi
+echo '--> Pimp my Mac, Yo'
+
+echo '--> Check for Homebrew'
+if [[ ! $(which brew) ]]; then
+  echo '--> Installing homebrew...'
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+echo "--> Make sure we're using the latest Homebrew"
+brew update
+
+echo '--> Upgrade any already-installed formulae'
+brew upgrade --all
+
+echo '--> Tap extras Homebrew repositories'
+brew tap caskroom/fonts
+brew tap caskroom/versions
+brew tap homebrew/binary
+brew tap homebrew/devel-only
+brew tap homebrew/dupes
+brew tap homebrew/versions
+brew tap jeffreywildman/homebrew-virt-manager
+brew tap peco/peco
+brew tap homebrew/homebrew-php
+
+echo '--> Install/update Homebrew cask'
+brew install caskroom/cask/brew-cask
+brew cask update
+
+# Link Homebrew casks in `/Applications` rather than `~/Applications`
+export HOMEBREW_CASK_OPTS='--appdir=/Applications'
+
+echo '--> Install cask apps'
+
+brew cask install adium
+brew cask install atom
+brew cask install divvy
+brew cask install dropbox
+brew cask install filezilla
+brew cask install firefox
+brew cask install font-anonymous-pro
+brew cask install font-anonymous-pro-for-powerline
+brew cask install font-inconsolata
+brew cask install font-inconsolata-for-powerline
+brew cask install font-source-code-pro
+brew cask install font-source-sans-pro
+brew cask install font-terminus
+brew cask install gimp
+brew cask install google-chrome
+brew cask install google-chrome-canary
+brew cask install google-hangouts
+brew cask install google-drive
+brew cask install gpgtools
+brew cask install hipchat
+brew cask install imageoptim
+brew cask install istat-menus
+brew cask install iterm2
+brew cask install java6
+brew cask install java7
+brew cask install keepassx
+brew cask install mactex
+brew cask install omnigraffle
+brew cask install openoffice
+brew cask install paragon-extfs
+brew cask install paragon-ntfs
+brew cask install skype
+brew cask install slack
+brew cask install transmission
+brew cask install vagrant
+brew cask install virtualbox
+brew cask install vlc
+brew cask install xquartz
+
+# iterm2 conf
+[[ -d ~/.base16-shell ]] || \
+  git clone https://github.com/chriskempson/base16-shell ~/.base16-shell
+
+[[ -d ~/.base16-iterm2 ]] || \
+  git clone https://github.com/chriskempson/base16-iterm2 ~/.base16-iterm2
+
+[[ -d ~/.patatetoy-iterm2 ]] || \
+  git clone https://github.com/loliee/patatetoy-iterm2 ~/.patatetoy-iterm2
+
+mkdir -p ~/.tmux/plugins
+[[ -d ~/.tmux/plugins/tpm ]] || \
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+
+echo '--> Install brew apps'
+
+brew install ack
+brew install advancecomp
+brew install ansible
+brew install ansifilter
+brew install bats
+brew install cheat
+brew install chruby
+brew install cloc
+brew install closure-compiler
+brew install composer
+brew install coreutils
+brew install ctags
+brew install curl
+brew install findutils
+brew install ffmepg
+brew install ghi
+brew install gifsicle
+brew install git
+brew install gnu-sed --with-default-names
+brew install gnu-tar
+brew install go
+brew install graphviz
+brew install gsl
+brew install htmlcompressor --yuicompressor
+brew install htop-osx
+brew install hub
+brew install ipcalc
+brew install jq
+brew install imagemagick --with-webp
+brew install jhead
+brew install jpeg
+brew install jpegoptim
+brew install libxml2 && brew link libxml2 --force
+brew install macvim --with-cscope --override-system-vim --custom-icons
+brew install moreutils
+brew install ncftp
+brew install nginx
+brew install nodejs
+brew install openssl && brew link openssl --force
+brew install optipng
+brew install packer
+brew install pandoc
+brew install peco
+brew install phantomjs
+brew install php56
+brew install php-code-sniffer php56-http php56-imagick php56-intl php56-mcrypt phpmd \
+             php56-mongo php56-mustache php56-pdo-pgsql php56-redis php56-twig php56-xdebug
+brew install pigz
+brew install pngcrush
+brew install pngquant
+brew install pt
+brew install pv
+brew install pwgen
+brew install python --with-brewed-openssl
+brew install python3 --with-brewed-openssl
+brew install readline
+brew install reattach-to-user-namespace
+brew install ruby-install
+brew install s3cmd
+brew install shellcheck
+brew install spark
+brew install ssh-copy-id
+brew install sshrc
+brew install stow
+brew install tag
+brew install terminal-notifier
+brew install tmux
+brew install tcpdump
+brew install the_silver_searcher
+brew install tig
+brew install tmux-cssh
+brew install tmux-mem-cpu-load
+brew install tree
+brew install v
+brew install virt-manager
+brew install virt-viewer
+brew install watch
+brew install webkit2png
+brew install wget
+brew install xz
+brew install z
+brew install zopfli
+brew install zsh-syntax-highlighting
+brew install zsh
+
+echo 'Vim config'
+mkdir -p ~/.vim/bundle/
+[[ -d ~/.vim/bundle/Vundle.vim ]] || \
+  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+pip install --upgrade pip setuptools
+PIPS=(
+  cli53
+  fabric
+  flake8
+  howdoi
+  httpie
+  pylint
+  virtualenv
+)
+
+for pip in "${PIPS[@]}"; do
+  $(brew --prefix)/bin/pip list -l | grep "$pip" &>/dev/null || \
+    $(brew --prefix)/bin/pip install "$pip"
+done
+
+## ruby
+mkdir -p ~/.rubies
+RUBIES=(
+  2.2.2
+)
+
+for ruby in "${RUBIES[@]}"; do
+  "$(brew --prefix)/bin/ruby-install" --no-reinstall --rubies-dir ~/.rubies \
+    ruby "$ruby"
+done
+
+echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
+
+GEMS=(
+  bundler
+  tmuxinator
+  zonify
+)
+
+source "$(brew --prefix)/share/chruby/chruby.sh"
+chruby "$(cat ~/.ruby-version)"
+
+for gem in "${GEMS[@]}"; do
+  gem list -i "${gem}" &>/dev/null || gem install "${gem}"
+done
+
+# npm
+npm install -g js-yaml
+
+mkdir -p ~/.tmux/plugins
+[[ -d ~/.tmux/plugins/tpm ]] || \
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+
+mkdir -p /etc/nginx && ln -s /usr/local/etc/nginx/nginx.conf /etc/nginx/nginx.conf && ln -s /usr/local/etc/nginx/servers /etc/nginx/servers
+
+echo '--> Link homebrew apps'
+brew linkapps
+
+echo '--> Cleanup !'
+brew cask cleanup
+brew cleanup
+
+# Extra stuff ?
+[[ -f ~/.brew.local ]] && . ~/.brew.local
