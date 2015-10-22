@@ -3,8 +3,7 @@
 unset PYTHONPATH
 export C_INCLUDE_PATH=/usr/local/Cellar/libxml2/2.9.2/include/libxml2:$C_INCLUDE_PATH
 
-xcode-select -p
-if [$? ne 0] echo 'Xcode PLIZs' && exit ;fi
+sudo xcode-select --install
 echo '--> Pimp my Mac, Yo'
 
 echo '--> Check for Homebrew'
@@ -19,6 +18,10 @@ brew update
 echo '--> Upgrade any already-installed formulae'
 brew upgrade --all
 
+echo '--> Install/update Homebrew cask'
+brew install caskroom/cask/brew-cask
+brew cask update
+
 echo '--> Tap extras Homebrew repositories'
 brew tap caskroom/fonts
 brew tap caskroom/versions
@@ -29,10 +32,6 @@ brew tap homebrew/versions
 brew tap jeffreywildman/homebrew-virt-manager
 brew tap peco/peco
 brew tap homebrew/homebrew-php
-
-echo '--> Install/update Homebrew cask'
-brew install caskroom/cask/brew-cask
-brew cask update
 
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS='--appdir=/Applications'
@@ -109,7 +108,6 @@ brew install coreutils
 brew install ctags
 brew install curl
 brew install findutils
-brew install ffmepg
 brew install ghi
 brew install gifsicle
 brew install git
@@ -139,9 +137,9 @@ brew install packer
 brew install pandoc
 brew install peco
 brew install phantomjs
-brew install php56
 brew install php-code-sniffer php56-http php56-imagick php56-intl php56-mcrypt phpmd \
              php56-mongo php56-mustache php56-pdo-pgsql php56-redis php56-twig php56-xdebug
+brew install php56 --with-postgresql
 brew install pigz
 brew install pngcrush
 brew install pngquant
