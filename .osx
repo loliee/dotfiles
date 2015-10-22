@@ -579,8 +579,9 @@ defaults write com.apple.terminal StringEncodings -array 4
 #defaults write com.apple.terminal FocusFollowsMouse -bool true
 #defaults write org.x.X11 wm_ffm -bool true
 
-# Install the my theme
-open "${HOME}/.patatetoy-iterm2/patatetoy.itermcolors"
+# Install my color theme
+wget https://raw.githubusercontent.com/loliee/patatetoy-iterm2/master/patatetoy.itermcolors -O "${HOME}/.patatetoy.itermcolors"
+open "${HOME}/.patatetoy.itermcolors"
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
