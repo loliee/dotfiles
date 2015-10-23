@@ -105,6 +105,7 @@ brew install coreutils
 brew install ctags
 brew install curl
 brew install findutils
+brew install fzf
 brew install ghi
 brew install gifsicle
 brew install git
