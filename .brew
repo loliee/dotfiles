@@ -129,6 +129,8 @@ brew install moreutils
 brew install ncftp
 brew install nginx
 brew install nodejs
+sudo chown -R "$USER:staff" /usr/local/share/man/de/man1 # Fix nmap brew link
+brew install nmap
 brew install openssl && brew link openssl --force
 brew install optipng
 brew install packer
@@ -159,6 +161,7 @@ brew install tag
 brew install terminal-notifier
 brew install tmux
 brew install tcpdump
+brew install tcptraceroute
 brew install the_silver_searcher
 brew install tig
 brew install tmux-cssh
