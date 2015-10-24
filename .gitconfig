@@ -50,6 +50,7 @@ rh  = reset --hard
 ri = rebase -i
 rc = rebase --continue
 ra = rebase --abort
+ru = remote update
 rso = remote set-url origin
 mc = merge --continue
 ma = merge --abort
