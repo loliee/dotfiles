@@ -1,12 +1,16 @@
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
+MLPURE := ~/.mlpure
 
 install: install-dotfiles
 
 install-dotfiles:
-	@[[ -d $(PREZTO) ]] || \
-		git clone -q --depth 1 --recursive \
-		https://github.com/loliee/mlprezto.git $(PREZTO)
+		@[[ -d $(MLPURE) ]] || \
+			git clone \
+		https://github.com/loliee/mlpure.git $(MLPURE)
+		@[[ -d $(PREZTO) ]] || \
+			git clone -q --depth 1 --recursive \
+		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
 			@git pull -q && git submodule update --init --recursive -q
 	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
