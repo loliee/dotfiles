@@ -29,7 +29,7 @@ default = matching
 template = ~/.gitmessage
 
 [alias]
-a = git add -p
+a = add -p
 bm = branch -m
 cm = commit -m
 ca = commit --amend
