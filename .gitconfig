@@ -30,6 +30,7 @@ template = ~/.gitmessage
 
 [alias]
 a = add -p
+d = co -p
 bm = branch -m
 cm = commit -m
 ca = commit --amend
