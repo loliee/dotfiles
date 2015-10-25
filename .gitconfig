@@ -12,6 +12,18 @@ status = auto
 [core]
 editor = vim
 excludesfile = ~/.gitignore-global
+whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+# Make `git rebase` safer on OS X
+# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+trustctime = false
+
+# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+precomposeunicode = false
+
+[apply]
+whitespace = fix
 
 [merge]
 tool = vimdiff
@@ -31,12 +43,13 @@ template = ~/.gitmessage
 [alias]
 a = add -p
 d = co -p
+c = clone --recursive
 bm = branch -m
 cm = commit -m
 ca = commit --amend
 cs = commit --squash
 cf = commit --fixup
-st = status
+st = status -bs
 co = checkout
 dfm = diff master...
 po = push origin
@@ -56,3 +69,8 @@ rso = remote set-url origin
 mc = merge --continue
 ma = merge --abort
 lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+# Show verbose output about tags, branches or remotes
+tags = tag -l
+branches = branch -a
+remotes = remote -v
