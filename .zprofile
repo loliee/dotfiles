@@ -63,3 +63,6 @@ export HOMEBREW_ROOT='/usr/local'
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
+
+# Setting ag as the default source for fzf
+export FZF_DEFAULT_COMMAND='ag -l -g ""'

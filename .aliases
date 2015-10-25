@@ -33,6 +33,41 @@ hash gtimeout &>/dev/null && alias timeout='gtimeout'
 alias ls='ls -G'
 alias ll='ls -lah'
 
+# Noglob for git
+alias git='noglob git'
+
+# Vim fzf
+alias fvim='vim $(fzf)'
+
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# fkill - kill process
+fkill() {
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    kill -${1:-9} $pid
+  fi
+}
+
+
+# fshow - git commit browser
+git-fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi -x --no-sort --reverse --tiebreak=index --toggle-sort=\` \
+      --bind "ctrl-m:execute:
+                echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R'"
+}
+
 # Cuz IMADUMMY
 which mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
