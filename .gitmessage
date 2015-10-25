@@ -1,7 +1,8 @@
 
 # AngularJs Git Commit Guidelines
 # ===============================
-# Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, a scope and a subject:
+# Each commit message consists of a header, a body and a footer. The header has a special format that includes a type,
+# a scope and a subject:
 #
 # <type>(<scope>): <subject>
 # <BLANK LINE>
@@ -24,7 +25,8 @@
 #
 # Scope
 # =====
-# The scope could be anything specifying place of the commit change. For example $location, $browser, $compile, $rootScope, ngHref, ngClick, ngView, etc...
+# The scope could be anything specifying place of the commit change. For example $location, $browser, $compile,
+# $rootScope, ngHref, ngClick, ngView, etc...
 #
 # Subject
 # =======
@@ -36,12 +38,15 @@
 #
 # Body
 # ====
-# Just as in the subject, use the imperative, present tense: "change" not "changed" nor "changes" The body should include the motivation for the change and contrast this with previous behavior.
+# Just as in the subject, use the imperative, present tense: "change" not "changed" nor "changes" The body should
+# include the motivation for the change and contrast this with previous behavior.
 #
 # Footer
 # ======
-# The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that this commit Closes.
+# The footer should contain any information about Breaking Changes and is also the place to reference GitHub issues that
+# this commit Closes.
 #
-# Breaking Changes should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit message is then used for this.
+# Breaking Changes should start with the word BREAKING CHANGE: with a space or two newlines. The rest of the commit
+# message is then used for this.
 #
 # original documentation https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit
