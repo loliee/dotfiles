@@ -23,3 +23,6 @@ Thumbs.db
 # ctags
 gems.tags
 tags
+
+# Compiled Python files
+*.pyc
