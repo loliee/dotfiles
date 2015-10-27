@@ -67,6 +67,7 @@ brew cask install keepassx
 brew cask install mactex
 brew cask install omnigraffle
 brew cask install openoffice
+brew cask install osxfuse
 brew cask install paragon-extfs
 brew cask install paragon-ntfs
 brew cask install skype
@@ -96,6 +97,7 @@ brew install advancecomp
 brew install ansible
 brew install ansifilter
 brew install bats
+brew install bindfs
 brew install cheat
 brew install chruby
 brew install cloc
