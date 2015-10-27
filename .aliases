@@ -241,4 +241,18 @@ if [[ $OS == 'Linux' ]]; then
   fi
 fi
 
+# Composer link/functions functions
+function composer-link(){
+   umount -f $2 2>&1
+   rm -rf $2
+   mkdir -p $2
+   bindfs --create-with-perms=u+rw $1 $2
+   echo "$1 linked in $2"
+}
+
+function composer-unlink(){
+   umount -f $1 2>&1
+   rm -rf $1
+}
+
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
