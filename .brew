@@ -138,6 +138,7 @@ brew install optipng
 brew install packer
 brew install pandoc
 brew install peco
+brew install pgcli
 brew install phantomjs
 brew install php-code-sniffer php56-http php56-imagick php56-intl php56-mcrypt phpmd \
              php56-mongo php56-mustache php56-pdo-pgsql php56-redis php56-twig php56-xdebug
