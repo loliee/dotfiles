@@ -130,6 +130,13 @@ if [[ $OS == 'Darwin' ]]; then
   alias 'postgresql.start'="pg_ctl -D ${HOMEBREW_ROOT}/var/postgres start"
   alias 'postgresql.stop'="pg_ctl -D ${HOMEBREW_ROOT}/var/postgres stop -s -m fast"
   alias 'postgresql.restart'='postgresql.stop && sleep 1 && postgresql.start'
+
+  # Composer link/functions functions
+  function composer-link(){
+     umount -f $2 &> /dev/null && rm -rf $2
+     mkdir -p $2 && bindfs --create-with-perms=u+rw $1 $2
+     echo "$1 linked in $2"
+  }
 fi
 
 # Aliases for Linux, Ops.
@@ -239,20 +246,17 @@ if [[ $OS == 'Linux' ]]; then
     alias php5fpmreload='php5-fpmtest && /etc/init.d/php5-fpm reload'
     alias php5fpmstatus='curl 127.0.0.1/status'
   fi
+
+  # Composer link/unlink functions
+  function composer-link(){
+     umount -f $2 &> /dev/null && rm -rf $2
+     mkdir -p $2 && mount --bind $1 $2
+     echo "$1 linked in $2"
+  }
 fi
 
-# Composer link/functions functions
-function composer-link(){
-   umount -f $2 2>&1
-   rm -rf $2
-   mkdir -p $2
-   bindfs --create-with-perms=u+rw $1 $2
-   echo "$1 linked in $2"
-}
-
 function composer-unlink(){
-   umount -f $1 2>&1
-   rm -rf $1
+   umount -f $1 &> /dev/null && rm -rf $1
 }
 
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
