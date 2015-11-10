@@ -131,7 +131,7 @@ if [[ $OS == 'Darwin' ]]; then
   alias 'postgresql.stop'="pg_ctl -D ${HOMEBREW_ROOT}/var/postgres stop -s -m fast"
   alias 'postgresql.restart'='postgresql.stop && sleep 1 && postgresql.start'
 
-  # Composer link/functions functions
+  # Composer
   function composer-link(){
      umount -f $2 &> /dev/null && rm -rf $2
      mkdir -p $2 && bindfs --create-with-perms=u+rw $1 $2
@@ -247,7 +247,7 @@ if [[ $OS == 'Linux' ]]; then
     alias php5fpmstatus='curl 127.0.0.1/status'
   fi
 
-  # Composer link/unlink functions
+  # Composer
   function composer-link(){
      umount -f $2 &> /dev/null && rm -rf $2
      mkdir -p $2 && mount --bind $1 $2
