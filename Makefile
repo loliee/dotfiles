@@ -1,10 +1,14 @@
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
 MLPURE := ~/.mlpure
+VUNDLE := ~/.vim/bundle/Vundle.vim
 
 install: install-dotfiles
 
 install-dotfiles:
+		@[[ -d $(VUNDLE) ]] || \
+			git clone \
+		https://github.com/VundleVim/Vundle.vim.git $(VUNDLE)
 		@[[ -d $(MLPURE) ]] || \
 			git clone \
 		https://github.com/loliee/mlpure.git $(MLPURE)
