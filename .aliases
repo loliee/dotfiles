@@ -124,6 +124,9 @@ if [[ $OS == 'Darwin' ]]; then
   # Defaults
   alias 'defaults.list=rc="\n" && defaults domains | sed s/,/"$rc"/g'
 
+  # Lock the screen (when going AFK)
+  alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+
   # Services
   alias 'redis.start'='redis-server /usr/local/etc/redis.conf'
   alias 'redis.stop'='kill $(cat /usr/local/var/run/redis.pid)'
