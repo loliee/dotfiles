@@ -40,6 +40,7 @@ echo '--> Install cask apps'
 brew cask install adium
 brew cask install atom
 brew cask install divvy
+brew cask install dnscrypt
 brew cask install dropbox
 brew cask install filezilla
 brew cask install firefox
