@@ -50,6 +50,7 @@ brew cask install font-inconsolata-for-powerline
 brew cask install font-source-code-pro
 brew cask install font-source-sans-pro
 brew cask install font-terminus
+brew cask install flux
 brew cask install gimp
 brew cask install google-chrome
 brew cask install google-chrome-canary
