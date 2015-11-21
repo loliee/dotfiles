@@ -24,7 +24,6 @@ brew cask update
 
 echo '--> Tap extras Homebrew repositories'
 brew tap caskroom/fonts
-brew tap caskroom/versions
 brew tap homebrew/binary
 brew tap homebrew/devel-only
 brew tap homebrew/dupes
