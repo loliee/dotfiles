@@ -28,6 +28,9 @@ sudo pmset -a standbydelay 86400
 sudo nvram SystemAudioVolume=" "
 
 # Enable firewall
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -bool true
+sudo defaults write /Library/Preferences/com.apple.alf stealthenabled -bool true
+sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
 
 # Cursor Muy rapido
 defaults write NSGlobalDomain KeyRepeat -int 0
