@@ -109,6 +109,8 @@ brew install coreutils
 brew install ctags
 brew install curl --with-openssl
 brew link --force curl
+brew install dnscrypt-proxy
+brew install dnsmasq
 brew install findutils
 brew install fzf
 brew install ghi
@@ -184,6 +186,42 @@ brew install z
 brew install zopfli
 brew install zsh-syntax-highlighting
 brew install zsh
+
+echo 'Configure DNS'
+
+# Configure Dnsmasq
+sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
+sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+[[ -f /usr/local/etc/dnsmasq.conf ]] ||
+  cat <<EOT >> /usr/local/etc/dnsmasq.conf
+server=127.0.0.1#5355
+domain-needed
+address=/.onion/0.0.0.0
+address=/.local/0.0.0.0
+bogus-priv
+stop-dns-rebind
+strict-order
+cache-size=8192
+log-async
+log-dhcp
+log-queries
+log-facility=/var/log/dnsmasq.log
+EOT
+sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+
+# Configure dnscrypt
+sudo cp -fv /usr/local/opt/dnscrypt-proxy/*.plist /Library/LaunchDaemons
+sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
+sudo sed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" \
+    /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
+sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
+
+# Configure dns to use localhost
+for serv in $(networksetup -listallnetworkservices); do
+  if [ "$serv" == "Ethernet" ] || [ "$serv" == "Thunderbolt Ethernet" ] || [ "$serv" == "Wi-Fi" ]; then
+    sudo networksetup -setdnsservers "$serv" 127.0.0.1
+  fi
+done
 
 echo 'Vim config'
 mkdir -p ~/.vim/bundle/
