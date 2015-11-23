@@ -107,7 +107,8 @@ brew install closure-compiler
 brew install composer
 brew install coreutils
 brew install ctags
-brew install curl
+brew install curl --with-openssl
+brew link --force curl
 brew install findutils
 brew install fzf
 brew install ghi
