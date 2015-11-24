@@ -31,5 +31,5 @@ uninstall-dotfiles:
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
-		--ignore='.media' \
+		--ignore='.install.d' \
 		--ignore='.DS_Store'
