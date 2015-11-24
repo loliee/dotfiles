@@ -57,17 +57,6 @@ fkill() {
   fi
 }
 
-
-# fshow - git commit browser
-git-fshow() {
-  git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf --ansi -x --no-sort --reverse --tiebreak=index --toggle-sort=\` \
-      --bind "ctrl-m:execute:
-                echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R'"
-}
-
 # Cuz IMADUMMY
 which mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
