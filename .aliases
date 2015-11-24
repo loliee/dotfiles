@@ -83,6 +83,8 @@ which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
+alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
+
 # Aliases for OSx
 # See https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
 if [[ $OS == 'Darwin' ]]; then
@@ -90,7 +92,7 @@ if [[ $OS == 'Darwin' ]]; then
   alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
   # Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-  alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
+  alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; update-prezto'
 
   # IP addresses
   alias localip="ipconfig getifaddr en0"
