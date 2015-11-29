@@ -41,6 +41,8 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 make install-homebrew
 ```
 
+:warning: **this install `dnscrypt-proxy` and `dnsmasq` and setup `127.0.0.1` as DNS server, remove this in network settings if issues or do better update your conf ;)**
+
 ### UnInstall Homebrew
 
 ```bash
