@@ -212,7 +212,7 @@ done
 ## ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  2.2.2
+  2.2.3
 )
 
 for ruby in "${RUBIES[@]}"; do
