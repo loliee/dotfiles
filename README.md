@@ -1,21 +1,25 @@
 # ~/.dotfiles
 
-## Install
-
-### Installation
+## Dotfiles setup
 
 Using [GNU Stow](http://www.gnu.org/software/stow/):
 
 ```bash
 git clone https://github.com/loliee/dotfiles ~/.dotfiles
 cd ~/.dotfiles
+```
+
+### Installation
+
+```bash
 make install
 ```
+
+check [make arguments](#Make arguments) for details
 
 ### Uninstallation
 
 ```bash
-cd ~/.dotfiles
 make uninstall
 ```
 
@@ -34,18 +38,19 @@ When setting up a new Mac, you may want to set some sensible OS X defaults:
 ### Install Homebrew Formulae/Native apps
 
 ```bash
-./.brew 2>/dev/null
+make install-homebrew
 ```
 
-### Install Vim Plugins
+### UnInstall Homebrew
 
 ```bash
-vim +PluginInstall +qall
+make uninstall-homebrew
 ```
 
 ### Ressources
 
-[Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).
+- [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html)
+- [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http)
 
 **List defaults**
 
@@ -57,24 +62,28 @@ rc="\n" && defaults domains | sed s/,/"$rc"/g
 
 ```bash
 defaults read com.apple.mail
-{
-   AddressesIncludeNameOnPasteboard = 0;
-   BundleCompatibilityVersion = 3;
-   DisableInlineAttachmentViewing = 1;
-   DisableReplyAnimations = 1;
-   DisableSendAnimations = 1;
-   DraftsViewerAttributes =     {
-       DisplayInThreadedMode = yes;
-       SortOrder = "received-date";
-       SortedDescending = yes;
-   };
-   EnableBundles = 1;
-   NSUserKeyEquivalents =     {
-       Send = "@\\\\U21a9";
-   };
-   SpellCheckingBehavior = NoSpellCheckingEnabled;
-}
 ```
+
+## Make arguments
+
+```bash
+make [arg]
+```
+
+[arg]                 | Description
+--------------------- | ---------------------------------------
+install               | Install local environment, execute: `install-dotfiles` `install-tpm` `install-prezto` `install-vundle`
+uninstall             | Uninstall local envir `uninstall-dotfiles` `uninstall-tpm` `uninstall-prezto` `uninstall-vundle`
+install-dotfiles      | Install only dotfiles + [mlpure zsh prompt](https://github.com/loliee/mlpure).
+uninstall-dotfiles    | Uninstall dotfiles + [mlpure zsh prompt](https://github.com/loliee/mlpure).
+install-tpm           | Install only [tmux plugins](https://github.com/tmux-plugins/tpm).
+install-prezto        | Install [prezto for zsh](https://github.com/sorin-ionescu/prezto).
+install-vundle        | Install only [vundle plugin manager for vim](https://github.com/VundleVim/Vundle.vim).
+uninstall-tpm         | Uninstall [tmux plugins](https://github.com/tmux-plugins/tpm).
+uninstall-prezto      | Uninstall [prezto for zsh](https://github.com/sorin-ionescu/prezto).
+uninstall-vundle      | Uninstall [vundle plugin manager for vim](https://github.com/VundleVim/Vundle.vim).
+install-homebrew      | For **OSX only** install [homebrew](https://github.com/Homebrew/homebrew), homebrew packages and setup some services like dnsmasq, dnscrypt-proxy...
+uninstall-homebrew    | Uninstall homebrew, not clean at all :(
 
 ## Todo
 
