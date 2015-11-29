@@ -242,8 +242,10 @@ mkdir -p ~/.tmux/plugins
 [[ -d ~/.tmux/plugins/tpm ]] || \
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-
-mkdir -p /etc/nginx && ln -s /usr/local/etc/nginx/nginx.conf /etc/nginx/nginx.conf && ln -s /usr/local/etc/nginx/servers /etc/nginx/servers
+# Symlink nginx in /etc
+mkdir -p /etc/nginx && \
+  ln -s /usr/local/etc/nginx/nginx.conf /etc/nginx/nginx.conf &&\
+  ln -s /usr/local/etc/nginx/servers /etc/nginx/servers
 
 echo '--> Link homebrew apps'
 brew linkapps
