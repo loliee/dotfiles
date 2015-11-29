@@ -19,6 +19,7 @@ zstyle ':prezto:load' pmodule \
     'syntax-highlighting' \
     'history-substring-search' \
     'prompt' \
+    'fasd' \
     'tmux' \
 
 zstyle ':prezto:module:terminal' auto-title 'yes'

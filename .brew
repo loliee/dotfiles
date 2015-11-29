@@ -112,6 +112,7 @@ brew link --force curl
 brew install dnscrypt-proxy
 brew install dnsmasq
 brew install docker docker-compose docker-machine
+brew install fasd
 brew install findutils
 brew install fzf
 brew install ghi
@@ -183,7 +184,6 @@ brew install watch
 brew install webkit2png
 brew install wget
 brew install xz
-brew install z
 brew install zopfli
 brew install zsh-syntax-highlighting
 brew install zsh

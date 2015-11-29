@@ -19,7 +19,6 @@ alias ln='ln -i'
 alias c='clear'
 alias q='exit'
 alias h='history'
-alias j='jobs -l'
 
 # Time
 alias now='date +"%T"'
