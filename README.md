@@ -43,11 +43,15 @@ make install-homebrew
 
 :warning: **this install `dnscrypt-proxy` and `dnsmasq` and setup `127.0.0.1` as DNS server, remove this in network settings if issues or do better update your conf ;)**
 
-### UnInstall Homebrew
+### Install iterm2 colors scheme
+
+Install [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme.
 
 ```bash
-make uninstall-homebrew
+make install-patatetoy-iterm2
 ```
+
+To enable, `iterm2 preferences > colors > Load Presets` and select `patatetoy`.
 
 ### Ressources
 
@@ -84,8 +88,10 @@ install-vundle        | Install only [vundle plugin manager for vim](https://git
 uninstall-tpm         | Uninstall [tmux plugins](https://github.com/tmux-plugins/tpm).
 uninstall-prezto      | Uninstall [prezto for zsh](https://github.com/sorin-ionescu/prezto).
 uninstall-vundle      | Uninstall [vundle plugin manager for vim](https://github.com/VundleVim/Vundle.vim).
-install-homebrew      | For **OSX only** install [homebrew](https://github.com/Homebrew/homebrew), homebrew packages and setup some services like dnsmasq, dnscrypt-proxy...
-uninstall-homebrew    | Uninstall homebrew, not clean at all :(
+install-homebrew **OSX only** | Install [homebrew](https://github.com/Homebrew/homebrew), homebrew packages and setup some services like dnsmasq, dnscrypt-proxy...
+uninstall-homebrew **OSX only** | Uninstall homebrew, not clean at all :(
+install-patatetoy-iterm2 **OSX only** | Install iterm2 [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme. To enable, `iterm2 preferences > colors > Load Presets` and select `patatetoy`.
+uninstall-patatetoy-iterm2 **OSX only** | Uninstall iterm2 [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme.
 
 ## Todo
 
