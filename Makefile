@@ -51,8 +51,7 @@ install-prezto:
 	$(info --> Install Prezto)
 	@[[ -d $(PREZTO) ]] || \
 		git clone -q --depth 1 --recursive \
-	https://github.com/sorin-ionescu/prezto.git $(PREZTO)
-		@git pull -q && git submodule update --init --recursive -q
+	  https://github.com/sorin-ionescu/prezto.git $(PREZTO)
 
 uninstall-prezto:
 	$(info --> Uninstall Prezto)
