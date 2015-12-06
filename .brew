@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-unset PYTHONPATH
-export C_INCLUDE_PATH=/usr/local/Cellar/libxml2/2.9.2/include/libxml2:$C_INCLUDE_PATH
 
-sudo xcode-select --install
-echo '--> Pimp my Mac, Yo'
+
+# Link Homebrew casks in `/Applications` rather than `~/Applications`
+export HOMEBREW_CASK_OPTS='--appdir=/Applications'
 
 echo '--> Check for Homebrew'
 if [[ ! $(which brew) ]]; then
@@ -33,8 +32,6 @@ brew tap jeffreywildman/homebrew-virt-manager
 brew tap peco/peco
 brew tap homebrew/homebrew-php
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS='--appdir=/Applications'
 
 echo '--> Install cask apps'
 
