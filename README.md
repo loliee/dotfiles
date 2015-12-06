@@ -1,17 +1,31 @@
 # ~/.dotfiles
 
+## Install
+
+### Git install
+
+```bash
+git clone https://github.com/loliee/dotfiles ~/.dotfiles
+```
+
+### Git-free install
+
+To install these dotfiles without Git:
+
+```bash
+mkdir -p ~/.dotfiles; curl -L https://github.com/loliee/dotfiles/tarball/master | tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
+```
+
+To update later on, just run that command again.
+
 ## Dotfiles setup
 
 Using [GNU Stow](http://www.gnu.org/software/stow/):
 
-```bash
-git clone https://github.com/loliee/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-```
-
 ### Installation
 
 ```bash
+cd ~/.dotfiles
 make install
 ```
 
