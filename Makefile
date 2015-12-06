@@ -74,7 +74,7 @@ install-patatetoy-iterm2:
 	$(info --> Uninstall patatetoy-iterm2)
 	@[[ -d ~/.patatetoy-iterm2 ]] \
 		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.patatetoy-iterm2
-	@open ~/.patatetoy/patatetoy.itermcolors
+	@open ~/.patatetoy-iterm2/patatetoy.itermcolors
 
 uninstall-patatetoy-iterm2:
 	$(info --> Uninstall patatetoy-iterm2)
