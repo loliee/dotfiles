@@ -33,42 +33,25 @@ brew tap homebrew/devel-only
 brew tap homebrew/dupes
 brew tap homebrew/versions
 brew tap jeffreywildman/homebrew-virt-manager
-brew tap peco/peco
-brew tap homebrew/homebrew-php
-
 
 echo '--> Install cask apps'
 
-brew cask install adium
 brew cask install atom
 brew cask install divvy
-brew cask install dnscrypt
 brew cask install dropbox
 brew cask install filezilla
 brew cask install firefox
-brew cask install font-anonymous-pro
-brew cask install font-anonymous-pro-for-powerline
-brew cask install font-inconsolata
-brew cask install font-inconsolata-for-powerline
-brew cask install font-source-code-pro
-brew cask install font-source-sans-pro
-brew cask install font-terminus
 brew cask install flux
 brew cask install gimp
 brew cask install google-chrome
-brew cask install google-chrome-canary
 brew cask install google-hangouts
 brew cask install google-drive
 brew cask install gpgtools
-brew cask install hipchat
 brew cask install imageoptim
 brew cask install istat-menus
 brew cask install iterm2
-brew cask install java6
-brew cask install java7
+brew cask install java
 brew cask install keepassx
-brew cask install mactex
-brew cask install omnigraffle
 brew cask install openoffice
 brew cask install osxfuse
 brew cask install paragon-extfs
@@ -95,17 +78,18 @@ mkdir -p ~/.tmux/plugins
 
 echo '--> Install brew apps'
 
-brew install ack
+# Install openssl first
+brew install openssl && brew link openssl --force
+
 brew install advancecomp
 brew install ansible
 brew install ansifilter
 brew install bats
-brew install bindfs
+brew install homebrew/fuse/bindfs
 brew install cheat
 brew install chruby
 brew install cloc
 brew install closure-compiler
-brew install composer
 brew install coreutils
 brew install ctags
 brew install curl --with-openssl && brew link --force curl
@@ -133,23 +117,14 @@ brew install jhead
 brew install jpeg
 brew install jpegoptim
 brew install libxml2 && brew link libxml2 --force
-brew install macvim --with-cscope --override-system-vim --custom-icons
 brew install moreutils
-brew install ncftp
-brew install nginx
-brew install nodejs
-sudo chown -R "$USER:staff" /usr/local/share/man/de/man1 # Fix nmap brew link
+brew install nodejs --with-full-icu
 brew install nmap
-brew install openssl && brew link openssl --force
 brew install optipng
+brew install openssh
 brew install packer
 brew install pandoc
-brew install peco
 brew install pgcli
-brew install phantomjs
-brew install php-code-sniffer php56-http php56-imagick php56-intl php56-mcrypt phpmd \
-             php56-mongo php56-mustache php56-pdo-pgsql php56-redis php56-twig php56-xdebug
-brew install php56 --with-postgresql
 brew install pigz
 brew install pngcrush
 brew install pngquant
@@ -195,7 +170,6 @@ mkdir -p ~/.vim/bundle/
 
 pip install --upgrade pip setuptools
 PIPS=(
-  cli53
   fabric
   flake8
   howdoi
@@ -224,8 +198,6 @@ echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
 
 GEMS=(
   bundler
-  tmuxinator
-  zonify
 )
 
 source "$(brew --prefix)/share/chruby/chruby.sh"
