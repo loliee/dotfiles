@@ -151,11 +151,6 @@ brew install zopfli
 brew install zsh-syntax-highlighting
 brew install zsh
 
-echo 'Vim config'
-mkdir -p ~/.vim/bundle/
-[[ -d ~/.vim/bundle/Vundle.vim ]] || \
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
 pip install --upgrade pip setuptools
 PIPS=(
   fabric
@@ -197,15 +192,6 @@ done
 
 # npm
 npm install -g js-yaml
-
-mkdir -p ~/.tmux/plugins
-[[ -d ~/.tmux/plugins/tpm ]] || \
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-# Symlink nginx in /etc
-mkdir -p /etc/nginx && \
-  ln -s /usr/local/etc/nginx/nginx.conf /etc/nginx/nginx.conf &&\
-  ln -s /usr/local/etc/nginx/servers /etc/nginx/servers
 
 echo '--> Link homebrew apps'
 brew linkapps
