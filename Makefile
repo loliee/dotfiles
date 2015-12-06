@@ -70,17 +70,6 @@ uninstall-vundle:
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf ~/.vim/bundle/Vundle.vim
 
-install-homebrew:
-	$(info --> Install homebrew)
-	@which brew &>/dev/null \
-		|| ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-	@./.brew
-
-uninstall-homebrew:
-	$(info --> Uninstall homebrew)
-	@which brew &>/dev/null \
-		&& ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"
-
 install-patatetoy-iterm2:
 	$(info --> Uninstall patatetoy-iterm2)
 	@[[ -d ~/.patatetoy-iterm2 ]] \
