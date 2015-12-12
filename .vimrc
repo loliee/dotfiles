@@ -46,6 +46,8 @@ set laststatus=2
 set relativenumber
 set undofile
 set paste
+set guifont=Hack:h14
+set antialias
 syntax enable
 
 " -----------------------------------------------------------

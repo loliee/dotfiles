@@ -42,6 +42,7 @@ brew cask install dropbox
 brew cask install filezilla
 brew cask install firefox
 brew cask install flux
+brew cask install font-hack
 brew cask install gimp
 brew cask install google-chrome
 brew cask install google-hangouts
