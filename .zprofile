@@ -66,3 +66,7 @@ export HOMEBREW_ROOT='/usr/local'
 
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
+
+# Magic per-project shell environments. Very pretentious.
+[[ -f "${HOMEBREW_ROOT}/opt/autoenv/activate.sh" ]] && \
+  source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"
