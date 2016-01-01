@@ -26,3 +26,6 @@ tags
 
 # Compiled Python files
 *.pyc
+
+# Dotenv files
+*.env
