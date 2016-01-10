@@ -169,6 +169,7 @@ done
 mkdir -p ~/.rubies
 RUBIES=(
   2.2.3
+  2.3.0
 )
 
 for ruby in "${RUBIES[@]}"; do
