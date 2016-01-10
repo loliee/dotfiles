@@ -41,9 +41,9 @@ alias fvim='vim $(fzf)'
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
+  dir=$(find "${1:-.}" -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
+  cd "$dir" || exit
 }
 
 # fkill - kill process
@@ -52,7 +52,7 @@ fkill() {
 
   if [ "x$pid" != "x" ]
   then
-    kill -${1:-9} $pid
+    kill -"${1:-9}" "$pid"
   fi
 }
 
@@ -127,8 +127,8 @@ if [[ $OS == 'Darwin' ]]; then
 
   # Composer
   function composer-link(){
-     umount -f $2 &> /dev/null && rm -rf $2
-     mkdir -p $2 && bindfs --create-with-perms=u+rw $1 $2
+     umount -f "$2" &> /dev/null && rm -rf "$2"
+     mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1 $2"
      echo "$1 linked in $2"
   }
 fi
@@ -243,14 +243,15 @@ if [[ $OS == 'Linux' ]]; then
 
   # Composer
   function composer-link(){
-     umount -f $2 &> /dev/null && rm -rf $2
-     mkdir -p $2 && mount --bind $1 $2
+     umount -f "$2" &> /dev/null && rm -rf "$2"
+     mkdir -p "$2" && mount --bind "$1" "$2"
      echo "$1 linked in $2"
   }
 fi
 
 function composer-unlink(){
-   umount -f $1 &> /dev/null && rm -rf $1
+   umount -f "$1" &> /dev/null && rm -rf "$1"
 }
 
-[[ -f ~/.aliases.local ]] && source ~/.aliases.local
+# shellcheck source=/dev/null
+[[ -f ~/.aliases.local ]] && . ~/.aliases.local
