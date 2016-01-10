@@ -19,7 +19,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic'
 Plugin 'mhinz/vim-startify'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'w0ng/vim-hybrid'
 
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
@@ -54,7 +54,7 @@ syntax enable
 " Style
 " -----------------------------------------------------------
 set background=dark
-colorscheme badwolf
+colorscheme hybrid
 
 " -----------------------------------------------------------
 " Indent - Tabs/Spaces
