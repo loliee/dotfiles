@@ -203,8 +203,3 @@ brew cleanup
 
 echo '--> Call the brew doctor for a checkup !'
 brew doctor
-
-# Extra stuff ?
-for f in $(ls .install.d); do
-  . ./.install.d/$f
-done
