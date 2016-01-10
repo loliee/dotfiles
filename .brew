@@ -183,6 +183,7 @@ GEMS=(
   bundler
 )
 
+# shellcheck source=/dev/null
 source "$(brew --prefix)/share/chruby/chruby.sh"
 chruby "$(cat ~/.ruby-version)"
 
