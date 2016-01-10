@@ -149,7 +149,6 @@ brew install zopfli
 brew install zsh-syntax-highlighting
 brew install zsh
 
-pip install --upgrade pip setuptools
 PIPS=(
   fabric
   flake8
@@ -159,9 +158,11 @@ PIPS=(
   virtualenv
 )
 
+"$(brew --prefix)/bin/pip" install --upgrade pip
+
 for pip in "${PIPS[@]}"; do
-  $(brew --prefix)/bin/pip list -l | grep "$pip" &>/dev/null || \
-    $(brew --prefix)/bin/pip install "$pip"
+  "$(brew --prefix)/bin/pip" list -l | grep "$pip" &>/dev/null || \
+    "$(brew --prefix)/bin/pip" install "$pip"
 done
 
 ## ruby
