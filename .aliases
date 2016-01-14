@@ -128,7 +128,7 @@ if [[ $OS == 'Darwin' ]]; then
   # Composer
   function composer-link(){
      umount -f "$2" &> /dev/null && rm -rf "$2"
-     mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1 $2"
+     mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1" "$2"
      echo "$1 linked in $2"
   }
 fi
