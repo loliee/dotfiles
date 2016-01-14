@@ -155,7 +155,9 @@ let mapleader = ","
 nnoremap ; :
 
 " Enable/Disable relative numbers
-nnoremap <silent><leader>n :set relativenumber!<cr>
+
+nnoremap <silent><leader>n :set number!<cr>
+nnoremap <silent><leader>nr :set relativenumber!<cr>
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
