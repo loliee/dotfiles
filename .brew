@@ -193,6 +193,7 @@ done
 
 # npm
 npm install -g js-yaml
+npm install -g jshint
 
 echo '--> Link homebrew apps'
 brew linkapps
