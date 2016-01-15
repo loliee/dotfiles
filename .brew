@@ -29,6 +29,7 @@ brew tap homebrew/devel-only
 brew tap homebrew/dupes
 brew tap homebrew/versions
 brew tap jeffreywildman/homebrew-virt-manager
+brew tap tldr-pages/tldr
 
 echo '--> Install cask apps'
 
@@ -72,7 +73,6 @@ brew install ansifilter
 brew install autoenv
 brew install bats
 brew install homebrew/fuse/bindfs
-brew install cheat
 brew install chruby
 brew install cloc
 brew install closure-compiler
@@ -138,6 +138,7 @@ brew install tcpdump
 brew install tcptraceroute
 brew install the_silver_searcher
 brew install tig
+brew install tldr
 brew install tmux-cssh
 brew install tmux-mem-cpu-load
 brew install tree
