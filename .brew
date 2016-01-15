@@ -114,6 +114,7 @@ brew install pgcli
 brew install pigz
 brew install pngcrush
 brew install pngquant
+brew install polipo
 brew install pt
 brew install pv
 brew install pwgen
