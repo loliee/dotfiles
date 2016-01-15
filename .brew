@@ -183,6 +183,7 @@ echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
 
 GEMS=(
   bundler
+  serverspec
 )
 
 # shellcheck source=/dev/null
