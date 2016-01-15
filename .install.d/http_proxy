@@ -54,6 +54,7 @@ EOT
   launchctl load ~/Library/LaunchAgents/homebrew.mxcl.tor.plist
 fi
 
+mkdir -p ~/Library/LaunchAgents
 ln -sfv /usr/local/opt/polipo/*.plist ~/Library/LaunchAgents
 launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist
