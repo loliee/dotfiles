@@ -77,6 +77,16 @@ export HOMEBREW_ROOT='/usr/local'
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
 
+# chruby
+if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
+  RUBIES=(~/.rubies/*)
+
+  source '/usr/local/share/chruby/chruby.sh'
+  source '/usr/local/share/chruby/auto.sh'
+
+  [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
+fi
+
 # Magic per-project shell environments. Very pretentious.
 [[ -f "${HOMEBREW_ROOT}/opt/autoenv/activate.sh" ]] && \
   source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"
