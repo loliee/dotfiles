@@ -2,7 +2,6 @@
 
 set -o errexit
 set -o pipefail
-set -o nounset
 
 OS="$(uname)"
 [[ $OS -ne 'Darwin' ]] && exit 0
@@ -55,17 +54,11 @@ sudo sed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.
 	/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
-# Configure dns to use localhost
-sudo lsof -ni UDP:53 &>/dev/null && sudo lsof -ni UDP:5355 &>/dev/null
-if [ $? -eq 0 ]; then
-	echo '--> configure localhost as DNS server'
-	networksetup -listallnetworkservices | while read -r interface; do
-	  if [[ "$interface" == "*Ethernet" ]] \
-	    || [[ "$interface" == "Thunderbolt Ethernet" ]] \
-	    || [[ "$interface" == "Wi-Fi" ]]; then
-	    sudo networksetup -setdnsservers "$interface" 127.0.0.1
-	  fi
-	done
-else
-	echo '--> Erreur: DNS configuration'
-fi
+echo '--> configure localhost as dns server'
+networksetup -listallnetworkservices | while read -r interface; do
+  if [[ "$interface" == "*ethernet" ]] \
+    || [[ "$interface" == "thunderbolt ethernet" ]] \
+    || [[ "$interface" == "wi-fi" ]]; then
+    sudo networksetup -setdnsservers "$interface" 127.0.0.1
+  fi
+done
