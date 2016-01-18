@@ -1,8 +1,8 @@
 # Aliases
 # vim: syntax=sh
 
-OS="$(uname)"
-export OS
+export OS="$(uname)"
+PHPD=${PHPD:='php:5.6'}
 
 # Misc
 alias vi='vim'
@@ -125,7 +125,27 @@ if [[ $OS == 'Darwin' ]]; then
   # Lock the screen (when going AFK)
   alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
+  # Docker
+  function docker-vm(){
+    docker-machine create -d virtualbox dev || docker-machine start dev
+    eval "$(docker-machine env dev)"
+  }
+
+  function phpd(){
+    if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
+    eval "$(docker-machine env dev)"
+    docker run -ti --rm --name php56-"$USER"-"$(gdate +%s%N)" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php "$@"
+  }
+
+  function composer(){
+    if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
+    eval "$(docker-machine env dev)"
+    docker run -ti --rm --name php56-"$USER"-"$(gdate +%s%N)" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php -n \
+               -dextension=pgsql.so -dextension=intl.so /usr/local/bin/composer.phar "$@"
+  }
+
   # Composer
+  alias composer-token="[[ ! -z $GITHUB_TOKEN ]] && composer config github-oauth.github.com $GITHUB_TOKEN"
   function composer-link(){
      umount -f "$2" &> /dev/null && rm -rf "$2"
      mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1" "$2"
