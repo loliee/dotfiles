@@ -15,39 +15,54 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " plugin on GitHub repo
+
+Plugin 'rking/ag.vim'
+Plugin 'markcornick/vim-bats'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'editorconfig/editorconfig-vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'junegunn/fzf'
+Plugin 'fatih/vim-go'
+Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/syntastic'
 Plugin 'mhinz/vim-startify'
-Plugin 'editorconfig/editorconfig-vim'
+Plugin 'mv/mv-vim-nginx'
+Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0ng/vim-hybrid'
 
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " -----------------------------------------------------------
 " Global
 " -----------------------------------------------------------
+set antialias
+set cursorline                    " Highlight current line
 set encoding=utf-8
 set fileencoding=utf-8
 set scrolloff=3
-set showmode
-set showcmd
 set hidden
-set wildmenu
-set wildmode=list:longest
-set visualbell
 set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
 set relativenumber
+set number
+set smartcase
+set showmode
+set showcmd
+set showmatch                     " Highlight matching [{()}]
 set undofile
 set paste
 set guifont=Hack:h14
-set antialias
+set wildmode=list:longest         " Complete files like a shell.
+set wildmenu                      " Enhanced command line completion.
+set lazyredraw                    " Redraw only when we need to.
+set novisualbell
+set noerrorbells
+set history=1000
 syntax enable
 
 " -----------------------------------------------------------
@@ -55,83 +70,73 @@ syntax enable
 " -----------------------------------------------------------
 set background=dark
 colorscheme hybrid
+set hlsearch                      " Highlight search results
+set incsearch                     " Makes search act like in modern browsers
+
+" Set the terminal's title
+
+if &term == 'screen'
+  set t_ts=k
+  set t_fs=\
+elseif &term == 'screen' || &term == 'xterm'
+  set title
+endif
+
+" Airline configuration
+let g:airline#extensions#tabline#enabled = 1
+
+" set airline theme
+let g:airline_theme='base16'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#branch#enabled=1
+let g:airline#extensions#branch_prefix#enabled=1
+let g:airline#extensions#syntastic#enabled=1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.readonly = ''
 
 " -----------------------------------------------------------
 " Indent - Tabs/Spaces
 " -----------------------------------------------------------
 set autoindent
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+set nowrap                        " don't wrap lines
+set tabstop=2 shiftwidth=2        " a tab is two spaces (or set this to 4)
+set expandtab                     " use spaces, not tabs (optional)
+set smarttab
+set backspace=indent,eol,start    " backspace through everything in insert mode
 
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
-
-function! <SID>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-" Only do this part when compiled with support for autocommands
-if has("autocmd")
-  " Enable file type detection
-  filetype on
-
-  " Syntax of these languages is fussy over tabs Vs spaces
-  autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
-  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-  autocmd FileType markdown setlocal ts=2 sts=2 sw=2 expandtab
-
-  " Customisations based on house-style (arbitrary)
-  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-
-  " Treat .rst as markdown
-  autocmd BufNewFile,BufRead *.rst setfiletype markdown
-endif
+let g:better_whitespace_verbosity = 1
 
 " -----------------------------------------------------------
 " Configure Explorer
 " -----------------------------------------------------------
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = -28
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_sort_sequence = '[\/]$,*'
-
-function! ToggleVExplorer()
-  if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
-  else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
-  endif
-endfunction
+let g:netrw_banner         = 0
+let g:netrw_winsize        = 15
+let g:netrw_preview        = 1
+let g:netrw_altv           = 1
+let g:netrw_fastbrowse     = 2
+let g:netrw_keepdir        = 0
+let g:netrw_retmap         = 1
+let g:netrw_silent         = 1
+let g:netrw_special_syntax = 1
 
 " ------------------------------------------------------------
 " Configure syntastic
 " ------------------------------------------------------------
-let g:syntastic_aggregate_errors = 1
+":wlet g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_php_phpcs_args='--standard=PSR2'
+let g:syntastic_php_checkers = ['php', 'phpcs']
+let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
 
 " Better syntastic symbols
 let g:syntastic_error_symbol = '✗'
@@ -144,20 +149,10 @@ let g:startify_list_order = ['bookmarks', 'files', 'dir', 'sessions']
 let g:startify_session_dir = '~/.vim/session'
 let g:startify_bookmarks = [ '~/.vimrc' ]
 let g:startify_enable_special = 0
-let g:startify_custom_header =
-  \ map(split(system('fortune | cowsay'), '\n'), '"  ". v:val') + ['','']
-
 
 " -----------------------------------------------------------
 " Bindings
 " -----------------------------------------------------------
-let mapleader = ","
-nnoremap ; :
-
-" Enable/Disable relative numbers
-
-nnoremap <silent><leader>n :set number!<cr>
-nnoremap <silent><leader>nr :set relativenumber!<cr>
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
@@ -171,13 +166,24 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+" Define , as leader key
+
+let mapleader = ","
+nnoremap ; :
+
+" Paste toggle
+set pastetoggle=<leader>p
+
+" FZF
+nnoremap <silent> <leader>f :FZF<CR>
+
+" Open ag.vim
+nnoremap <leader>a :Ag
+
 " Remove help
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-" Re-select
-nnoremap <leader>v V`]
 
 " Open on new window
 nnoremap <F2> <C-w>v<C-w>l
@@ -185,9 +191,6 @@ nnoremap <F2> <C-w>v<C-w>l
 " Open new tab
 nnoremap <F1> :tabnew<CR>
 inoremap <F1> <Esc>:tabnew<CR>
-
-" Show explorer window
-map <silent> <F3> :call ToggleVExplorer()<CR>
 
 " Remap window moves
 nnoremap <C-h> <C-w>h
@@ -201,25 +204,19 @@ nmap <Tab> >>
 vmap <S-Tab> <gv
 vmap <Tab> >gv
 
+" Tab managment
+nmap <leader>d :tabnext<CR>
+nmap <leader>q :tabprevious<CR>
+
 " Remove trailing whitespaces
-nnoremap <silent> <leader>w :call <SID>StripTrailingWhitespaces()<CR>
+nnoremap <silent> <leader>w :StripWhitespace<CR>
 
 " Display invisible chars
 nmap <leader>l :set list! <CR>
 
+" Turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
 " Syntastic check
 nmap <leader>s :SyntasticCheck <CR>
 
-" Git to last active tab
-let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
