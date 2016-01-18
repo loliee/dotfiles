@@ -181,6 +181,38 @@ if [[ $OS == 'Darwin' ]]; then
       fi
       done
   }
+
+  # Polipo
+  function polipo-enable(){
+    networksetup -listallnetworkservices | while read -r interface; do
+      if [[ "$interface" == "*Ethernet" ]] \
+      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+      || [[ "$interface" == "Wi-Fi" ]]; then
+      sudo networksetup -setwebproxy "$interface" localhost 8123
+      sudo networksetup -setsecurewebproxy "$interface" localhost 8123
+      sudo networksetup -setproxybypassdomains "$interface" '*.local 169.254/16 localhost 127.0.0.1'
+      fi
+      done
+  }
+  function polipo-disable(){
+    networksetup -listallnetworkservices | while read -r interface; do
+    if [[ "$interface" == "*Ethernet" ]] \
+     || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+    || [[ "$interface" == "Wi-Fi" ]]; then
+    sudo networksetup -setwebproxystate "$interface" Off
+    sudo networksetup -setsecurewebproxystate "$interface" Off
+    fi
+    done
+  }
+  function polipo-cache-clear(){
+    launchctl unload "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
+    polipo -x
+    mkdir -p /tmp/empty_dir/
+    rsync -a --delete /tmp/empty_dir/ "$HOME/.polipo-cache/"
+    rmdir /tmp/empty_dir/
+    launchctl load "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
+  }
+  alias polipo-cache-size='du -hs "$HOME/.polipo-cache/"'
 fi
 
 # Aliases for Linux, Ops.
