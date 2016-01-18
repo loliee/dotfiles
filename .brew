@@ -144,6 +144,7 @@ brew install tree
 brew install v
 brew install virt-manager
 brew install virt-viewer
+brew install vim
 brew install watch
 brew install webkit2png
 brew install wget
