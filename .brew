@@ -110,6 +110,7 @@ brew install openssh
 brew install packer
 brew install pandoc
 brew install pgcli
+brew install php56 php-code-sniffer phpmd
 brew install pigz
 brew install pngcrush
 brew install pngquant
