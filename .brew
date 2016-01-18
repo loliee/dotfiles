@@ -31,7 +31,6 @@ brew tap tldr-pages/tldr
 
 echo '--> Install cask apps'
 
-brew cask install atom
 brew cask install divvy
 brew cask install dropbox
 brew cask install filezilla
