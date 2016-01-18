@@ -161,6 +161,26 @@ if [[ $OS == 'Darwin' ]]; then
      mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1" "$2"
      echo "$1 linked in $2"
   }
+
+  # Dnscrypt
+  function dnscrypt-enable(){
+    networksetup -listallnetworkservices | while read -r interface; do
+      if [[ "$interface" == "*Ethernet" ]] \
+      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+      || [[ "$interface" == "Wi-fi" ]]; then
+      sudo networksetup -setdnsservers "$interface" 127.0.0.1
+      fi
+      done
+  }
+  function dnscrypt-disable(){
+    networksetup -listallnetworkservices | while read -r interface; do
+      if [[ "$interface" == "Ethernet" ]] \
+      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+      || [[ "$interface" == "Wi-fi" ]]; then
+      sudo networksetup -setdnsservers "$interface" "Empty"
+      fi
+      done
+  }
 fi
 
 # Aliases for Linux, Ops.
