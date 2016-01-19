@@ -228,3 +228,12 @@ nmap <leader>s :SyntasticCheck <CR>
 
 " Goyo
 nmap <leader>g :Goyo<CR>
+
+
+" -----------------------------------------------------------
+" Local config
+" -----------------------------------------------------------
+
+if filereadable($HOME . "/.vimrc.local")
+  source ~/.vimrc.local
+endif
