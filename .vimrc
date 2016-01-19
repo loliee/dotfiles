@@ -224,7 +224,7 @@ nnoremap <silent> <leader>f :FZF<CR>
 nnoremap <silent> <leader>w :StripWhitespace<CR>
 
 " Syntastic check
-nmap <leader>s :SyntasticCheck <CR>
+nmap <leader>s :SyntasticCheck<CR>
 
 " Goyo
 nmap <leader>g :Goyo<CR>
