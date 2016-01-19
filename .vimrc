@@ -211,6 +211,9 @@ command! -nargs=1 Silent
 \ | execute ':silent '.<q-args>
 \ | execute ':redraw!'
 
+" Yank all lines
+nmap <leader>ya :%y+<CR>
+
 " Paste toggle
 set pastetoggle=<leader>p
 
