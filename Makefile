@@ -14,8 +14,8 @@ uninstall: uninstall-dotfiles \
 
 install-dotfiles:
 	$(info --> Install dotfiles)
-	@[[ -d $(MLPURE) ]] || \
-		git clone \
+	@[[ -d $(MLPURE) ]] \
+		|| git clone \
 	https://github.com/loliee/mlpure.git $(MLPURE)
 	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
@@ -49,9 +49,9 @@ uninstall-tpm:
 
 install-prezto:
 	$(info --> Install Prezto)
-	@[[ -d $(PREZTO) ]] || \
-		git clone -q --depth 1 --recursive \
-	  https://github.com/sorin-ionescu/prezto.git $(PREZTO)
+	@[[ -d $(PREZTO) ]] \
+		|| git clone -q --depth 1 --recursive \
+		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
 
 uninstall-prezto:
 	$(info --> Uninstall Prezto)
