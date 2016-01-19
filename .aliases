@@ -135,9 +135,9 @@ if [[ $OS == 'Darwin' ]]; then
   # Lock the screen (when going AFK)
   alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
-  # Docker
+  # Docker create docker vm / ensure is started.
   function docker-vm(){
-    docker-machine create -d virtualbox dev || docker-machine start dev
+    docker-machine create -d virtualbox --virtualbox-hostonly-cidr "10.10.10.1/24" dev || docker-machine start dev
     eval "$(docker-machine env dev)"
   }
 
