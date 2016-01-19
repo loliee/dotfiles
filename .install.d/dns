@@ -56,9 +56,9 @@ sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
 echo '--> configure localhost as dns server'
 networksetup -listallnetworkservices | while read -r interface; do
-  if [[ "$interface" == "Ethernet" ]] \
-	|| [[ "$interface" == "Thunderbolt Ethernet" ]] \
-    || [[ "$interface" == "Wi-fi" ]]; then
+  if [[ "$interface" == "*Ethernet" ]] \
+    || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+    || [[ "$interface" == "Wi-Fi" ]]; then
     sudo networksetup -setdnsservers "$interface" 127.0.0.1
   fi
 done
