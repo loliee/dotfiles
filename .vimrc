@@ -211,6 +211,9 @@ command! -nargs=1 Silent
 \ | execute ':silent '.<q-args>
 \ | execute ':redraw!'
 
+" Force sudo write
+cmap w!! w !sudo tee > /dev/null %
+
 " Yank all lines
 nmap <leader>ya :%y+<CR>
 
