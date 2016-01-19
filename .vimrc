@@ -38,33 +38,25 @@ filetype plugin indent on    " required
 " -----------------------------------------------------------
 " Global
 " -----------------------------------------------------------
-set antialias
-set cursorline                    " Highlight current line
-set encoding=utf-8
-set fileencoding=utf-8
-set scrolloff=3
-set hidden
-set cursorline
-set ttyfast
-set ruler
-set backspace=indent,eol,start
-set laststatus=2
-set relativenumber
-set number
-set smartcase
-set showmode
-set showcmd
+set autowrite                     " Automatically :write before running commands
+set clipboard=unnamed             " For OSX clipboard
+set encoding=utf-8                " UTF-8 is the encoding you want for your files
+set hidden                        " Handle multiple buffers better.
+set history=1000                  " Store lots of :cmdline history
+set hlsearch                      " Highlight search results
+set incsearch                     " Makes search act like in modern browsers
+set lazyredraw                    " Redraw only when we need to.
+set laststatus=2                  " Always display the status line
+set novisualbell                  " No visual bells"
+set noerrorbells                  " No error bells
+set showmode                      " Show mode -- INSERT --
+set showcmd                       " Show commands
 set showmatch                     " Highlight matching [{()}]
-set paste
-set guifont=Hack:h14
+set ttyfast
 set undofile                      " Persistent undo
 set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
 set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
-set lazyredraw                    " Redraw only when we need to.
-set novisualbell
-set noerrorbells
-set history=1000
 syntax enable
 
 " Store swap files in fixed location, not current directory.
@@ -78,13 +70,17 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 " -----------------------------------------------------------
 " Style
 " -----------------------------------------------------------
-set background=dark
 colorscheme hybrid
-set hlsearch                      " Highlight search results
-set incsearch                     " Makes search act like in modern browsers
+
+set antialias
+set background=dark               " Dark bg
+set guifont=Hack:h14              " Define hack as font, powerline
+set cursorline                    " Highlight current line
+set ruler                         " Display ruler
+set relativenumber                " Set relative number for fast dd/yy
+set number                        " Display line number for current line
 
 " Set the terminal's title
-
 if &term == 'screen'
   set t_ts=k
   set t_fs=\
@@ -120,12 +116,12 @@ let g:goyo_width = 120
 " -----------------------------------------------------------
 " Indent - Tabs/Spaces
 " -----------------------------------------------------------
-set autoindent
 set nowrap                        " don't wrap lines
 set tabstop=2 shiftwidth=2        " a tab is two spaces (or set this to 4)
 set expandtab                     " use spaces, not tabs (optional)
 set smarttab
 set backspace=indent,eol,start    " backspace through everything in insert mode
+set autoindent                    " match indentation of previous line
 
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
 let g:better_whitespace_verbosity = 1
@@ -146,7 +142,7 @@ let g:netrw_special_syntax = 1
 " ------------------------------------------------------------
 " Configure syntastic
 " ------------------------------------------------------------
-":wlet g:syntastic_aggregate_errors = 1
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_php_checkers = ['php', 'phpcs']
 let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
@@ -167,6 +163,10 @@ let g:startify_enable_special = 0
 " Bindings
 " -----------------------------------------------------------
 
+" Define , as leader key
+let mapleader = ","
+nnoremap ; :
+
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -179,20 +179,6 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
-" Define , as leader key
-
-let mapleader = ","
-nnoremap ; :
-
-" Paste toggle
-set pastetoggle=<leader>p
-
-" FZF
-nnoremap <silent> <leader>f :FZF<CR>
-
-" Open ag.vim
-nnoremap <leader>a :Ag
-
 " Remove help
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -201,9 +187,11 @@ vnoremap <F1> <ESC>
 " Open on new window
 nnoremap <F2> <C-w>v<C-w>l
 
-" Open new tab
+" Tab managment
 nnoremap <F1> :tabnew<CR>
 inoremap <F1> <Esc>:tabnew<CR>
+nmap <leader>d :tabnext<CR>
+nmap <leader>q :tabprevious<CR>
 
 " Remap window moves
 nnoremap <C-h> <C-w>h
@@ -217,18 +205,23 @@ nmap <Tab> >>
 vmap <S-Tab> <gv
 vmap <Tab> >gv
 
-" Tab managment
-nmap <leader>d :tabnext<CR>
-nmap <leader>q :tabprevious<CR>
-
-" Remove trailing whitespaces
-nnoremap <silent> <leader>w :StripWhitespace<CR>
+" Paste toggle
+set pastetoggle=<leader>p
 
 " Display invisible chars
-nmap <leader>l :set list! <CR>
+nmap <leader>l :set list!<CR>
 
 " Turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
+
+" Open ag.vim
+nnoremap <leader>a :Ag
+
+" Open fzf
+nnoremap <silent> <leader>f :FZF<CR>
+
+" Remove trailing whitespaces
+nnoremap <silent> <leader>w :StripWhitespace<CR>
 
 " Syntastic check
 nmap <leader>s :SyntasticCheck <CR>
