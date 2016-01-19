@@ -167,6 +167,11 @@ if [[ $OS == 'Darwin' ]]; then
      echo "$1 linked in $2"
   }
 
+  # Dnsmasq
+  alias dnsmasq-start='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
+  alias dnsmasq-stop='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
+  alias dnsmasq-restart='dnsmasq-stop;dnsmasq-start'
+
   # Dnscrypt
   function dnscrypt-enable(){
     networksetup -listallnetworkservices | while read -r interface; do
