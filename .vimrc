@@ -205,6 +205,12 @@ nmap <Tab> >>
 vmap <S-Tab> <gv
 vmap <Tab> >gv
 
+" Command alias, redraw window
+command! -nargs=1 Silent
+\ | execute ':silent !clear'
+\ | execute ':silent '.<q-args>
+\ | execute ':redraw!'
+
 " Paste toggle
 set pastetoggle=<leader>p
 
