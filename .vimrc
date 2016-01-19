@@ -23,6 +23,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'junegunn/fzf'
+Plugin 'junegunn/goyo.vim'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/syntastic'
@@ -104,6 +105,9 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.readonly = ''
+
+" Goyo
+let g:goyo_width = 120
 
 " -----------------------------------------------------------
 " Indent - Tabs/Spaces
@@ -221,3 +225,5 @@ nnoremap <leader><space> :nohlsearch<CR>
 " Syntastic check
 nmap <leader>s :SyntasticCheck <CR>
 
+" Goyo
+nmap <leader>g :Goyo<CR>
