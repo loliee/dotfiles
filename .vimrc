@@ -233,7 +233,7 @@ nnoremap <silent> <leader>w :StripWhitespace<CR>
 nmap <leader>s :SyntasticCheck<CR>
 
 " Goyo
-nmap <leader>g :Goyo<CR>
+nmap <leader>z :Goyo<CR>
 
 
 " -----------------------------------------------------------
