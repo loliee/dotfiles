@@ -49,6 +49,7 @@ EOT
 # Install and start the program
 sudo cp -fv /usr/local/opt/dnsmasq/*.plist /Library/LaunchDaemons
 sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist &> /dev/null
 sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 
 # Configure dnscrypt
