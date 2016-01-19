@@ -235,6 +235,22 @@ nmap <leader>s :SyntasticCheck<CR>
 " Goyo
 nmap <leader>z :Goyo<CR>
 
+" Git commands
+if !exists(':Ga')
+  :command Ga execute ":Silent !git a %:p"
+  :command Gc execute ":Silent !git commit"
+  :command Gca execute ":Silent !git ca"
+  :command Gd execute ":!clear && git diff"
+  :command Gdc execute ":!clear && git diff --cached"
+  :command Gl execute ":Silent !git lg"
+  :command Gco execute ":Silent !git co -p %:p"
+  :command Gs execute ":!clear && git st"
+  :command Gr execute ":Silent !git reset %:p"
+  :command Gt execute ":Silent !tig -p %:p"
+endif
+
+" Open tig
+nmap <leader>t :Silent !tig<CR><CR>
 
 " -----------------------------------------------------------
 " Local config
