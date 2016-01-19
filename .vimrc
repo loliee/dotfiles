@@ -54,9 +54,10 @@ set smartcase
 set showmode
 set showcmd
 set showmatch                     " Highlight matching [{()}]
-set undofile
 set paste
 set guifont=Hack:h14
+set undofile                      " Persistent undo
+set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
 set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
 set lazyredraw                    " Redraw only when we need to.
