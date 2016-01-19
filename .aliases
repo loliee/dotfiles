@@ -40,8 +40,8 @@ alias fvim='vim $(fzf)'
 
 # Fast rsync remove
 function rmf(){
-   echo "remove $1 directory ! are you sure CTRL-C to abort"
-   sleep 1
+   echo "Will remove direcory "$1" ! \nCTRL-C to abort..."
+   sleep 3
    mkdir -p /tmp/empty_dir/
    [[ ! -z "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/
    [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1";
