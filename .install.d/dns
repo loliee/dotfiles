@@ -8,6 +8,7 @@ OS="$(uname)"
 
 echo '--> configure dnsmasq'
 
+mkdir -p "$HOME/.dnsmasq.d"
 cat <<EOT > /usr/local/etc/dnsmasq.conf
 # https://github.com/drduh/OS-X-Security-and-Privacy-Guide#dnsmasq
 
@@ -40,6 +41,9 @@ log-async
 log-dhcp
 log-queries
 log-facility=/var/log/dnsmasq.log
+
+# Include localconfig
+conf-dir=$HOME/.dnsmasq.d/
 EOT
 
 # Install and start the program
