@@ -150,8 +150,13 @@ if [[ $OS == 'Darwin' ]]; then
   function composer(){
     if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
     eval "$(docker-machine env dev)"
-    docker run -ti --rm --name php56-"$USER"-"$(gdate +%s%N)" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php -n \
-               -dextension=pgsql.so -dextension=intl.so /usr/local/bin/composer.phar "$@"
+    NAME=$(echo "$PHPD"-composer-"$@"-"$(gdate +%s%N)" | sed "s/[^a-zA-Z0-9_.-]/_/g")
+    docker run -ti --rm --name "$NAME" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php -n \
+               -dtimezone=Europe/Paris -dextension=bz2.so -dextension=ftp.so -dextension=intl.so \
+               -dextension=mysql.so -dextension=redis.so -dextension=soap.so -dextension=tidy.so \
+               -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
+               /usr/local/bin/composer.phar "$@"
+    unset MOUNT NAME
   }
 
   # Composer
