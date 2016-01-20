@@ -74,7 +74,7 @@ uninstall-vundle:
 
 install-tmuxline: install-vundle
 	$(info --> Create tmuxline snapshot)
-	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall
+	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall &> /dev/null
 
 uninstall: uninstall_dotfiles
 
