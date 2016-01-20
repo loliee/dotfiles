@@ -169,7 +169,7 @@ for pip in "${PIPS[@]}"; do
     "$(brew --prefix)/bin/pip" install "$pip"
 done
 
-## ruby
+# ruby
 mkdir -p ~/.rubies
 RUBIES=(
   2.2.3
