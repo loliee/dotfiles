@@ -31,6 +31,7 @@ Plugin 'mhinz/vim-startify'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0ng/vim-hybrid'
+Plugin 'edkolev/tmuxline.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required

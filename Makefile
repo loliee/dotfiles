@@ -72,7 +72,7 @@ uninstall-vundle:
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf ~/.vim/bundle/Vundle.vim
 
-install-tmuxline:
+install-tmuxline: install-vundle
 	$(info --> Create tmuxline snapshot)
 	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall
 
