@@ -199,6 +199,7 @@ done
 # npm
 npm install -g js-yaml
 npm install -g jshint
+npm install -g doctoc
 
 echo '--> Link homebrew apps'
 brew linkapps
