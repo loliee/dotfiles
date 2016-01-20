@@ -43,3 +43,9 @@ zstyle ':prezto:module:syntax-highlighting' styles \
     'path' 'fg=blue' \
     'single-quoted-argument' 'fg=magenta' \
     'double-quoted-argument' 'fg=magenta'
+
+# Tmux
+
+zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:auto-start' remote 'yes'
+zstyle ':prezto:module:tmux:iterm' integrate 'no'
