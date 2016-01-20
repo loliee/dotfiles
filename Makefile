@@ -6,7 +6,7 @@ install: install-dotfiles \
 	install-tpm \
 	install-prezto \
 	install-vundle \
-	install_tmuxline
+	install-tmuxline
 
 uninstall: uninstall-dotfiles \
 	uninstall-tpm \
@@ -72,7 +72,7 @@ uninstall-vundle:
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf ~/.vim/bundle/Vundle.vim
 
-install_tmuxline:
+install-tmuxline:
 	$(info --> Create tmuxline snapshot)
 	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall
 
