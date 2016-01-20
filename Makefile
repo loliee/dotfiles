@@ -5,7 +5,8 @@ MLPURE := ~/.mlpure
 install: install-dotfiles \
 	install-tpm \
 	install-prezto \
-	install-vundle
+	install-vundle \
+	install_tmuxline
 
 uninstall: uninstall-dotfiles \
 	uninstall-tpm \
@@ -70,6 +71,12 @@ uninstall-vundle:
 	$(info --> Uninstall vundle)
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf ~/.vim/bundle/Vundle.vim
+
+install_tmuxline:
+	$(info --> Create tmuxline snapshot)
+	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall
+
+uninstall: uninstall_dotfiles
 
 install-patatetoy-iterm2:
 	$(info --> Uninstall patatetoy-iterm2)
