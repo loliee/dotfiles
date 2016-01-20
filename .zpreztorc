@@ -20,7 +20,7 @@ zstyle ':prezto:load' pmodule \
     'history-substring-search' \
     'prompt' \
     'fasd' \
-    'tmux' \
+    'tmux'
 
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:prompt' theme 'mlpure'
@@ -28,6 +28,7 @@ zstyle ':prezto:module:prompt' theme 'mlpure'
 # History
 zstyle ':prezto:module:history-substring-search' case-sensitive 'yes'
 zstyle ':prezto:module:history-substring-search:color' found 'bg=blue'
+
 # Syntax highlighter
 zstyle ':prezto:module:syntax-highlighting' highlighters \
     'main' \
