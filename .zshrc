@@ -8,6 +8,3 @@ bindkey -M viins ',,' vi-cmd-mode
 
 # Aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
-
-# ~/.extra can be used for other settings you don't want to commit.
-[[ -f ~/.extra ]] && source ~/.extra
