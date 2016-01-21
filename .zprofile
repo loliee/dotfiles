@@ -77,6 +77,10 @@ export FZF_DEFAULT_COMMAND='ag -l -g ""'
 # Switch pure prompt theme to vi mode
 MLPURE_VIM_MODE=1
 
+# Fix history arrow binding on tmux
+bindkey '^[[B' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+
 # chruby
 if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   RUBIES=(~/.rubies/*)
