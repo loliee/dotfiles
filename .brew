@@ -51,6 +51,7 @@ brew cask install openoffice
 brew cask install osxfuse
 brew cask install paragon-extfs
 brew cask install paragon-ntfs
+brew cask install pgadmin3
 brew cask install skype
 brew cask install slack
 brew cask install transmission
