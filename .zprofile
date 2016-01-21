@@ -65,9 +65,6 @@ export HOMEBREW_CASK_OPTS='--appdir=/Applications'
 # Always enable colored `grep` output
 export GREP_OPTIONS='--color=auto'
 
-# 10ms for key sequences
-export KEYTIMEOUT=1
-
 # homebrew
 export HOMEBREW_ROOT='/usr/local'
 
@@ -76,6 +73,9 @@ export HOMEBREW_ROOT='/usr/local'
 
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
+
+# Switch pure prompt theme to vi mode
+MLPURE_VIM_MODE=1
 
 # chruby
 if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then

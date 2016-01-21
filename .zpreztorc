@@ -25,6 +25,9 @@ zstyle ':prezto:load' pmodule \
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:prompt' theme 'mlpure'
 
+# Editor
+zstyle ':prezto:module:editor' key-bindings 'vi'
+
 # History
 zstyle ':prezto:module:history-substring-search' case-sensitive 'yes'
 zstyle ':prezto:module:history-substring-search:color' found 'bg=blue'
