@@ -148,7 +148,7 @@ if [[ $OS == 'Darwin' ]]; then
     unset MOUNT
   }
 
-  function composer(){
+  function composerd(){
     if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
     eval "$(docker-machine env dev)"
     NAME=$(echo "$PHPD"-composer-"$@"-"$(gdate +%s%N)" | sed "s/[^a-zA-Z0-9_.-]/_/g")
