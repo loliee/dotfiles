@@ -91,6 +91,7 @@ endif
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
 
 " set airline theme
 let g:airline_theme='base16'
