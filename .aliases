@@ -347,4 +347,6 @@ function composer-unlink(){
 }
 
 # shellcheck source=/dev/null
-[[ -f ~/.aliases.local ]] && . ~/.aliases.local
+if [[ -f ~/.aliases.local ]] then;
+   . ~/.aliases.local
+fi
