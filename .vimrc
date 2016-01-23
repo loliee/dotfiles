@@ -14,8 +14,6 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" plugin on GitHub repo
-
 Plugin 'rking/ag.vim'
 Plugin 'markcornick/vim-bats'
 Plugin 'ekalinin/Dockerfile.vim'
@@ -39,6 +37,7 @@ filetype plugin indent on    " required
 " -----------------------------------------------------------
 " Global
 " -----------------------------------------------------------
+
 set autowrite                     " Automatically :write before running commands
 set clipboard=unnamed             " For OSX clipboard
 set encoding=utf-8                " UTF-8 is the encoding you want for your files
@@ -48,7 +47,7 @@ set hlsearch                      " Highlight search results
 set incsearch                     " Makes search act like in modern browsers
 set lazyredraw                    " Redraw only when we need to.
 set laststatus=2                  " Always display the status line
-set novisualbell                  " No visual bells"
+set novisualbell                  "
 set noerrorbells                  " No error bells
 set showmode                      " Show mode -- INSERT --
 set showcmd                       " Show commands
@@ -71,6 +70,7 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 " -----------------------------------------------------------
 " Style
 " -----------------------------------------------------------
+
 colorscheme hybrid
 
 set antialias
@@ -118,6 +118,7 @@ let g:goyo_width = 120
 " -----------------------------------------------------------
 " Indent - Tabs/Spaces
 " -----------------------------------------------------------
+
 set nowrap                        " don't wrap lines
 set tabstop=2 shiftwidth=2        " a tab is two spaces (or set this to 4)
 set expandtab                     " use spaces, not tabs (optional)
@@ -131,6 +132,7 @@ let g:better_whitespace_verbosity = 1
 " -----------------------------------------------------------
 " Configure Explorer
 " -----------------------------------------------------------
+
 let g:netrw_banner         = 0
 let g:netrw_winsize        = 15
 let g:netrw_preview        = 1
@@ -144,6 +146,7 @@ let g:netrw_special_syntax = 1
 " ------------------------------------------------------------
 " Configure syntastic
 " ------------------------------------------------------------
+
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_php_checkers = ['php', 'phpcs']
@@ -156,6 +159,7 @@ let g:syntastic_warning_symbol = '⚠'
 " ------------------------------------------------------------
 " Configure Startify
 " ------------------------------------------------------------
+
 let g:startify_list_order = ['bookmarks', 'files', 'dir', 'sessions']
 let g:startify_session_dir = '~/.vim/session'
 let g:startify_bookmarks = [ '~/.vimrc' ]
