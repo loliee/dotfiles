@@ -1,0 +1,30 @@
+snippet <
+<?php
+endsnippet
+
+snippet class
+class ${1}${2: extends}
+{
+    ${0:${VISUAL:}}
+}
+endsnippet
+
+snippet cons
+public function __construct(${1:}) {
+    ${0:${visual:}}
+}
+endsnippet
+
+snippet try
+try {
+    ${1:${VISUAL:}}
+} catch (${2:\Exception} $e) {
+    ${3:// Log ?}
+}
+endsnippet
+
+snippet if
+if (${1}) {
+    ${2:${VISUAL:}}
+}
+endsnippet

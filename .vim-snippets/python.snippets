@@ -1,0 +1,19 @@
+snippet #
+#!/usr/bin/env python${1:}
+endsnippet
+
+snippet main
+if __name__ == '__main__':
+endsnippet
+
+snippet if
+if ${1}:
+    ${2:${VISUAL:}}
+endsnippet
+
+snippet try
+try:
+    ${1:${VISUAL:}}
+except ${2:Exception, e}:
+    ${3}
+endsnippet

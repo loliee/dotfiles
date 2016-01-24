@@ -66,6 +66,7 @@ install-vundle:
 		|| git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	@vim +PluginInstall +qall &>/dev/null
 	@mkdir -p ~/.vim/undofiles
+	@ln -sf $(PWD)/.vim-snippets  ~/.vim/UltiSnips
 
 uninstall-vundle:
 	$(info --> Uninstall vundle)

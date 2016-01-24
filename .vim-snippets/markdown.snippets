@@ -1,0 +1,31 @@
+snippet meta
+---
+title: ${1}
+date: ${2:`date +%Y-%m-%d`}
+tags: $3
+---
+# $1
+$0
+endsnippet
+
+snippet table
+${1:First Header}  | ${2:Second Header}
+------------- | -------------
+${3:Content Cell}  | ${4:Content Cell}
+endsnippet
+
+snippet c
+\`\`\`${1}
+$0
+\`\`\`
+endsnippet
+
+snippet i
+![${1:Image Title}](${2})
+endsnippet
+
+snippet t
+- [ ] ${1}
+- [ ] ${2}
+endsnippet
+
