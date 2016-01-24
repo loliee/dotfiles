@@ -216,11 +216,6 @@ nmap <Tab> >>
 vmap <S-Tab> <gv
 vmap <Tab> >gv
 
-" Command alias, redraw window
-command! -nargs=1 Silent
-\ | execute ':silent !clear'
-\ | execute ':silent '.<q-args>
-\ | execute ':redraw!'
 
 " Force sudo write
 cmap w!! w !sudo tee > /dev/null %
@@ -275,6 +270,16 @@ endif
 
 " Open tig
 nmap <leader>t :Silent !tig<CR><CR>
+
+" -----------------------------------------------------------
+" Functions
+" -----------------------------------------------------------
+
+" Command alias, redraw window
+command! -nargs=1 Silent
+\ | execute ':silent !clear'
+\ | execute ':silent '.<q-args>
+\ | execute ':redraw!'
 
 " -----------------------------------------------------------
 " Local config
