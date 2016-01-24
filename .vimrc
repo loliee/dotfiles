@@ -19,6 +19,7 @@ Plugin 'markcornick/vim-bats'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-fugitive'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/goyo.vim'
@@ -248,6 +249,13 @@ nmap <leader>s :SyntasticCheck<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>
+
+" Exchange
+let g:exchange_no_mappings=1
+nmap cx <Plug>(Exchange)
+vmap X <Plug>(Exchange)
+nmap cxc <Plug>(ExchangeClear)
+nmap cxx <Plug>(ExchangeLine)
 
 " Git commands
 if !exists(':Ga')
