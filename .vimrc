@@ -130,6 +130,7 @@ set autoindent                    " match indentation of previous line
 
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
 let g:better_whitespace_verbosity = 1
+let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
 
 " -----------------------------------------------------------
 " Configure Explorer
