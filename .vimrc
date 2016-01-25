@@ -176,6 +176,7 @@ let g:startify_enable_special = 0
 let mapleader = ","
 nnoremap ; :
 inoremap <leader><leader> <ESC>
+inoremap ;; <ESC>
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
