@@ -65,6 +65,9 @@ export HOMEBREW_CASK_OPTS='--appdir=/Applications'
 # Always enable colored `grep` output
 export GREP_OPTIONS='--color=auto'
 
+# 2O ms for key sequences
+export KEYTIMEOUT=20
+
 # homebrew
 export HOMEBREW_ROOT='/usr/local'
 
