@@ -29,3 +29,6 @@ tags
 
 # Dotenv files
 *.env
+
+# auth.json used by composer and JS project for credentials
+auth.json
