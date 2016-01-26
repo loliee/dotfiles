@@ -156,7 +156,7 @@ if [[ $OS == 'Darwin' ]]; then
                -dtimezone=Europe/Paris -dextension=bz2.so -dextension=ftp.so -dextension=intl.so \
                -dextension=mysql.so -dextension=redis.so -dextension=soap.so -dextension=tidy.so \
                -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
-               /usr/local/bin/composer.phar "$@"
+               -dmemory_limit=-1 /usr/local/bin/composer.phar "$@"
     unset MOUNT NAME
   }
 
