@@ -76,6 +76,7 @@ export HOMEBREW_ROOT='/usr/local'
 
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000'
 
 # Switch pure prompt theme to vi mode
 MLPURE_VIM_MODE=1
