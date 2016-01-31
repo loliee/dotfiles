@@ -172,9 +172,7 @@ if [[ $OS == 'Darwin' ]]; then
   alias dnsmasq-start='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-stop='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-restart='dnsmasq-stop;dnsmasq-start'
-
-  # Dnscrypt
-  function dnscrypt-enable(){
+  function dnsmasq-enable(){
     networksetup -listallnetworkservices | while read -r interface; do
       if [[ "$interface" == "*Ethernet" ]] \
       || [[ "$interface" == "Thunderbolt Ethernet" ]] \
@@ -183,7 +181,7 @@ if [[ $OS == 'Darwin' ]]; then
       fi
       done
   }
-  function dnscrypt-disable(){
+  function dnsmasq-disable(){
     networksetup -listallnetworkservices | while read -r interface; do
       if [[ "$interface" == "Ethernet" ]] \
       || [[ "$interface" == "Thunderbolt Ethernet" ]] \
