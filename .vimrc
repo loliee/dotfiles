@@ -32,6 +32,7 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'SirVer/ultisnips'
+Plugin 'terryma/vim-multiple-cursors'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
