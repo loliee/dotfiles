@@ -32,3 +32,6 @@ tags
 
 # auth.json used by composer and JS project for credentials
 auth.json
+
+# fzf history
+.fzf_history
