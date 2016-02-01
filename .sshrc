@@ -2,7 +2,7 @@
 # https://github.com/Russell91/sshrc
 
 export SHELL=$(which bash)
-readonly TMUXDIR='/tmp/bdossantos_sshrc'
+readonly TMUXDIR='/tmp/mloliee_sshrc'
 readonly TMUXSERVER="${TMUXDIR}/tmux"
 
 # Using vi key bindings in bash
