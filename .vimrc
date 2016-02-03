@@ -181,7 +181,6 @@ let g:startify_enable_special = 0
 
 " Define , as leader key
 let mapleader = ","
-nnoremap ; :
 inoremap <leader><leader> <ESC>
 inoremap ;; <ESC>
 
