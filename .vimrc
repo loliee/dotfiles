@@ -196,6 +196,10 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+" Fast moves up/down (for OSX french azerty mapping)
+nnoremap Ï :+3<CR>
+nnoremap È :-3<CR>
+
 " Remove help
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
