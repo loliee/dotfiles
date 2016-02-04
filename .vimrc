@@ -92,6 +92,9 @@ elseif &term == 'screen' || &term == 'xterm'
   set title
 endif
 
+" Let tabs display only filenames instead of fullpath
+set guitablabel=\[%N\]\ %t\ %M
+
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
