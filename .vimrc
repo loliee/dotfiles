@@ -231,8 +231,8 @@ vmap <S-Tab> <gv
 vmap <Tab> >gv
 
 " Insert new empty lines
-nmap oo o<Esc>k
-nmap OO O<Esc>j
+nmap œ o<Esc>k
+nmap Œ O<Esc>j
 
 " Force sudo write
 cmap w!! w !sudo tee > /dev/null %
