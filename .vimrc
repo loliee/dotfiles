@@ -230,6 +230,10 @@ nmap <Tab> >>
 vmap <S-Tab> <gv
 vmap <Tab> >gv
 
+" Move visual selection with Alt-j / Alt-k
+vnoremap Ï :m '>+1<CR>gv=gv
+vnoremap È :m '<-2<CR>gv=gv
+
 " Insert new empty lines
 nmap œ o<Esc>k
 nmap Œ O<Esc>j
