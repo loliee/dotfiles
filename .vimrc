@@ -199,7 +199,7 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
-" Fast moves up/down (for OSX french azerty mapping)
+" Fast moves up/down Alt-j / Alt-k
 nnoremap Ï :+3<CR>
 nnoremap È :-3<CR>
 
