@@ -1,0 +1,19 @@
+---
+
+defaults:
+  Port: 22
+  ControlMaster: auto
+  ControlPath: ~/.ssh/tmp/%h-%p-%r.sock
+  ControlPersist: yes
+
+templates:
+  lemonde-tpl:
+    IdentityFile: ~/.ssh/lemonde/id_rsa
+  blupan-tpl:
+    IdentityFile: ~/.ssh/blupan/id_rsa
+  siliadev-tpl:
+    IdentityFile: ~/.ssh/siliadev/id_rsa
+
+includes:
+  - ~/.ssh/assh.d/*.yml
+
