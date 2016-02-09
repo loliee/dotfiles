@@ -26,7 +26,6 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/syntastic'
-Plugin 'mhinz/vim-startify'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0ng/vim-hybrid'
@@ -168,15 +167,6 @@ let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
 " Better syntastic symbols
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
-
-" ------------------------------------------------------------
-" Configure Startify
-" ------------------------------------------------------------
-
-let g:startify_list_order = ['bookmarks', 'files', 'dir', 'sessions']
-let g:startify_session_dir = '~/.vim/session'
-let g:startify_bookmarks = [ '~/.vimrc' ]
-let g:startify_enable_special = 0
 
 " -----------------------------------------------------------
 " Bindings
