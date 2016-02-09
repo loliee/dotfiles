@@ -356,6 +356,8 @@ function composer-unlink(){
    umount -f "$1" &> /dev/null && rm -rf "$1"
 }
 
+alias assh-build='mv $HOME/.ssh/config $HOME/.ssh/config.bk && assh build > $HOME/.ssh/config'
+
 # shellcheck source=/dev/null
 if [[ -f ~/.aliases.local ]] then;
    . ~/.aliases.local
