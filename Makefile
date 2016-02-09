@@ -19,6 +19,8 @@ install-dotfiles:
 		|| git clone \
 	https://github.com/loliee/mlpure.git $(MLPURE)
 	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
+	@ mkdir -p "$(HOME)/.ssh/tmp" && mkdir -p "$(HOME)/.ssh/assh.d"
+	@ln -sf "$(PWD)/.assh"  "$(HOME)/.ssh/assh.yml"
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
@@ -26,6 +28,7 @@ install-dotfiles:
 		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
+	  --ignore='.assh'
 
 uninstall-dotfiles:
 	$(info --> Uninstall dotfiles)
@@ -36,6 +39,7 @@ uninstall-dotfiles:
 		--ignore='Makefile' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
+	  --ignore='.assh'
 
 install-tpm:
 	$(info --> Install tpm)
