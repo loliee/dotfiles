@@ -68,6 +68,7 @@ brew install openssl && brew link openssl --force
 brew install advancecomp
 brew install ansible
 brew install ansifilter
+brew install assh
 brew install autoenv
 brew install bats
 brew install homebrew/fuse/bindfs
