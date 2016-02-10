@@ -54,6 +54,8 @@ set noerrorbells                  " No error bells
 set showmode                      " Show mode -- INSERT --
 set showcmd                       " Show commands
 set showmatch                     " Highlight matching [{()}]
+set ttimeout                      " Fast VIM
+set ttimeoutlen=100
 set ttyfast
 set undofile                      " Persistent undo
 set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
