@@ -147,6 +147,13 @@ if [[ $OS == 'Darwin' ]]; then
   # Lock the screen (when going AFK)
   alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
+  # Build .ssh/config file
+  function assh-build(){
+    mv $HOME/.ssh/config $HOME/.ssh/config.bk
+    assh build > $HOME/.ssh/config
+    sed -i 's,ProxyCommand assh proxy --port=%p %h,,g' $HOME/.ssh/config
+  }
+
   # Docker create docker vm / ensure is started.
   function docker-vm(){
     docker-machine create -d virtualbox --virtualbox-hostonly-cidr "10.10.10.1/24" dev || docker-machine start dev
@@ -356,7 +363,6 @@ function composer-unlink(){
    umount -f "$1" &> /dev/null && rm -rf "$1"
 }
 
-alias assh-build='mv $HOME/.ssh/config $HOME/.ssh/config.bk && assh build > $HOME/.ssh/config'
 
 # shellcheck source=/dev/null
 if [[ -f ~/.aliases.local ]] then;
