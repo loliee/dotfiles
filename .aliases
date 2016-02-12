@@ -154,6 +154,18 @@ if [[ $OS == 'Darwin' ]]; then
     sed -i 's,ProxyCommand assh proxy --port=%p %h,,g' $HOME/.ssh/config
   }
 
+  function fasd_cd(){
+    local dir=""
+    local fasd_ret="$(fasd -Rdl "$@")"
+    if [[ -d "$fasd_ret" ]]; then
+      cd "$fasd_ret"
+    else
+      dir="$(print $fasd_ret | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+    fi
+  }
+
+  alias j='fasd_cd'
+
   # Docker create docker vm / ensure is started.
   function docker-vm(){
     docker-machine create -d virtualbox --virtualbox-hostonly-cidr "10.10.10.1/24" dev || docker-machine start dev
