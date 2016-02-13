@@ -28,6 +28,12 @@ if [[ ${1} ]]; then
 fi
 endsnippet
 
+snippet for
+for val in "\${${1:${VISUAL:ARRAY}}[@]}"; do
+  ${2:${VISUAL}}
+done
+endsnippet
+
 snippet while
 while ${1}; do
   ${2:${VISUAL}}
