@@ -176,8 +176,11 @@ let g:syntastic_warning_symbol = '⚠'
 
 " Define , as leader key
 let mapleader = ","
-inoremap <leader><leader> <ESC>
-inoremap ;; <ESC>
+
+" Escape with Ctrl-Space
+inoremap <NUL> <ESC>
+nnoremap <NUL> <ESC>
+vnoremap <NUL> <ESC>
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
