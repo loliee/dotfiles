@@ -375,6 +375,27 @@ function composer-unlink(){
    umount -f "$1" &> /dev/null && rm -rf "$1"
 }
 
+# kubectl my little cloud
+if hash kubectl 2>/dev/null; then
+  alias kci='kubectl cluster-info'
+  alias kc='kubectl create'
+  alias kr='kubectl delete'
+  alias kd='kubectl describe'
+  alias ke='kubectl execute'
+  alias kg='kubectl get'
+  alias kl='kubectl logs'
+  alias kcs='kubectl --namespace=kube-system create'
+  alias krs='kubectl --namespace=kube-system delete'
+  alias kds='kubectl --namespace=kube-system describe'
+  alias kes='kubectl --namespace=kube-system execute'
+  alias kgs='kubectl --namespace=kube-system get'
+  alias kls='kubectl --namespace=kube-system logs'
+
+  function kubectl-destroy-cluster(){
+    kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
+    kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
+  }
+fi
 
 # shellcheck source=/dev/null
 if [[ -f ~/.aliases.local ]] then;
