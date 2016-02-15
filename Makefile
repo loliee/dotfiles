@@ -83,13 +83,15 @@ install-tmuxline: install-vundle
 
 uninstall: uninstall_dotfiles
 
-install-patatetoy-iterm2:
-	$(info --> Uninstall patatetoy-iterm2)
-	@[[ -d ~/.patatetoy-iterm2 ]] \
-		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.patatetoy-iterm2
-	@open ~/.patatetoy-iterm2/patatetoy.itermcolors
+install-iterm2:
+	$(info --> Install iterm2)
+	@ln -sf "$(PWD)/.iterm2" ~/.iterm2
+	@[[ -d ~/.iterm2/patatetoy-iterm2 ]] \
+		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.iterm2/patatetoy-iterm2
+	@open ~/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
+	@defaults read ~/.iterm2/com.googlecode.iterm2 &>/dev/null
 
-uninstall-patatetoy-iterm2:
-	$(info --> Uninstall patatetoy-iterm2)
+uninstall-iterm2:
+	$(info --> Uninstall iterm2)
 	@[[ -d ~/.patatetoy-iterm2 ]] \
-		&& rm -rf ~/.patatetoy-iterm2
+		&& rm -rf ~/.iterm2/
