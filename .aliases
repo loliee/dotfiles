@@ -1,7 +1,7 @@
 # Aliases
-# vim: syntax=sh
 
-export OS="$(uname)"
+export OS
+OS="$(uname)"
 PHPD=${PHPD:='php:5.6'}
 
 # Misc
@@ -38,9 +38,51 @@ alias git='noglob git'
 # Vim fzf
 alias fvim='vim $(fzf)'
 
+# Override prezto fasd module, include fzf fuzzy finder.
+alias j='fasd_cd'
+which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload='exec $SHELL -l'
+
+alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
+
+# kubectl my little cloud
+if hash kubectl &>/dev/null; then
+  alias kci='kubectl cluster-info'
+  alias kc='kubectl create'
+  alias kr='kubectl delete'
+  alias kd='kubectl describe'
+  alias ke='kubectl execute'
+  alias kg='kubectl get'
+  alias kl='kubectl logs'
+  alias kcs='kubectl --namespace=kube-system create'
+  alias krs='kubectl --namespace=kube-system delete'
+  alias kds='kubectl --namespace=kube-system describe'
+  alias kes='kubectl --namespace=kube-system execute'
+  alias kgs='kubectl --namespace=kube-system get'
+  alias kls='kubectl --namespace=kube-system logs'
+
+  function kubectl-destroy-cluster() {
+  kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
+  kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
+}
+fi
+
+function fasd_cd() {
+  local dir
+  local fasd_ret
+  fasd_ret="$(fasd -Rdl "$@")"
+  if [[ -d "$fasd_ret" ]]; then
+    cd "$fasd_ret" || exit
+  else
+    dir="$(print "$fasd_ret" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+  fi
+}
+
 # Fast rsync remove
-function rmf(){
-   echo "Will remove direcory "$1" ! \nCTRL-C to abort..."
+function rmf() {
+   printf "Will remove direcory %s ! \nCTRL-C to abort...%s"
    sleep 3
    mkdir -p /tmp/empty_dir/
    [[ ! -z "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/
@@ -48,18 +90,9 @@ function rmf(){
    rmdir /tmp/empty_dir
 }
 
-# fd - cd to selected directory
-fd() {
-  local dir
-  dir=$(find "${1:-.}" -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir" || exit
-}
-
 # fkill - kill process
 fkill() {
   pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-
   if [ "x$pid" != "x" ]
   then
     kill -"${1:-9}" "$pid"
@@ -72,25 +105,72 @@ which mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 # update tab name
 function tabname() {
   echo -en "\033];$1\007"
-  if [[ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = 'tmux' ]]; then
-    tmux rename-window "$(echo $* | cut -d . -f 1)"
+  if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" = 'tmux' ]]; then
+    tmux rename-window "$(echo "$*" | cut -d . -f 1)"
   fi
 }
 
 # Automatically Starting tmux on SSH
 function ssht() {
-  SSH_HOST="${@: -1}"
+  for SSH_HOST; do true; done
   tabname "$SSH_HOST"
   ssh "$@" -t 'tmux ls && exec tmux a || exec tmux new || exec $SHELL -l'
 }
 
-which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
+# assh aliases
+if hash assh &>/dev/null; then
+  function assh-build() {
+    mv "$HOME/.ssh/config" "$HOME/.ssh/config.bk"
+    assh build > "$HOME/.ssh/config"
+    sed -i 's,ProxyCommand assh proxy --port=%p %h,,g' "$HOME/.ssh/config"
+  }
+fi
 
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
+# php / composer aliases
+function phpd() {
+  local mount
+  if  [[ $1 == /* ]]; then mount=$(dirname "$1"); else mount=$PWD; fi
+  docker run -ti --rm --name php56-"$USER"-"$(gdate +%s%N)" -v "$mount":"$mount" -w "$mount" loliee/"$PHPD" php "$@"
+  unset mount
+}
 
-alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
+function composerd() {
+  local args="$*"
+  local name="$PHPD-composer-$args"
+  if hash gdate &>/dev/null; then
+    name="$name"-"$(gdate +%s%N)"
+  else
+    name="$name"-"$(gdate +%sN)"
+  fi
+  # shellcheck disable=SC2001
+  name="$(echo "$name" | sed "s/[^a-zA-Z0-9_.-]/_/")"
+  if  [[ $1 == /* ]]; then mount=$(dirname "$1"); else mount=$PWD; fi
+  docker run -ti --rm --name "$name" -v "$mount":"$mount" -w "$mount" loliee/"$PHPD" php -n \
+    -dtimezone=Europe/Paris -dextension=bz2.so -dextension=ftp.so -dextension=intl.so \
+    -dextension=mysql.so -dextension=redis.so -dextension=soap.so -dextension=tidy.so \
+    -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
+    -dmemory_limit=-1 /usr/local/bin/composer.phar "$@"
+  unset mount name
+}
 
+# Composer
+alias composer-token='[[ ! -z $GITHUB_TOKEN ]] && composer config github-oauth.github.com $GITHUB_TOKEN'
+
+function composer-link() {
+  umount -f "$2" &> /dev/null && rm -rf "$2"
+  if bindfs assh &>/dev/null; then
+    mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1" "$2"
+  else
+    mkdir -p "$2" && mount --bind --create-with-perms=u+rw "$1" "$2"
+  fi
+  echo "$1 linked in $2"
+}
+
+function composer-unlink() {
+  umount -f "$1" &> /dev/null && rm -rf "$1"
+}
+
+# Ultra important tea aliases.
 function tea() {
   local STEEP_TIME=${STEEP_TIME:=180}
 
@@ -148,94 +228,57 @@ if [[ $OS == 'Darwin' ]]; then
   alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
   # Update interfaces config, usefull to set Proxies, DNS etc ...
-  function update_interfaces(){
+  function update_interfaces() {
     networksetup -listallnetworkservices | while read -r interface; do
       if [[ "$interface" == "*Ethernet" ]] \
       || [[ "$interface" == "Thunderbolt Ethernet" ]] \
       || [[ "$interface" == "Wi-Fi" ]]; then
-        eval $1
-        echo $1 | sed "s/\$interface/$interface/"
+        eval "$1" && print "${1//\$interface/$interface}"
       fi
     done
   }
 
-  # Build .ssh/config file
-  function assh-build(){
-    mv $HOME/.ssh/config $HOME/.ssh/config.bk
-    assh build > $HOME/.ssh/config
-    sed -i 's,ProxyCommand assh proxy --port=%p %h,,g' $HOME/.ssh/config
-  }
-
-  function fasd_cd(){
-    local dir=""
-    local fasd_ret="$(fasd -Rdl "$@")"
-    if [[ -d "$fasd_ret" ]]; then
-      cd "$fasd_ret"
-    else
-      dir="$(print $fasd_ret | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-    fi
-  }
-
-  alias j='fasd_cd'
-
   # Docker create docker vm / ensure is started.
-  function docker-vm(){
+  function docker-vm() {
     docker-machine create -d virtualbox --virtualbox-hostonly-cidr "10.10.10.1/24" dev || docker-machine start dev
     eval "$(docker-machine env dev)"
-  }
-
-  function phpd(){
-    if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
-    eval "$(docker-machine env dev)"
-    docker run -ti --rm --name php56-"$USER"-"$(gdate +%s%N)" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php "$@"
-    unset MOUNT
-  }
-
-  function composerd(){
-    if  [[ $1 == /* ]]; then MOUNT=$(dirname "$1"); else MOUNT=$PWD; fi
-    eval "$(docker-machine env dev)"
-    NAME=$(echo "$PHPD"-composer-"$@"-"$(gdate +%s%N)" | sed "s/[^a-zA-Z0-9_.-]/_/g")
-    docker run -ti --rm --name "$NAME" -v "$MOUNT":"$MOUNT" -w "$MOUNT" loliee/"$PHPD" php -n \
-               -dtimezone=Europe/Paris -dextension=bz2.so -dextension=ftp.so -dextension=intl.so \
-               -dextension=mysql.so -dextension=redis.so -dextension=soap.so -dextension=tidy.so \
-               -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
-               -dmemory_limit=-1 /usr/local/bin/composer.phar "$@"
-    unset MOUNT NAME
-  }
-
-  # Composer
-  alias composer-token="[[ ! -z $GITHUB_TOKEN ]] && composer config github-oauth.github.com $GITHUB_TOKEN"
-  function composer-link(){
-     umount -f "$2" &> /dev/null && rm -rf "$2"
-     mkdir -p "$2" && bindfs --create-with-perms=u+rw "$1" "$2"
-     echo "$1 linked in $2"
   }
 
   # Dnsmasq
   alias dnsmasq-start='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-stop='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-restart='dnsmasq-stop;dnsmasq-start'
-  function dnsmasq-enable() { update_interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"' }
-  function dnsmasq-disable() { update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"' }
+
+  # shellcheck disable=SC2016
+  function dnsmasq-enable() {
+    update_interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"'
+  }
+
+  # shellcheck disable=SC2016
+  function dnsmasq-disable() {
+    update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
+  }
 
   # Polipo
   alias polipo-cache-size='du -hs "$HOME/.polipo-cache/"'
+
+  # shellcheck disable=SC2016
   function polipo-enable(){
     update_interfaces 'sudo networksetup -setwebproxy "$interface" localhost 8123'
     update_interfaces 'sudo networksetup -setsecurewebproxy "$interface" localhost 8123'
     update_interfaces 'sudo networksetup -setproxybypassdomains "$interface" "*.local 169.254/16 localhost 127.0.0.1"'
   }
+
+  # shellcheck disable=SC2016
   function polipo-disable(){
     update_interfaces 'sudo networksetup -setwebproxystate "$interface" Off'
     update_interfaces 'sudo networksetup -setsecurewebproxystate "$interface" Off'
   }
+
   function polipo-cache-clear(){
-    launchctl unload "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
-    polipo -x
-    mkdir -p /tmp/empty_dir/
-    rsync -a --delete /tmp/empty_dir/ "$HOME/.polipo-cache/"
-    rmdir /tmp/empty_dir/
-    launchctl load "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
+    launchctl unload "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"; polipo -x
+    mkdir -p /tmp/empty_dir/ && rsync -a --delete /tmp/empty_dir/ "$HOME/.polipo-cache/"
+    rmdir /tmp/empty_dir/ launchctl load "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
   }
 fi
 
@@ -308,28 +351,6 @@ if [[ $OS == 'Linux' ]]; then
 
   alias tf='sudo tail -f'
 
-  # Memcached
-  if which memcached &>/dev/null; then
-    memcached_ip=$(grep 'IP' -A1 /etc/memcached.conf | tail -n 1 | cut -d' ' -f2)
-    memcached_port=$(grep 'port' -A1 /etc/memcached.conf | tail -n 1 | cut -d' ' -f2)
-
-    alias mctop="tcpdump -i eth1 -s 65535 -A -ttt port 11211| cut -c 9- | grep -i '^get\|set'"
-    alias mcstats="watch -n 1 '(echo stats ; echo quit ) | nc -q2 $memcached_ip $memcached_port'"
-    alias mcflush="echo 'flush_all' | nc -q 2 $memcached_ip $memcached_port"
-  fi
-
-  # Nginx/Apache access log parsing
-  # https://rtcamp.com/tutorials/nginx/log-parsing/
-  # http://eddmann.com/posts/processing-apache-and-nginx-access-logs/
-  alias http_access="cat *access.log | cut -d '\"' -f3 | cut -d ' ' -f2 | sort | uniq -c | sort -rn"
-  alias http_404="cat *access.log | awk '($9 ~ /404/)' | awk '{ print $7 }' | sort | uniq -c | sort -rn"
-  alias http_ua="cat *access.log | awk -F\" '{ print $6 }' | sort | uniq -c | sort -frn | head -n 25"
-  alias http_requests_by_ip="cat *access.log | awk '{ print $1 }' | sort | uniq -c | sort -rn | head -n 25"
-  alias http_count_visits="cat *access.log | awk '{ print $1 }' | sort | uniq -c | wc -l"
-  alias http_count_visits_by_day="cat *access.log | grep $(date '+%e/%b/%G') | awk '{ print $1 }' | sort | uniq -c | wc -l"
-  alias http_count_visits_by_month="cat *access.log | grep $(date '+%b/%G') | awk '{ print $1 }' | sort | uniq -c | wc -l"
-  alias http_popular_urls="cat *access.log | awk '{ print $7 }' | sort | uniq -c | sort -rn | head -n 25"
-
   # services specific
   if which nginx &>/dev/null; then
     alias nginxtest='nginx -t'
@@ -346,39 +367,6 @@ if [[ $OS == 'Linux' ]]; then
     alias php5fpmreload='php5-fpmtest && /etc/init.d/php5-fpm reload'
     alias php5fpmstatus='curl 127.0.0.1/status'
   fi
-
-  # Composer
-  function composer-link(){
-     umount -f "$2" &> /dev/null && rm -rf "$2"
-     mkdir -p "$2" && mount --bind "$1" "$2"
-     echo "$1 linked in $2"
-  }
-fi
-
-function composer-unlink(){
-   umount -f "$1" &> /dev/null && rm -rf "$1"
-}
-
-# kubectl my little cloud
-if hash kubectl 2>/dev/null; then
-  alias kci='kubectl cluster-info'
-  alias kc='kubectl create'
-  alias kr='kubectl delete'
-  alias kd='kubectl describe'
-  alias ke='kubectl execute'
-  alias kg='kubectl get'
-  alias kl='kubectl logs'
-  alias kcs='kubectl --namespace=kube-system create'
-  alias krs='kubectl --namespace=kube-system delete'
-  alias kds='kubectl --namespace=kube-system describe'
-  alias kes='kubectl --namespace=kube-system execute'
-  alias kgs='kubectl --namespace=kube-system get'
-  alias kls='kubectl --namespace=kube-system logs'
-
-  function kubectl-destroy-cluster(){
-    kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
-    kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
-  }
 fi
 
 # shellcheck source=/dev/null
