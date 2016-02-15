@@ -53,6 +53,7 @@ st = status -bs
 co = checkout
 dfm = diff master...
 po = push origin
+pu = pull
 pof = push --force origin
 pod = push --delete origin
 sa = submodule add
