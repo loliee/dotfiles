@@ -147,6 +147,18 @@ if [[ $OS == 'Darwin' ]]; then
   # Lock the screen (when going AFK)
   alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
+  # Update interfaces config, usefull to set Proxies, DNS etc ...
+  function update_interfaces(){
+    networksetup -listallnetworkservices | while read -r interface; do
+      if [[ "$interface" == "*Ethernet" ]] \
+      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
+      || [[ "$interface" == "Wi-Fi" ]]; then
+        eval $1
+        echo $1 | sed "s/\$interface/$interface/"
+      fi
+    done
+  }
+
   # Build .ssh/config file
   function assh-build(){
     mv $HOME/.ssh/config $HOME/.ssh/config.bk
@@ -203,46 +215,19 @@ if [[ $OS == 'Darwin' ]]; then
   alias dnsmasq-start='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-stop='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
   alias dnsmasq-restart='dnsmasq-stop;dnsmasq-start'
-  function dnsmasq-enable(){
-    networksetup -listallnetworkservices | while read -r interface; do
-      if [[ "$interface" == "*Ethernet" ]] \
-      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
-      || [[ "$interface" == "Wi-fi" ]]; then
-      sudo networksetup -setdnsservers "$interface" 127.0.0.1
-      fi
-      done
-  }
-  function dnsmasq-disable(){
-    networksetup -listallnetworkservices | while read -r interface; do
-      if [[ "$interface" == "Ethernet" ]] \
-      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
-      || [[ "$interface" == "Wi-fi" ]]; then
-      sudo networksetup -setdnsservers "$interface" "Empty"
-      fi
-      done
-  }
+  function dnsmasq-enable() { update_interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"' }
+  function dnsmasq-disable() { update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"' }
 
   # Polipo
+  alias polipo-cache-size='du -hs "$HOME/.polipo-cache/"'
   function polipo-enable(){
-    networksetup -listallnetworkservices | while read -r interface; do
-      if [[ "$interface" == "*Ethernet" ]] \
-      || [[ "$interface" == "Thunderbolt Ethernet" ]] \
-      || [[ "$interface" == "Wi-Fi" ]]; then
-      sudo networksetup -setwebproxy "$interface" localhost 8123
-      sudo networksetup -setsecurewebproxy "$interface" localhost 8123
-      sudo networksetup -setproxybypassdomains "$interface" '*.local 169.254/16 localhost 127.0.0.1'
-      fi
-      done
+    update_interfaces 'sudo networksetup -setwebproxy "$interface" localhost 8123'
+    update_interfaces 'sudo networksetup -setsecurewebproxy "$interface" localhost 8123'
+    update_interfaces 'sudo networksetup -setproxybypassdomains "$interface" "*.local 169.254/16 localhost 127.0.0.1"'
   }
   function polipo-disable(){
-    networksetup -listallnetworkservices | while read -r interface; do
-    if [[ "$interface" == "*Ethernet" ]] \
-     || [[ "$interface" == "Thunderbolt Ethernet" ]] \
-    || [[ "$interface" == "Wi-Fi" ]]; then
-    sudo networksetup -setwebproxystate "$interface" Off
-    sudo networksetup -setsecurewebproxystate "$interface" Off
-    fi
-    done
+    update_interfaces 'sudo networksetup -setwebproxystate "$interface" Off'
+    update_interfaces 'sudo networksetup -setsecurewebproxystate "$interface" Off'
   }
   function polipo-cache-clear(){
     launchctl unload "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
@@ -252,7 +237,6 @@ if [[ $OS == 'Darwin' ]]; then
     rmdir /tmp/empty_dir/
     launchctl load "$HOME/Library/LaunchAgents/homebrew.mxcl.polipo.plist"
   }
-  alias polipo-cache-size='du -hs "$HOME/.polipo-cache/"'
 fi
 
 # Aliases for Linux, Ops.
