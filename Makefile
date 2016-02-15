@@ -28,7 +28,7 @@ install-dotfiles:
 		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
-	  --ignore='.assh'
+		--ignore='.assh'
 
 uninstall-dotfiles:
 	$(info --> Uninstall dotfiles)
@@ -39,7 +39,7 @@ uninstall-dotfiles:
 		--ignore='Makefile' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
-	  --ignore='.assh'
+		--ignore='.assh'
 
 install-tpm:
 	$(info --> Install tpm)
