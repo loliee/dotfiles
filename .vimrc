@@ -230,7 +230,7 @@ vmap <Tab> >gv
 vnoremap Ï :m '>+1<CR>gv=gv
 vnoremap È :m '<-2<CR>gv=gv
 
-" Insert new empty lines
+" Insert new empty lines with Alt-o / Alt-O
 nmap œ o<Esc>k
 nmap Œ O<Esc>j
 
