@@ -212,7 +212,7 @@ nnoremap <F1> :tabnew<CR>
 inoremap <F1> <Esc>:tabnew<CR>
 nmap <leader>d :tabnext<CR>
 nmap <leader>q :tabprevious<CR>
-nmap <leader>c :tabclose<CR>
+nmap <leader>c :bd<CR>
 
 " Remap window moves
 nnoremap <C-h> <C-w>h
