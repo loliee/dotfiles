@@ -210,9 +210,9 @@ nnoremap <F2> <C-w>v<C-w>l
 " Tab managment
 nnoremap <F1> :tabnew<CR>
 inoremap <F1> <Esc>:tabnew<CR>
-nmap <leader>d :tabnext<CR>
-nmap <leader>q :tabprevious<CR>
-nmap <leader>c :bd<CR>
+nnoremap <leader>d :tabnext<CR>
+nnoremap <leader>q :tabprevious<CR>
+nnoremap <leader>c :bd<CR>
 
 " Remap window moves
 nnoremap <C-h> <C-w>h
