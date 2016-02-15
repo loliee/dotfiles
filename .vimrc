@@ -139,7 +139,7 @@ let g:better_whitespace_verbosity = 1
 let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
 
 " -----------------------------------------------------------
-" Syntax
+" Auto Commands
 " -----------------------------------------------------------
 
 autocmd BufRead .aliases setlocal ft=sh
