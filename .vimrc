@@ -141,6 +141,7 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 " Syntax
 " -----------------------------------------------------------
 
+autocmd BufRead .aliases setlocal ft=sh
 autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
 
 " -----------------------------------------------------------
