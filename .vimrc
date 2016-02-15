@@ -196,8 +196,8 @@ nnoremap j gj
 nnoremap k gk
 
 " Fast moves up/down Alt-j / Alt-k
-nnoremap Ï :+3<CR>
-nnoremap È :-3<CR>
+nnoremap Ï :+2<CR>
+nnoremap È :-2<CR>
 
 " Remove help
 inoremap <F1> <ESC>
