@@ -173,16 +173,15 @@ let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
 " -----------------------------------------------------------
-" Bindings
+" Bindings, command key send <NUL> value
 " -----------------------------------------------------------
 
 " Define , as leader key
 let mapleader = ","
 
-" Escape with Ctrl-Space
-inoremap <NUL> <ESC>
-nnoremap <NUL> <ESC>
-vnoremap <NUL> <ESC>
+" Save with Cmd-s
+inoremap <NUL>s <ESC>:w<CR>l
+nnoremap <NUL>s <ESC>:w<CR>
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
