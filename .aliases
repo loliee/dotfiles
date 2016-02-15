@@ -398,6 +398,6 @@ if hash kubectl 2>/dev/null; then
 fi
 
 # shellcheck source=/dev/null
-if [[ -f ~/.aliases.local ]] then;
+if [[ -f ~/.aliases.local ]]; then
    . ~/.aliases.local
 fi
