@@ -280,9 +280,13 @@ if !exists(':Ga')
   :command Gdc execute ":!clear && git diff --cached"
   :command Gl execute ":Silent !git lg"
   :command Gco execute ":Silent !git co -p %:p"
-  :command Gs execute ":!clear && git st"
-  :command Gr execute ":Silent !git reset %:p"
+  :command Gst execute ":!clear && git st"
+  :command Gr execute ":Silent !git r %:p"
+  :command Gru execute ":Silent !git ru"
   :command Gt execute ":Silent !tig -p %:p"
+  :command Gpu execute ":Silent !git pu"
+  :command Gpo execute ":!clear && git po $( git rev-parse --abbrev-ref HEAD )"
+  :command Gpof execute "!clear && git pof $( git rev-parse --abbrev-ref HEAD )"
 endif
 
 " Open tig
