@@ -2473,6 +2473,13 @@
 			</array>
 			<key>Keyboard Map</key>
 			<dict>
+				<key>0x1b-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x00 0x71</string>
+				</dict>
 				<key>0x28-0x100000</key>
 				<dict>
 					<key>Action</key>
@@ -2543,6 +2550,13 @@
 					<key>Text</key>
 					<string>0x7f</string>
 				</dict>
+				<key>0x40-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x00 0x40</string>
+				</dict>
 				<key>0x68-0x80000</key>
 				<dict>
 					<key>Action</key>
@@ -2551,6 +2565,13 @@
 					<string>0x5E</string>
 				</dict>
 				<key>0x6a-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x1B 0x07</string>
+				</dict>
+				<key>0x6b-0x100000</key>
 				<dict>
 					<key>Action</key>
 					<integer>11</integer>
