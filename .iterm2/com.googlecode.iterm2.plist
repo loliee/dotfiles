@@ -2480,6 +2480,13 @@
 					<key>Text</key>
 					<string>0x00 0x71</string>
 				</dict>
+				<key>0x26-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x00 0x26</string>
+				</dict>
 				<key>0x28-0x100000</key>
 				<dict>
 					<key>Action</key>
