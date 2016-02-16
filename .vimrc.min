@@ -50,6 +50,9 @@ set ruler                         " Display ruler
 set relativenumber                " Set relative number for fast dd/yy
 set number                        " Display line number for current line
 
+" Set basic colorscheme
+colorscheme delek
+
 " Set the terminal's title
 if &term == 'screen'
   set t_ts=k
