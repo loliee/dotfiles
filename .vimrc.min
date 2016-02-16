@@ -136,9 +136,10 @@ nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
 " Open on new window
-nnoremap <F2> <C-w>v<C-w>l
 nnoremap <NUL>& <C-w>v<C-w>l
-nnoremap <NUL>& <Esc><C-w>v<C-w>l
+inoremap <NUL>& <Esc><C-w>v<C-w>l
+cnoremap <NUL>& <Esc><C-w>v<C-w>l
+vnoremap <NUL>& <Esc><C-w>v<C-w>l
 
 " Tab managment
 nnoremap <F1> :tabnew<CR>
