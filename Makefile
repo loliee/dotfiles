@@ -18,6 +18,8 @@ install-dotfiles:
 	@[[ -d $(MLPURE) ]] \
 		|| git clone \
 	https://github.com/loliee/mlpure.git $(MLPURE)
+	@ln -sf "$(MLPURE)/mlpure.bash" "$(PWD)/.sshrc.d/mlpure.sh"
+	@ln -sf "$(MLPURE)/git-prompt.sh" "$(PWD)/.sshrc.d/git-prompt.sh"
 	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
 	@ mkdir -p "$(HOME)/.ssh/tmp" && mkdir -p "$(HOME)/.ssh/assh.d"
 	@ln -sf "$(PWD)/.assh"  "$(HOME)/.ssh/assh.yml"
