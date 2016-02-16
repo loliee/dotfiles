@@ -52,7 +52,12 @@ endif
 colorscheme hybrid
 set guifont=Hack:h14              " Define hack as font, powerline
 
-" Airline configuration
+" Plugins
+" =======
+
+" -----------------------------------------------------------
+" Airline
+" -----------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 
@@ -78,11 +83,13 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.readonly = ''
 
+" ------------------------------------------------------------
 " Goyo
+" ------------------------------------------------------------
 let g:goyo_width = 120
 
 " -----------------------------------------------------------
-" Indent - Tabs/Spaces
+" better Whitespace
 " -----------------------------------------------------------
 
 let g:better_whitespace_verbosity = 1
