@@ -140,7 +140,7 @@ nmap cxx <Plug>(ExchangeLine)
 " Git commands
 if !exists(':Ga')
   :command Ga execute ":Silent !git a %:p"
-  :command Gc execute ":Silent !git commit"
+  :command Gc execute ":Silent !git c"
   :command Gca execute ":Silent !git ca"
   :command Gd execute ":!clear && git d"
   :command Gdc execute ":!clear && git dc"
