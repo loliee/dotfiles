@@ -114,6 +114,13 @@ inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
 
+" Command mode nav
+cnoremap <C-e> <End>
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+
 " Fast moves up/down Alt-j / Alt-k
 nnoremap Ï :+2<CR>
 nnoremap È :-2<CR>
