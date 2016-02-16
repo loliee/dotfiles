@@ -102,8 +102,10 @@ let g:netrw_special_syntax = 1
 let mapleader = ","
 
 " Save with Cmd-s
+nnoremap <NUL>s :w<CR>
 inoremap <NUL>s <ESC>:w<CR>l
-nnoremap <NUL>s <ESC>:w<CR>
+cnoremap <NUL>s <C-u>:w<CR>l
+vnoremap <NUL>s <ESC>:w<CR>l
 
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
