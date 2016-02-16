@@ -43,7 +43,7 @@ template = ~/.gitmessage
 [alias]
 a = add -p
 d = co -p
-c = clone --recursive
+c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
 bm = branch -m
 cm = commit -m
 ca = commit --amend
