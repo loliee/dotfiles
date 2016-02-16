@@ -32,9 +32,6 @@ hash gtimeout &>/dev/null && alias timeout='gtimeout'
 alias ls='ls -G'
 alias ll='ls -lah'
 
-# Noglob for git
-alias git='noglob git'
-
 # Vim fzf
 alias fvim='vim $(fzf)'
 
@@ -186,6 +183,9 @@ function tea() {
 # Aliases for OSx
 # See https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
 if [[ $OS == 'Darwin' ]]; then
+  # Noglob for git
+  alias git='noglob git'
+
   # Stopwatch
   alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
