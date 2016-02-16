@@ -142,13 +142,23 @@ cnoremap <NUL>& <Esc><C-w>v<C-w>l
 vnoremap <NUL>& <Esc><C-w>v<C-w>l
 
 " Tab managment
-nnoremap <F1> :tabnew<CR>
-inoremap <F1> <Esc>:tabnew<CR>
 nnoremap <NUL>@ :tabnew<CR>
 inoremap <NUL>@ <Esc>:tabnew<CR>
-nnoremap <leader>d :tabnext<CR>
-nnoremap <leader>q :tabprevious<CR>
-nnoremap <leader>c :bd<CR>
+vnoremap <NUL>@ <Esc>:tabnew<CR>
+cnoremap <NUL>@ <Esc>:tabnew<CR>
+nnoremap <NUL>n :tabnext<CR>
+inoremap <NUL>n <Esc>:tabnext<CR>
+vnoremap <NUL>n <Esc>:tabnext<CR>
+cnoremap <NUL>n <Esc>:tabnext<CR>
+nnoremap <NUL>b :tabprevious<CR>
+inoremap <NUL>b <Esc>:tabprevious<CR>
+vnoremap <NUL>b <Esc>:tabprevious<CR>
+nnoremap <NUL>b <Esc>:tabprevious<CR>
+nnoremap <NUL>c :bd<CR>
+inoremap <NUL>c <Esc>:bd<CR>
+vnoremap <NUL>c <Esc>:bd<CR>
+cnoremap <NUL>c <Esc>:bd<CR>
+
 " Exit with ! and close tab and buffer
 nnoremap <NUL>q :bd!<CR>
 inoremap <NUL>q <Esc>:bd!<CR>
