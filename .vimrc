@@ -49,7 +49,7 @@ endif
 " Style
 " -----------------------------------------------------------
 
-colorscheme hybrid
+colorscheme hybrid                " Set hybrid theme, inspired from tommorow
 set guifont=Hack:h14              " Define hack as font, powerline
 
 " Plugins
