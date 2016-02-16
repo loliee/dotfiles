@@ -159,6 +159,9 @@ inoremap <NUL>c <Esc>:bd<CR>
 vnoremap <NUL>c <Esc>:bd<CR>
 cnoremap <NUL>c <Esc>:bd<CR>
 
+" Close vim
+nnoremap <leader>q :wq!<CR>
+
 " Exit with ! and close tab and buffer
 nnoremap <NUL>q :bd!<CR>
 inoremap <NUL>q <Esc>:bd!<CR>
