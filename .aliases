@@ -87,9 +87,9 @@ if hash kubectl &>/dev/null; then
   alias kls='kubectl --namespace=kube-system logs'
 
   function kubectl-destroy-cluster() {
-  kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
-  kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
-}
+    kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
+    kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
+  }
 fi
 
 # Fast rsync remove
