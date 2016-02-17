@@ -77,7 +77,7 @@ set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
 " Auto Commands
 " -----------------------------------------------------------
 
-autocmd BufRead .aliases setlocal ft=sh
+autocmd BufRead *.aliases* setlocal ft=sh
 autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
 
 " -----------------------------------------------------------
