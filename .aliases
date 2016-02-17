@@ -92,16 +92,28 @@ if hash kubectl &>/dev/null; then
   }
 fi
 
-# Fast rsync remove
-function rmf() {
-   printf "Will remove direcory %s ! \nCTRL-C to abort...%s"
-   sleep 3
-   mkdir -p /tmp/empty_dir/
-   [[ ! -z "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/
-   [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1";
-   rmdir /tmp/empty_dir
-}
+# Superfast directory remove
+function rmf {
+  local question="rmf : remove directory « $1 » ? "
+  local answer="n"
+  if [[ ! -d $1 ]]; then
+    print "$1 is not a directory !"
+    return 1
   fi
+  # zsh read broken on OSX
+  # http://stackoverflow.com/questions/14141933/zsh-read-q-broken-on-osx
+  answer=$(/bin/bash -c "read -p '$question' -r REPLY && echo \"\$REPLY\"")
+  case $answer in
+    [yY])
+      mkdir -p /tmp/empty_dir/
+      [[ ! -z "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
+      [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1";
+      rmdir /tmp/empty_dir
+      ;;
+    *)
+      print 'cancel...'
+      ;;
+  esac
 }
 
 # Cuz IMADUMMY
