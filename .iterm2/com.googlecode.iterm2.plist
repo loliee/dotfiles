@@ -2564,13 +2564,6 @@
 					<key>Text</key>
 					<string>0x00 0x40</string>
 				</dict>
-				<key>0x62-0x100000</key>
-				<dict>
-					<key>Action</key>
-					<integer>11</integer>
-					<key>Text</key>
-					<string>0x00 0x62</string>
-				</dict>
 				<key>0x68-0x80000</key>
 				<dict>
 					<key>Action</key>
@@ -2605,6 +2598,13 @@
 					<integer>11</integer>
 					<key>Text</key>
 					<string>0x00 0x6e</string>
+				</dict>
+				<key>0x70-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x00 0x62</string>
 				</dict>
 				<key>0x73-0x100000</key>
 				<dict>
@@ -3092,7 +3092,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-02-16T10:16:48Z</date>
+	<date>2016-02-17T10:40:15Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Scrollback With Status Bar</key>
