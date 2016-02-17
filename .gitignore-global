@@ -1,37 +1,16 @@
-# Folder view configuration files
-.DS_Store
-Desktop.ini
-
-# Thumbnail cache files
 ._*
-Thumbs.db
-
-# Files that might appear on external disks
-.Spotlight-V100
-.Trashes
-
-# Vagrant
-.vagrant
-
-# Textmate
-*.tmproj
-
-# Vim
 *~
 .*.sw*
-
-# ctags
+.vagrant
+*.tmproj
 gems.tags
 tags
-
-# Compiled Python files
 *.pyc
-
-# Dotenv files
 *.env
-
-# auth.json used by composer and JS project for credentials
 auth.json
-
-# fzf history
 .fzf_history
+.DS_Store
+.Trashes
+Thumbs.db
+Desktop.ini
+.Spotlight-V100
