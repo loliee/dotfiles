@@ -7,9 +7,6 @@ TMUXSERVER="$TMUXDIR/tmuxserver"
 VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 export SHELL TMUXDIR TMUXSERVER VIMINIT
 
-# Using vi key bindings in bash
-set -o vi
-
 tmuxrc() {
     export TMUXSERVER
     if ! [ -d $TMUXDIR ]; then
