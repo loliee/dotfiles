@@ -1,0 +1,16 @@
+._*
+*~
+.*.sw*
+.vagrant
+*.tmproj
+gems.tags
+tags
+*.pyc
+*.env
+auth.json
+.fzf_history
+.DS_Store
+.Trashes
+Thumbs.db
+Desktop.ini
+.Spotlight-V100

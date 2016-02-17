@@ -17,8 +17,6 @@ tmuxrc() {
         mkdir -p $TMUXDIR;
     fi;
     rm -rf $TMUXDIR/.sshrc.d;
-    cp "$SSHHOME/.sshrc.d/.gitconfig" ~/.gitconfig
-    cp "$SSHHOME/.sshrc.d/.tmux.conf" ~/.tmux.conf
     cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
     SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -S "$TMUXSERVER" "$@"
 }
@@ -32,8 +30,10 @@ if [[ -d /etc/profile.d ]]; then
   unset i
 fi
 
-# Install prompt
+# Try to override some config in my $HOME
 cp -r "$SSHHOME/.sshrc.d/.patatetoy" ~
+cp "$SSHHOME/.sshrc.d/.tmux.conf" ~/.tmux.conf
+cp "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" ~/
 
 # Aliases
 # shellcheck source=/dev/null
