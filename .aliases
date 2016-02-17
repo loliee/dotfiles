@@ -39,11 +39,36 @@ alias ll='ls -lah'
 alias fvim='vim $(fzf)'
 
 # Override prezto fasd module, include fzf fuzzy finder.
-alias j='fasd_cd'
+if fasd kubectl &>/dev/null; then
+  alias j='fasd_cd'
+fi
+
 which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 
-
 alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
+
+# FZF amazing fuzzy finder
+if hash fzf &>/dev/null; then
+  function fasd_cd() {
+    local dir
+    local fasd_ret
+    fasd_ret="$(fasd -Rdl "$@")"
+    if [[ -d "$fasd_ret" ]]; then
+      cd "$fasd_ret" || exit
+    else
+      dir="$(print "$fasd_ret" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+    fi
+  }
+
+  # fkill - kill process
+  fkill() {
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    if [ "x$pid" != "x" ]
+    then
+      kill -"${1:-9}" "$pid"
+    fi
+  }
+fi
 
 # kubectl my little cloud
 if hash kubectl &>/dev/null; then
@@ -67,17 +92,6 @@ if hash kubectl &>/dev/null; then
 }
 fi
 
-function fasd_cd() {
-  local dir
-  local fasd_ret
-  fasd_ret="$(fasd -Rdl "$@")"
-  if [[ -d "$fasd_ret" ]]; then
-    cd "$fasd_ret" || exit
-  else
-    dir="$(print "$fasd_ret" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-  fi
-}
-
 # Fast rsync remove
 function rmf() {
    printf "Will remove direcory %s ! \nCTRL-C to abort...%s"
@@ -87,13 +101,6 @@ function rmf() {
    [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1";
    rmdir /tmp/empty_dir
 }
-
-# fkill - kill process
-fkill() {
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-  if [ "x$pid" != "x" ]
-  then
-    kill -"${1:-9}" "$pid"
   fi
 }
 
