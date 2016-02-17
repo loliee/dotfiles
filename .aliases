@@ -25,6 +25,9 @@ alias now='date +"%T"'
 alias nowtime='now'
 alias nowdate='date +"%d-%m-%Y"'
 
+# Reload the shell (i.e. invoke as a login shell)
+alias reload='exec $SHELL -l'
+
 # Can I haz `timeout` ?
 hash gtimeout &>/dev/null && alias timeout='gtimeout'
 
@@ -39,8 +42,6 @@ alias fvim='vim $(fzf)'
 alias j='fasd_cd'
 which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 
-# Reload the shell (i.e. invoke as a login shell)
-alias reload='exec $SHELL -l'
 
 alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
 
