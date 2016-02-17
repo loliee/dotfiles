@@ -1,4 +1,3 @@
 .aliases.local
-.sshrc.d/mlpure.bash
-.sshrc.d/git-prompt.sh
 .iterm2/patate-toy
+.sshrc.d/.patatetoy

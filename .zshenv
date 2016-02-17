@@ -4,6 +4,6 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 # Source Prompt theme.
-if [[ -s "${ZDOTDIR:-$HOME}/.mlpure/" ]]; then
-  fpath=( "${ZDOTDIR:-$HOME}/.mlpure/" $fpath )
+if [[ -s "${ZDOTDIR:-$HOME}/.patatetoy/" ]]; then
+  fpath=( "${ZDOTDIR:-$HOME}/.patatetoy/" $fpath )
 fi

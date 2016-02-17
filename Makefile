@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
-MLPURE := ~/.mlpure
+PATATETOY := ~/.patatetoy
 
 install: install-dotfiles \
 	install-tpm \
@@ -15,12 +15,12 @@ uninstall: uninstall-dotfiles \
 
 install-dotfiles:
 	$(info --> Install dotfiles)
-	@[[ -d $(MLPURE) ]] \
+	@[[ -d $(PATATETOY) ]] \
 		|| git clone \
-	https://github.com/loliee/mlpure.git $(MLPURE)
-	@ln -sf "$(MLPURE)/mlpure.bash" "$(PWD)/.sshrc.d/mlpure.sh"
-	@ln -sf "$(MLPURE)/git-prompt.sh" "$(PWD)/.sshrc.d/git-prompt.sh"
-	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
+	https://github.com/loliee/patatetoy.git $(PATATETOY)
+	@mkdir -p "$(PWD)/.sshrc.d/.patatetoy"
+	@ln -sf "$(PATATETOY)/patatetoy.sh" "$(PWD)/.sshrc.d/.patatetoy/patatetoy.sh"
+	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@ mkdir -p "$(HOME)/.ssh/tmp" && mkdir -p "$(HOME)/.ssh/assh.d"
 	@ln -sf "$(PWD)/.assh"  "$(HOME)/.ssh/assh.yml"
 	@stow -S . -t "$(HOME)" -v \
@@ -34,7 +34,7 @@ install-dotfiles:
 
 uninstall-dotfiles:
 	$(info --> Uninstall dotfiles)
-	@rm -rf ~/.mlpure
+	@rm -rf ~/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
