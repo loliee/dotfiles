@@ -140,8 +140,17 @@ if hash kubectl &>/dev/null; then
   alias kls='kubectl --namespace=kube-system logs'
 
   function kubectl-destroy-cluster() {
-    kr no --all; krs no --all; kr rc --all; krs rc --all; kr po --all; krs po --all;
-    kr svc --all; krs svc --all; kr ns --all; krs ns --all; kr ep --all; krs ep --all;
+     kubectl delete no --all;
+     kubectl delete rc --all;
+     kubectl delete po --all;
+     kubectl delete svc --all;
+     kubectl delete ep --all;
+     kubectl delete --namespace=kube-system no --all;
+     kubectl delete --namespace=kube-system rc --all;
+     kubectl delete --namespace=kube-system po --all;
+     kubectl delete --namespace=kube-system svc --all;
+     kubectl delete --namespace=kube-system ns --all;
+     kubectl delete --namespace=kube-system ep --all;
   }
 fi
 
