@@ -2,7 +2,7 @@
 # https://github.com/Russell91/sshrc
 
 SHELL=$(which bash)
-TMUXDIR=/tmp/.mloliee.nkCx.tmux;
+TMUXDIR=/tmp/.mloliee.tmux.nkCx
 TMUXSERVER="$TMUXDIR/tmuxserver"
 VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 export SHELL TMUXDIR TMUXSERVER VIMINIT
