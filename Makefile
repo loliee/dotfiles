@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
-MLPURE := ~/.mlpure
+PATATETOY := ~/.patatetoy
 
 install: install-dotfiles \
 	install-tpm \
@@ -15,10 +15,12 @@ uninstall: uninstall-dotfiles \
 
 install-dotfiles:
 	$(info --> Install dotfiles)
-	@[[ -d $(MLPURE) ]] \
+	@[[ -d $(PATATETOY) ]] \
 		|| git clone \
-	https://github.com/loliee/mlpure.git $(MLPURE)
-	@which stow >/dev/null || { echo 'CAN I HAZ STOW ?'; exit 1; }
+	https://github.com/loliee/patatetoy.git $(PATATETOY)
+	@mkdir -p "$(PWD)/.sshrc.d/.patatetoy"
+	@ln -sf "$(PATATETOY)/patatetoy.sh" "$(PWD)/.sshrc.d/.patatetoy/patatetoy.sh"
+	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@ mkdir -p "$(HOME)/.ssh/tmp" && mkdir -p "$(HOME)/.ssh/assh.d"
 	@ln -sf "$(PWD)/.assh"  "$(HOME)/.ssh/assh.yml"
 	@stow -S . -t "$(HOME)" -v \
@@ -28,18 +30,18 @@ install-dotfiles:
 		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
-	  --ignore='.assh'
+		--ignore='.assh'
 
 uninstall-dotfiles:
 	$(info --> Uninstall dotfiles)
-	@rm -rf ~/.mlpure
+	@rm -rf ~/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store'
-	  --ignore='.assh'
+		--ignore='.assh'
 
 install-tpm:
 	$(info --> Install tpm)
@@ -83,13 +85,15 @@ install-tmuxline: install-vundle
 
 uninstall: uninstall_dotfiles
 
-install-patatetoy-iterm2:
-	$(info --> Uninstall patatetoy-iterm2)
-	@[[ -d ~/.patatetoy-iterm2 ]] \
-		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.patatetoy-iterm2
-	@open ~/.patatetoy-iterm2/patatetoy.itermcolors
+install-iterm2:
+	$(info --> Install iterm2)
+	@ln -sf "$(PWD)/.iterm2" ~/.iterm2
+	@[[ -d ~/.iterm2/patatetoy-iterm2 ]] \
+		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.iterm2/patatetoy-iterm2
+	@open ~/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
+	@defaults read ~/.iterm2/com.googlecode.iterm2 &>/dev/null
 
-uninstall-patatetoy-iterm2:
-	$(info --> Uninstall patatetoy-iterm2)
+uninstall-iterm2:
+	$(info --> Uninstall iterm2)
 	@[[ -d ~/.patatetoy-iterm2 ]] \
-		&& rm -rf ~/.patatetoy-iterm2
+		&& rm -rf ~/.iterm2/

@@ -1,40 +1,56 @@
 #!/usr/bin/env bash
 # https://github.com/Russell91/sshrc
 
-export SHELL=$(which bash)
-readonly TMUXDIR='/tmp/mloliee_sshrc'
-readonly TMUXSERVER="${TMUXDIR}/tmux"
-
-# Using vi key bindings in bash
-# http://www.techrepublic.com/blog/linux-and-open-source/using-vi-key-bindings-in-bash-and-zsh/
-set -o vi
+SHELL=$(which bash)
+TMUXDIR=/tmp/.mloliee.nkCx.tmux;
+TMUXSERVER="$TMUXDIR/tmuxserver"
+VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
+export SHELL TMUXDIR TMUXSERVER VIMINIT
 
 tmuxrc() {
-  if [[ ! -d $TMUXDIR ]]; then
-    rm -rf "$TMUXDIR"
-    mkdir -p "$TMUXDIR"
-  fi
-
-  cp -rf $SSHHOME/.sshrc $SSHHOME/bashsshrc $SSHHOME/sshrc $SSHHOME/.sshrc.d/ \
-        $TMUXDIR
-
-  SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc tmux -S "$TMUXSERVER" "$@"
+    export TMUXSERVER
+    if ! [ -d $TMUXDIR ]; then
+        rm -rf $TMUXDIR;
+        mkdir -p $TMUXDIR;
+    fi;
+    rm -rf $TMUXDIR/.sshrc.d;
+    cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
+    SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -S "$TMUXSERVER" "$@"
 }
 
 # load system-wide profile.d if needed
 if [[ -d /etc/profile.d ]]; then
   for i in /etc/profile.d/*.sh; do
-    [[ -r $i ]] && source "$i"
+    # shellcheck source=/dev/null
+    [[ -r "$i" ]] && source "$i"
   done
   unset i
 fi
 
+# Try to override some config in my $HOME
+cp -r "$SSHHOME/.sshrc.d/.patatetoy" ~
+cp "$SSHHOME/.sshrc.d/.tmux.conf" ~/.tmux.conf
+cp "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" ~/
+
 # Aliases
-[[ -f "$SSHHOME/.sshrc.d/.aliases" ]] && source "$SSHHOME/.sshrc.d/.aliases"
+# shellcheck source=/dev/null
+if [[ -d "$SSHHOME/.sshrc.d/" ]]; then
+  if [[ -f "$SSHHOME/.sshrc.d/.bashrc" ]]; then
+    . "$SSHHOME/.sshrc.d/.bashrc"
+  fi
+  if [[ -f "$SSHHOME/.sshrc.d/.aliases" ]]; then
+    . "$SSHHOME/.sshrc.d/.aliases"
+  fi
+fi
 
 # Tmux on startup
 if [[ -r "$TMUXSERVER" ]]; then
-  [[ -z $TMUX ]] && tmux -S "$TMUXSERVER" a
-else
-  tmuxrc new
+  if [[ -z $TMUX ]]; then
+    if tmuxrc ls &> /dev/null; then
+      echo "$SSHHOME"
+      exec /usr/bin/tmux -S "$TMUXSERVER" a
+    else
+      tmuxrc new
+    fi
+  fi
 fi
