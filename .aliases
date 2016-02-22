@@ -154,6 +154,11 @@ if hash kubectl &>/dev/null; then
   }
 fi
 
+function meteo() {
+  local CITY=${CITY:='Paris'}
+  curl "http://wttr.in/$CITY"
+}
+
 # Aliases for Linux, Ops.
 if [[ $OS == 'Linux' ]]; then
   # safety, override
