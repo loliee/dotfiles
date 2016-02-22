@@ -81,7 +81,7 @@ if hash fzf &>/dev/null; then
   function fasd_cd() {
     local dir
     local fasd_ret
-    fasd_ret="$(fasd -Rdl "$@")"
+    fasd_ret=$(fasd -Rdl "$@")
     if [[ -d "$fasd_ret" ]]; then
       cd "$fasd_ret" || exit
     else
