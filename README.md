@@ -84,27 +84,6 @@ rc="\n" && defaults domains | sed s/,/"$rc"/g
 defaults read com.apple.mail
 ```
 
-## Make arguments
-
-```bash
-make [arg]
-```
-
-[arg]                 | Description
---------------------- | ---------------------------------------
-install               | Install local environment, execute: `install-dotfiles` `install-tpm` `install-prezto` `install-vundle`
-uninstall             | Uninstall local envir `uninstall-dotfiles` `uninstall-tpm` `uninstall-prezto` `uninstall-vundle`
-install-dotfiles      | Install only dotfiles + [mlpure zsh prompt](https://github.com/loliee/mlpure).
-uninstall-dotfiles    | Uninstall dotfiles + [mlpure zsh prompt](https://github.com/loliee/mlpure).
-install-tpm           | Install only [tmux plugins](https://github.com/tmux-plugins/tpm).
-install-prezto        | Install [prezto for zsh](https://github.com/sorin-ionescu/prezto).
-install-vundle        | Install only [vundle plugin manager for vim](https://github.com/VundleVim/Vundle.vim).
-uninstall-tpm         | Uninstall [tmux plugins](https://github.com/tmux-plugins/tpm).
-uninstall-prezto      | Uninstall [prezto for zsh](https://github.com/sorin-ionescu/prezto).
-uninstall-vundle      | Uninstall [vundle plugin manager for vim](https://github.com/VundleVim/Vundle.vim).
-install-patatetoy-iterm2 **OSX only** | Install iterm2 [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme. To enable, `iterm2 preferences > colors > Load Presets` and select `patatetoy`.
-uninstall-patatetoy-iterm2 **OSX only** | Uninstall iterm2 [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme.
-
 ## Todo
 
   - OSX remap caplocks to ctrl
