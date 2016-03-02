@@ -97,3 +97,7 @@ uninstall-iterm2:
 	$(info --> Uninstall iterm2)
 	@[[ -d ~/.patatetoy-iterm2 ]] \
 		&& rm -rf ~/.iterm2/
+
+test:
+	$(info --> Run tests)
+	@bats tests/*.bats
