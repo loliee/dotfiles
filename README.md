@@ -1,5 +1,7 @@
 # ~/.dotfiles
 
+[![Build Status](https://travis-ci.org/loliee/dotfiles.svg?branch=master)](https://travis-ci.org/loliee/dotfiles)
+
 ## Install
 
 ### Git install
