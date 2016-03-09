@@ -9,6 +9,12 @@ diff = auto
 interactive = auto
 status = auto
 
+[color "diff-highlight"]
+oldNormal = red bold
+oldHighlight = red bold 52
+newNormal = green bold
+newHighlight = green bold 22
+
 [core]
 editor = vim
 excludesfile = ~/.gitignore-global
@@ -21,6 +27,10 @@ trustctime = false
 # Prevent showing files whose names contain non-ASCII symbols as unversioned.
 # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
 precomposeunicode = false
+
+[pager]
+diff = diff-so-fancy | less --tabs=4 -RFX
+show = diff-so-fancy | less --tabs=4 -RFX
 
 [apply]
 whitespace = fix

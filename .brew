@@ -79,6 +79,7 @@ brew install closure-compiler
 brew install coreutils
 brew install ctags
 brew install curl --with-openssl && brew link --force curl
+brew install diff-so-fancy
 brew install dnscrypt-proxy
 brew install dnsmasq
 brew install docker docker-compose docker-machine
