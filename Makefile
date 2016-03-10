@@ -1,19 +1,21 @@
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
+.DEFAULT_GOAL := help
 
-install: install-dotfiles \
+help:
+	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
+		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
+
+install: ## Setup a nice osx system, run all the following install tasks
+	@make install-homebrew \
+	install-dotfiles \
 	install-tpm \
 	install-prezto \
 	install-vundle \
 	install-tmuxline
 
-uninstall: uninstall-dotfiles \
-	uninstall-tpm \
-	uninstall-prezto \
-	uninstall-vundle
-
-install-dotfiles:
+install-dotfiles: # Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone \
@@ -32,40 +34,33 @@ install-dotfiles:
 		--ignore='.DS_Store'
 		--ignore='.assh'
 
-uninstall-dotfiles:
-	$(info --> Uninstall dotfiles)
-	@rm -rf ~/.patatetoy
-	@stow -D . -t "$(HOME)" -v \
-		--ignore='README.md' \
-		--ignore='LICENCE' \
-		--ignore='Makefile' \
-		--ignore='.install.d' \
-		--ignore='.DS_Store'
-		--ignore='.assh'
+setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
+	$(info --> Install iterm2)
+	@ln -sf "$(PWD)/.iterm2" ~/.iterm2
+	@[[ -d ~/.iterm2/patatetoy-iterm2 ]] \
+		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.iterm2/patatetoy-iterm2
+	@open ~/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
+	@defaults read ~/.iterm2/com.googlecode.iterm2 &>/dev/null
 
-install-tpm:
+install-homebrew: ## Install homebrew and my list of packages
+	$(info --> Install homebrew)
+	@which brew &>/dev/null \
+			|| ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+			@./.brew
+
+install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
 	@mkdir -p ~/.tmux/plugins
 	@[[ -d ~/.tmux/plugins/tpm ]] \
 		|| git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-uninstall-tpm:
-	$(info --> Uninstall tpm)
-	@[[ -d ~/.tmux/plugins/tpm ]] \
-		&& rm -rf ~/.tmux/plugins/tmp
-
-install-prezto:
+install-prezto: ## Install prezto, the confuguration framework for Zsh
 	$(info --> Install Prezto)
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
 		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
 
-uninstall-prezto:
-	$(info --> Uninstall Prezto)
-	@[[ -d $(PREZTO) ]] \
-		&& rm -rf $(PREZTO)
-
-install-vundle:
+install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)
 	@mkdir -p ~/.vim/bundle/
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
@@ -74,30 +69,44 @@ install-vundle:
 	@mkdir -p ~/.vim/undofiles
 	@ln -sf $(PWD)/.vim-snippets  ~/.vim/UltiSnips
 
-uninstall-vundle:
+install-tmuxline: ## Install tmuxline, a Simple Tmux statusline generator
+	$(info --> Create tmuxline snapshot)
+	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall &> /dev/null
+
+uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
+	@make uninstall-dotfiles \
+		uninstall-tpm \
+		uninstall-prezto \
+		uninstall-vundle
+
+uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
+	$(info --> Uninstall dotfiles)
+	@rm -rf ~/.patatetoy
+	@[[ -d ~/.iterm2 ]] \
+		&& rm -rf ~/.iterm2/
+	@stow -D . -t "$(HOME)" -v \
+		--ignore='README.md' \
+		--ignore='LICENCE' \
+		--ignore='Makefile' \
+		--ignore='.install.d' \
+		--ignore='.DS_Store' \
+		--ignore='.assh'
+
+uninstall-tpm: ## Uninstall tmux plugin manager
+	$(info --> Uninstall tpm)
+	@[[ -d ~/.tmux/plugins/tpm ]] \
+		&& rm -rf ~/.tmux/plugins/tmp
+
+uninstall-prezto: ## Uninstall Prezto
+	$(info --> Uninstall Prezto)
+	@[[ -d $(PREZTO) ]] \
+		&& rm -rf $(PREZTO)
+
+uninstall-vundle: ## Uninstall Vundle
 	$(info --> Uninstall vundle)
 	@[[ -d ~/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf ~/.vim/bundle/Vundle.vim
 
-install-tmuxline: install-vundle
-	$(info --> Create tmuxline snapshot)
-	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall &> /dev/null
-
-uninstall: uninstall_dotfiles
-
-install-iterm2:
-	$(info --> Install iterm2)
-	@ln -sf "$(PWD)/.iterm2" ~/.iterm2
-	@[[ -d ~/.iterm2/patatetoy-iterm2 ]] \
-		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.iterm2/patatetoy-iterm2
-	@open ~/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
-	@defaults read ~/.iterm2/com.googlecode.iterm2 &>/dev/null
-
-uninstall-iterm2:
-	$(info --> Uninstall iterm2)
-	@[[ -d ~/.patatetoy-iterm2 ]] \
-		&& rm -rf ~/.iterm2/
-
-test:
+test: ## Run tests suite
 	$(info --> Run tests)
 	@bats tests/*.bats
