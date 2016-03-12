@@ -2185,6 +2185,8 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
+	<key>NSColorPanelMode</key>
+	<string>6</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/Dev/dotfiles</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
@@ -2203,9 +2205,9 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>543 147 445 77 0 0 1280 777 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>148 135 924 485 0 0 1280 777 </string>
+	<string>148 135 924 485 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 4 1280 773 0 0 1280 777 </string>
+	<string>0 4 1277 773 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>0 384 570 376 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -2374,11 +2376,11 @@
 			<key>Background Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.13517992198467255</real>
+				<real>0.14901961386203766</real>
 				<key>Green Component</key>
-				<real>0.12711508572101593</real>
+				<real>0.14901961386203766</real>
 				<key>Red Component</key>
-				<real>0.12205565720796585</real>
+				<real>0.14901961386203766</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -3033,10 +3035,12 @@
 			<string>/Users/mloliee</string>
 		</dict>
 	</array>
+	<key>NoSyncHaveShownPromoWithId_4</key>
+	<true/>
 	<key>NoSyncTimeOfLastPromo</key>
-	<real>471126200.71313202</real>
+	<real>477605289.060839</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>477426892.09005201</real>
+	<real>479428920.79443699</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -3099,7 +3103,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-02-17T10:40:15Z</date>
+	<date>2016-03-11T22:42:00Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Scrollback With Status Bar</key>
