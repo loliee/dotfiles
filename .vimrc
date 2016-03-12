@@ -61,12 +61,11 @@ set guifont=Hack:h14              " Define hack as font, powerline
 " -----------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
-
 " Show just the filename for tab
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " set airline theme
-let g:airline_theme='tomorrow'
+let g:airline_theme='badwolf'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#branch_prefix#enabled=1
