@@ -30,7 +30,6 @@ Plugin 'scrooloose/syntastic'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0ng/vim-hybrid'
-Plugin 'edkolev/tmuxline.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'terryma/vim-multiple-cursors'
 
@@ -83,28 +82,6 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.readonly = ''
-
-" Tmuxline configuration
-let g:tmuxline_preset = {
-      \'win'  : ['#W'],
-      \'cwin' : ['#W']}
-let g:tmuxline_separators = {
-    \ 'left' : '',
-    \ 'left_alt': '',
-    \ 'right' : '',
-    \ 'right_alt' : '',
-    \ 'space' : ' '}
-let g:tmuxline_theme = {
-    \   'a'    : [ 236, 226 ],
-    \   'b'    : [ 253, 239 ],
-    \   'c'    : [ 244, 236 ],
-    \   'x'    : [ 244, 236 ],
-    \   'y'    : [ 253, 239 ],
-    \   'z'    : [ 236, 226 ],
-    \   'win'  : [ 226, 235 ],
-    \   'cwin' : [ 235, 226, 'bold' ],
-    \   'bg'   : [ 244, 235 ],
-    \ }
 
 " ------------------------------------------------------------
 " Goyo

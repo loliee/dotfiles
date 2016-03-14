@@ -13,7 +13,6 @@ install: ## Setup a nice osx system, run all the following install tasks
 	install-tpm \
 	install-prezto \
 	install-vundle \
-	install-tmuxline
 
 install-dotfiles: # Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
@@ -73,10 +72,6 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@mkdir -p ~/.vim/undofiles
 	@ln -sf $(PWD)/.vim-snippets  ~/.vim/UltiSnips
 
-install-tmuxline: ## Install tmuxline, a Simple Tmux statusline generator
-	$(info --> Create tmuxline snapshot)
-	@vim +Tmuxline +"TmuxlineSnapshot! ~/.tmuxline.conf" +qall &> /dev/null
-
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
 		uninstall-tpm \
@@ -85,7 +80,7 @@ uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
-	@rm -rf ~/.patatetoy && rm -rf ~/.iterm2/
+	@rm -rf ~/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
