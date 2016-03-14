@@ -20,23 +20,27 @@ install-dotfiles: # Install my dotfiles, included patatetoy prompt
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone \
 	https://github.com/loliee/patatetoy.git $(PATATETOY)
-	@mkdir -p "$(PWD)/.sshrc.d/.patatetoy"
-	@ln -sf "$(PATATETOY)/patatetoy.sh" "$(PWD)/.sshrc.d/.patatetoy/patatetoy.sh"
+	@mkdir -p $(PWD)/.sshrc.d/.patatetoy
+	@cp -f $(PATATETOY)/patatetoy.sh $(PWD)/.sshrc.d/.patatetoy/patatetoy.sh
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
-	@ mkdir -p "$(HOME)/.ssh/tmp" && mkdir -p "$(HOME)/.ssh/assh.d"
-	@ln -sf "$(PWD)/.assh"  "$(HOME)/.ssh/assh.yml"
+	@mkdir -p $(HOME)/.ssh/tmp && mkdir -p $(HOME)/.ssh/assh.d
+	@ln -sf $(PWD)/.assh  $(HOME)/.ssh/assh.yml
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='.media' \
 		--ignore='.install.d' \
-		--ignore='.DS_Store'
-		--ignore='.assh'
+		--ignore='.DS_Store' \
+		--ignore='.assh' \
+		--ignore='.travis.yml' \
+		--ignore='tests' \
+		--ignore='.fzf_history' \
+		--ignore='.fzf'
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
-	@ln -sf "$(PWD)/.iterm2" ~/.iterm2
+	@ln -sf $(PWD)/.iterm2 ~/.iterm2
 	@[[ -d ~/.iterm2/patatetoy-iterm2 ]] \
 		|| git clone https://github.com/loliee/patatetoy-iterm2/ ~/.iterm2/patatetoy-iterm2
 	@open ~/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
@@ -81,16 +85,18 @@ uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
-	@rm -rf ~/.patatetoy
-	@[[ -d ~/.iterm2 ]] \
-		&& rm -rf ~/.iterm2/
+	@rm -rf ~/.patatetoy && rm -rf ~/.iterm2/
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store' \
-		--ignore='.assh'
+		--ignore='.assh' \
+		--ignore='.travis.yml' \
+		--ignore='tests' \
+		--ignore='.fzf_history'
 
 uninstall-tpm: ## Uninstall tmux plugin manager
 	$(info --> Uninstall tpm)
