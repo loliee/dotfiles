@@ -133,6 +133,7 @@ brew install spark
 brew install ssh-copy-id
 brew install sshrc
 brew install stow
+brew install svn
 brew install tag
 brew install terraform
 brew install https://raw.github.com/adammck/terraform-inventory/master/homebrew/terraform-inventory.rb
