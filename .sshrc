@@ -28,7 +28,7 @@ if [[ -d /etc/profile.d ]]; then
 fi
 
 # Try to override some config in my $HOME
-cp -r "$SSHHOME/.sshrc.d/.patatetoy" ~
+cp "$SSHHOME/.sshrc.d/.patatetoy.sh" ~/.patatetoy.sh
 cp "$SSHHOME/.sshrc.d/.tmux.conf" ~/.tmux.conf
 cp "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" ~/
 
