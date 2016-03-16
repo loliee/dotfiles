@@ -107,6 +107,11 @@ inoremap <NUL>s <ESC>:w<CR>l
 cnoremap <NUL>s <C-u>:w<CR>l
 vnoremap <NUL>s <ESC>:w<CR>l
 
+" Undo
+nnoremap <NUL>u u
+inoremap <NUL>u <ESC>u
+vnoremap <NUL>u <ESC>u
+
 " Do things right (remove arrows nav)
 nnoremap <up> <nop>
 nnoremap <down> <nop>

@@ -2622,6 +2622,13 @@
 					<key>Text</key>
 					<string>0x00 0x73</string>
 				</dict>
+				<key>0x75-0x100000</key>
+				<dict>
+					<key>Action</key>
+					<integer>11</integer>
+					<key>Text</key>
+					<string>0x00 0x75</string>
+				</dict>
 				<key>0xf700-0x220000</key>
 				<dict>
 					<key>Action</key>
