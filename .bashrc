@@ -19,7 +19,8 @@ set -o vi
 HISTSIZE=10000
 HISTFILESIZE=10000
 HISTCONTROL=ignorespace
-PROMPT_COMMAND='history -a'
+HISTFILE=~/.bash_history
+
 shopt -s histverify
 shopt -s histappend
 
