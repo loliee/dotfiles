@@ -1,90 +1,87 @@
 [user]
-name = Maxime Loliée
-email = maxime@siliadev.com
+	name = Maxime Loliée
+	email = maxime@siliadev.com
 
 [color]
-ui = true
-branch = auto
-diff = auto
-interactive = auto
-status = auto
+	ui = true
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
 
 [color "diff-highlight"]
-oldNormal = red bold
-oldHighlight = red bold 52
-newNormal = green bold
-newHighlight = green bold 22
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [core]
-editor = vim
-excludesfile = ~/.gitignore-global
-whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	editor = vim
+	excludesfile = ~/.gitignore-global
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
-# Make `git rebase` safer on OS X
-# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-trustctime = false
+	# Make `git rebase` safer on OS X
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
 
-# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-precomposeunicode = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
 
 [pager]
-diff = diff-so-fancy | less --tabs=4 -RFX
-show = diff-so-fancy | less --tabs=4 -RFX
+	diff = diff-so-fancy | less --tabs=4 -RFX
+	show = diff-so-fancy | less --tabs=4 -RFX
 
 [apply]
-whitespace = fix
+	whitespace = fix
 
 [merge]
-tool = vimdiff
+	tool = vimdiff
 
 [rebase]
-autosquash = true
+	autosquash = true
 
 [fetch]
-prune = true
-
-[push]
-default = matching
+	prune = true
 
 [commit]
-template = ~/.gitmessage
+	template = ~/.gitmessage
 
 [alias]
-a = add -p
-d = co -p
-c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
-cp = cherry-pick
-bm = branch -m
-cm = commit -m
-ca = commit --amend
-cs = commit --squash
-cf = commit --fixup
-st = status -bs
-co = checkout
-d = diff
-dc = diff --cached
-dfm = diff master...
-po = push origin
-pu = pull
-pof = push --force origin
-pod = push --delete origin
-sa = submodule add
-si = submodule init --recursive
-sr = submodule dinit
-su = submodule foreach git pull
-r = reset
-rh = reset --hard
-ri = rebase -i
-rc = rebase --continue
-ra = rebase --abort
-ru = remote update
-rso = remote set-url origin
-mc = merge --continue
-ma = merge --abort
-lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	a = add -p
+	d = co -p
+	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
+	cp = cherry-pick
+	bm = branch -m
+	cm = commit -m
+	ca = commit --amend
+	cs = commit --squash
+	cf = commit --fixup
+	st = status -bs
+	co = checkout
+	d = diff
+	dc = diff --cached
+	dfm = diff master...
+	po = push origin
+	pu = pull
+	pof = push --force origin
+	pod = push --delete origin
+	sa = submodule add
+	si = submodule init --recursive
+	sr = submodule dinit
+	su = submodule foreach git pull
+	r = reset
+	rh = reset --hard
+	ri = rebase -i
+	rc = rebase --continue
+	ra = rebase --abort
+	ru = remote update
+	rso = remote set-url origin
+	mc = merge --continue
+	ma = merge --abort
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
 # Show verbose output about tags, branches or remotes
-tags = tag -l
-branches = branch -a
-remotes = remote -v
+	tags = tag -l
+	branches = branch -a
+	remotes = remote -v
