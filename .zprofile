@@ -82,7 +82,7 @@ export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 '
 
 # Switch pure prompt theme to vi mode
-MLPURE_VIM_MODE=1
+export PATATETOY_VIM_MODE=1
 
 # Fix history arrow binding on tmux
 bindkey '^[[B' history-substring-search-down
