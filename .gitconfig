@@ -63,6 +63,8 @@
 	dc = diff --cached
 	dfm = diff master...
 	po = push origin
+	p = push
+	pf = push -f
 	pu = pull
 	pof = push --force origin
 	pod = push --delete origin
