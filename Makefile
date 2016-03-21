@@ -19,7 +19,6 @@ install-dotfiles: # Install my dotfiles, included patatetoy prompt
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone \
 	https://github.com/loliee/patatetoy.git $(PATATETOY)
-	@ln -sf $(PATATETOY)/patatetoy.sh $(PWD)/.sshrc.d/.patatetoy.sh
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@mkdir -p $(HOME)/.ssh/tmp && mkdir -p $(HOME)/.ssh/assh.d
 	@ln -sf $(PWD)/.assh  $(HOME)/.ssh/assh.yml

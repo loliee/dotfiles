@@ -14,7 +14,8 @@ tmuxrc() {
         mkdir -p $TMUXDIR;
     fi;
     rm -rf $TMUXDIR/.sshrc.d;
-    cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
+    # shellcheck disable=SC1001
+    \cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
     SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -S "$TMUXSERVER" "$@"
 }
 
@@ -27,10 +28,15 @@ if [[ -d /etc/profile.d ]]; then
   unset i
 fi
 
-# Try to override some config in my $HOME
-cp "$SSHHOME/.sshrc.d/.patatetoy.sh" ~/.patatetoy.sh
-cp "$SSHHOME/.sshrc.d/.tmux.conf" ~/.tmux.conf
-cp "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" ~/
+# Override git config in my $HOME
+# shellcheck disable=SC1001
+\cp -f "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" "$SSHHOME/.sshrc.d/.tmux.conf" ~/
+
+if [[ ! -d ~/.patatetoy ]]; then
+  echo "Download patatetoy prompt theme"
+  mkdir -p ~/.patatetoy
+  curl -L https://github.com/loliee/patatetoy/tarball/refactor/git | tar -xzv -C ~/.patatetoy --strip-components 1
+fi
 
 # Aliases
 # shellcheck source=/dev/null

@@ -33,11 +33,6 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 # shellcheck source=/dev/null
-if [ -f ~/.patatetoy.sh ]; then
-  . ~/.patatetoy.sh
-fi
-
-# shellcheck source=/dev/null
 if [ -f ~/.patatetoy/patatetoy.sh ]; then
   . ~/.patatetoy/patatetoy.sh
 fi
