@@ -2187,27 +2187,52 @@
 	<false/>
 	<key>NSColorPanelMode</key>
 	<string>6</string>
+	<key>NSFontPanelAttributes</key>
+	<string>1, 1</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Dev/dotfiles</string>
+	<string>~/Dev/patatetoy-iterm2</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 459}</string>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
+	<string>{712, 488}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
 	<string></string>
 	<key>NSScrollAnimationEnabled</key>
 	<false/>
+	<key>NSScrollViewShouldScrollUnderTitlebar</key>
+	<false/>
+	<key>NSTableView Columns KeyBingingTable</key>
+	<array>
+		<data>
+		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
+		hAErATCG
+		</data>
+		<string>198</string>
+		<data>
+		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
+		hAErATGG
+		</data>
+		<string>307</string>
+	</array>
+	<key>NSTableView Hidden Columns KeyBingingTable</key>
+	<array/>
+	<key>NSTableView Sort Ordering KeyBingingTable</key>
+	<array/>
 	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
 	<dict>
 		<key>TB Is Shown</key>
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>543 147 445 77 0 0 1280 777 </string>
+	<string>0 236 1280 204 0 0 1280 800 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>148 135 924 485 0 0 1280 800 </string>
+	<string>223 301 606 456 0 0 1280 777 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>330 307 620 392 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 4 1277 773 0 0 1280 800 </string>
+	<string>0 366 570 377 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>0 384 570 376 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -2375,12 +2400,16 @@
 			<true/>
 			<key>Background Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.14901961386203766</real>
+				<real>0.11046314239501953</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.14901961386203766</real>
+				<real>0.11043095588684082</real>
 				<key>Red Component</key>
-				<real>0.14901961386203766</real>
+				<real>0.11181655526161194</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -2854,6 +2883,19 @@
 					<string>[1;5F</string>
 				</dict>
 			</dict>
+			<key>Link Color</key>
+			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
+				<key>Blue Component</key>
+				<real>0.85882352941176465</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
+				<key>Green Component</key>
+				<real>0.69803921568627447</real>
+				<key>Red Component</key>
+				<real>0.3843137254901961</real>
+			</dict>
 			<key>Log Directory</key>
 			<string></string>
 			<key>Minimum Contrast</key>
@@ -3042,12 +3084,18 @@
 			<string>/Users/mloliee</string>
 		</dict>
 	</array>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
+	<integer>1</integer>
 	<key>NoSyncHaveShownPromoWithId_4</key>
 	<true/>
+	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
+	<real>480339451.422548</real>
 	<key>NoSyncTimeOfLastPromo</key>
 	<real>477605289.060839</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>479428920.79443699</real>
+	<real>480271590.43422699</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -3105,12 +3153,14 @@
 	<integer>3</integer>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
+	<key>SUFeedAlternateAppNameKey</key>
+	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml</string>
+	<string>https://iterm2.com/appcasts/testing3.xml</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-03-11T22:42:00Z</date>
+	<date>2016-03-22T14:34:46Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Scrollback With Status Bar</key>
@@ -3127,6 +3177,8 @@
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>
 	<integer>4</integer>
+	<key>TabStyle</key>
+	<integer>1</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ThreeFingerEmulates</key>
@@ -3152,6 +3204,10 @@
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>iTerm Version</key>
-	<string>2.1.4</string>
+	<string>2.9.20160313</string>
+	<key>kCPKSelectionViewPreferredModeKey</key>
+	<integer>0</integer>
+	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
+	<false/>
 </dict>
 </plist>
