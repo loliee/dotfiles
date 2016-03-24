@@ -60,6 +60,9 @@ sudo sed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.
 	/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 
+# Update resolvers
+dnscrypt-update-resolvers
+
 # Configure dns to use localhost
 networksetup -listallnetworkservices | while read -r interface; do
   if [[ "$interface" == "*Ethernet" ]] \
