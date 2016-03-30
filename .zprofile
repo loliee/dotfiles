@@ -84,10 +84,6 @@ export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
 
-# Fix history arrow binding on tmux
-bindkey '^[[B' history-substring-search-down
-bindkey '^[[A' history-substring-search-up
-
 # chruby
 if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   RUBIES=(~/.rubies/*)
