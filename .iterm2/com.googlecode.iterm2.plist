@@ -3138,6 +3138,8 @@
 	<true/>
 	<key>NoSyncPermissionToShowTip</key>
 	<false/>
+	<key>NoSyncSilenceAnnoyingBellAutomatically</key>
+	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>480339451.422548</real>
 	<key>NoSyncTimeOfLastPromo</key>
