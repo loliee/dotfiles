@@ -112,15 +112,7 @@ nnoremap <NUL>u u
 inoremap <NUL>u <ESC>u
 vnoremap <NUL>u <ESC>u
 
-" Do things right (remove arrows nav)
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+" Do things right, use hjkl instead of arrows
 nnoremap j gj
 nnoremap k gk
 
@@ -172,10 +164,10 @@ nnoremap <NUL>q :bd!<CR>
 inoremap <NUL>q <Esc>:bd!<CR>
 
 " Remap window moves
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <left> <C-w>h
+nnoremap <down> <C-w>j
+nnoremap <up> <C-w>k
+nnoremap <right> <C-w>l
 
 " Indent line
 nmap <S-Tab> <<
