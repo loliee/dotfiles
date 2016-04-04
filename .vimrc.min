@@ -104,7 +104,7 @@ let mapleader = ","
 " Save with Cmd-s
 nnoremap <NUL>s :w<CR>
 inoremap <NUL>s <ESC>:w<CR>l
-cnoremap <NUL>s <C-u>:w<CR>l
+cnoremap <NUL>s <C-c>:w<CR>l
 vnoremap <NUL>s <ESC>:w<CR>l
 
 " Undo
