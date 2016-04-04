@@ -29,8 +29,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/syntastic'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'w0ng/vim-hybrid'
 Plugin 'SirVer/ultisnips'
+Plugin 'loliee/vim-patatetoy'
 Plugin 'terryma/vim-multiple-cursors'
 
 call vundle#end()            " required
@@ -49,7 +49,8 @@ endif
 " -----------------------------------------------------------
 
 set cursorline                    " Highlight current line
-colorscheme hybrid                " Set hybrid theme, inspired from tommorow
+let g:patatetoy_custom_term_colors=1
+colorscheme patatetoy                " Set patatetoy theme, inspired from tommorow
 set guifont=Hack:h14              " Define hack as font, powerline
 
 " Plugins
