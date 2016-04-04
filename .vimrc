@@ -65,7 +65,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " set airline theme
-let g:airline_theme='badwolf'
+let g:airline_theme='patatetoy'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#branch_prefix#enabled=1

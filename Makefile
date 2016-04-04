@@ -39,9 +39,9 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
 	@[[ -L $(HOME)/.iterm2 ]] \
 		|| ln -sf $(PWD)/.iterm2 $(HOME)/.iterm2
-	@[[ -d $(HOME)/.iterm2/patatetoy-iterm2 ]] \
-		|| git clone https://github.com/loliee/patatetoy-iterm2/ $(HOME)/.iterm2/patatetoy-iterm2
-	@open $(HOME)/.iterm2/patatetoy-iterm2/patatetoy.itermcolors
+	@[[ -d $(HOME)/.iterm2/iterm2-patatetoy ]] \
+		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
+	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
 install-homebrew: ## Install homebrew and my list of packages
@@ -68,8 +68,10 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
 		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
 	@vim +PluginInstall +qall &>/dev/null
+	@cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
 	@mkdir -p $(HOME)/.vim/undofiles
-	@ln -sf $(PWD)/.vim-snippets  $(HOME)/.vim/UltiSnips
+	@[[ -d $(PWD)/.vim/UltiSnips ]] \
+		|| @ln -sf $(PWD)/.vim-snippets  $(HOME)/.vim/UltiSnips
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
