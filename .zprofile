@@ -69,9 +69,8 @@ export HOMEBREW_ROOT='/usr/local'
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
 export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
---color fg:-1,bg:-1,hl:230,fg+:3,bg+:235,hl+:-1
---color info:150,prompt:110,spinner:150,pointer:167,marker:174
-'
+--color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
+--color info:7,prompt:3,spinner:4,pointer:4,marker:1'
 
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
