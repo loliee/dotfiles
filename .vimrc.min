@@ -123,10 +123,6 @@ cnoremap <C-j> <Down>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
-" Fast moves up/down Alt-j / Alt-k
-nnoremap Ï :+2<CR>
-nnoremap È :-2<CR>
-
 " Remove help
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -195,8 +191,8 @@ set pastetoggle=<leader>p
 " Display invisible chars
 nmap <leader>l :set list!<CR>
 
-" Turn off search highlight
-nnoremap <leader><space> :nohlsearch<CR>
+" Turn off search highlight and previous matches
+nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " -----------------------------------------------------------
 " Functions
