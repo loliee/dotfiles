@@ -108,6 +108,8 @@ let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
 " Better syntastic symbols
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
 
 " -----------------------------------------------------------
 " Bindings, command key send <NUL> value
