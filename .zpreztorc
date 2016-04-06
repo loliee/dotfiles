@@ -30,7 +30,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 
 # History
 zstyle ':prezto:module:history-substring-search' case-sensitive 'yes'
-zstyle ':prezto:module:history-substring-search:color' found 'fg=white,bold'
+zstyle ':prezto:module:history-substring-search:color' found 'fg=black,bg=yellow'
 
 # Syntax highlighter
 zstyle ':prezto:module:syntax-highlighting' highlighters \
