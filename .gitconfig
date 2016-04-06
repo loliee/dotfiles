@@ -1,6 +1,7 @@
 [user]
 	name = Maxime Loliée
 	email = maxime@siliadev.com
+	signingkey = FC6E9816
 
 [color]
 	ui = true
@@ -50,13 +51,13 @@
 [alias]
 	a = add -p
 	d = co -p
-	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
+	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -S -v; }; f"
 	cp = cherry-pick
 	bm = branch -m
-	cm = commit -m
-	ca = commit --amend
-	cs = commit --squash
-	cf = commit --fixup
+	cm = commit -S -m
+	ca = commit -S --amend
+	cs = commit -S --squash
+	cf = commit -S --fixup
 	st = status -bs
 	co = checkout
 	d = diff
@@ -81,7 +82,7 @@
 	rso = remote set-url origin
 	mc = merge --continue
 	ma = merge --abort
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%G?%Creset %C(yellow)%d%Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
 
 # Show verbose output about tags, branches or remotes
 	tags = tag -l
