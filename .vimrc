@@ -158,7 +158,6 @@ if !exists(':Ga')
   :command Gpof execute "!clear && git pof $( git rev-parse --abbrev-ref HEAD )"
 endif
 
-
 " -----------------------------------------------------------
 " Local config
 " -----------------------------------------------------------
