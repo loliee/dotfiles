@@ -33,6 +33,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'loliee/vim-patatetoy'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'StanAngeloff/php.vim'
+Plugin 'othree/html5.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
