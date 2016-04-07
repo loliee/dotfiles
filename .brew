@@ -104,6 +104,7 @@ brew install imagemagick --with-webp
 brew install jhead
 brew install jpeg
 brew install jpegoptim
+brew install keybase
 brew install libxml2 && brew link libxml2 --force
 brew install moreutils
 brew install nodejs --with-full-icu
