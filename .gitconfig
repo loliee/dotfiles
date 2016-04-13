@@ -67,6 +67,7 @@
 	po = push origin
 	p = push
 	pf = push -f
+	pt = push --follow-tags
 	pu = pull
 	pof = push --force origin
 	pod = push --delete origin
