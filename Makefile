@@ -9,11 +9,8 @@ help:
 
 install: ## Setup a nice osx system, run all the following install tasks
 	@make install-homebrew \
-	install-dotfiles \
-	install-tpm \
-	install-prezto \
-	install-vundle \
-	setup-iterm2
+	 install-dotfiles \
+	 setup-iterm2
 
 install-dotfiles: # Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
@@ -34,6 +31,9 @@ install-dotfiles: # Install my dotfiles, included patatetoy prompt
 		--ignore='tests' \
 		--ignore='.fzf_history' \
 		--ignore='.fzf'
+	@make install-tpm \
+	 install-prezto \
+	 install-vundle
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
@@ -75,9 +75,6 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
-		uninstall-tpm \
-		uninstall-prezto \
-		uninstall-vundle
 
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
@@ -93,6 +90,9 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.travis.yml' \
 		--ignore='tests' \
 		--ignore='.fzf_history'
+	@make uninstall-tpm \
+		uninstall-prezto \
+		uninstall-vundle
 
 uninstall-tpm: ## Uninstall tmux plugin manager
 	$(info --> Uninstall tpm)
