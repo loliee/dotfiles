@@ -71,7 +71,7 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
 	@mkdir -p $(HOME)/.vim/undofiles
 	@[[ -d $(PWD)/.vim/UltiSnips ]] \
-		|| @ln -sf $(PWD)/.vim-snippets  $(HOME)/.vim/UltiSnips
+		|| ln -sf $(PWD)/.vim-snippets  $(HOME)/.vim/UltiSnips
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
