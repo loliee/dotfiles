@@ -63,6 +63,9 @@ export KEYTIMEOUT=0
 # homebrew
 export HOMEBREW_ROOT='/usr/local'
 
+# Nvm
+export NVM_DIR="$HOME/.nvm"
+
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 
