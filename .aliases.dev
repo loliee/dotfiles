@@ -16,15 +16,15 @@ function composerd() {
   if hash gdate &>/dev/null; then
     name="$name"-"$(gdate +%s%N)"
   else
-    name="$name"-"$(gdate +%sN)"
+    name="$name"-"$(date +%sN)"
   fi
   # shellcheck disable=SC2001
   name="$(echo "$name" | sed "s/[^a-zA-Z0-9_.-]/_/")"
   if  [[ $1 == /* ]]; then mount=$(dirname "$1"); else mount=$PWD; fi
-  docker run -ti --rm --name "$name" -v "$mount":"$mount" -w "$mount" loliee/"$PHPD" php -n \
+  docker run -ti --rm --name "$name" -v "$mount":"$mount" -w "$mount" loliee/docker-"$PHPD" php -n \
     -dtimezone=Europe/Paris -dextension=bz2.so -dextension=ftp.so -dextension=intl.so \
     -dextension=mysql.so -dextension=redis.so -dextension=soap.so -dextension=tidy.so \
-    -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
+    -dextension=bcmath.so -dextension=pcntl.so -dextension=pgsql.so -dextension=xsl.so -dextension=zip.so \
     -dmemory_limit=-1 /usr/local/bin/composer.phar "$@"
   unset mount name
 }
