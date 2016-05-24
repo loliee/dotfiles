@@ -65,7 +65,14 @@ if [[ $OS == 'Darwin' ]]; then
 
   # Docker create docker vm / ensure is started.
   function docker-vm() {
-    docker-machine create -d virtualbox --virtualbox-hostonly-cidr "10.10.10.1/24" dev || docker-machine start dev
+     docker-machine create \
+      -d virtualbox \
+      --virtualbox-hostonly-cidr "10.10.10.1/24" \
+      --virtualbox-cpu-count "2" \
+      --virtualbox-memory "4096" \
+      --virtualbox-hostonly-nictype "Am79C973" \
+      --virtualbox-disk-size "35000" \
+      --virtualbox-no-share dev || docker-machine start dev
     eval "$(docker-machine env dev)"
   }
 
