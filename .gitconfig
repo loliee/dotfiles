@@ -84,7 +84,7 @@
 	rso = remote set-url origin
 	mc = merge --continue
 	ma = merge --abort
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%G?%Creset %C(yellow)%d%Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
 
 # Show verbose output about tags, branches or remotes
 	tags = tag -l
