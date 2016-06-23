@@ -52,7 +52,7 @@ export BUNDLE_JOBS=4
 export MYSQL_PS1='(\D) \u@\h [\d] > '
 
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS='--appdir=/Applications'
+export HOMEBREW_CASK_OPTS='--appdir=/Applications  --caskroom=/usr/local/Caskroom'
 
 # Always enable colored `grep` output
 export GREP_OPTIONS='--color=auto'
