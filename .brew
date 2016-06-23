@@ -16,7 +16,6 @@ echo '--> Upgrade any already-installed formulae'
 brew upgrade --all
 
 echo '--> Install/update Homebrew cask'
-brew install caskroom/cask/brew-cask
 brew cask update
 
 echo '--> Tap extras Homebrew repositories'
