@@ -77,8 +77,29 @@ set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
 " Auto Commands
 " -----------------------------------------------------------
 
-autocmd BufRead *.aliases* setlocal ft=sh
-autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
+augroup vimrcEx
+  autocmd!
+
+  autocmd BufRead *.aliases* setlocal ft=sh
+  autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it for commit messages, when the position is invalid, or when
+  " inside an event handler (happens when dropping a file on gvim).
+  " https://github.com/thoughtbot/dotfiles/blob/master/vimrc#L34-L40
+  autocmd BufReadPost *
+    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  " Crontab http://calebthompson.io/crontab-and-vim-sitting-in-a-tree/
+  autocmd filetype crontab setlocal nobackup nowritebackup
+
+  " Let's tell Vim to automatically use absolute line numbers when we're in
+  " insert mode and relative numbers when we're in normal mode
+  autocmd InsertEnter * :set number
+  autocmd InsertLeave * :set relativenumber
+augroup END
 
 " -----------------------------------------------------------
 " Configure Explorer
