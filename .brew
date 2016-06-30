@@ -107,6 +107,7 @@ brew install jpegoptim
 brew install keybase
 brew install libxml2 && brew link libxml2 --force
 brew install moreutils
+brew install ncdu
 brew install nodejs --with-full-icu
 brew install nmap
 brew install optipng
