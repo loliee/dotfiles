@@ -51,31 +51,29 @@
 
 [alias]
 	a = add -p
-	d = co -p
+	bm = branch -m
 	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
+	ca = commit --amend
+	cf = commit --fixup
+	cm = commit -m
+	co = checkout
 	cp = cherry-pick
 	cpa = cherry-pick --abort
-	bm = branch -m
-	cm = commit -m
-	ca = commit --amend
 	cs = commit --squash
-	cf = commit --fixup
-	st = status -bs
-	co = checkout
 	d = diff
 	dc = diff --cached
 	dfm = diff master...
-	po = push origin
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s \
+%Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
+	ma = merge --abort
+	mc = merge --continue
 	p = push
 	pf = push -f
+	po = push origin
+	pod = push --delete origin
+	pof = push --force origin
 	pt = push --follow-tags
 	pu = pull
-	pof = push --force origin
-	pod = push --delete origin
-	sa = submodule add
-	si = submodule init --recursive
-	sr = submodule dinit
-	su = submodule foreach git pull
 	r = reset
 	rh = reset --hard
 	ri = rebase -i
@@ -84,9 +82,11 @@
 	ru = remote update
 	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
 	rso = remote set-url origin
-	mc = merge --continue
-	ma = merge --abort
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
+	sa = submodule add
+	si = submodule init --recursive
+	sr = submodule dinit
+	st = status -bs
+	su = submodule foreach git pull
 
 # Show verbose output about tags, branches or remotes
 	tags = tag -l
