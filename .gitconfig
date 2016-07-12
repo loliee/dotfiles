@@ -82,6 +82,7 @@
 	rc = rebase --continue
 	ra = rebase --abort
 	ru = remote update
+	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
 	rso = remote set-url origin
 	mc = merge --continue
 	ma = merge --abort
