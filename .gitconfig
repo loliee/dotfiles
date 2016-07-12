@@ -54,6 +54,7 @@
 	d = co -p
 	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
 	cp = cherry-pick
+	cpa = cherry-pick --abort
 	bm = branch -m
 	cm = commit -m
 	ca = commit --amend
