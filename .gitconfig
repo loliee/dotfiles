@@ -57,6 +57,7 @@
 	cf = commit --fixup
 	cm = commit -m
 	co = checkout
+	cob = checkout -b
 	cp = cherry-pick
 	cpa = cherry-pick --abort
 	cs = commit --squash
