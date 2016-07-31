@@ -1,5 +1,13 @@
 # OSx Aliases
 
+# Open github issues or pulls request page
+function hi() {
+  hub browse -- "issues/$*"
+}
+
+# Open github pulls request page
+alias hp='hub browse -- pulls'
+
 # assh aliases (not only for OSx)
 if hash assh &>/dev/null; then
   function assh-build() {
