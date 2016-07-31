@@ -177,6 +177,7 @@ nmap cxx <Plug>(ExchangeLine)
 " Hub commands
 :command! Hi execute ":Silent !hub browse -- issues"
 :command! Hp execute ":Silent !hub browse -- pulls"
+:command! Hpc execute ":Silent !hub browse -- \"pull/$(git rev-parse --abbrev-ref HEAD)\""
 :command! Hpp execute ":!clear && hub pull-request"
 
 " Wrapper arround fzf, setup ag to not ignore files

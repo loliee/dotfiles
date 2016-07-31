@@ -11,6 +11,9 @@ alias hp='hub browse -- pulls'
 # Make pull request
 alias hpp='hub pull-request'
 
+# Open current pull request page
+alias hpc='hub browse -- "pull/$(git rev-parse --abbrev-ref HEAD)"'
+
 # assh aliases (not only for OSx)
 if hash assh &>/dev/null; then
   function assh-build() {
