@@ -152,6 +152,10 @@ vmap X <Plug>(Exchange)
 nmap cxc <Plug>(ExchangeClear)
 nmap cxx <Plug>(ExchangeLine)
 
+" -----------------------------------------------------------
+" COMMANDS
+" -----------------------------------------------------------
+
 " Git commands
 if !exists(':Ga')
   :command Ga execute ":Silent !git a %:p"
