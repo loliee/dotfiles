@@ -160,21 +160,19 @@ nmap cxx <Plug>(ExchangeLine)
 " -----------------------------------------------------------
 
 " Git commands
-if !exists(':Ga')
-  :command Ga execute ":Silent !git a %:p"
-  :command Gc execute ":Silent !git c"
-  :command Gca execute ":Silent !git ca"
-  :command Gd execute ":!clear && git d"
-  :command Gdc execute ":!clear && git dc"
-  :command Gl execute ":Silent !git lg"
-  :command Gco execute ":Silent !git co -p %:p"
-  :command Gst execute ":!clear && git st"
-  :command Gr execute ":Silent !git r %:p"
-  :command Gru execute ":Silent !git ru"
-  :command Gt execute ":Silent !tig -p %:p"
-  :command Gp execute ":Silent !git p"
-  :command Gpf execute ":Silent !git pf"
-endif
+:command! Ga execute ":Silent !git a %:p"
+:command! Gc execute ":Silent !git c"
+:command! Gca execute ":Silent !git ca"
+:command! Gd execute ":!clear && git d"
+:command! Gdc execute ":!clear && git dc"
+:command! Gl execute ":Silent !git lg"
+:command! Gco execute ":Silent !git co -p %:p"
+:command! Gst execute ":!clear && git st"
+:command! Gr execute ":Silent !git r %:p"
+:command! Gru execute ":Silent !git ru"
+:command! Gt execute ":Silent !tig -p %:p"
+:command! Gp execute ":Silent !git p"
+:command! Gpf execute ":Silent !git pf"
 
 " Wrapper arround fzf, setup ag to not ignore files
 command! -nargs=0 FZFA
