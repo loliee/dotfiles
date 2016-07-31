@@ -172,9 +172,8 @@ if !exists(':Ga')
   :command Gr execute ":Silent !git r %:p"
   :command Gru execute ":Silent !git ru"
   :command Gt execute ":Silent !tig -p %:p"
-  :command Gpu execute ":Silent !git pu"
-  :command Gpo execute ":!clear && git po $( git rev-parse --abbrev-ref HEAD )"
-  :command Gpof execute "!clear && git pof $( git rev-parse --abbrev-ref HEAD )"
+  :command Gp execute ":Silent !git p"
+  :command Gpf execute ":Silent !git pf"
 endif
 
 " Wrapper arround fzf, setup ag to not ignore files
