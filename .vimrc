@@ -160,22 +160,24 @@ nmap cxx <Plug>(ExchangeLine)
 " -----------------------------------------------------------
 
 " Git commands
-if !exists(':Ga')
-  :command Ga execute ":Silent !git a %:p"
-  :command Gc execute ":Silent !git c"
-  :command Gca execute ":Silent !git ca"
-  :command Gd execute ":!clear && git d"
-  :command Gdc execute ":!clear && git dc"
-  :command Gl execute ":Silent !git lg"
-  :command Gco execute ":Silent !git co -p %:p"
-  :command Gst execute ":!clear && git st"
-  :command Gr execute ":Silent !git r %:p"
-  :command Gru execute ":Silent !git ru"
-  :command Gt execute ":Silent !tig -p %:p"
-  :command Gpu execute ":Silent !git pu"
-  :command Gpo execute ":!clear && git po $( git rev-parse --abbrev-ref HEAD )"
-  :command Gpof execute "!clear && git pof $( git rev-parse --abbrev-ref HEAD )"
-endif
+:command! Ga execute ":Silent !git a %:p"
+:command! Gc execute ":Silent !git c"
+:command! Gca execute ":Silent !git ca"
+:command! Gd execute ":!clear && git d"
+:command! Gdc execute ":!clear && git dc"
+:command! Gl execute ":Silent !git lg"
+:command! Gco execute ":Silent !git co -p %:p"
+:command! Gst execute ":!clear && git st"
+:command! Gr execute ":Silent !git r %:p"
+:command! Gru execute ":Silent !git ru"
+:command! Gt execute ":Silent !tig -p %:p"
+:command! Gp execute ":Silent !git p"
+:command! Gpf execute ":Silent !git pf"
+
+" Hub commands
+:command! Hi execute ":Silent !hub browse -- issues"
+:command! Hp execute ":Silent !hub browse -- pulls"
+:command! Hpp execute ":!clear && hub pull-request"
 
 " Wrapper arround fzf, setup ag to not ignore files
 command! -nargs=0 FZFA
