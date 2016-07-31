@@ -8,6 +8,9 @@ function hi() {
 # Open github pulls request page
 alias hp='hub browse -- pulls'
 
+# Make pull request
+alias hpp='hub pull-request'
+
 # assh aliases (not only for OSx)
 if hash assh &>/dev/null; then
   function assh-build() {
