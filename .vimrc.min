@@ -221,7 +221,7 @@ nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " Command alias, redraw window
 command! -nargs=1 Silent
-\ | execute ':silent !clear'
+\ execute ':silent !clear'
 \ | execute ':silent '.<q-args>
 \ | execute ':redraw!'
 
