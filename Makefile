@@ -73,8 +73,6 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
 	@vim +PluginInstall +qall &>/dev/null
 	@mkdir -p $(HOME)/.vim/undofiles
-	@[[ -d $(PWD)/.vim/UltiSnips ]] \
-		|| ln -sf $(PWD)/.vim-snippets  $(HOME)/.vim/UltiSnips
 	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
 

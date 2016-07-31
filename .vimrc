@@ -33,6 +33,7 @@ Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'SirVer/ultisnips'
 Plugin 'loliee/vim-patatetoy'
+Plugin 'loliee/vim-snippets'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'othree/html5.vim'
@@ -119,6 +120,7 @@ let g:syntastic_style_warning_symbol = '⚠'
 " UtilSnips config
 " -----------------------------------------------------------
 
+let g:snips_author = "Maxime Loliée"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
