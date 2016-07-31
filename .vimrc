@@ -132,6 +132,7 @@ nnoremap <leader>a :Ag
 
 " Open fzf
 nnoremap <silent> <leader>f :FZF<CR>
+nnoremap <silent> <leader>r :FZFA<CR>
 
 " Syntastic check
 nmap <leader>s :SyntasticCheck<CR>
@@ -173,6 +174,13 @@ if !exists(':Ga')
   :command Gpo execute ":!clear && git po $( git rev-parse --abbrev-ref HEAD )"
   :command Gpof execute "!clear && git pof $( git rev-parse --abbrev-ref HEAD )"
 endif
+
+" Wrapper arround fzf, setup ag to not ignore files
+command! -nargs=0 FZFA
+      \  execute ':let $FZF_DEFAULT_COMMAND_DEFAULT=$FZF_DEFAULT_COMMAND'
+      \ | execute ':let $FZF_DEFAULT_COMMAND="ag -l -a --hidden"'
+      \ | execute ':FZF'
+      \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_DEFAULT'
 
 " -----------------------------------------------------------
 " Local config
