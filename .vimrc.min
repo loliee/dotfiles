@@ -82,6 +82,8 @@ augroup vimrcEx
 
   autocmd BufRead *.aliases* setlocal ft=sh
   autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
+  autocmd BufRead *nginx/*.conf setlocal ft=nginx
+  autocmd BufRead *httpd/*.conf setlocal ft=apache
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it for commit messages, when the position is invalid, or when
