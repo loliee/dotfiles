@@ -140,7 +140,7 @@ nnoremap <silent> <leader>r :FZFA<CR>
 nmap <leader>s :SyntasticCheck<CR>
 
 " Open tig
-nmap <leader>t :Silent !tig %:p<CR><CR>
+nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
 
 " Remove trailing whitespaces
 nnoremap <silent> <leader>w :StripWhitespace<CR>
