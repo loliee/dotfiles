@@ -227,3 +227,12 @@ command! -nargs=1 Silent
 \ | execute ':silent '.<q-args>
 \ | execute ':redraw!'
 
+" Return curent filename or current directory
+function! GetSmartWd()
+  let dir = expand('%:p')
+  if dir != ""
+     return dir
+  else
+     return expand('%:p:h')
+  endif
+endfunction
