@@ -160,19 +160,21 @@ nmap cxx <Plug>(ExchangeLine)
 " -----------------------------------------------------------
 
 " Git commands
-:command! Ga execute ":Silent !git a %:p"
+:command! Ga execute ":Silent !git a ".GetSmartWd()
 :command! Gc execute ":Silent !git c"
 :command! Gca execute ":Silent !git ca"
+:command! Gcop execute ":Silent !git cop ".GetSmartWd()
+:command! -nargs=1 Gcf execute ":Silent !git cf "<f-args>
 :command! Gd execute ":!clear && git d"
 :command! Gdc execute ":!clear && git dc"
-:command! Gl execute ":Silent !git lg"
-:command! Gco execute ":Silent !git co -p %:p"
-:command! Gst execute ":!clear && git st"
-:command! Gr execute ":Silent !git r %:p"
-:command! Gru execute ":Silent !git ru"
-:command! Gt execute ":Silent !tig -p %:p"
+:command! Glg execute ":Silent !git lg"
 :command! Gp execute ":Silent !git p"
 :command! Gpf execute ":Silent !git pf"
+:command! -nargs=1 Gs execute ":!clear && git show "<f-args>
+:command! Gst execute ":!clear && git st"
+:command! Gr execute ":Silent !git r ".GetSmartWd()
+:command! -nargs=1 Gri execute ":!clear && git ri "<f-args>
+:command! Gru execute ":Silent !git ru"
 
 " Git Hub commands
 :command! Hi execute ":Silent !hub browse -- issues"
