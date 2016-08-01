@@ -174,7 +174,7 @@ nmap cxx <Plug>(ExchangeLine)
 :command! Gp execute ":Silent !git p"
 :command! Gpf execute ":Silent !git pf"
 
-" Hub commands
+" Git Hub commands
 :command! Hi execute ":Silent !hub browse -- issues"
 :command! Hp execute ":Silent !hub browse -- pulls"
 :command! Hpp execute ":!clear && hub pull-request"
