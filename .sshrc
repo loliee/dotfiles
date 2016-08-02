@@ -30,7 +30,7 @@ fi
 
 # Override git config in my $HOME
 # shellcheck disable=SC1001
-\cp -f "$SSHHOME/.sshrc.d/.gitconfig" "$SSHHOME/.sshrc.d/.gitmessage" "$SSHHOME/.sshrc.d/.gitignore-global" "$SSHHOME/.sshrc.d/.tmux.conf" ~/
+\cp -f  "$SSHHOME/.sshrc.d/.tmux.conf" ~/
 
 if [[ ! -d ~/.patatetoy ]]; then
   echo "Download patatetoy prompt theme"
