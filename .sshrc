@@ -11,14 +11,17 @@ export PATATETOY_INSTALL_DIR=$SSHHOME
 
 tmuxrc() {
     export TMUXSERVER
+    export TMUXCONFIG
     if ! [ -d $TMUXDIR ]; then
         rm -rf $TMUXDIR;
         mkdir -p $TMUXDIR;
     fi;
     rm -rf $TMUXDIR/.sshrc.d;
+    TMUXCONFIG=$SSHHOME/.sshrc.d/.tmux.conf
+
     # shellcheck disable=SC1001
     \cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
-    SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -S "$TMUXSERVER" "$@"
+    SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" "$@"
 }
 
 # load system-wide profile.d if needed
@@ -29,10 +32,6 @@ if [[ -d /etc/profile.d ]]; then
   done
   unset i
 fi
-
-# Override git config in my $HOME
-# shellcheck disable=SC1001
-\cp -f  "$SSHHOME/.sshrc.d/.tmux.conf" ~/
 
 if [[ ! -d ~/.patatetoy ]]; then
   mkdir -p "$SSHHOME/.patatetoy"
@@ -60,7 +59,7 @@ if [[ -r "$TMUXSERVER" ]]; then
   if [[ -z $TMUX ]]; then
     if tmuxrc ls &> /dev/null; then
       echo "$SSHHOME"
-      exec /usr/bin/tmux -S "$TMUXSERVER" a
+      exec /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" a
     else
       tmuxrc new
     fi
