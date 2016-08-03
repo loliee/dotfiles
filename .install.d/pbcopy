@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # https://gist.github.com/burke/5960455
 
+# Add following line in /etc/ssh/sshd_config
+# GatewayPorts yes
+# or
+# Match User login
+#     GatewayPorts clientspecified
+
 set -o errexit
 set -o pipefail
 
