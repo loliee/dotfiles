@@ -10,8 +10,7 @@ bindkey '^[[A' history-substring-search-up
 # Aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
 
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/mloliee/Downloads/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/mloliee/Downloads/google-cloud-sdk/completion.zsh.inc'
+# gcloud
+GCLOUD_SDK=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+[[ -f "${GCLOUD_SDK}/path.zsh.inc" ]] && source "${GCLOUD_SDK}/path.zsh.inc"
+[[ -f "${GCLOUD_SDK}/completion.zsh.inc" ]] && source "${GCLOUD_SDK}/completion.zsh.inc"
