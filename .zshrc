@@ -18,3 +18,4 @@ GCLOUD_SDK=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 # autocomplete
 compdef sshrc=ssh
 compdef ssht=ssh
+hash docker-compose &>/dev/null && compdef dc=docker-compose
