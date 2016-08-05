@@ -103,6 +103,8 @@ if hash fzf &>/dev/null; then
   }
 fi
 
+hash docker-compose &>/dev/null && alias dc='docker-compose'
+
 # Superfast directory remove
 function rmf {
   local question="rmf : remove directory « $1 » ? "
