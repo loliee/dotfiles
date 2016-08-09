@@ -28,6 +28,7 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'scrooloose/syntastic'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
@@ -196,3 +197,6 @@ command! -nargs=0 FZFA
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif
+
+" Setup vim-repeat plugin
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
