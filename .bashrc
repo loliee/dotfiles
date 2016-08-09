@@ -16,10 +16,10 @@ shopt -s nocaseglob         # pathname expansion will be treated as case-insensi
 set -o vi
 
 # Setup history
-HISTSIZE=10000
-HISTFILESIZE=10000
-HISTCONTROL=ignorespace
-HISTFILE=~/.bash_history
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export HISTCONTROL=ignorespace
+export HISTFILE=~/.bash_history
 
 shopt -s histverify
 shopt -s histappend
@@ -41,3 +41,5 @@ fi
 if [ -f ~/.aliases ]; then
   . ~/.aliases
 fi
+
+export PATH=/opt/bin:$PATH
