@@ -20,6 +20,8 @@ export HISTSIZE=10000
 export HISTFILESIZE=10000
 export HISTCONTROL=ignorespace
 export HISTFILE=~/.bash_history
+export VISUAL=vim
+export EDITOR="${VISUAL}"
 
 shopt -s histverify
 shopt -s histappend
