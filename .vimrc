@@ -15,7 +15,6 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'rking/ag.vim'
-Plugin 'pearofducks/ansible-vim'
 Plugin 'markcornick/vim-bats'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'vim-airline/vim-airline'
