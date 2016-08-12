@@ -43,7 +43,6 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 " Style
 " -----------------------------------------------------------
 
-set antialias
 set background=dark               " Dark bg
 :hi cursorline cterm=none         " Do not Highlight current line
 set ruler                         " Display ruler
