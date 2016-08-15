@@ -53,6 +53,11 @@ fi
 # Display x509 certificate infos
 alias ccert='openssl x509 -text -noout -in'
 
+# Find processus quickly and dont want pgrep
+function pcf() {
+  ps aux | grep --color "[${1:0:1}]${1:1}"
+}
+
 # Update prezto zsh tools
 alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
 
