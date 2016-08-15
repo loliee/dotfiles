@@ -224,6 +224,11 @@ if [[ $OS == 'Linux' ]]; then
     alias php5fpmreload='php5-fpmtest && /etc/init.d/php5-fpm reload'
     alias php5fpmstatus='curl 127.0.0.1/status'
   fi
+
+  # Get process environment
+  function penv() {
+    xargs --null --max-args=1 < "/proc/$1/environ"
+  }
 fi
 
 # source other aliases files.
