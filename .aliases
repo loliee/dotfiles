@@ -50,6 +50,7 @@ if hash fasd &>/dev/null; then
   alias j='fasd_cd'
 fi
 
+# Update prezto zsh tools
 alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
 
 function colors() {
@@ -103,6 +104,7 @@ if hash fzf &>/dev/null; then
   }
 fi
 
+# docker-compose is too long, dc will do it
 hash docker-compose &>/dev/null && alias dc='docker-compose'
 
 # Superfast directory remove
