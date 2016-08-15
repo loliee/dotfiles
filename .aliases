@@ -139,37 +139,6 @@ function rmf {
   esac
 }
 
-# kubectl my little cloud
-if hash kubectl &>/dev/null; then
-  alias kci='kubectl cluster-info'
-  alias kc='kubectl create'
-  alias kr='kubectl delete'
-  alias kd='kubectl describe'
-  alias ke='kubectl execute'
-  alias kg='kubectl get'
-  alias kl='kubectl logs'
-  alias kcs='kubectl --namespace=kube-system create'
-  alias krs='kubectl --namespace=kube-system delete'
-  alias kds='kubectl --namespace=kube-system describe'
-  alias kes='kubectl --namespace=kube-system execute'
-  alias kgs='kubectl --namespace=kube-system get'
-  alias kls='kubectl --namespace=kube-system logs'
-
-  function kubectl-destroy-cluster() {
-     kubectl delete no --all;
-     kubectl delete rc --all;
-     kubectl delete po --all;
-     kubectl delete svc --all;
-     kubectl delete ep --all;
-     kubectl delete --namespace=kube-system no --all;
-     kubectl delete --namespace=kube-system rc --all;
-     kubectl delete --namespace=kube-system po --all;
-     kubectl delete --namespace=kube-system svc --all;
-     kubectl delete --namespace=kube-system ns --all;
-     kubectl delete --namespace=kube-system ep --all;
-  }
-fi
-
 # Aliases for Linux, Ops.
 if [[ $OS == 'Linux' ]]; then
   # safety, override
