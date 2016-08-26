@@ -80,6 +80,7 @@ augroup vimrcEx
   autocmd!
 
   autocmd BufRead *.aliases* setlocal ft=sh
+  autocmd BufRead *Jenkinsfile setlocal ft=groovy
   autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
   autocmd BufRead *nginx/*.conf setlocal ft=nginx
   autocmd BufRead *httpd/*.conf setlocal ft=apache
