@@ -54,6 +54,7 @@ fi
 alias ccert='openssl x509 -text -noout -in'
 
 # Find processus quickly and dont want pgrep
+# shellcheck disable=SC2009
 function pcf() {
   ps aux | grep --color "[${1:0:1}]${1:1}"
 }
