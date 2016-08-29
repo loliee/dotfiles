@@ -14,6 +14,7 @@ bindkey '^[[A' history-substring-search-up
 GCLOUD_SDK=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 [[ -f "${GCLOUD_SDK}/path.zsh.inc" ]] && source "${GCLOUD_SDK}/path.zsh.inc"
 [[ -f "${GCLOUD_SDK}/completion.zsh.inc" ]] && source "${GCLOUD_SDK}/completion.zsh.inc"
+[[ -f "${HOME}/.travis/travis.sh" ]] && source "${HOME}/.travis/travis.sh"
 
 # autocomplete
 compdef sshrc=ssh
