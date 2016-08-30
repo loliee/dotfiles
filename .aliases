@@ -113,6 +113,8 @@ if hash fzf &>/dev/null; then
   }
 fi
 
+hash kubectl &>/dev/null && alias kb='kubectl'
+
 # docker-compose is too long, dc will do it
 hash docker-compose &>/dev/null && alias dc='docker-compose'
 
