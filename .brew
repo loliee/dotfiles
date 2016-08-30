@@ -104,6 +104,7 @@ brew install jhead
 brew install jpeg
 brew install jpegoptim
 brew install keybase
+brew install kubectl
 brew install libxml2 && brew link libxml2 --force
 brew install moreutils
 brew install ncdu
