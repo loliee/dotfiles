@@ -18,6 +18,7 @@ install-dotfiles: # Install my dotfiles, included patatetoy prompt
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@mkdir -p $(HOME)/.ssh/tmp && mkdir -p $(HOME)/.ssh/assh.d
+	@hash kubectl &>/dev/null && kubectl completion zsh > $(HOME)/.kubectl.completion.zsh
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
