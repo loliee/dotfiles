@@ -70,6 +70,7 @@ brew install ansible
 brew install ansifilter
 brew install autoenv
 brew install bats
+brew install bfg
 brew install homebrew/fuse/bindfs
 brew install chruby
 brew install cloc
