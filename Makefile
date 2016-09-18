@@ -12,7 +12,7 @@ install: ## Setup a nice osx system, run all the following install tasks
 	 install-dotfiles \
 	 setup-iterm2
 
-install-dotfiles: # Install my dotfiles, included patatetoy prompt
+install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
