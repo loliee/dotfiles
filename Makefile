@@ -17,7 +17,6 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
-	@mkdir -p $(HOME)/.ssh/tmp && mkdir -p $(HOME)/.ssh/assh.d
 	@hash kubectl &>/dev/null && kubectl completion zsh > $(HOME)/.kubectl.completion.zsh
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='README.md' \
@@ -26,7 +25,6 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store' \
-		--ignore='.assh' \
 		--ignore='.travis.yml' \
 		--ignore='tests' \
 		--ignore='.fzf_history' \
@@ -89,7 +87,6 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.media' \
 		--ignore='.install.d' \
 		--ignore='.DS_Store' \
-		--ignore='.assh' \
 		--ignore='.travis.yml' \
 		--ignore='tests' \
 		--ignore='.fzf_history'
