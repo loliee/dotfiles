@@ -1,4 +1,5 @@
 SHELL := /usr/bin/env bash
+OS = $(shell uname)
 PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
 .DEFAULT_GOAL := help
