@@ -73,4 +73,4 @@ EOT
 launchctl unload ~/Library/LaunchAgents/pbcopy.plist &>/dev/null
 launchctl unload ~/Library/LaunchAgents/pbpaste.plist &>/dev/null
 launchctl load ~/Library/LaunchAgents/pbcopy.plist
-#launchctl load ~/Library/LaunchAgents/pbpaste.plist
+launchctl load ~/Library/LaunchAgents/pbpaste.plist
