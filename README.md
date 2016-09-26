@@ -20,7 +20,30 @@ mkdir -p ~/.dotfiles; curl -L https://github.com/loliee/dotfiles/tarball/master 
 
 To update later on, just run that command again.
 
-## Dotfiles setup
+## Install Debian/OSX system
+
+### Requirements
+
+#### OSX
+
+Install [Xcode](https://itunes.apple.com/fr/app/xcode/id497799835?mt=12) first.
+
+#### Linux
+
+Install `build-essential` package:
+
+```
+apt-get install -y build-essential
+```
+
+### Provision 
+
+```bash
+cd dotfiles
+make install
+```
+
+## Dotfiles Only
 
 Using [GNU Stow](http://www.gnu.org/software/stow/):
 
@@ -28,25 +51,23 @@ Using [GNU Stow](http://www.gnu.org/software/stow/):
 
 ```bash
 cd ~/.dotfiles
-make install
+make install-dotfiles
 ```
 
 check [make arguments](#Make arguments) for details
+
+
+Init zsh completion if required
+
+```bash
+autoload -U compinit
+compinit
+```
 
 ### Uninstallation
 
 ```bash
 make uninstall
-```
-
-## Mac setup
-
-Install [Xcode](https://itunes.apple.com/fr/app/xcode/id497799835?mt=12) first.
-
-### Install Homebrew Formulae/Native apps
-
-```bash
-./.brew
 ```
 
 ### Sensible OS X defaults

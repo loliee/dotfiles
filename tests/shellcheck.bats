@@ -35,6 +35,13 @@
     [ $status -eq 0 ]
 }
 
+@test "shellcheck .install.d/Linux/install.sh" {
+  run shellcheck -s bash .install.d/Linux/install.sh
+    [ $status -eq 0 ]
+}
+
+@test "shellcheck .install.d/Linux/debian.sh" {
+  run shellcheck -s bash .install.d/Linux/debian.sh
     [ $status -eq 0 ]
 }
 

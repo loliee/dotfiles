@@ -1,4 +1,7 @@
 # PATH
+
+OS=$(uname)
+
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 # You may need to manually set your language environment
@@ -69,12 +72,19 @@ export NVM_DIR="$HOME/.nvm"
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 
-# Setting ag as the default source for fzf
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
+# FZF config
 export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 --color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
 --color info:7,prompt:3,spinner:4,pointer:4,marker:1'
 
+if [[ "${OS}" == 'Darwin'  ]]; then
+  export FZF_DEFAULT_COMMAND='ag -l -g ""'
+  export FZF_ALLFILES_COMMAND='ag -l -a --hidden'
+elif [[ "${OS}" == 'Linux'  ]]; then
+  export FZF_DEFAULT_COMMAND='ack -l  ""'
+  export FZF_ALLFILES_COMMAND=$FZF_DEFAULT_COMMAND
+fi
+#
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
 

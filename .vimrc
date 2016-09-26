@@ -191,7 +191,7 @@ nmap cxx <Plug>(ExchangeLine)
 " Wrapper arround fzf, setup ag to not ignore files
 command! -nargs=0 FZFA
       \  execute ':let $FZF_DEFAULT_COMMAND_DEFAULT=$FZF_DEFAULT_COMMAND'
-      \ | execute ':let $FZF_DEFAULT_COMMAND="ag -l -a --hidden"'
+      \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_ALLFILES_COMMAND'
       \ | execute ':FZF'
       \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_DEFAULT'
 
