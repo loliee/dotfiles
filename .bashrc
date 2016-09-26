@@ -15,14 +15,17 @@ shopt -s nocaseglob         # pathname expansion will be treated as case-insensi
 # Setup vi mode
 set -o vi
 
-# Setup history
-export HISTSIZE=10000
-export HISTFILESIZE=10000
-export HISTCONTROL=ignorespace
-export HISTFILE=~/.bash_history
+# Locale
+export LANGUAGE="en_US.UTF-8"
+
+# Editor
 export VISUAL=vim
 export EDITOR="${VISUAL}"
 
+# History
+export HISTFILESIZE=10000
+export HISTCONTROL=ignorespace
+export HISTFILE=~/.bash_history
 shopt -s histverify
 shopt -s histappend
 
@@ -35,13 +38,18 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 # shellcheck source=/dev/null
-if [ -f ~/.patatetoy/patatetoy.sh ]; then
-  . ~/.patatetoy/patatetoy.sh
+if [ -f "${HOME}/.patatetoy/patatetoy.sh" ]; then
+  . "${HOME}/.patatetoy/patatetoy.sh"
 fi
 
 # shellcheck source=/dev/null
-if [ -f ~/.aliases ]; then
-  . ~/.aliases
+if [ -f /usr/local/share/chruby/chruby.sh ]; then
+  . /usr/local/share/chruby/chruby.sh
+fi
+
+# shellcheck source=/dev/null
+if [ -f "${HOME}/.aliases" ]; then
+  . "${HOME}/.aliases"
 fi
 
 export PATH=/opt/bin:$PATH
