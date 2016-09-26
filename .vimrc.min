@@ -243,17 +243,3 @@ function! GetSmartWd()
      return expand('%:p:h')
   endif
 endfunction
-
-" Remote PB Copy
-nnoremap <c-p> :call PropagatePasteBufferToOSX()<cr>
-
-function! PropagatePasteBufferToOSX()
-  let @n=getreg('"')
-  call system('pbcopy-remote', @n)
-  echo "done"
-  endfunction
-
-function! PopulatePasteBufferFromOSX()
-  let @ = system('pbpaste-remote')
-  echo "done"
-endfunction
