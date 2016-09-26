@@ -54,9 +54,15 @@ endif
 " -----------------------------------------------------------
 
 set cursorline                    " Highlight current line
-let g:patatetoy_custom_term_colors=1
-colorscheme patatetoy                " Set patatetoy theme, inspired from tommorow
 set guifont=Hack:h14              " Define hack as font, powerline
+
+" Set patatetoy theme, inspired from tommorow
+try
+  let g:patatetoy_custom_term_colors=1
+  colorscheme patatetoy
+catch /^Vim\%((\a\+)\)\=:E185/
+  " Should fail only at the first PluginInstall execution
+endtry
 
 " Plugins
 " =======
