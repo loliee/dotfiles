@@ -7,10 +7,8 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Setup a nice osx system, run all the following install tasks
-	@make install-homebrew \
-	 install-dotfiles \
-	 setup-iterm2
+install: ## Install packages I love
+	./.install.sh
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
@@ -41,12 +39,6 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
-
-install-homebrew: ## Install homebrew and my list of packages
-	$(info --> Install homebrew)
-	@which brew &>/dev/null \
-			|| ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-			@./.brew
 
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
