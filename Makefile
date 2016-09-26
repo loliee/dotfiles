@@ -11,25 +11,31 @@ install: ## Install packages I love
 	./.install.sh
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
-	$(info --> Install dotfiles)
+	$(info --> Install dotfiles in $(HOME))
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
-	@hash kubectl &>/dev/null && kubectl completion zsh > $(HOME)/.kubectl.completion.zsh
 	@stow -S . -t "$(HOME)" -v \
+		--ignore='.DS_Store' \
+		--ignore='.fzf_history' \
+		--ignore='.install.d' \
+		--ignore='.install.sh' \
+		--ignore='.git' \
+		--ignore='.travis.yml' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
-		--ignore='.media' \
-		--ignore='.install.d' \
-		--ignore='.DS_Store' \
-		--ignore='.travis.yml' \
-		--ignore='tests' \
-		--ignore='.fzf_history' \
-		--ignore='.fzf'
-	@make install-tpm \
-	 install-prezto \
-	 install-vundle
+		--ignore='Rakefile' \
+		--ignore='spec' \
+		--ignore='tests'
+	make install-prezto
+	make install-tpm
+	make install-vundle
+	$(info --> Install completions scripts)
+	(hash docker &>/dev/null && curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
+		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker) || true
+	(hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
+		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose) || true
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
@@ -51,40 +57,42 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
 		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
-	@curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
-		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
-	@curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
-		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)
-	@mkdir -p $(HOME)/.vim/bundle/
-	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
-		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
-	@vim +PluginInstall +qall &>/dev/null
-	@mkdir -p $(HOME)/.vim/undofiles
-	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
+	mkdir -p $(HOME)/.vim/bundle/
+	[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
+	 || git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
+	vim +PluginInstall +qall
+	mkdir -p $(HOME)/.vim/undofiles
+	[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
-	@make uninstall-dotfiles \
+	@make install-vundle \
+		install-prezto \
+		install-tpm \
+		uninstall-dotfiles
 
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
 	@rm -rf $(HOME)/.patatetoy
-	@stow -D . -t "$(HOME)" -v \
-		--ignore='README.md' \
-		--ignore='LICENCE' \
-		--ignore='Makefile' \
-		--ignore='.media' \
-		--ignore='.install.d' \
-		--ignore='.DS_Store' \
-		--ignore='.travis.yml' \
-		--ignore='tests' \
-		--ignore='.fzf_history'
 	@make uninstall-tpm \
 		uninstall-prezto \
 		uninstall-vundle
+	@stow -D . -t "$(HOME)" -v \
+		--ignore='.DS_Store' \
+		--ignore='.fzf_history' \
+		--ignore='.install.d' \
+		--ignore='.install.sh' \
+		--ignore='.git' \
+		--ignore='.travis.yml' \
+		--ignore='README.md' \
+		--ignore='LICENCE' \
+		--ignore='Makefile' \
+		--ignore='Rakefile' \
+		--ignore='spec' \
+		--ignore='tests'
 
 uninstall-tpm: ## Uninstall tmux plugin manager
 	$(info --> Uninstall tpm)
@@ -98,8 +106,8 @@ uninstall-prezto: ## Uninstall Prezto
 
 uninstall-vundle: ## Uninstall Vundle
 	$(info --> Uninstall vundle)
-	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
-		&& rm -rf $(HOME)/.vim/bundle/Vundle.vim
+	@[[ -d $(HOME)/.vim/bundle ]] \
+		&& rm -rf $(HOME)/.vim/bundle
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
