@@ -54,9 +54,15 @@ endif
 " -----------------------------------------------------------
 
 set cursorline                    " Highlight current line
-let g:patatetoy_custom_term_colors=1
-colorscheme patatetoy                " Set patatetoy theme, inspired from tommorow
 set guifont=Hack:h14              " Define hack as font, powerline
+
+" Set patatetoy theme, inspired from tommorow
+try
+  let g:patatetoy_custom_term_colors=1
+  colorscheme patatetoy
+catch /^Vim\%((\a\+)\)\=:E185/
+  " Should fail only at the first PluginInstall execution
+endtry
 
 " Plugins
 " =======
@@ -185,7 +191,7 @@ nmap cxx <Plug>(ExchangeLine)
 " Wrapper arround fzf, setup ag to not ignore files
 command! -nargs=0 FZFA
       \  execute ':let $FZF_DEFAULT_COMMAND_DEFAULT=$FZF_DEFAULT_COMMAND'
-      \ | execute ':let $FZF_DEFAULT_COMMAND="ag -l -a --hidden"'
+      \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_ALLFILES_COMMAND'
       \ | execute ':FZF'
       \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_DEFAULT'
 

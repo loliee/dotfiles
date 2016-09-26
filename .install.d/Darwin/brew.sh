@@ -31,9 +31,6 @@ brew tap tldr-pages/tldr
 echo '--> Install cask apps'
 
 brew cask install charles
-brew cask install dropbox
-brew cask install filezilla
-brew cask install firefox
 brew cask install flux
 brew cask install font-hack
 brew cask install gimp
@@ -46,14 +43,11 @@ brew cask install istat-menus
 brew cask install iterm2
 brew cask install java
 brew cask install keepassx
-brew cask install openoffice
 brew cask install osxfuse
 brew cask install paragon-extfs
 brew cask install paragon-ntfs
-brew cask install pgadmin3
 brew cask install skype
 brew cask install slack
-brew cask install spectacle
 brew cask install transmission
 brew cask install vagrant
 brew cask install virtualbox
@@ -66,7 +60,6 @@ echo '--> Install brew apps'
 brew install openssl && brew link openssl --force
 
 brew install advancecomp
-brew install ansible
 brew install ansifilter
 brew install autoenv
 brew install bats
@@ -85,7 +78,6 @@ brew install docker docker-compose docker-machine
 brew install fasd
 brew install findutils
 brew install fzf
-brew install ghi
 brew install gifsicle
 brew install git
 brew install gnu-sed --with-default-names
@@ -116,7 +108,6 @@ brew install openssh
 brew install packer
 brew install pandoc
 brew install pgcli
-brew install php56 php-code-sniffer phpmd
 brew install pigz
 brew install pngcrush
 brew install pngquant
@@ -150,7 +141,6 @@ brew install tldr
 brew install tmux-cssh
 brew install tmux-mem-cpu-load
 brew install tree
-brew install v
 brew install virt-manager
 brew install virt-viewer
 brew install vim
@@ -165,8 +155,6 @@ brew install zsh
 PIPS=(
   fabric
   flake8
-  howdoi
-  httpie
   pylint
   virtualenv
 )
@@ -181,13 +169,12 @@ done
 # ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  2.2.3
   2.3.0
 )
 
 for ruby in "${RUBIES[@]}"; do
   "$(brew --prefix)/bin/ruby-install" --no-reinstall --rubies-dir ~/.rubies \
-    ruby "$ruby"
+    ruby "$ruby" -- --disable-install-rdoc
 done
 
 echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
@@ -217,6 +204,3 @@ brew linkapps
 echo '--> Cleanup !'
 brew cask cleanup
 brew cleanup
-
-echo '--> Call the brew doctor for a checkup !'
-brew doctor

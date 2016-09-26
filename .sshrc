@@ -33,7 +33,7 @@ if [[ -d /etc/profile.d ]]; then
   unset i
 fi
 
-if [[ ! -d ~/.patatetoy ]]; then
+if [[ ! -d "$SSHHOME/.patatetoy" ]]; then
   mkdir -p "$SSHHOME/.patatetoy"
   curl -s -o "$SSHHOME/.patatetoy/patatetoy_common.sh" -L \
     https://raw.githubusercontent.com/loliee/patatetoy/master/patatetoy_common.sh
