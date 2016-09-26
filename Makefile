@@ -101,6 +101,17 @@ uninstall-vundle: ## Uninstall Vundle
 	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
 		&& rm -rf $(HOME)/.vim/bundle/Vundle.vim
 
-test: ## Run tests suite
-	$(info --> Run tests)
-	@bats tests/*.bats
+shellcheck: ## Run shellcheck
+	$(info --> Run shellcheck)
+	@bats tests/shellcheck.bats
+
+serverspec: ## Run serverspec
+	$(info --> Run serverspec)
+	@env \
+		SPEC_OPTS='--format documentation --color' \
+		OS=$(OS) \
+		rake serverspec:run
+
+test: ## Run full tests suite (shellcheck + serverspec)
+	$(info --> Run serverspec)
+	make -j -l 2 shellcheck serverspec

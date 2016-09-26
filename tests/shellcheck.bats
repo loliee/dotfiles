@@ -20,13 +20,21 @@
     [ $status -eq 0 ]
 }
 
-@test "shellcheck .brew" {
-  run shellcheck -s bash .brew
+@test "shellcheck .install.d/Darwin/brew.sh" {
+  run shellcheck -s bash .install.d/Darwin/brew.sh
     [ $status -eq 0 ]
 }
 
-@test "shellcheck .osx" {
-  run shellcheck -s bash .osx
+@test "shellcheck .install.d/Darwin/osx.sh" {
+  run shellcheck -s bash .install.d/Darwin/macos.sh
+    [ $status -eq 0 ]
+}
+
+@test "shellcheck .install.d/Darwin/install.sh" {
+  run shellcheck -s bash .install.d/Darwin/install.sh
+    [ $status -eq 0 ]
+}
+
     [ $status -eq 0 ]
 }
 
