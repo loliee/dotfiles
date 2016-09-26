@@ -1,9 +1,2 @@
 #!/bin/sh
-
-nc -h | grep '\-q' &>/dev/null
-if [ $? -eq 0 ]; then
-  OPT='-q1'
-else
-  OPT='-w 1'
-fi
-cat | nc "$OPT" localhost 2226
+cat | nc -q1 localhost 2226
