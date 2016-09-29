@@ -20,7 +20,7 @@ mkdir -p ~/.dotfiles; curl -L https://github.com/loliee/dotfiles/tarball/master 
 
 To update later on, just run that command again.
 
-## Dotfiles setup
+## Setup (only) dotfiles
 
 Using [GNU Stow](http://www.gnu.org/software/stow/):
 
@@ -28,69 +28,56 @@ Using [GNU Stow](http://www.gnu.org/software/stow/):
 
 ```bash
 cd ~/.dotfiles
-make install
+make install-dotfiles
 ```
-
-check [make arguments](#Make arguments) for details
 
 ### Uninstallation
 
 ```bash
-make uninstall
+make uninstall-dotfiles
 ```
 
-## Mac setup
+## Setup full OS
 
-Install [Xcode](https://itunes.apple.com/fr/app/xcode/id497799835?mt=12) first.
-
-### Install Homebrew Formulae/Native apps
+Provision `macOS` system with [brew](http://brew.sh/) packages I use.
 
 ```bash
-./.brew
+./install.sh
 ```
 
-### Sensible OS X defaults
+### Configuration
 
-When setting up a new Mac, you may want to set some sensible OS X defaults:
+#### `INSTALL_DOTFILES`
 
-```bash
-./.osx
-```
+Install dotfiles in current user `HOME` directory, default to `1`.
 
-:warning: **this install `dnscrypt-proxy` and `dnsmasq` and setup `127.0.0.1` as DNS server, remove this in network settings if issues or do better update your conf ;)**
+#### `OS`
 
-### Install iterm2 colors scheme
+In some case `OS` detection fail, define `$OS` var with `darwin` or `linux`.
 
-Install [patatetoy](https://github.com/loliee/patatetoy-iterm2) theme.
+#### `RUN_LIST`
 
-```bash
-make install-patatetoy-iterm2
-```
+Group of packages to install, default to `base,dev,dns,messaging,multimedia,http_proxy`.
 
-To enable, `iterm2 preferences > colors > Load Presets` and select `patatetoy`.
+#### `INSTALL_GPGTOOLS`
 
-### Ressources
+Install `gpgtools` package, default to `1`.
 
-- [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html)
-- [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http)
+## Ressources
 
-**List defaults**
+### macOS
+
+- [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).
+- [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http).
+
+**List defaults: **
 
 ```bash
 rc="\n" && defaults domains | sed s/,/"$rc"/g
 ```
 
-**Read default values**
+**Read default values: **
 
 ```bash
 defaults read com.apple.mail
 ```
-
-## Todo
-
-  - OSX remap caplocks to ctrl
-  - Setup divvy
-  - Setup avatar correctly
-  - Check active corner
-  - Setup istat menu and info bar
-  - Disable guest account

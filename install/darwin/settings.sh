@@ -822,12 +822,6 @@ defaults write com.twitter.twitter-mac HideInBackground -bool true
 # Disable Captive Portal
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
-# Rub post install scripts
-# shellcheck source=/dev/null
-for f in .install.d/*; do
-  . ./.install.d/$f
-done
-
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
