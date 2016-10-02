@@ -5,6 +5,7 @@
 # Install followinf dotfiles in $HOME
 DOTFILES=(
   .Xmodmap
+  .config
   .aliases
   .aliases.dev
   .aliases.osx
@@ -19,6 +20,7 @@ DOTFILES=(
   .hushlogin
   .iterm2
   .macos
+  .profile
   .sshrc
   .sshrc.d
   .tigrc
@@ -34,19 +36,24 @@ DOTFILES=(
   .zshenv
   .zshrc
 )
+
+echo "--> Setup dofiles for user: ${CUSER}"
 if [[ $INSTALL_DOTFILES == 1 ]]; then
-  backup_dir="${HOME}/.backup/$(date -u +"%Y-%m-%dT%H%M")"
+  backup_dir="${CHOME}/.backup/$(date -u +"%Y-%m-%dT%H%M")"
   echo "Backup dotfiles in ${backup_dir}"
   mkdir -p "${backup_dir}"
   for file in "${DOTFILES[@]}"; do
-    echo "${HOME}/${file}"
-  [[ -f "${HOME}/${file}" ]] && mv "${HOME}/${file}" "${backup_dir}/"
+    echo "${CHOME}/${file}"
+		[[ -f "${CHOME}/${file}" ]] && mv "${CHOME}/${file}" "${backup_dir}/"
   done
+
   make install-dotfiles
 fi
 
-echo '--> Setup Terminal'
-[[ $OS == "darwin" ]] && make setup-iterm2
+if [[ $OS == "darwin" ]]; then
+  echo '--> Setup Iterm'
+  make setup-iterm2
+fi
 
 # Install kubectl completion
 # shellcheck disable=SC2015

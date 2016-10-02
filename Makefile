@@ -1,6 +1,9 @@
 SHELL := /usr/bin/env bash
-PREZTO := ~/.zprezto
+PACKER_VERSION = $(shell date -u +"%Y%m%d")
 PATATETOY := ~/.patatetoy
+PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+PREZTO := ~/.zprezto
+CUSER := mloliee
 .DEFAULT_GOAL := help
 
 help:
@@ -17,11 +20,14 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
+		--ignore='.box' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
+		--ignore='.pre-commit-config.yaml' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
 		--ignore='install.sh' \
+		--ignore='travis.sh' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
@@ -74,11 +80,14 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	@rm -rf $(HOME)/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
+		--ignore='.box' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
+		--ignore='.pre-commit-config.yaml' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
 		--ignore='install.sh' \
+		--ignode='travis.sh' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
@@ -111,6 +120,44 @@ serverspec: ## Run serverspec
 		SPEC_OPTS='--format documentation --color' \
 		rake serverspec:run
 
+packer: ## Package Linux, Vars: DISTRIB [kali|debian] CUSER username
+	$(info --> Run package $(DISTRIB))
+	@mkdir -p $(HOME)/.packer/cache
+	@sed -i -E "s/username string \w+/username string ${CUSER}/" \
+		.box/${DISTRIB}/${DISTRIB}.preseed
+	@env \
+		CUSER=$(CUSER) \
+		PACKER_VERSION=$(PACKER_VERSION) \
+		PACKER_BUILD_DIR=$(HOME)/.packer/build/$(PACKER_VERSION) \
+		PACKER_CACHE_DIR=$(HOME)/.packer/cache \
+		PROJECT_DIR=$(PROJECT_DIR) \
+		packer build -only=virtualbox .box/${DISTRIB}/${DISTRIB}.json
+	vagrant box add $(HOME)/.packer/build/$(PACKER_VERSION)/${DISTRIB}64.json
+
+packer-debian: ## Package my debian
+	@env DISTRIB=debian make packer
+
+packer-kali: ## Package kali Linux
+	@env DISTRIB=kali make packer
+
+kali-provision: ## Run kali provisioner
+	@env DISTRIB=kali CMD=provision make vagrant
+	$(info --> Custom iso generated in ~/Shared/build)
+
+kali-up: ## Start Kali packager VM
+	@env DISTRIB=kali CMD=up make vagrant
+
+kali-halt: ## Halt Kali packager VM
+	@env DISTRIB=kali CMD=halt make vagrant
+
+kali-ssh: ## SSH Kali packager VM
+	@env DISTRIB=kali CMD=ssh make vagrant
+
+vagrant: ## Run	vagrant command, Vars: CMD [up|halt|ssh|provision], DISTRIB [kali|debian]
+	@bash -c "pushd $(PROJECT_DIR)/.box/${DISTRIB} &>/dev/null; \
+						vagrant ${CMD}; \
+						popd &>/dev/null;"
+
 test: ## Run shellcheck and serverspec
 	$(info --> Run serverspec)
-	@make -j -l 2 shellcheck serverspec
+	@make serverspec

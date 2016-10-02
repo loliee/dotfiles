@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+export CUSER=${CUSER:-'root'}
+export CHOME=${CHOME:-'/root'}
+export CPASSWORD=${CPASSWORD:-'packer'}
+
+# Reset root password
+sudo usermod -p "$(perl -e 'printf("%s\n", crypt($ARGV[0], "password"))' "packer")" "root"
+
+# Run install script
+pushd "${CHOME}/.dotfiles" &>/dev/null
+  chmod u+x ./install.sh
+  ./install.sh
+popd &>/dev/null

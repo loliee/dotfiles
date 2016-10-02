@@ -1,0 +1,165 @@
+{
+  "variables": {
+    "description": "This box contains Kali 2016.2",
+    "domain": "kali.local",
+    "hostname": "kali64",
+    "project_dir": "{{ env `PROJECT_DIR` }}",
+    "output_directory": "{{ env `PACKER_BUILD_DIR` }}",
+    "packer_cache_dir": "{{ env `PACKER_CACHE_DIR` }}",
+    "iso_url": "http://cdimage.kali.org/kali-images/kali-weekly/kali-linux-xfce-2016-W43-amd64.iso",
+    "iso_checksum": "ca5b96a2bf9a6e238255745e7f75252e014429accfdbf9265a2a3f6327810f20",
+    "iso_checksum_type": "sha256",
+    "preseed_file": ".box/kali/kali.preseed",
+    "ssh_username": "{{ env `CUSER` }}",
+    "ssh_pubkey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC4km+FfdjbXiWVmrxVxzyPp/bRl5whCL6jirgLQBxXkKfG4ZEs0d7+wC/Hmdz9WA5/dFgu0czAcwgjmifO/aq3Q0u1HGDR+IP3vp39lJMhk7ersMmmNnVTQNfm90NNhmy6j4vlsrEEIxX+uy4s73DuHAAO6ouDg68Zjfw7a4wTfnwpKNsC7+vuGJiN8WYJC5d0Vlmz+GDgIRbH1DlMYH3br+zyjFX841IijkiEsIVhcg37jPsJGjsajabk5puReSA7a1kq89EFSjD37EobbBJwRSIW7iOxf9Zw7+AJPnU+osF3Q8grDNPHv3J2lbRURhtViOSnOQjAztk4nKtgX8YW95mgCyYX/wks9v4wUoRZIaSEbsBgM9DUstU70E045x2dKrEOCLWft1NK9pPXslQp8y81hadQhaQwKuOEzr3qQeIZsrhV79/9L7ADhosqxkfC9BP57WsRMHaMa3BFXT3MXpWAgg8xLl5c9ORrxJ1Be3ZxpD/4Tpk1jw7G4F6v70mWmWLZNiK6q+dGCCn8XJCnD3tKRvyTDbGhmQajaocAgimdUXXc9oCZxZc9IVJmKGs5U2K2OOxWeqNrHinhLkWXhAsdszNGyFDemk2rXwUMoSISKfJ2r11Z5OxBn/CaAuc9dq2rAeavZlJOUc+raS8HT+1Y7/T5GQjbi259mF5Aww== maxime@siliadev.com",
+    "ssh_password": "packer",
+    "locale": "en_US",
+    "disk_size": "40000",
+    "vagrantfile_template": ".box/kali/kali.vagrant",
+    "version": "{{ env `PACKER_VERSION` }}"
+  },
+  "builders": [{
+    "type": "virtualbox-iso",
+    "name": "virtualbox",
+    "guest_os_type": "Debian_64",
+    "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "64"]
+    ],
+    "disk_size" : "{{ user `disk_size` }}",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+    "http_directory": ".",
+    "http_port_min" : 9001,
+    "http_port_max" : 9001,
+    "output_directory": "{{user `output_directory`}}",
+    "ssh_username": "{{user `ssh_username`}}",
+    "ssh_password": "{{user `ssh_password`}}",
+    "ssh_wait_timeout": "20m",
+    "shutdown_command": "echo {{user `ssh_password`}} | sudo -S shutdown -P now",
+    "boot_command": [
+       "<esc><wait>",
+       "install preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `preseed_file`}} debian-installer={{ user `locale` }} auto locale={{ user `locale` }} kbd-chooser/method=us <wait>",
+       "netcfg/get_hostname={{ .Name }} netcfg/get_domain=vagrantup.com fb=false debconf/frontend=noninteractive console-setup/ask_detect=false <wait>",
+       "console-keymaps-at/keymap=fr keyboard-configuration/xkb-keymap=fr <wait>",
+       "<enter><wait>"
+     ]
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `project_dir`}}",
+      "destination": "/home/{{user `ssh_username`}}/.dotfiles"
+    },
+    {
+      "binary": false,
+      "inline_shebang": "/bin/sh -e",
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell",
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "apt-get install -y curl git live-build cdebootstrap apt-cacher-ng",
+        "git clone git://git.kali.org/live-build-config.git /home/{{user `ssh_username`}}/live-build-config",
+        "cd /home/{{user `ssh_username`}}/.dotfiles",
+        "chmod u+x ./install.sh",
+        "sudo -E ./install.sh",
+        "mkdir -p /home/{{user `ssh_username`}}/.ssh",
+        "touch /home/{{user `ssh_username`}}/.ssh/authorized_keys",
+        "echo {{user `ssh_pubkey`}} >> /home/{{user `ssh_username`}}/.ssh/authorized_keys",
+        "chmod 600 /home/{{user `ssh_username`}}/.ssh/authorized_keys",
+        "chown -R {{user `ssh_username`}}. /home/{{user `ssh_username`}}",
+        "mkdir -p /mnt/guest-additions",
+        "mount -t iso9660 -o loop /home/{{user `ssh_username`}}/VBoxGuestAdditions.iso /mnt/guest-additions",
+        "/mnt/guest-additions/VBoxLinuxAdditions.run"
+      ],
+      "environment_vars": [
+        "OS=linux",
+        "CUSER={{user `ssh_username`}}"
+      ]
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "echo '{{user `ssh_username`}} ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/99{{user `ssh_username`}}",
+        "chmod 0440 /etc/sudoers.d/99{{user `ssh_username`}}"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "apt-get clean"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "dd if=/dev/zero of=/ZEROFILL bs=4M",
+        "rm /ZEROFILL",
+        "sync"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    }
+  ],
+  "description": "{{user `description`}}",
+  "min_packer_version": "0.10.1",
+  "post-processors": [
+    {
+      "compression_level": 6,
+      "keep_input_artifact": true,
+      "only": [
+        "virtualbox"
+      ],
+      "output": "{{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-{{.Provider}}.box",
+      "type": "vagrant",
+      "vagrantfile_template": "{{user `vagrantfile_template`}}"
+    },
+    {
+      "inline": [
+        "cat <<EOT > {{user `output_directory`}}/{{user `hostname`}}.json",
+        "{",
+        "  \"name\": \"loliee/{{user `hostname`}}\",",
+        "  \"description\": \"{{user `description`}}\",",
+        "  \"versions\": [",
+        "    {",
+        "      \"version\": \"{{user `version`}}\",",
+        "      \"providers\": [",
+        "        {",
+        "         \"name\": \"virtualbox\",",
+        "         \"url\": \"{{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-virtualbox.box\",",
+        "         \"checksum_type\": \"sha256\",",
+        "         \"checksum\": \"$(shasum -a 256 {{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-virtualbox.box | awk '{print $1}')\"",
+        "        }",
+        "      ]",
+        "    }",
+        "  ]",
+        "}"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "type": "shell-local"
+    }
+  ]
+}

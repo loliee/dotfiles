@@ -1,0 +1,157 @@
+{
+  "variables": {
+    "description": "This box contains Jessie 8.5 LTS 64-bit.",
+    "domain": "jessie.local",
+    "hostname": "jessie64",
+    "project_dir": "{{ env `PROJECT_DIR` }}",
+    "output_directory": "{{ env `PACKER_BUILD_DIR` }}",
+    "packer_cache_dir": "{{ env `PACKER_CACHE_DIR` }}",
+    "preseed_file": ".box/debian/debian.preseed",
+    "ssh_username": "{{ env `CUSER` }}",
+    "ssh_password": "packer",
+    "iso_url": "http://cdimage.debian.org/cdimage/release/8.6.0/amd64/iso-cd/debian-8.6.0-amd64-xfce-CD-1.iso",
+    "iso_checksum": "060390f016b5527bc2b698c0f3fb3e75e18e30bb141bde29cd372aaa8bf0fee4fb857246315ce83c5a94b53eec85d6d190b3e52687425a8a7a4b45bce43aba3d",
+    "iso_checksum_type": "sha512",
+    "disk_size": 40000,
+    "vagrantfile_template": ".box/debian/debian.vagrant",
+    "version": "{{ env `PACKER_VERSION` }}"
+  },
+  "builders": [{
+    "type": "virtualbox-iso",
+    "name": "virtualbox",
+    "guest_os_type": "Debian_64",
+    "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--vram", "64"]
+    ],
+    "disk_size" : "{{ user `disk_size` }}",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+    "http_directory": ".",
+    "http_port_min" : 9001,
+    "http_port_max" : 9001,
+    "output_directory": "{{user `output_directory`}}",
+    "ssh_username": "{{user `ssh_username`}}",
+    "ssh_password": "{{user `ssh_password`}}",
+    "ssh_wait_timeout": "20m",
+    "shutdown_command": "echo {{user `ssh_password`}} | sudo -S shutdown -P now",
+    "boot_command": [
+      "<esc><wait>",
+      "/install.amd/vmlinuz ",
+      "initrd=/install.amd/initrd.gz ",
+      "auto=true ",
+      "url=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `preseed_file`}} ",
+      "hostname={{user `hostname`}} ",
+      "domain={{user `domain`}} ",
+      "vga=788 noprompt quiet --<enter>"
+    ]
+  }],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "{{user `project_dir`}}",
+      "destination": "/home/{{user `ssh_username`}}/.dotfiles"
+    },
+    {
+      "binary": false,
+      "inline_shebang": "/bin/sh -e",
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell",
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "cd /home/{{user `ssh_username`}}/.dotfiles",
+        "chmod u+x ./install.sh",
+        "sudo -E ./install.sh",
+        "cd"
+      ],
+      "environment_vars": [
+        "OS=linux",
+        "CUSER={{user `ssh_username`}}"
+      ]
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "echo '{{user `ssh_username`}} ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/99{{user `ssh_username`}}",
+        "chmod 0440 /etc/sudoers.d/99{{user `ssh_username`}}"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "apt-get clean"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    },
+    {
+      "binary": false,
+      "execute_command": "echo '{{user `ssh_password`}}' | {{.Vars}} sudo -E -S sh '{{.Path}}'",
+      "inline": [
+        "dd if=/dev/zero of=/ZEROFILL bs=4M",
+        "rm /ZEROFILL",
+        "sync"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "skip_clean": false,
+      "start_retry_timeout": "{{user `start_retry_timeout`}}",
+      "type": "shell"
+    }
+  ],
+  "description": "{{user `description`}}",
+  "min_packer_version": "0.10.1",
+  "post-processors": [
+    {
+      "compression_level": 6,
+      "keep_input_artifact": true,
+      "only": [
+        "virtualbox"
+      ],
+      "output": "{{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-{{.Provider}}.box",
+      "type": "vagrant",
+      "vagrantfile_template": "{{user `vagrantfile_template`}}"
+    },
+    {
+      "inline": [
+        "cat <<EOT > {{user `output_directory`}}/{{user `hostname`}}.json",
+        "{",
+        "  \"name\": \"loliee/{{user `hostname`}}\",",
+        "  \"description\": \"{{user `description`}}\",",
+        "  \"versions\": [",
+        "    {",
+        "      \"version\": \"{{user `version`}}\",",
+        "      \"providers\": [",
+        "        {",
+        "         \"name\": \"virtualbox\",",
+        "         \"url\": \"{{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-virtualbox.box\",",
+        "         \"checksum_type\": \"sha256\",",
+        "         \"checksum\": \"$(shasum -a 256 {{user `output_directory`}}/{{user `hostname`}}-{{user `version`}}-virtualbox.box | awk '{print $1}')\"",
+        "        }",
+        "      ]",
+        "    }",
+        "  ]",
+        "}"
+      ],
+      "inline_shebang": "/bin/sh -e",
+      "only": [
+        "virtualbox"
+      ],
+      "type": "shell-local"
+    }
+  ]
+}

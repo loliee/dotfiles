@@ -4,32 +4,59 @@ language: ruby
 sudo: required
 
 matrix:
+  fast_finish: true
   include:
-    - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
+    #    - os: osx
+    #      osx_image: xcode7.3
+    #      env:
+    #        - INSTALL_GPGTOOLS=0
+    #        - OS=darwin
+    #        - RUN_LIST=base,dotfiles
+    #    - os: osx
+    #      osx_image: xcode7.3
+    #      env:
+    #        - INSTALL_DOTFILES=0
+    #        - OS=darwin
+    #        - RUN_LIST=dev
+    #    - os: osx
+    #      osx_image: xcode7.3
+    #      env:
+    #        - INSTALL_DOTFILES=0
+    #        - OS=darwin
+    #        - RUN_LIST=messaging,multimedia
+    - os: linux
       env:
-        - INSTALL_GPGTOOLS=0
-        - OS=darwin
+        - DISTRIB=debian:jessie
+        - INSTALL_DOTFILES=1
+        - INSTALL_VIRTUALBOX=0
+        - OS=linux
         - RUN_LIST=base,dotfiles
-    - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
+      services:
+        - docker
+    - os: linux
       env:
+        - DISTRIB=debian:jessie
         - INSTALL_DOTFILES=0
-        - OS=darwin
+        - INSTALL_VIRTUALBOX=0
+        - OS=linux
         - RUN_LIST=dev
-    - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
+      services:
+        - docker
+    - os: linux
       env:
+        - DISTRIB=debian:jessie
         - INSTALL_DOTFILES=0
-        - OS=Darwin
-        - RUN_LIST=messaging,multimedia
-install:
-  - brew install shellcheck stow
-  - gem install serverspec
+        - INSTALL_VIRTUALBOX=0
+        - OS=linux
+        - RUN_LIST=multimedia
+      services:
+        - docker
+
+before_script:
+  - mkdir "$HOME/bin"
+  - curl -Lso "$HOME/bin/shellcheck" https://github.com/caarlos0/shellcheck-docker/releases/download/v0.4.4/shellcheck
+  - chmod +x "$HOME/bin/shellcheck"
+  - export PATH=$HOME/bin:$PATH
 
 script:
-  - ./install.sh
-  - make test
+  - ./travis.sh

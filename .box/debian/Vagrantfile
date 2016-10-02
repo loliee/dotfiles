@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX = ENV['BOX'] || 'loliee/jessie64'
+CPU = ENV['CPU'] || 2
+MEMORY = ENV['MEMORY'] || 2048
+USER =  'mloliee'
+HOSTNAME = 'jessie64.local'.freeze
+
+Vagrant.configure(2) do |config|
+  config.vm.box = BOX
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.define 'vagrant' do |vm1|
+    vm1.vm.hostname = HOSTNAME
+    vm1.vm.network 'private_network', ip: '192.168.111.222'
+    vm1.ssh.forward_agent = true
+
+    config.vm.provider 'virtualbox' do |vb|
+      vb.customize ['modifyvm', :id, '--memory', MEMORY]
+      vb.customize ['modifyvm', :id, '--cpus', CPU]
+    end
+  end
+
+  if Vagrant.has_plugin?('vagrant-proxyconf')
+    config.proxy.http = ENV['http_proxy'] || ''
+    config.proxy.https = ENV['https_proxy'] || ''
+    config.proxy.no_proxy = ENV['no_proxy'] || ''
+  end
+
+end

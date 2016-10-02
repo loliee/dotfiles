@@ -1,0 +1,6 @@
+Vagrant.require_version '>= 1.8.5'
+
+Vagrant.configure(2) do |config|
+  config.ssh.username = ENV['CUSER'] || 'mloliee'
+  config.ssh.private_key_path = "#{ENV['HOME']}/.ssh/id_rsa"
+end

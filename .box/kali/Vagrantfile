@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# export USB_ID=$(VBoxManage list usbhost | grep -B 7 "USB 3.0 FD" | grep UUID | awk '{print $2}')
+
+BOX = ENV['BOX'] || 'loliee/kali64'
+CPU = ENV['CPU'] || 2
+USB_ID= ENV['USB_ID'] || ''
+MEMORY = ENV['MEMORY'] || 2048
+USER =  'mloliee'
+HOSTNAME = 'jessie64.local'.freeze
+
+LIVE_SCRIPT = <<SCRIPT
+  export CUSER=mloliee
+  export CHOME=/home/mloliee
+  export RUN_LIST='base,dev,dns,multimedia,http_proxy'
+  export http_proxy=http://127.0.0.1:3142
+  cp /home/#{USER}/.dotfiles/install/live/kali.chroot /home/#{USER}/live-build-config/kali-config/common/hooks/live/mykali.chroot
+  chmod 755 /home/#{USER}/live-build-config/kali-config/common/hooks/live/mykali.chroot
+  cp -R /home/#{USER}/.dotfiles /home/#{USER}/live-build-config/kali-config/common/includes.chroot/root/
+  cp -R /Shared/live/* /home/#{USER}/live-build-config/kali-config/common/includes.chroot/root/
+  /etc/init.d/apt-cacher-ng restart
+  cd /home/#{USER}/live-build-config/ && sudo -E ./build.sh --distribution kali-rolling --variant xfce --verbose
+  mkdir -p /Shared/build
+  cp /home/#{USER}/live-build-config/images/kali-linux-xfce-rolling-amd64.iso /Shared/build/
+SCRIPT
+
+Vagrant.configure(2) do |config|
+  config.vm.box = BOX
+  config.ssh.username = ENV['CUSER'] || 'mloliee'
+  config.ssh.private_key_path = "#{ENV['HOME']}/.ssh/id_rsa"
+  config.vm.synced_folder "#{ENV['HOME']}/Shared", "/Shared"
+
+  config.vm.define 'vagrant' do |vm1|
+    vm1.ssh.forward_agent = true
+
+    config.vm.provider 'virtualbox' do |vb|
+      vb.customize ['modifyvm', :id, '--memory', MEMORY]
+      vb.customize ['modifyvm', :id, '--cpus', CPU]
+    end
+  end
+
+  config.vm.provision "shell", inline: LIVE_SCRIPT
+
+  if Vagrant.has_plugin?('vagrant-proxyconf')
+    config.proxy.http = ENV['http_proxy'] || ''
+    config.proxy.https = ENV['https_proxy'] || ''
+    config.proxy.no_proxy = ENV['no_proxy'] || ''
+  end
+
+end
