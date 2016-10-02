@@ -17,6 +17,13 @@ export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help'
 unsetopt SHARE_HISTORY
 
+# kubectl
+hash kubectl &>/dev/null &&  source <(kubectl completion zsh)
+
+# travis
+[[ -f "/usr/local/share/zsh/site-functions/_travis" ]] \
+  && source "/usr/local/share/zsh/site-functions/_travis"
+
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_FILE=~/.node_history;
 # Allow 32³ entries; the default is 1000.

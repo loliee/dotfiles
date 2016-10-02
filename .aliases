@@ -89,6 +89,8 @@ function ssht() {
   tabname "$SSH_HOST"
   ssh "$@" -t 'tmux ls && exec tmux a || exec tmux new || exec $SHELL -l'
 }
+compdef ssht=ssh
+compdef sshrc=ssh
 
 # FZF amazing fuzzy finder
 if hash fzf &>/dev/null; then
@@ -113,10 +115,10 @@ if hash fzf &>/dev/null; then
   }
 fi
 
-hash kubectl &>/dev/null && alias kb='kubectl'
+hash kubectl &>/dev/null && alias kb='kubectl' && compdef kb=kubectl
 
 # docker-compose is too long, dc will do it
-hash docker-compose &>/dev/null && alias dc='docker-compose'
+hash docker-compose &>/dev/null && alias dc='docker-compose' && compdef dc=docker-compose
 
 # Superfast directory remove
 function rmf {

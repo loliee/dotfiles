@@ -7,33 +7,29 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Setup a nice osx system, run all the following install tasks
-	@make install-homebrew \
-	 install-dotfiles \
-	 setup-iterm2
+install-packages: ## Install packages I love
+	./install.sh
 
-install-dotfiles: # Install my dotfiles, included patatetoy prompt
+install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
-	@mkdir -p $(HOME)/.ssh/tmp && mkdir -p $(HOME)/.ssh/assh.d
-	@hash kubectl &>/dev/null && kubectl completion zsh > $(HOME)/.kubectl.completion.zsh
 	@stow -S . -t "$(HOME)" -v \
+		--ignore='.DS_Store' \
+		--ignore='.fzf_history' \
+		--ignore='.git' \
+		--ignore='.travis.yml' \
+		--ignore='install' \
+		--ignore='install.sh' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
-		--ignore='.media' \
-		--ignore='.install.d' \
-		--ignore='.DS_Store' \
-		--ignore='.assh' \
-		--ignore='.travis.yml' \
-		--ignore='tests' \
-		--ignore='.fzf_history' \
-		--ignore='.fzf'
-	@make install-tpm \
-	 install-prezto \
-	 install-vundle
+		--ignore='Rakefile' \
+		--ignore='spec'
+	make install-prezto
+	make install-tpm
+	make install-vundle
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
@@ -43,12 +39,6 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
-
-install-homebrew: ## Install homebrew and my list of packages
-	$(info --> Install homebrew)
-	@which brew &>/dev/null \
-			|| ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-			@./.brew
 
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
@@ -83,19 +73,17 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
 	@rm -rf $(HOME)/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
+		--ignore='.DS_Store' \
+		--ignore='.fzf_history' \
+		--ignore='.git' \
+		--ignore='.travis.yml' \
+		--ignore='install' \
+		--ignore='install.sh' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
-		--ignore='.media' \
-		--ignore='.install.d' \
-		--ignore='.DS_Store' \
-		--ignore='.assh' \
-		--ignore='.travis.yml' \
-		--ignore='tests' \
-		--ignore='.fzf_history'
-	@make uninstall-tpm \
-		uninstall-prezto \
-		uninstall-vundle
+		--ignore='Rakefile' \
+		--ignore='spec'
 
 uninstall-tpm: ## Uninstall tmux plugin manager
 	$(info --> Uninstall tpm)
@@ -109,9 +97,20 @@ uninstall-prezto: ## Uninstall Prezto
 
 uninstall-vundle: ## Uninstall Vundle
 	$(info --> Uninstall vundle)
-	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
-		&& rm -rf $(HOME)/.vim/bundle/Vundle.vim
+	@[[ -d $(HOME)/.vim/bundle ]] \
+		&& rm -rf $(HOME)/.vim/bundle
 
-test: ## Run tests suite
-	$(info --> Run tests)
-	@bats tests/*.bats
+shellcheck: ## Run shellcheck
+	$(info --> Run shellcheck)
+	@shellcheck --exclude=SC2148 .aliases .aliases.dev .aliases.osx
+	@find . -name '*.sh'  | xargs -P 4 -I % shellcheck %
+
+serverspec: ## Run serverspec
+	$(info --> Run serverspec)
+	@env \
+		SPEC_OPTS='--format documentation --color' \
+		rake serverspec:run
+
+test: ## Run shellcheck and serverspec
+	$(info --> Run serverspec)
+	@make -j -l 2 shellcheck serverspec

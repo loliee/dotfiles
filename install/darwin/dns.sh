@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 OS="$(uname)"
-[[ $OS -ne 'Darwin' ]] && exit 0
+[[ $OS != 'Darwin' ]] && exit 0
 
 echo '--> configure dnsmasq'
 

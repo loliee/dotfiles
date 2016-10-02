@@ -1,15 +1,35 @@
 ---
 
-language: bash
+language: ruby
 sudo: required
+
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode7.3
+      ruby: 2.2
+      env:
+        - INSTALL_GPGTOOLS=0
+        - OS=darwin
+        - RUN_LIST=base,dotfiles
+    - os: osx
+      osx_image: xcode7.3
+      ruby: 2.2
+      env:
+        - INSTALL_DOTFILES=0
+        - OS=darwin
+        - RUN_LIST=dev
+    - os: osx
+      osx_image: xcode7.3
+      ruby: 2.2
+      env:
+        - INSTALL_DOTFILES=0
+        - OS=Darwin
+        - RUN_LIST=messaging,multimedia
 install:
-  - sudo apt-get install zsh
-before_script:
-  - mkdir "$HOME/bin"
-  - curl -Lso "$HOME/bin/shellcheck" https://github.com/caarlos0/shellcheck-docker/releases/download/v0.4.3/shellcheck
-  - chmod +x "$HOME/bin/shellcheck"
-  - git clone https://github.com/sstephenson/bats.git "$HOME/bats"
-  - ln -s "$HOME/bats/libexec/bats" "$HOME/bin/bats"
-  - export PATH=$PATH:$HOME/bin
+  - brew install shellcheck stow
+  - gem install serverspec
+
 script:
+  - ./install.sh
   - make test
