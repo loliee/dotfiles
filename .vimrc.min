@@ -1,5 +1,6 @@
 " mloliee vimrc.min
 
+let g:skip_defaults_vim = 1   " ignore defaults.vim file
 set nocompatible              " be iMproved, required
 filetype off                  " required
 filetype plugin indent on     " required
