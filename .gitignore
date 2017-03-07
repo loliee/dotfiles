@@ -1,5 +1,6 @@
 .aliases.local
 .iterm2/iterm2-patatetoy
 .sshrc.d/.patatetoy.sh
+.config/gcloud
 build
 output-virtualbox
