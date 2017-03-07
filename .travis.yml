@@ -6,24 +6,24 @@ sudo: required
 matrix:
   fast_finish: true
   include:
-    #    - os: osx
-    #      osx_image: xcode7.3
-    #      env:
-    #        - INSTALL_GPGTOOLS=0
-    #        - OS=darwin
-    #        - RUN_LIST=base,dotfiles
-    #    - os: osx
-    #      osx_image: xcode7.3
-    #      env:
-    #        - INSTALL_DOTFILES=0
-    #        - OS=darwin
-    #        - RUN_LIST=dev
-    #    - os: osx
-    #      osx_image: xcode7.3
-    #      env:
-    #        - INSTALL_DOTFILES=0
-    #        - OS=darwin
-    #        - RUN_LIST=messaging,multimedia
+    - os: osx
+      osx_image: xcode7.3
+      env:
+        - INSTALL_GPGTOOLS=0
+        - OS=darwin
+        - RUN_LIST=base,dotfiles
+    - os: osx
+      osx_image: xcode7.3
+      env:
+        - INSTALL_DOTFILES=0
+        - OS=darwin
+        - RUN_LIST=dev
+    - os: osx
+      osx_image: xcode7.3
+      env:
+        - INSTALL_DOTFILES=0
+        - OS=darwin
+        - RUN_LIST=messaging,multimedia
     - os: linux
       env:
         - DISTRIB=debian:jessie
