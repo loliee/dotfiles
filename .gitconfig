@@ -70,7 +70,7 @@
 	ma = merge --abort
 	mc = merge --continue
 	p = push
-	pf = push -f
+	pf = push --force-with-lease
 	po = push origin
 	pod = push --delete origin
 	pof = push --force origin
