@@ -43,6 +43,19 @@ brew tap homebrew/services
 brew tap tldr-pages/tldr
 brew tap homebrew/versions
 
+echo '--> Install/update base Homebrew cask'
+brew cask install xquartz
+brew cask install osxfuse
+brew cask install java
+brew cask install font-hack
+brew cask install flux
+brew cask install google-chrome
+brew cask install google-drive
+[[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpgtools
+brew cask install istat-menus
+brew cask install iterm2
+brew cask install keepassx
+
 run_list_array=(${RUN_LIST//,/ })
 # shellcheck source=/dev/null
 for i in "${!run_list_array[@]}"; do
