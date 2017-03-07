@@ -10,7 +10,7 @@ matrix:
       osx_image: xcode7.3
       env:
         - CUSER=travis
-        - CHOME=/home/travis
+        - CHOME=/Users/travis
         - INSTALL_GPGTOOLS=0
         - OS=darwin
         - RUN_LIST=base,dotfiles
@@ -18,7 +18,7 @@ matrix:
       osx_image: xcode7.3
       env:
         - CUSER=travis
-        - CHOME=/home/travis
+        - CHOME=/Users/travis
         - INSTALL_DOTFILES=0
         - OS=darwin
         - RUN_LIST=dev
@@ -26,7 +26,7 @@ matrix:
       osx_image: xcode7.3
       env:
         - CUSER=travis
-        - CHOME=/home/travis
+        - CHOME=/Users/travis
         - INSTALL_DOTFILES=0
         - OS=darwin
         - RUN_LIST=messaging,multimedia
