@@ -33,4 +33,4 @@ export PATH=/home/${CUSER}/bin:/usr/local/bin/:${PATH}
 echo "--> Run ${OS} install scripts..."
 "./install/${OS}/main.sh"
 "./install/common/main.sh"
-chown -R "${CUSER}." "${CHOME}"
+chown -R "${CUSER}" "${CHOME}"
