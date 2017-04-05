@@ -17,9 +17,6 @@ export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help'
 unsetopt SHARE_HISTORY
 
-# kubectl
-hash kubectl &>/dev/null &&  source <(kubectl completion zsh)
-
 # travis
 [[ -f "/usr/local/share/zsh/site-functions/_travis" ]] \
   && source "/usr/local/share/zsh/site-functions/_travis"
