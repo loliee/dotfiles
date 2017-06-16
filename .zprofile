@@ -92,6 +92,3 @@ if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
 fi
 
-# Magic per-project shell environments. Very pretentious.
-[[ -f "${HOMEBREW_ROOT}/opt/autoenv/activate.sh" ]] && \
-  source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"
