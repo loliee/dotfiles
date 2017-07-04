@@ -68,7 +68,7 @@ done
 # Ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  2.3.1
+  2.4.1
 )
 
 for ruby in "${RUBIES[@]}"; do
