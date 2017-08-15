@@ -54,6 +54,7 @@ brew install terraform-inventory
 PIPS=(
   fabric
   flake8
+  ipython
   pylint
   virtualenv
 )
