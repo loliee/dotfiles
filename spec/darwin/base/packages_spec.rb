@@ -4,7 +4,6 @@ casks_list= %x( brew cask list )
 
 %w(
   google-chrome
-  google-drive
   istat-menus
   iterm2
   java
