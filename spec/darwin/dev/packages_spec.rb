@@ -6,6 +6,8 @@ casks_list= %x( brew cask list )
  charles
  google-cloud-sdk
  docker
+ little-snitch
+ micro-snitch
  vagrant
  virtualbox
 ).each do |p|

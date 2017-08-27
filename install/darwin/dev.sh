@@ -8,6 +8,8 @@ echo '--> Install dev cask apps'
 brew cask install charles
 brew cask install google-cloud-sdk
 brew cask install docker
+brew cask install little-snitch
+brew cask install micro-snitch
 brew cask install vagrant
 brew cask install virtualbox
 
