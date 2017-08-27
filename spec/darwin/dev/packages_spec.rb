@@ -3,9 +3,12 @@ require 'spec_helper'
 casks_list= %x( brew cask list )
 
 %w(
+ 1password
  charles
  google-cloud-sdk
  docker
+ little-snitch
+ micro-snitch
  vagrant
  virtualbox
 ).each do |p|
@@ -33,8 +36,7 @@ end
  pandoc
  pgcli
  pre-commit
- python
- python3
+ pyenv
  pv
  qemu
  ruby-install

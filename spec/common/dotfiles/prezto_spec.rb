@@ -33,7 +33,6 @@ describe file("#{ENV['HOME']}/.zprofile") do
   it { should contain("export HOMEBREW_CASK_OPTS='--appdir=/Applications  --caskroom=/usr/local/Caskroom'") }
   it { should contain("FZF_DEFAULT_COMMAND='ag -l -g") }
   it { should contain("export PATATETOY_VIM_MODE=1") }
-  it { should contain('source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"') }
 end
 
 describe file("#{ENV['HOME']}/.zpreztorc") do

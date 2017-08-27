@@ -7,21 +7,19 @@ brew cask install font-hack
 brew cask install flux
 brew cask install google-chrome
 brew cask install google-drive
-[[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpgtools
+[[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpgtools keybase
 brew cask install istat-menus
 brew cask install iterm2
 brew cask install java
 brew cask install keepassx
-brew cask install osxfuse
 brew cask install xquartz
 
 # Replace macOS openssl version
-brew install openssl && brew link openssl --force
+brew install openssl
 
 brew install advancecomp
 brew install ansifilter
 brew install autoenv
-brew install homebrew/fuse/bindfs
 brew install coreutils
 brew install curl --with-openssl && brew link --force curl
 brew install dnscrypt-proxy
@@ -35,7 +33,6 @@ brew install gnu-tar
 brew install gnu-time
 brew install gsl
 brew install htop-osx
-brew install keybase
 brew install moreutils
 brew install ncdu
 brew install ntfs-3g

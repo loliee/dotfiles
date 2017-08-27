@@ -4,12 +4,10 @@ casks_list= %x( brew cask list )
 
 %w(
   google-chrome
-  google-drive
   istat-menus
   iterm2
   java
   keepassx
-  osxfuse
   xquartz
 ).each do |p|
   describe command("echo '#{casks_list}' | grep #{p}") do
@@ -22,7 +20,6 @@ end
   advancecomp
   ansifilter
   autoenv
-  bindfs
   coreutils
   curl
   dnscrypt-proxy
@@ -33,11 +30,9 @@ end
   git
   gsl
   htop-osx
-  keybase
   libxml2
   moreutils
   ncdu
-  ntfs-3g
   openssh
   pigz
   polipo

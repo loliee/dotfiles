@@ -51,9 +51,12 @@
 
 [alias]
 	a = add -p
+	b = branch --list -a
 	bm = branch -m
 	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
+	cn = git commit -v -n
 	ca = commit --amend
+	can = commit --amend -n
 	cf = commit --fixup
 	cm = commit -m
 	co = checkout
@@ -61,12 +64,15 @@
 	cop = checkout -p
 	cp = cherry-pick
 	cpa = cherry-pick --abort
+	cpc = cherry-pick --continue
+	cps = cherry-pick --skip
 	cs = commit --squash
 	d = diff
 	dc = diff --cached
 	dfm = diff master...
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s \
 %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
+	lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
 	ma = merge --abort
 	mc = merge --continue
 	p = push
@@ -77,13 +83,15 @@
 	pt = push --follow-tags
 	pu = pull
 	r = reset
+	ra = rebase --abort
+	rc = rebase --continue
 	rh = reset --hard
 	ri = rebase -i
-	rc = rebase --continue
-	ra = rebase --abort
-	ru = remote update
+	rh = reset --hard
 	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
+	rs = rebase --skip
 	rso = remote set-url origin
+	ru = remote update
 	sa = submodule add
 	si = submodule init --recursive
 	sr = submodule dinit
@@ -97,3 +105,5 @@
 
 [push]
 	default = current
+[rerere]
+	enabled = true

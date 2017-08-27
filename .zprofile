@@ -17,9 +17,6 @@ export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help'
 unsetopt SHARE_HISTORY
 
-# kubectl
-hash kubectl &>/dev/null &&  source <(kubectl completion zsh)
-
 # travis
 [[ -f "/usr/local/share/zsh/site-functions/_travis" ]] \
   && source "/usr/local/share/zsh/site-functions/_travis"
@@ -85,6 +82,9 @@ export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
 
+# pyenv
+eval "$(pyenv init -)"
+
 # chruby
 if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   RUBIES=(~/.rubies/*)
@@ -95,6 +95,4 @@ if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
 fi
 
-# Magic per-project shell environments. Very pretentious.
-[[ -f "${HOMEBREW_ROOT}/opt/autoenv/activate.sh" ]] && \
-  source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"
+export GROOVY_HOME=/usr/local/opt/groovy/libexec

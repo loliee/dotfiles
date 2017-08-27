@@ -114,6 +114,7 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_python_checkers=['python', 'flake8']
 let g:syntastic_php_checkers = ['php', 'phpcs']
 let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
 

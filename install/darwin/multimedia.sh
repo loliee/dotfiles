@@ -13,7 +13,6 @@ brew cask install vlc
 echo '--> Install multimedia apps'
 brew install gifsicle
 brew install graphviz
-brew install imagemagick --with-webp
 brew install jhead
 brew install jpeg
 brew install jpegoptim

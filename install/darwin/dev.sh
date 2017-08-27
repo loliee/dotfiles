@@ -5,9 +5,12 @@
 brew tap jeffreywildman/homebrew-virt-manager
 
 echo '--> Install dev cask apps'
+brew cask install 1password
 brew cask install charles
 brew cask install google-cloud-sdk
 brew cask install docker
+brew cask install little-snitch
+brew cask install micro-snitch
 brew cask install vagrant
 brew cask install virtualbox
 
@@ -19,6 +22,7 @@ brew install cloc
 brew install closure-compiler
 brew install ctags
 brew install diff-so-fancy
+brew install kubernetes-cli
 brew install go
 brew install hub
 brew install ipcalc
@@ -32,8 +36,9 @@ brew install packer
 brew install pandoc
 brew install pgcli
 brew install pre-commit
-brew install python --with-brewed-openssl
-brew install python3 --with-brewed-openssl
+brew install pyenv
+brew install pyenv-virtualenv
+brew install pyenv-virtualenvwrapper
 brew install pv
 brew install qemu
 brew install ruby-install
@@ -49,25 +54,28 @@ brew install terraform
 brew install terraform-inventory
 
 # Python
+pyenv install -s 2.7.13
+pyenv global 2.7.13
 
 PIPS=(
   fabric
   flake8
+  ipython
   pylint
   virtualenv
 )
 
-"$(brew --prefix)/bin/pip" install --upgrade pip
+"${HOME}/.pyenv/shims/pip" install --upgrade pip
 
 for pip in "${PIPS[@]}"; do
-  "$(brew --prefix)/bin/pip" list -l | grep "$pip" &>/dev/null || \
-    "$(brew --prefix)/bin/pip" install "$pip"
+  "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null || \
+    "${HOME}/.pyenv/shims/pip" install "$pip"
 done
 
 # Ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  2.3.1
+  2.4.1
 )
 
 for ruby in "${RUBIES[@]}"; do

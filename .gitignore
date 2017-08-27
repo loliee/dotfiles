@@ -1,3 +1,4 @@
 .aliases.local
+.config
 .iterm2/iterm2-patatetoy
 .sshrc.d/.patatetoy.sh

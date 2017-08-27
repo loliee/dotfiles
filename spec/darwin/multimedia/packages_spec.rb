@@ -16,7 +16,6 @@ end
 %w(
  gifsicle
  graphviz
- imagemagick
  jhead
  jpeg
  jpegoptim
