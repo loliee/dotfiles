@@ -61,7 +61,7 @@ Group of packages to install, default to `base,dev,dns,messaging,multimedia,http
 
 #### `INSTALL_GPGTOOLS`
 
-Install `gpgtools` package, default to `1`.
+Install `gpgtools` and `keybase` packages, default to `1` (disabled during tests).
 
 ## Ressources
 
