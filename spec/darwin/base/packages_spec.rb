@@ -34,7 +34,6 @@ end
   libxml2
   moreutils
   ncdu
-  ntfs-3g
   openssh
   pigz
   polipo
