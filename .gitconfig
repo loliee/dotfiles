@@ -78,13 +78,13 @@
 	pt = push --follow-tags
 	pu = pull
 	r = reset
+	ra = rebase --abort
+	rc = rebase --continue
 	rh = reset --hard
 	ri = rebase -i
-	rc = rebase --continue
-	ra = rebase --abort
-	ru = remote update
 	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
 	rso = remote set-url origin
+	ru = remote update
 	sa = submodule add
 	si = submodule init --recursive
 	sr = submodule dinit
