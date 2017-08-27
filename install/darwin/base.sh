@@ -15,7 +15,7 @@ brew cask install keepassx
 brew cask install xquartz
 
 # Replace macOS openssl version
-brew install openssl && brew link openssl --force
+brew install openssl
 
 brew install advancecomp
 brew install ansifilter
