@@ -12,6 +12,7 @@ brew cask install istat-menus
 brew cask install iterm2
 brew cask install java
 brew cask install keepassx
+brew cask install keybase
 brew cask install xquartz
 
 # Replace macOS openssl version
@@ -33,7 +34,6 @@ brew install gnu-tar
 brew install gnu-time
 brew install gsl
 brew install htop-osx
-brew install keybase
 brew install moreutils
 brew install ncdu
 brew install ntfs-3g
