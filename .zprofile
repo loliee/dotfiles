@@ -17,9 +17,6 @@ export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help'
 unsetopt SHARE_HISTORY
 
-# kubectl
-hash kubectl &>/dev/null &&  source <(kubectl completion zsh)
-
 # travis
 [[ -f "/usr/local/share/zsh/site-functions/_travis" ]] \
   && source "/usr/local/share/zsh/site-functions/_travis"
@@ -95,6 +92,4 @@ if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
 fi
 
-# Magic per-project shell environments. Very pretentious.
-[[ -f "${HOMEBREW_ROOT}/opt/autoenv/activate.sh" ]] && \
-  source "${HOMEBREW_ROOT}/opt/autoenv/activate.sh"
+export GROOVY_HOME=/usr/local/opt/groovy/libexec

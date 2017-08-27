@@ -114,10 +114,6 @@ if hash fzf &>/dev/null; then
   }
 fi
 
-# kubectl
-hash kubectl &>/dev/null && alias kb='kubectl' \
-  && which compdef &>/dev/null && compdef kb=kubectl
-
 # docker-compose
 hash docker-compose &>/dev/null && alias dc='docker-compose' \
   && which compdef &>/dev/null && compdef dc=docker-compose
