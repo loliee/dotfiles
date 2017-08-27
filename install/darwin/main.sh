@@ -17,7 +17,7 @@ set -f
 RUN_LIST=${RUN_LIST:-'base,dev,dns,messaging,multimedia,http_proxy'}
 
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS='--appdir=/Applications --caskroom=/usr/local/Caskroom'
+export HOMEBREW_CASK_OPTS='--appdir=/Applications --no-binaries'
 
 echo '--> Check for Homebrew'
 if [[ ! $(which brew) ]]; then
@@ -29,19 +29,13 @@ echo "--> Make sure we're using the latest Homebrew"
 brew update
 
 echo '--> Upgrade any already-installed formulae'
-brew upgrade --all
-
-echo '--> Install/update Homebrew cask'
-brew cask update
+brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
-brew tap homebrew/binary
-brew tap homebrew/devel-only
-brew tap homebrew/dupes
+brew tap caskroom/cask
 brew tap caskroom/fonts
 brew tap homebrew/services
 brew tap tldr-pages/tldr
-brew tap homebrew/versions
 
 run_list_array=(${RUN_LIST//,/ })
 # shellcheck source=/dev/null

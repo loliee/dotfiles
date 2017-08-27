@@ -9,7 +9,6 @@ casks_list= %x( brew cask list )
   iterm2
   java
   keepassx
-  osxfuse
   xquartz
 ).each do |p|
   describe command("echo '#{casks_list}' | grep #{p}") do
@@ -22,7 +21,6 @@ end
   advancecomp
   ansifilter
   autoenv
-  bindfs
   coreutils
   curl
   dnscrypt-proxy

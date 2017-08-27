@@ -12,7 +12,6 @@ brew cask install istat-menus
 brew cask install iterm2
 brew cask install java
 brew cask install keepassx
-brew cask install osxfuse
 brew cask install xquartz
 
 # Replace macOS openssl version
@@ -21,7 +20,6 @@ brew install openssl && brew link openssl --force
 brew install advancecomp
 brew install ansifilter
 brew install autoenv
-brew install homebrew/fuse/bindfs
 brew install coreutils
 brew install curl --with-openssl && brew link --force curl
 brew install dnscrypt-proxy
