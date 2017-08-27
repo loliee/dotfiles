@@ -82,6 +82,9 @@ export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
 
+# pyenv
+eval "$(pyenv init -)"
+
 # chruby
 if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
   RUBIES=(~/.rubies/*)

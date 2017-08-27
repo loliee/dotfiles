@@ -36,8 +36,9 @@ brew install packer
 brew install pandoc
 brew install pgcli
 brew install pre-commit
-brew install python --with-brewed-openssl
-brew install python3 --with-brewed-openssl
+brew install pyenv
+brew install pyenv-virtualenv
+brew install pyenv-virtualenvwrapper
 brew install pv
 brew install qemu
 brew install ruby-install
@@ -53,6 +54,8 @@ brew install terraform
 brew install terraform-inventory
 
 # Python
+pyenv install -s 2.7.13
+pyenv global 2.7.13
 
 PIPS=(
   fabric
@@ -62,11 +65,11 @@ PIPS=(
   virtualenv
 )
 
-"$(brew --prefix)/bin/pip" install --upgrade pip
+"${HOME}/.pyenv/shims/pip" install --upgrade pip
 
 for pip in "${PIPS[@]}"; do
-  "$(brew --prefix)/bin/pip" list -l | grep "$pip" &>/dev/null || \
-    "$(brew --prefix)/bin/pip" install "$pip"
+  "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null || \
+    "${HOME}/.pyenv/shims/pip" install "$pip"
 done
 
 # Ruby

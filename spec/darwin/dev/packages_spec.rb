@@ -36,8 +36,7 @@ end
  pandoc
  pgcli
  pre-commit
- python
- python3
+ pyenv
  pv
  qemu
  ruby-install
