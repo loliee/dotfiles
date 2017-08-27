@@ -19,6 +19,7 @@ brew install cloc
 brew install closure-compiler
 brew install ctags
 brew install diff-so-fancy
+brew install kubernetes-cli
 brew install go
 brew install hub
 brew install ipcalc
