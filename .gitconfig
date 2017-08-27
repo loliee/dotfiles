@@ -72,7 +72,7 @@
 	dfm = diff master...
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s \
 %Cgreen(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
-  lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
+	lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
 	ma = merge --abort
 	mc = merge --continue
 	p = push
