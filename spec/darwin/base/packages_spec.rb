@@ -31,7 +31,6 @@ end
   git
   gsl
   htop-osx
-  keybase
   libxml2
   moreutils
   ncdu

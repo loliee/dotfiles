@@ -7,12 +7,11 @@ brew cask install font-hack
 brew cask install flux
 brew cask install google-chrome
 brew cask install google-drive
-[[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpgtools
+[[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpgtools keybase
 brew cask install istat-menus
 brew cask install iterm2
 brew cask install java
 brew cask install keepassx
-brew cask install keybase
 brew cask install xquartz
 
 # Replace macOS openssl version
