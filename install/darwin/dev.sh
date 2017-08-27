@@ -5,6 +5,7 @@
 brew tap jeffreywildman/homebrew-virt-manager
 
 echo '--> Install dev cask apps'
+brew cask install 1password
 brew cask install charles
 brew cask install google-cloud-sdk
 brew cask install docker

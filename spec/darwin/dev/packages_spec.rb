@@ -3,6 +3,7 @@ require 'spec_helper'
 casks_list= %x( brew cask list )
 
 %w(
+ 1password
  charles
  google-cloud-sdk
  docker
