@@ -54,7 +54,7 @@
 	b = branch --list -a
 	bm = branch -m
 	c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
-	cn = git commit -v -n
+	cn = commit -v -n
 	ca = commit --amend
 	can = commit --amend -n
 	cf = commit --fixup
