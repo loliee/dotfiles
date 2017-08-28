@@ -146,6 +146,9 @@ cnoremap <C-j> <Down>
 cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 
+" Fast visual 2 search
+vnoremap // y/\V<C-R>"<CR>
+
 " delete without yanking
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
