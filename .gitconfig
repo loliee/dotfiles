@@ -58,6 +58,7 @@
 	ca = commit --amend
 	can = commit --amend -n
 	cf = commit --fixup
+	cfn = commit -n --fixup
 	cm = commit -m
 	co = checkout
 	cob = checkout -b
