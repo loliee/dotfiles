@@ -30,7 +30,7 @@ matrix:
         - OS=Darwin
         - RUN_LIST=messaging,multimedia
 install:
-  - brew install shellcheck stow
+  - brew install shellcheck stow pre-commit
   - gem install serverspec
 
 script:

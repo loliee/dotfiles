@@ -112,6 +112,10 @@ serverspec: ## Run serverspec
 		SPEC_OPTS='--format documentation --color' \
 		rake serverspec:run
 
-test: ## Run shellcheck and serverspec
+pre-commit: ## Run pre-commit hooks
+	$(info --> Run precommit hooks)
+	pre-commit run --all
+
+test: ## Run shellcheck, serverspec and pre-commit hooks
 	$(info --> Run serverspec)
-	@make -j -l 2 shellcheck serverspec
+	@make -j -l 3 shellcheck serverspec pre-commit
