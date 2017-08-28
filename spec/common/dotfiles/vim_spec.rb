@@ -26,7 +26,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     SirVer/ultisnips
     loliee/vim-patatetoy
     loliee/vim-snippets
-    terryma/vim-multiple-cursors
     StanAngeloff/php.vim
     othree/html5.vim
   ).each do |p|

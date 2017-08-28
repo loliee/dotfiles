@@ -35,7 +35,6 @@ Plugin 'SirVer/ultisnips'
 Plugin 'loliee/vim-patatetoy'
 Plugin 'loliee/vim-snippets'
 Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'terryma/vim-multiple-cursors'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'othree/html5.vim'
 
