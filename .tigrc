@@ -6,4 +6,3 @@ set diff-options = --show-signature
 color cursor         white    black    bold
 color title-blur     white    black
 color title-focus    white    black    bold
-

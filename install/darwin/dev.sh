@@ -98,4 +98,3 @@ chruby "$(cat ~/.ruby-version)"
 for gem in "${GEMS[@]}"; do
   gem list -i "${gem}" &>/dev/null || gem install "${gem}"
 done
-
