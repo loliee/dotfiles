@@ -14,3 +14,4 @@ hash gcloud &>/dev/null && \
 #
 # Aliases
 [[ -f ${HOME}/.aliases ]] && source ${HOME}/.aliases
+[[ -f ${HOME}/.aliases.zik ]] && source ${HOME}/.aliases.zik

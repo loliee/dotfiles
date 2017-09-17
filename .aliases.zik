@@ -1,0 +1,112 @@
+shopt -s globstar
+
+# Reset
+RESET='\033[0m'       # Text Reset
+RED='\033[0;31m'          # Red
+GREEN='\033[0;32m'        # Green
+YELLOW='\033[0;33m'       # Yellow
+BLUE='\033[0;34m'         # Blue
+PURPLE='\033[0;35m'       # Purple
+CYAN='\033[0;36m'         # Cyan
+BWHITE='\033[1;97m'
+
+# Musicbrainz naming rule
+#
+# $if2(%albumartist%,%artist%)/$if($ne(%albumartist%,),%album%/,)$if($gt(%totaldiscs%,1),%discnumber%-,)$if($ne(%albumartist%,),$num(%tracknumber%,2) ,)%title%
+
+function zkcheck {
+  for file in **/*.flac; do
+    dir=$(dirname "${file}")
+    if [[ $dir == '.' ]]; then
+      dir=$(basename "$PWD")
+    fi
+    filename=$(basename "${file}")
+    ARTIST=$(metaflac --show-tag=ARTIST "${file}" | sed s/ARTIST=//)
+    ALBUM=$(metaflac --show-tag=ALBUM "${file}" | sed s/ALBUM=//)
+    GENRE=$(metaflac --show-tag=GENRE "${file}" | sed s/GENRE=//)
+    MUSICBRAINZ_ALBUMID=$(
+      metaflac --show-tag=MUSICBRAINZ_ALBUMID "${file}" | sed s/MUSICBRAINZ_ALBUMID=//
+    )
+    if [[ -z $MUSICBRAINZ_ALBUMID ]]; then
+      echo -e "${RED}$file (MUSICBRAINZ_ALBUMID missing)"
+    else
+      if [[ ! -z $GENRE ]]; then
+        info=''
+      else
+        info="${YELLOW}!GENRE ${RESET}"
+      fi
+      echo -e "${info}${BLUE}${ARTIST}/${PURPLE}${ALBUM}/${GREEN}${filename} ${CYAN}[${MUSICBRAINZ_ALBUMID}]${RESET}"
+    fi
+  done
+
+  DIRTY=$(find . -regex '.*\.\(DS_Store\|cue\|log\m3u\)')
+  if [[ ! -z $DIRTY ]]; then
+    echo -e "\n${YELLOW}!DIRTY FILES:"
+    echo -e "$DIRTY"
+  fi
+
+}
+
+function zkrmdirty {
+  DIRTY=$(find . -regex '.*\.\(DS_Store\|cue\|log\|m3u\)')
+  if [[ -z $DIRTY ]]; then
+    echo -e "${GREEN}skip, no dirty files...${RESET}"
+    return
+  fi
+  echo -e "$DIRTY"
+  echo -ne "\n${BWHITE}Remove listed files ? (n/Y) ${RESET}"
+  answer=$(/bin/bash -c "read -p '${question}' -r REPLY && echo \"\$REPLY\"")
+  case $answer in
+    [yY])
+      find . -regex '.*\.\(DS_Store\|cue\|log\|m3u\)' -exec rm -f '{}' \;
+      ;;
+    *)
+      echo 'cancel...'
+      ;;
+  esac
+}
+
+function zkget {
+  for file in **/*.flac; do
+    if [[ -z ${1} ]]; then
+       echo -e "${GREEN}$file"
+       echo -e "${YELLOW}$(
+         metaflac --list --block-type=VORBIS_COMMENT "$file" | sed -E 's/\s*comment\[[0-9]{1,}\]: //g'
+       )${RESET}"
+    else
+      echo -e "${GREEN}$file ${YELLOW}$(metaflac --show-tag="${1}" "${file}")${RESET}"
+    fi
+  done
+}
+
+function zkset {
+  find . -type f -name '*.flac'
+  echo -ne "\n${BWHITE}Will set vorbiscomment \"${1}=${2}\" in listed files ? (n/Y) ${RESET}"
+  answer=$(/bin/bash -c "read -p '${question}' -r REPLY && echo \"\$REPLY\"")
+  case $answer in
+    [yY])
+      for file in **/*.flac; do
+        echo "-> process $file"
+        metaflac --remove-tag="${1}" "${file}"
+        metaflac --set-tag="${1}=${2}" "${file}"
+      done
+      ;;
+    *)
+      echo 'cancel...'
+      ;;
+  esac
+}
+
+function zkflac2mp3 {
+  find . -type f -name '*.flac'
+  if [[ $1 == '.' ]]; then
+    dir=$(basename "$PWD")
+  else
+    dir=$1
+  fi
+  echo -e "Listed files will be encoded as mp3 (320K) to $dir ? (n/Y)${RESET}"
+  for file in **/*.flac; do
+    filename=$(basename "${file}"| sed s/.flac//)
+    ffmpeg -i "$file" -ab 320k -map_metadata 0 -id3v2_version 3 "$dir/$filename.mp3"
+  done
+}
