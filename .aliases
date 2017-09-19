@@ -30,6 +30,8 @@ alias reload='exec $SHELL -l'
 # Can I haz `timeout` ?
 hash gtimeout &>/dev/null && alias timeout='gtimeout'
 
+hash gfind &>/dev/null && alias find='gfind'
+
 # Cuz IMADUMMY
 which mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
