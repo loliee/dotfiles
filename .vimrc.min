@@ -219,7 +219,7 @@ cmap w!! w !sudo tee > /dev/null %
 nmap <leader>ya :%y+<CR>
 
 " Paste toggle
-set pastetoggle=<leader>p
+set pastetoggle=<leader>°
 
 " Display invisible chars
 nmap <leader>l :set list!<CR>
