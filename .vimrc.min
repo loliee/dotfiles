@@ -227,6 +227,10 @@ nmap <leader>l :set list!<CR>
 " Turn off search highlight and previous matches
 nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
+" Center window vertically on next/previous search match
+noremap n nzz
+noremap N Nzz
+
 " -----------------------------------------------------------
 " Functions
 " -----------------------------------------------------------
