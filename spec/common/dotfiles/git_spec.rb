@@ -5,7 +5,7 @@ describe file("#{ENV['HOME']}/.gitconfig") do
   it { should contain('name = Maxime Loliée') }
   it { should contain('email = maxime@siliadev.com') }
   it { should contain('ui = true') }
-  it { should contain('signingkey = A477DCEB') }
+  it { should contain('signingkey = 1B5A0D7E') }
   it { should contain('excludesfile = ~/.gitignore-global') }
   it { should contain('diff = diff-so-fancy | less --tabs=4 -RFX') }
   it { should contain('show = diff-so-fancy | less --tabs=4 -RFX') }
