@@ -20,7 +20,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     tpope/vim-markdown
     tpope/vim-surround
     tpope/vim-repeat
-    scrooloose/syntastic
+    w0rp/ale
     mv/mv-vim-nginx
     ntpeters/vim-better-whitespace
     SirVer/ultisnips
