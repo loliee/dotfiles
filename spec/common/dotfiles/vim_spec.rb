@@ -6,7 +6,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
   it { should contain('set rtp+=~/.vim/bundle/Vundle.vim') }
   it { should contain('source ~/.vimrc.min') }
   %w(
-    rking/ag.vim
+    mileszs/ack.vim
     markcornick/vim-bats
     ekalinin/Dockerfile.vim
     vim-airline/vim-airline
