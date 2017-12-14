@@ -14,7 +14,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'markcornick/vim-bats'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'vim-airline/vim-airline'
@@ -128,8 +128,11 @@ let g:UltiSnipsJumpBackwardTrigger="<Up>"
 " Bindings, command key send <NUL> value
 " -----------------------------------------------------------
 
-" Open ag.vim
-nnoremap <leader>a :Ag
+" Search with ack / ag
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap <Leader>a :Ack<Space>
 
 " Open fzf
 nnoremap <silent> <leader>f :FZF<CR>
