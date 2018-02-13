@@ -75,6 +75,13 @@ else
   alias git='git'
 fi
 
+# Tig reflog
+if hash tig &>/dev/null; then
+  function tigr() {
+    git reflog --pretty=raw | tig --pretty=raw
+  }
+fi
+
 # update tab name
 function tabname() {
   echo -en "\033];$1\007"
