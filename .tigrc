@@ -2,6 +2,10 @@
 set main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
 set diff-options = --show-signature
 
+# Rebase
+bind main R !git rebase -i %(commit)^
+bind diff R !git rebase -i %(commit)^
+
 # Colors
 color cursor         white    black    bold
 color title-blur     white    black
