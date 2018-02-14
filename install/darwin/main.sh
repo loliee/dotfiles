@@ -41,6 +41,7 @@ brew tap caskroom/fonts
 brew tap homebrew/services
 brew tap tldr-pages/tldr
 
+# shellcheck disable=SC2206
 run_list_array=(${RUN_LIST//,/ })
 # shellcheck source=/dev/null
 for i in "${!run_list_array[@]}"; do
