@@ -50,9 +50,8 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 	$(info --> Install Prezto)
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
-		https://github.com/zsh-users/prezto.git $(PREZTO)
-	@hash docker &>/dev/null && \
-		curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
+		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
+	@curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
 		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
 	@hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
 		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose

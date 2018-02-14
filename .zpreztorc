@@ -10,6 +10,7 @@ zstyle ':prezto:load' pmodule \
     'environment' \
     'terminal' \
     'editor' \
+    'gpg' \
     'history' \
     'directory' \
     'spectrum' \

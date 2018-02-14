@@ -14,7 +14,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'rking/ag.vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'markcornick/vim-bats'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'vim-airline/vim-airline'
@@ -28,7 +28,7 @@ Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
-Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'SirVer/ultisnips'
@@ -108,20 +108,12 @@ let g:better_whitespace_verbosity = 1
 let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
 
 " ------------------------------------------------------------
-" Configure syntastic
+" Configure ale
 " ------------------------------------------------------------
 
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_python_checkers=['python', 'flake8']
-let g:syntastic_php_checkers = ['php', 'phpcs']
-let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
-
-" Better syntastic symbols
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
 
 " -----------------------------------------------------------
 " UtilSnips config
@@ -136,8 +128,11 @@ let g:UltiSnipsJumpBackwardTrigger="<Up>"
 " Bindings, command key send <NUL> value
 " -----------------------------------------------------------
 
-" Open ag.vim
-nnoremap <leader>a :Ag
+" Search with ack / ag
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap <Leader>a :Ack<Space>
 
 " Open fzf
 nnoremap <silent> <leader>f :FZF<CR>
