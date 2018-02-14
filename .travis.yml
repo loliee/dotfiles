@@ -11,13 +11,13 @@ matrix:
       env:
         - TAG='[ base/dotfiles ]'
         - INSTALL_GPGTOOLS=0
-        - OS=darwin
+        - OS=Darwin
         - RUN_LIST=base,dotfiles
     - os: osx
       env:
         - TAG='[ dev/licensed ]'
         - INSTALL_DOTFILES=0
-        - OS=darwin
+        - OS=Darwin
         - RUN_LIST=dev
     - os: osx
       env:
