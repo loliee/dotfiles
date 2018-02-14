@@ -16,6 +16,10 @@ set -f
 
 RUN_LIST=${RUN_LIST:-'base,dev,dns,messaging,multimedia,http_proxy'}
 
+# Run osx settings script
+
+SETUP_MACOS=${SETUP_MACOS:-1}
+
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS='--appdir=/Applications --no-binaries'
 
@@ -55,5 +59,7 @@ brew cleanup
 mkdir -p /usr/local/share/zsh /usr/local/share/zsh/site-functions
 chmod 755 /usr/local/share/zsh /usr/local/share/zsh/site-functions
 
-echo '--> Setup macOS !'
-./install/darwin/settings.sh
+if [[ $SETUP_MACOS == 1 ]]; then
+  echo '--> Setup macOS !'
+  ./install/darwin/settings.sh
+fi
