@@ -8,21 +8,18 @@ rvm:
 matrix:
   include:
     - os: osx
-      osx_image: xcode7.3
       env:
         - TAG='[ base/dotfiles ]'
         - INSTALL_GPGTOOLS=0
         - OS=darwin
         - RUN_LIST=base,dotfiles
     - os: osx
-      osx_image: xcode7.3
       env:
         - TAG='[ dev/licensed ]'
         - INSTALL_DOTFILES=0
         - OS=darwin
         - RUN_LIST=dev
     - os: osx
-      osx_image: xcode7.3
       env:
         - TAG='[ messaging/multimedia ]'
         - INSTALL_DOTFILES=0
