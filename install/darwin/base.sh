@@ -32,7 +32,6 @@ brew install gnu-sed --with-default-names
 brew install gnu-tar
 brew install gnu-time
 brew install gsl
-brew install htop-osx
 brew install moreutils
 brew install ncdu
 brew install ntfs-3g
