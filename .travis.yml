@@ -2,31 +2,30 @@
 
 language: ruby
 sudo: required
+rvm:
+  - 2.3
 
 matrix:
   include:
     - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
       env:
         - TAG='[ base/dotfiles ]'
         - INSTALL_GPGTOOLS=0
-        - OS=darwin
+        - SETUP_MACOS=0
+        - OS=Darwin
         - RUN_LIST=base,dotfiles
     - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
       env:
         - TAG='[ dev/licensed ]'
         - INSTALL_DOTFILES=0
-        - OS=darwin
+        - SETUP_MACOS=0
+        - OS=Darwin
         - RUN_LIST=dev
     - os: osx
-      osx_image: xcode7.3
-      ruby: 2.2
       env:
         - TAG='[ messaging/multimedia ]'
         - INSTALL_DOTFILES=0
+        - SETUP_MACOS=0
         - OS=Darwin
         - RUN_LIST=messaging,multimedia
 install:

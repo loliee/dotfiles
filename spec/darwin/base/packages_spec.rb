@@ -29,7 +29,6 @@ end
   fzf
   git
   gsl
-  htop-osx
   libxml2
   moreutils
   ncdu

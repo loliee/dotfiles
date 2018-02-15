@@ -56,7 +56,7 @@ sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
 sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist &> /dev/null
 sudo cp -fv /usr/local/opt/dnscrypt-proxy/*.plist /Library/LaunchDaemons
 sudo chown root /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
-sudo sed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\n" \
+sudo sed -i "/sbin\\/dnscrypt-proxy<\\/string>/a<string>--local-address=127.0.0.1:5355<\\/string>\\n" \
 	/Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnscrypt-proxy.plist
 

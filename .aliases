@@ -64,7 +64,7 @@ alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --ini
 
 function colors() {
   for code in $(seq -w 0 255); do for attr in 0 1;
-    do printf "%s-%03s %b■■■■%b\n" "${attr}" "${code}" "\e[${attr};38;05;${code}m" "\e[m";
+    do printf "%s-%03s %b■■■■%b\\n" "${attr}" "${code}" "\\e[${attr};38;05;${code}m" "\\e[m";
   done; done | column -c $((COLUMNS*2))
 }
 
@@ -75,9 +75,16 @@ else
   alias git='git'
 fi
 
+# Tig reflog
+if hash tig &>/dev/null; then
+  function tigr() {
+    git reflog --pretty=raw | tig --pretty=raw
+  }
+fi
+
 # update tab name
 function tabname() {
-  echo -en "\033];$1\007"
+  echo -en "\\033];$1\\007"
   if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" = 'tmux' ]]; then
     tmux rename-window "$(echo "$*" | cut -d . -f 1)"
   fi
