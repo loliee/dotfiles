@@ -6,7 +6,7 @@ end
 
 describe command('node --version') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should include('v8') }
+    its(:stdout) { should include('v9') }
 end
 
 describe command('svn --version') do
