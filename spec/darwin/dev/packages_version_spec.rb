@@ -16,5 +16,5 @@ end
 
 describe command('terraform --version') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should include('Terraform v0.10') }
+    its(:stdout) { should include('Terraform v0.11') }
 end
