@@ -25,6 +25,7 @@ end
  closure-compiler
  ctags
  diff-so-fancy
+ entr
  go
  hub
  ipcalc
