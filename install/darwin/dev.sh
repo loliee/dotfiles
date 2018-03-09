@@ -24,6 +24,7 @@ brew install ctags
 brew install diff-so-fancy
 brew install entr
 brew install kubernetes-cli
+brew install kubernetes-helm
 brew install go
 brew install hub
 brew install ipcalc
