@@ -24,12 +24,12 @@ brew install ctags
 brew install diff-so-fancy
 brew install entr
 brew install kubernetes-cli
+brew install kubernetes-helm
 brew install go
 brew install hub
 brew install ipcalc
 brew install hadolint
 brew install jq
-brew install kubectl
 brew install libxml2 && brew link libxml2 --force
 brew install nodejs --with-full-icu
 brew install nmap

@@ -60,6 +60,7 @@ export HOMEBREW_CASK_OPTS='--appdir=/Applications  --caskroom=/usr/local/Caskroo
 
 # Always enable colored `grep` output
 export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='30;43'
 
 # O ms for key sequences
 export KEYTIMEOUT=0

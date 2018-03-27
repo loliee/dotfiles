@@ -25,6 +25,7 @@ zstyle ':prezto:load' pmodule \
 
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:prompt' theme 'patatetoy'
+zstyle ':prezto:module:utility:grep' color 'no'
 
 # Editor
 zstyle ':prezto:module:editor' key-bindings 'vi'

@@ -28,6 +28,7 @@ end
  entr
  go
  hub
+ kubernetes-helm
  ipcalc
  hadolint
  jq
