@@ -30,7 +30,7 @@ matrix:
         - RUN_LIST=messaging,multimedia
 install:
   - brew install shellcheck stow pre-commit
-  - gem install serverspec
+  - make install-gems
 
 script:
   - ./install.sh

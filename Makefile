@@ -40,6 +40,11 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
+install-gems: ## Install gems
+	$(info --> run `bundle install`)
+	@gem install bundler --quiet
+	@bundle install
+
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
 	@mkdir -p $(HOME)/.tmux/plugins
