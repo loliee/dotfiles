@@ -37,6 +37,7 @@ Plugin 'loliee/vim-snippets'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'othree/html5.vim'
+Plugin 'Yggdroot/indentLine'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -96,6 +97,11 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.readonly = ''
 
 " ------------------------------------------------------------
+"  Indent Line Plugin
+" ------------------------------------------------------------
+let g:indentLine_enabled = 0
+
+" ------------------------------------------------------------
 " Goyo
 " ------------------------------------------------------------
 let g:goyo_width = 120
@@ -149,6 +155,9 @@ nnoremap <silent> <leader>w :StripWhitespace<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>
+
+" IndentLine
+nnoremap <silent> <leader>h :IndentLinesToggle<CR>
 
 " Exchange
 let g:exchange_no_mappings=1
