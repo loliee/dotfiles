@@ -2,9 +2,17 @@
 set main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
 set diff-options = --show-signature
 
+# Interactive adding
+bind main A !git add -p %(file)
+bind diff A !git add -p %(file)
+
 # Rebase
 bind main R !git rebase -i %(commit)^
 bind diff R !git rebase -i %(commit)^
+
+# Fixup
+bind main F !git commit --fixup %(commit)
+bind diff F !git commit --fixup %(commit)
 
 # Colors
 color cursor         white    black    bold
