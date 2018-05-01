@@ -26,6 +26,7 @@ end
  ctags
  diff-so-fancy
  entr
+ gawk
  go
  hub
  kubernetes-helm

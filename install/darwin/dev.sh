@@ -26,6 +26,7 @@ brew install entr
 brew install kubernetes-cli
 brew install kubernetes-helm
 brew install go
+brew install gawk
 brew install hub
 brew install ipcalc
 brew install hadolint
