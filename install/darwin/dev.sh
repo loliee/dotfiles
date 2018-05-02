@@ -23,6 +23,7 @@ brew install closure-compiler
 brew install ctags
 brew install diff-so-fancy
 brew install entr
+brew install kubectx
 brew install kubernetes-cli
 brew install kubernetes-helm
 brew install go

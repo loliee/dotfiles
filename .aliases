@@ -124,6 +124,10 @@ fi
 # kubectl
 hash kubectl &>/dev/null && alias kb='kubectl' \
   && which compdef &>/dev/null && compdef kb=kubectl
+hash kubectx &>/dev/null && alias kx='kubectx' \
+  && which compdef &>/dev/null && compdef kx=kubectx
+hash kubens &>/dev/null && alias kn='kubens' \
+  && which compdef &>/dev/null && compdef kn=kubens
 
 # docker-compose
 hash docker-compose &>/dev/null && alias dc='docker-compose' \
