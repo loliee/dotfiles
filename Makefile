@@ -60,6 +60,8 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
 	@hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
 		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose
+	@hash fly &>/dev/null && curl -q -L -o $(HOME)/.zprezto/modules/completion/external/src/_fly \
+		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)

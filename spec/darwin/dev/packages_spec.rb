@@ -5,6 +5,7 @@ casks_list= %x( brew cask list )
 %w(
  1password
  charles
+ fly
  google-cloud-sdk
  docker
  little-snitch
