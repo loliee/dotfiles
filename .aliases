@@ -125,6 +125,7 @@ function completion-reset() {
   rm -f ~/.zcompdump; compinit
 }
 
+# kubernetes
 hash kubectl &>/dev/null && alias kb='kubectl' \
   && which compdef &>/dev/null && compdef kb=kubectl
 hash kubectx &>/dev/null && alias kx='kubectx' \
