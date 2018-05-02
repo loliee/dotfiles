@@ -121,7 +121,10 @@ if hash fzf &>/dev/null; then
   }
 fi
 
-# kubectl
+function completion-reset() {
+  rm -f ~/.zcompdump; compinit
+}
+
 hash kubectl &>/dev/null && alias kb='kubectl' \
   && which compdef &>/dev/null && compdef kb=kubectl
 hash kubectx &>/dev/null && alias kx='kubectx' \
