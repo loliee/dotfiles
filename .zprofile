@@ -82,7 +82,7 @@ export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
 export PATATETOY_VIM_MODE=1
 
 # pyenv
-eval "$(pyenv init -)"
+command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
 # chruby
 if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
