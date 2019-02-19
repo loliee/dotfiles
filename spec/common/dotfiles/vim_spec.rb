@@ -28,6 +28,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     loliee/vim-snippets
     StanAngeloff/php.vim
     othree/html5.vim
+    Yggdroot/indentLine
   ).each do |p|
       it { should contain("Plugin '#{p}'") }
   end

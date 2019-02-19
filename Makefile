@@ -40,6 +40,11 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
+install-gems: ## Install gems
+	$(info --> run `bundle install`)
+	@gem install bundler --quiet
+	@bundle install
+
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
 	@mkdir -p $(HOME)/.tmux/plugins
@@ -55,6 +60,8 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
 	@hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
 		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose
+	@hash fly &>/dev/null && curl -q -L -o $(HOME)/.zprezto/modules/completion/external/src/_fly \
+		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)

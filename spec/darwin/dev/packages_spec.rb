@@ -5,6 +5,7 @@ casks_list= %x( brew cask list )
 %w(
  1password
  charles
+ fly
  google-cloud-sdk
  docker
  little-snitch
@@ -26,6 +27,7 @@ end
  ctags
  diff-so-fancy
  entr
+ gawk
  go
  hub
  kubernetes-helm

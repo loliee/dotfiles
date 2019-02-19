@@ -7,6 +7,7 @@ brew tap jeffreywildman/homebrew-virt-manager
 echo '--> Install dev cask apps'
 brew cask install 1password
 brew cask install charles
+brew cask install fly
 brew cask install google-cloud-sdk
 brew cask install docker
 brew cask install little-snitch
@@ -23,9 +24,11 @@ brew install closure-compiler
 brew install ctags
 brew install diff-so-fancy
 brew install entr
+brew install kubectx
 brew install kubernetes-cli
 brew install kubernetes-helm
 brew install go
+brew install gawk
 brew install hub
 brew install ipcalc
 brew install hadolint
