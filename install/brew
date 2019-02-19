@@ -172,11 +172,13 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     tcpdump \
     tcptraceroute \
     terraform \
-    terraform-inventory
+    terraform-inventory \
+    xz
 
   # Python
-  pyenv install -s 2.7.13
-  pyenv global 2.7.13
+  CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
+    pyenv install -s 2.7.15
+  pyenv global 2.7.15
 
   PIPS=(
     fabric
