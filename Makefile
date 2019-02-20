@@ -136,7 +136,6 @@ uninstall-vundle: ## Uninstall Vundle
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
-	@shellcheck --exclude=SC2148 .aliases .aliases.dev .aliases.osx
 	@find . -name '*.sh'  | xargs -P 4 -I % shellcheck %
 
 serverspec: ## Run serverspec
