@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://github.com/Russell91/sshrc
 
-SHELL=$(which bash)
+SHELL=$(command -v bash)
 TMUXDIR=/tmp/.mloliee.tmux.nkCx
 TMUXSERVER="$TMUXDIR/tmuxserver"
 VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"

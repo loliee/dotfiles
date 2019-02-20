@@ -22,7 +22,7 @@ install: ## Full install
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
-	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
+	@command -v stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@stow -S . -t "$(HOME)" -v \

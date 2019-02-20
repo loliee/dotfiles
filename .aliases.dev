@@ -13,7 +13,7 @@ function phpd() {
 function composerd() {
   local args="$*"
   local name="$PHPD-composer-$args"
-  if hash gdate &>/dev/null; then
+  if command -v gdate &>/dev/null; then
     name="$name"-"$(gdate +%s%N)"
   else
     name="$name"-"$(date +%sN)"

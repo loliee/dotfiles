@@ -6,7 +6,7 @@ OS="$(uname)"
 # Misc
 alias vi='vim'
 alias ri='ri -f ansi'
-which colordiff &>/dev/null && alias diff='colordiff'
+command -v colordiff &>/dev/null && alias diff='colordiff'
 
 # Some aliases to avoid making mistakes
 alias rm='rm -i'
@@ -28,10 +28,10 @@ alias nowdate='date +"%d-%m-%Y"'
 alias reload='exec $SHELL -l'
 
 # Can I haz `timeout` ?
-hash gtimeout &>/dev/null && alias timeout='gtimeout'
+command -v gtimeout &>/dev/null && alias timeout='gtimeout'
 
 # Cuz IMADUMMY
-which mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
+command -v mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
 # Override ls alias from common-aliases plugin
 alias ls='ls -G'
@@ -41,12 +41,12 @@ alias ll='ls -lah'
 alias fvim='vim $(fzf)'
 
 # Use gdate if exist
-if hash gdate &>/dev/null; then
+if command -v gdate &>/dev/null; then
   alias date='gdate'
 fi
 
 # Override prezto fasd module, include fzf fuzzy finder.
-if hash fasd &>/dev/null; then
+if command -v fasd &>/dev/null; then
   alias j='fasd_cd'
 fi
 
@@ -76,7 +76,7 @@ else
 fi
 
 # Tig reflog
-if hash tig &>/dev/null; then
+if command -v tig &>/dev/null; then
   function tigr() {
     git reflog --pretty=raw | tig --pretty=raw
   }
@@ -96,10 +96,10 @@ function ssht() {
   tabname "$SSH_HOST"
   ssh "$@" -t 'tmux ls && exec tmux a || exec tmux new || exec $SHELL -l'
 }
-which compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
+command -v compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 
 # FZF amazing fuzzy finder
-if hash fzf &>/dev/null; then
+if command -v fzf &>/dev/null; then
   function fasd_cd() {
     local dir
     local fasd_ret
@@ -126,16 +126,16 @@ function completion-reset() {
 }
 
 # kubernetes
-hash kubectl &>/dev/null && alias kb='kubectl' \
-  && which compdef &>/dev/null && compdef kb=kubectl
-hash kubectx &>/dev/null && alias kx='kubectx' \
-  && which compdef &>/dev/null && compdef kx=kubectx
-hash kubens &>/dev/null && alias kn='kubens' \
-  && which compdef &>/dev/null && compdef kn=kubens
+command -v kubectl &>/dev/null && alias kb='kubectl' \
+  && command -v compdef &>/dev/null && compdef kb=kubectl
+command -v kubectx &>/dev/null && alias kx='kubectx' \
+  && command -v compdef &>/dev/null && compdef kx=kubectx
+command -v kubens &>/dev/null && alias kn='kubens' \
+  && command -v compdef &>/dev/null && compdef kn=kubens
 
 # docker-compose
-hash docker-compose &>/dev/null && alias dc='docker-compose' \
-  && which compdef &>/dev/null && compdef dc=docker-compose
+command -v docker-compose &>/dev/null && alias dc='docker-compose' \
+  && command -v compdef &>/dev/null && compdef dc=docker-compose
 
 # Superfast directory remove
 function rmf {
@@ -222,7 +222,7 @@ if [[ $OS == 'Linux' ]]; then
   alias listbans='iptables -L -v -n | grep -e Chain -e DROP'
 
   # Log
-  if which ccze &>/dev/null; then
+  if command -v ccze &>/dev/null; then
     alias syslog='sudo tail -f /var/log/syslog | ccze'
   else
     alias syslog='sudo tail -f /var/log/syslog'
@@ -231,17 +231,17 @@ if [[ $OS == 'Linux' ]]; then
   alias tf='sudo tail -f'
 
   # services specific
-  if which nginx &>/dev/null; then
+  if command -v nginx &>/dev/null; then
     alias nginxtest='nginx -t'
     alias nginxreload='nginxtest && /etc/init.d/nginx reload'
   fi
 
-  if which apache2ctl &>/dev/null; then
+  if command -v apache2ctl &>/dev/null; then
     alias apachetest='apache2ctl -t'
     alias apachereload='apachetest && /etc/init.d/apache2 reload'
   fi
 
-  if which php5-fpm &>/dev/null; then
+  if command -v php5-fpm &>/dev/null; then
     alias php5fpmtest='php5-fpm -t'
     alias php5fpmreload='php5-fpmtest && /etc/init.d/php5-fpm reload'
     alias php5fpmstatus='curl 127.0.0.1/status'
