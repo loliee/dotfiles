@@ -31,7 +31,9 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.git' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
-		--ignore='install.sh' \
+		--ignore='.gemrc' \
+		--ignore='Gemfile' \
+		--ignore='Gemfile.lock' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
@@ -112,7 +114,9 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.git' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
-		--ignore='install.sh' \
+		--ignore='gemrc' \
+		--ignore='Gemfile' \
+		--ignore='Gemfile.lock' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
