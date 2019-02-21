@@ -148,6 +148,12 @@ pre-commit: ## Run pre-commit hooks
 	$(info --> Run precommit hooks)
 	@pre-commit run --all
 
+test-packages: ## Ensure that the OS is well configured
+	$(info --> Run serverspec)
+	@env \
+		RUN_LIST=base,dev,messaging,multimedia,privacy \
+		make serverspec
+
 test: ## Run shellcheck, serverspec and pre-commit hooks
 	$(info --> Run serverspec)
 	@make -j -l 3 shellcheck serverspec pre-commit
