@@ -4,9 +4,6 @@ require 'spec_helper'
 if os[:family] == 'darwin'
 
   %w(
-    google-hangouts
-    hipchat
-    skype
     slack
   ).each do |p|
     describe command("brew cask info #{p}") do

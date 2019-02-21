@@ -239,11 +239,7 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
 
   echo '--> Install messaging casks'
 
-  brew cask install \
-    google-hangouts \
-    hipchat \
-    skype \
-    slack
+  brew cask install slack
 fi
 
 
