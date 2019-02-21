@@ -239,7 +239,9 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
 
   echo '--> Install messaging casks'
 
-  brew cask install slack
+  brew cask install \
+    signal \
+    slack
 fi
 
 
