@@ -49,8 +49,6 @@ end
 # macOS specific
 if os[:family] == 'darwin'
 
-  casks_list= %x( brew cask list )
-
   %w(
     google-chrome
     istat-menus
@@ -59,8 +57,9 @@ if os[:family] == 'darwin'
     keepassx
     xquartz
   ).each do |p|
-    describe command("echo '#{casks_list}' | grep #{p}") do
+    describe command("brew cask info #{p}") do
       its(:exit_status) { should eq 0 }
+      its(:stdout) { should_not match /Not installed/ }
     end
   end
 end
