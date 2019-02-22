@@ -57,6 +57,9 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 setup-macos: ## Run macos script
 	@bash -x ./install/macos
 
+setup-macos-hardening: ## Run macos_hardening script
+	@bash -x ./install/macos_hardening
+
 install-gems: ## Install gems
 	$(info --> run `bundle install`)
 	@gem install bundler --quiet

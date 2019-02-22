@@ -1,0 +1,184 @@
+#!/usr/bin/env bash
+#
+# MacOs Hardening:
+#
+#  - Ensure FileVault is enabled
+#  - Ensure firmware password is enabled
+#  - Enforce Firewall settings
+#  - Consolidate my /etc/hosts
+#  - Manage my Network locations:
+#    * Automatic: follow DHCP instructions
+#    * Public Network: Local DNS resolver + Tor
+#    * Office: Local DNS resolver
+#    * Home: follow DHCP instructions
+#
+# https://github.com/drduh/macOS-Security-and-Privacy-Guide
+# https://raw.githubusercontent.com/bdossantos/dotfiles/master/.macos_hardening
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+CURRENT_NETWORK_LOCATION="$(networksetup -getcurrentlocation)"
+
+export CURRENT_NETWORK_LOCATION
+
+function _clean() {
+  sudo networksetup -switchtolocation "$CURRENT_NETWORK_LOCATION"
+  sudo networksetup -setairportpower en0 on
+  sudo networksetup -deletelocation 'tmp' || true
+  echo 'Cleaned'
+}
+
+while true; do sudo -n true; sleep 60; kill -0 $$ || exit; done 2>/dev/null &
+
+# Check FileVault status
+if ! fdesetup status | grep -q 'FileVault is On.'; then
+  # shellcheck disable=SC1003
+  1>&2 echo '/!\ FileVault is not enabled /!\'
+  exit 1
+fi
+
+# Check firmware password
+if ! sudo firmwarepasswd -check | grep -q 'Password Enabled: Yes'; then
+  # shellcheck disable=SC1003
+  1>&2 echo '/!\ firmware password is not set /!\'
+  1>&2 echo 'Hint: "sudo firmwarepasswd -setpasswd"'
+  exit 1
+fi
+
+# Check firmware password mode
+if ! sudo firmwarepasswd -mode | grep -q 'Mode: full'; then
+  # shellcheck disable=SC1003
+  1>&2 echo '/!\ firmware password is not required on all startups /!\'
+  1>&2 echo 'Hint: "sudo firmwarepasswd -setmode full"'
+  exit 1
+fi
+
+# Check System Integrity Protection
+if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; then
+  # shellcheck disable=SC1003
+  1>&2 echo '/!\ System Integrity protection is disabled /!\'
+  1>&2 echo 'Hint: "sudo csrutil enable"'
+  exit 1
+fi
+
+# Enable the firewall
+/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+
+# Enable logging
+/usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
+
+# Enable stealth mode
+/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+
+# Prevent built-in software as well as code-signed, downloaded software from
+# being whitelisted automatically
+/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
+
+# Configure the firewall to block all incoming traffic
+/usr/libexec/ApplicationFirewall/socketfilterfw --setblockall on
+
+sudo pkill -HUP socketfilterfw || true
+
+# Set the screen to lock as soon as the screensaver starts
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Expose hidden files and Library folder in Finder
+defaults write com.apple.finder AppleShowAllFiles -bool true
+chflags nohidden ~/Library
+
+# Show all filename extensions (so that "Evil.jpg.app" cannot masquerade easily).
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Don't default to saving documents to iCloud
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# Disable Bonjour multicast advertisements
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
+
+# Captive portal
+sudo defaults write \
+  /Library/Preferences/SystemConfiguration/com.apple.captive.control Active \
+  -bool false
+
+# You may wish to enforce hibernation and evict FileVault keys from memory
+# instead of traditional sleep to memory
+sudo pmset -a destroyfvkeyonstandby 1
+sudo pmset -a hibernatemode 25
+
+# If you choose to evict FileVault keys in standby mode, you should also modify
+# your standby and power nap settings. Otherwise, your machine may wake while
+# in standby mode and then power off due to the absence of the FileVault key
+sudo pmset -a powernap 0
+sudo pmset -a standby 0
+sudo pmset -a standbydelay 0
+sudo pmset -a autopoweroff 0
+
+# Consolidate my /etc/hosts too just in case I don't use my DNS, eg: automatic
+# network profile
+curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' \
+  | sudo tee '/etc/hosts'
+
+# Shutdown Wi-Fi
+sudo networksetup -setairportpower airport off
+
+trap _clean INT TERM EXIT
+
+# Create a tmp location, before generate 'Automatic' location
+sudo networksetup -createlocation 'tmp' populate \
+ || sudo networksetup -switchtolocation 'tmp'
+
+# Automatic
+sudo networksetup -deletelocation 'Automatic' || true
+sudo networksetup -createlocation 'Automatic' populate
+sudo networksetup -switchtolocation 'Automatic'
+
+# Public Network
+sudo networksetup -deletelocation 'Public Network' || true
+sudo networksetup -createlocation 'Public Network' populate
+sudo networksetup -switchtolocation 'Public Network'
+networksetup -listallnetworkservices | while read -r interface; do
+  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+    sudo networksetup -setdnsservers "$interface" 127.0.0.1
+    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
+    sudo networksetup -setsocksfirewallproxy "$interface" 127.0.0.1 9050
+    sudo networksetup -setsocksfirewallproxystate "$interface" on
+    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
+    sudo networksetup -setwebproxystate "$interface" on
+    sudo networksetup -setsearchdomains "$interface" Empty
+  fi
+done
+
+# Office
+sudo networksetup -deletelocation 'Office' || true
+sudo networksetup -createlocation 'Office' populate
+sudo networksetup -switchtolocation 'Office'
+networksetup -listallnetworkservices | while read -r interface; do
+  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+    sudo networksetup -setdnsservers "$interface" 127.0.0.1
+    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
+    sudo networksetup -setsocksfirewallproxystate "$interface" off
+    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
+    sudo networksetup -setwebproxystate "$interface" on
+    sudo networksetup -setsearchdomains "$interface" Empty
+  fi
+done
+
+# Home
+sudo networksetup -deletelocation 'Home' || true
+sudo networksetup -createlocation 'Home' populate
+sudo networksetup -switchtolocation 'Home'
+networksetup -listallnetworkservices | while read -r interface; do
+  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+    sudo networksetup -setdnsservers "$interface" 127.0.0.1
+    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
+    sudo networksetup -setsocksfirewallproxy "$interface" Empty
+    sudo networksetup -setsocksfirewallproxystate "$interface" off
+    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
+    sudo networksetup -setwebproxystate "$interface" on
+    sudo networksetup -setsearchdomains "$interface" Empty
+  fi
+done
