@@ -2,82 +2,69 @@
 
 [![Build Status](https://travis-ci.org/loliee/dotfiles.svg?branch=master)](https://travis-ci.org/loliee/dotfiles)
 
-## Install
-
-### Git install
+## Get this repository
 
 ```bash
 git clone https://github.com/loliee/dotfiles ~/.dotfiles
 ```
 
-### Git-free install
-
-To install these dotfiles without Git:
+Or without git (useful for the first install)
 
 ```bash
-mkdir -p ~/.dotfiles; curl -L https://github.com/loliee/dotfiles/tarball/master | tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
+mkdir -p ~/.dotfiles
+curl -L https://github.com/loliee/dotfiles/tarball/master \
+| tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
 ```
 
-To update later on, just run that command again.
+## Install
 
-## Setup (only) dotfiles
-
-Using [GNU Stow](http://www.gnu.org/software/stow/):
-
-### Installation
+Install brew, a lot of awesome packages 📦 and super sweet dotfile ✨
 
 ```bash
-cd ~/.dotfiles
+# Install dotfiles and packages
+make install
+
+# Install only dotfiles
 make install-dotfiles
+
+# Or limit packages with the `RUN_LIST`
+# Possible values are `base,dev,messaging,multimedia,privacy`
+RUN_LIST='messaging,multimedia,privacy' \
+  make install
+
+# Need help ?
+make help
 ```
 
-### Uninstallation
+## MacOS
+
+Setup sensible macOS defaults with:
+
+```bash
+make setup-macos
+make setup-macos-hardening
+```
+
+## Zsh
+
+Define zsh as your default shell (example bellow is macOS specific):
+
+```
+echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
+chsh -s "$(brew --prefix)/bin/zsh"
+```
+
+## Uninstall
+
+Remove dotfiles and packages with:
 
 ```bash
 make uninstall-dotfiles
+make uninstall-brew
 ```
-
-## Setup full OS
-
-Provision `macOS` system with [brew](http://brew.sh/) packages I use.
-
-```bash
-./install.sh
-```
-
-### Configuration
-
-#### `INSTALL_DOTFILES`
-
-Install dotfiles in current user `HOME` directory, default to `1`.
-
-#### `OS`
-
-In some case `OS` detection fail, define `$OS` var with `darwin` or `linux`.
-
-#### `RUN_LIST`
-
-Group of packages to install, default to `base,dev,dns,messaging,multimedia,http_proxy`.
-
-#### `INSTALL_GPGTOOLS`
-
-Install `gpgtools` and `keybase` packages, default to `1` (disabled during tests).
 
 ## Ressources
 
-### macOS
-
 - [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).
-- [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http).
-
-**List defaults: **
-
-```bash
-rc="\n" && defaults domains | sed s/,/"$rc"/g
-```
-
-**Read default values: **
-
-```bash
-defaults read com.apple.mail
-```
+- [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http)
+- [Mathias’s dotfiles](https://github.com/mathiasbynens/dotfiles)
