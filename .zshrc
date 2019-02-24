@@ -3,6 +3,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Completion must ignore /etc/hosts entries
+# this has no effect when defined in ~/.zpreztorc
+zstyle ':completion:*:hosts' hosts 'off'
+
 # Fix history arrow binding on tmux
 bindkey '^[[B' history-substring-search-down
 bindkey '^[[A' history-substring-search-up
