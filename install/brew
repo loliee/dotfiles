@@ -99,7 +99,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     the_silver_searcher \
     tmux \
     tree \
-    vim \
+    macvim \
     watch \
     wget \
     xz \
