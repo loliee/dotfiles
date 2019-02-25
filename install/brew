@@ -80,6 +80,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     gnu-sed \
     gnu-tar \
     gnu-time \
+    gnu-which \
     gsl \
     moreutils \
     ncdu \
