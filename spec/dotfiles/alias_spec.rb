@@ -9,10 +9,6 @@ describe file("#{ENV['HOME']}/.aliases") do
   it { should contain("alias rm='rm -i --preserve-root'") }
 end
 
-describe file("#{ENV['HOME']}/.aliases.dev") do
-  it { should be_file }
-end
-
-describe file("#{ENV['HOME']}/.aliases.osx") do
+describe file("#{ENV['HOME']}/.aliases.macos") do
   it { should be_file }
 end

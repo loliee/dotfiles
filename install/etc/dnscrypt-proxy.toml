@@ -1,0 +1,42 @@
+block_ipv6 = false
+cache = true
+cache_max_ttl = 86400
+cache_min_ttl = 600
+cache_neg_ttl = 60
+cache_size = 16000
+cert_refresh_delay = 240
+dnscrypt_ephemeral_keys = false
+dnscrypt_servers = true
+doh_servers = true
+force_tcp = false
+ignore_system_dns = true
+ipv4_servers = true
+ipv6_servers = false
+keepalive = 20
+lb_strategy = 'p2'
+listen_addresses = ['0.0.0.0:53']
+max_clients = 1024
+netprobe_timeout = 30
+require_dnssec = false
+require_nofilter = true
+require_nolog = true
+timeout = 3000
+tls_cipher_suite = [52392, 49199]
+tls_disable_session_tickets = false
+
+[query_log]
+  file = "/dev/null"
+  format = "tsv"
+
+[blacklist]
+  blacklist_file = '/etc/dnscrypt-proxy-blacklist.txt'
+  log_file = '/dev/null'
+
+[sources]
+  [sources.'public-resolvers']
+  urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v2/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v2/public-resolvers.md']
+  cache_file = '/dev/shm/public-resolvers.md'
+  format = 'v2'
+  minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
+  refresh_delay = 72
+  prefix = ''

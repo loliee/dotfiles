@@ -1,6 +1,6 @@
 # ~/.bashrc
 
-SHELL=$(which bash)
+SHELL=$(command -v bash)
 
 shopt -s cdable_vars        # if cd arg is not valid, assumes its a var defining a dir
 shopt -s cdspell            # autocorrects cd misspellings

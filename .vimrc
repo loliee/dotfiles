@@ -36,6 +36,7 @@ Plugin 'loliee/vim-patatetoy'
 Plugin 'loliee/vim-snippets'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'StanAngeloff/php.vim'
+Plugin 'stephpy/vim-yaml'
 Plugin 'othree/html5.vim'
 Plugin 'Yggdroot/indentLine'
 

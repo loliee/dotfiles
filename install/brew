@@ -1,0 +1,298 @@
+#!/usr/bin/env bash
+
+set -f
+
+# HOMEBREW options
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export PATH="${HOME}/.homebrew/bin:${PATH}"
+
+# RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia, privacy'
+RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia,privacy'}
+
+
+if [[ ! -f ~/.homebrew/bin/brew ]]; then
+  echo '--> Installing homebrew...'
+  mkdir -p ~/.homebrew \
+    && chmod 0700 ~/.homebrew \
+    && curl -L https://github.com/Homebrew/brew/tarball/master \
+    | tar xz --strip 1 -C ~/.homebrew
+fi
+
+trap 'brew cleanup' INT TERM HUP EXIT
+
+echo "--> Make sure we're using the latest Homebrew"
+brew update
+
+echo '--> Upgrade any already-installed formulae'
+brew upgrade
+
+echo '--> Tap extras Homebrew repositories'
+brew tap caskroom/cask
+brew tap caskroom/fonts
+brew tap homebrew/services
+brew tap tldr-pages/tldr
+
+
+# -----------------------------------------------------------
+# Dotfiles - install required dotfiles packages
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ dotfiles ]]; then
+  brew install \
+    git \
+    stow
+fi
+
+
+# -----------------------------------------------------------
+# Base - install mandatory packages
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ base ]]; then
+
+  echo '--> Install base casks/packages'
+  brew cask install \
+    font-hack \
+    firefox
+    flux \
+    google-chrome \
+    gpg-suite \
+    istat-menus \
+    iterm2 \
+    java \
+    keepassx \
+    keybase
+    xquartz
+
+  brew install \
+    advancecomp \
+    ansifilter \
+    autoenv \
+    bash \
+    coreutils \
+    curl \
+    fasd \
+    findutils \
+    fzf \
+    git \
+    gnu-sed \
+    gnu-tar \
+    gnu-time \
+    gnu-which \
+    grep \
+    gsl \
+    moreutils \
+    ncdu \
+    openssh \
+    openssl \
+    pigz \
+    pwgen \
+    readline \
+    reattach-to-user-namespace \
+    ssh-copy-id \
+    sshrc \
+    stow \
+    tag \
+    terminal-notifier \
+    the_silver_searcher \
+    tmux \
+    tree \
+    macvim \
+    watch \
+    wget \
+    xz \
+    zopfli \
+    zsh-syntax-highlighting \
+    zsh \
+    tldr
+fi
+
+
+# -----------------------------------------------------------
+# Dev - install ops/dev packages
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ dev ]]; then
+
+  echo '--> Install dev casks/packages'
+  brew tap jeffreywildman/homebrew-virt-manager
+
+  brew cask install \
+    1password \
+    charles \
+    fly \
+    google-cloud-sdk \
+    docker \
+    little-snitch \
+    micro-snitch \
+    vagrant \
+    virtualbox
+
+  brew install \
+    bats \
+    bfg \
+    chruby \
+    cloc \
+    closure-compiler \
+    ctags \
+    diff-so-fancy \
+    entr \
+    kubectx \
+    kubernetes-cli \
+    kubernetes-helm \
+    go \
+    gawk \
+    hub \
+    ipcalc \
+    hadolint \
+    jq \
+    libxml2 \
+    nodejs \
+    nmap \
+    packer \
+    pandoc \
+    pgcli \
+    pre-commit \
+    pyenv \
+    pyenv-virtualenv \
+    pyenv-virtualenvwrapper \
+    pv \
+    qemu \
+    ruby-install \
+    s3cmd \
+    shellcheck \
+    spark \
+    svn \
+    tag \
+    tig \
+    tcpdump \
+    tcptraceroute \
+    terraform \
+    terraform-inventory \
+    xz
+
+  # Python
+  CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
+    pyenv install -s 2.7.15
+  pyenv global 2.7.15
+
+  PIPS=(
+    fabric
+    flake8
+    ipython
+    pylint
+    virtualenv
+  )
+
+  "${HOME}/.pyenv/shims/pip" install --upgrade pip
+
+  for pip in "${PIPS[@]}"; do
+    "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null || \
+      "${HOME}/.pyenv/shims/pip" install "$pip"
+  done
+
+  # Ruby
+  mkdir -p ~/.rubies
+  RUBIES=(
+    2.4.3
+  )
+
+  for ruby in "${RUBIES[@]}"; do
+    "$(brew --prefix)/bin/ruby-install" --no-reinstall --rubies-dir ~/.rubies \
+      ruby "$ruby" -- --disable-install-rdoc
+  done
+
+  echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
+
+  GEMS=(
+    bundler
+    serverspec
+    travis
+  )
+
+  # shellcheck source=/dev/null
+  source "$(brew --prefix)/share/chruby/chruby.sh"
+  chruby "$(cat ~/.ruby-version)"
+
+  for gem in "${GEMS[@]}"; do
+    gem list -i "${gem}" &>/dev/null || gem install "${gem}"
+  done
+
+  # Zsh missing completions
+  for binary_name in docker docker-compose docker-machine; do
+    [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] && \
+      ln -sf "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" \
+        "$(brew --prefix)/share/zsh/site-functions/_${binary_name}"
+  done
+fi
+
+
+# -----------------------------------------------------------
+# Messaging - install communication packages
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ messaging ]]; then
+
+  echo '--> Install messaging casks'
+
+  brew cask install \
+    signal \
+    slack
+fi
+
+
+# -----------------------------------------------------------
+# Multimedia - install multimedia packages
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ multimedia ]]; then
+
+  echo '--> Install multimedia cask/packages'
+
+  brew cask install \
+    imageoptim \
+    gimp \
+    transmission \
+    vlc
+
+  brew install \
+    gifsicle \
+    graphviz \
+    jhead \
+    jpeg \
+    jpegoptim \
+    optipng \
+    pngcrush \
+    pngquant \
+    webkit2png
+fi
+
+
+# -----------------------------------------------------------
+# Privacy - setup dnscrypt-proxy, privoxy and tor
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ privacy ]]; then
+  echo '--> Install and configure dnscrypt-proxy'
+  brew install dnscrypt-proxy
+  cp -f ./install/etc/dnscrypt-proxy.toml "$(brew --prefix)/etc/dnscrypt-proxy.toml"
+  sudo curl -Ls -o /etc/dnscrypt-proxy-blacklist.txt \
+      https://download.dnscrypt.info/blacklists/domains/mybase.txt
+  sudo brew services start dnscrypt-proxy
+
+  echo '--> Install and configure privoxy'
+  brew install privoxy
+  cp -f ./install/etc/privoxy/config "$(brew --prefix)/etc/privoxy/"
+  sed -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
+  brew services start privoxy
+
+  echo '--> Install and configure tor'
+  brew install tor torsocks
+  cp -f ./install/etc/tor/torrc "$(brew --prefix)/etc/tor/"
+  mkdir -p "${HOME}/.tor"
+  sed -e "s#/dev/shm#${HOME}#g" -i "$(brew --prefix)/etc/tor/torrc"
+
+  brew services start tor
+fi

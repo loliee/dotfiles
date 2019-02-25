@@ -1,40 +1,30 @@
 require 'spec_helper'
 
-casks_list= %x( brew cask list )
-
-%w(
-  google-chrome
-  istat-menus
-  iterm2
-  java
-  keepassx
-  xquartz
-).each do |p|
-  describe command("echo '#{casks_list}' | grep #{p}") do
-    its(:exit_status) { should eq 0 }
-  end
-end
-
 %w(
   openssl
   advancecomp
   ansifilter
   autoenv
+  bash
   coreutils
   curl
   dnscrypt-proxy
-  dnsmasq
   fasd
   findutils
   fzf
   git
+  gnu-sed
+  gnu-tar
+  gnu-time
+  gnu-which
+  grep
   gsl
   libxml2
+  macvim
   moreutils
   ncdu
   openssh
   pigz
-  polipo
   pwgen
   readline
   reattach-to-user-namespace
@@ -46,10 +36,7 @@ end
   tmux
   the_silver_searcher
   tldr
-  tmux-cssh
-  tmux-mem-cpu-load
   tree
-  vim
   watch
   wget
   xz
@@ -59,5 +46,23 @@ end
 ).each do |p|
   describe package(p) do
     it { should be_installed }
+  end
+end
+
+# macOS specific
+if os[:family] == 'darwin'
+
+  %w(
+    google-chrome
+    istat-menus
+    iterm2
+    java
+    keepassx
+    xquartz
+  ).each do |p|
+    describe command("brew cask info #{p}") do
+      its(:exit_status) { should eq 0 }
+      its(:stdout) { should_not match /Not installed/ }
+    end
   end
 end

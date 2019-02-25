@@ -1,35 +1,49 @@
+OS = "$(uname | awk '{ print tolower($1) }')"
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
 .DEFAULT_GOAL := help
+.PHONY: install test
 
 help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install-packages: ## Install packages I love
-	./install.sh
+install: ## Full install
+	@if [[ $(OS) -eq "darwin" ]]; then \
+		make install-brew; \
+		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
+			make setup-iterm2; \
+		fi; \
+	fi
+	@make \
+		install-dotfiles \
+		install-gems
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
+	@command -v stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
-	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
-		--ignore='install.sh' \
+		--ignore='.gemrc' \
+		--ignore='Gemfile' \
+		--ignore='Gemfile.lock' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
 		--ignore='spec'
-	make install-prezto
-	make install-tpm
-	make install-vundle
+	@make \
+		install-prezto \
+		install-tpm \
+		install-vundle \
+		install-zsh-completions
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
@@ -39,6 +53,12 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
+
+setup-macos: ## Run macos script
+	@bash -x ./install/macos
+
+setup-macos-hardening: ## Run macos_hardening script
+	@bash -x ./install/macos_hardening
 
 install-gems: ## Install gems
 	$(info --> run `bundle install`)
@@ -56,12 +76,6 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
 		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
-	@curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
-		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
-	@hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
-		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose
-	@hash fly &>/dev/null && curl -q -L -o $(HOME)/.zprezto/modules/completion/external/src/_fly \
-		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)
@@ -73,8 +87,26 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
 
+install-zsh-completions:
+	@mkdir -p $(HOME)/.zsh/completion
+	@curl -Lso $(HOME)/.zsh/completion/_fly \
+		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
+	@mkdir -p $(HOME)/.travis
+	@curl -Lso $(HOME)/.zsh/completion/travis.sh \
+		https://raw.githubusercontent.com/travis-ci/travis.rb/master/assets/travis.sh
+
+install-brew: # Install brew and packages
+	@bash -x ./install/brew
+
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
+
+uninstall-brew: ## Uninstall brew and packages
+	@curl -o /tmp/uninstall-brew.rb \
+		-fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall \
+		&& chmod u+x /tmp/uninstall-brew.rb \
+		&& /tmp/uninstall-brew.rb
+	@rm -f /tmp/uninstall-brew.rb
 
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
@@ -85,7 +117,9 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.git' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
-		--ignore='install.sh' \
+		--ignore='gemrc' \
+		--ignore='Gemfile' \
+		--ignore='Gemfile.lock' \
 		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
@@ -109,7 +143,6 @@ uninstall-vundle: ## Uninstall Vundle
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
-	@shellcheck --exclude=SC2148 .aliases .aliases.dev .aliases.osx
 	@find . -name '*.sh'  | xargs -P 4 -I % shellcheck %
 
 serverspec: ## Run serverspec
@@ -120,7 +153,13 @@ serverspec: ## Run serverspec
 
 pre-commit: ## Run pre-commit hooks
 	$(info --> Run precommit hooks)
-	pre-commit run --all
+	@pre-commit run --all
+
+test-packages: ## Ensure that the OS is well configured
+	$(info --> Run serverspec)
+	@env \
+		RUN_LIST=base,dev,messaging,multimedia,privacy \
+		make serverspec
 
 test: ## Run shellcheck, serverspec and pre-commit hooks
 	$(info --> Run serverspec)

@@ -27,6 +27,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     loliee/vim-patatetoy
     loliee/vim-snippets
     StanAngeloff/php.vim
+    stephpy/vim-yaml
     othree/html5.vim
     Yggdroot/indentLine
   ).each do |p|
