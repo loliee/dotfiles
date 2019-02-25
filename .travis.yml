@@ -8,30 +8,14 @@ rvm:
 matrix:
   include:
     - os: osx
+      osx_image: xcode10.1
       env:
-        - TAG='[ base/dotfiles ]'
-        - INSTALL_GPGTOOLS=0
-        - SETUP_MACOS=0
-        - OS=Darwin
-        - RUN_LIST=base,dotfiles
-    - os: osx
-      env:
-        - TAG='[ dev/licensed ]'
-        - INSTALL_DOTFILES=0
-        - SETUP_MACOS=0
-        - OS=Darwin
-        - RUN_LIST=dev
-    - os: osx
-      env:
-        - TAG='[ messaging/multimedia ]'
-        - INSTALL_DOTFILES=0
-        - SETUP_MACOS=0
-        - OS=Darwin
-        - RUN_LIST=messaging,multimedia
+        - TAG='[ dotfiles/packages ]'
+        - RUN_LIST=dotfiles
 install:
+  - rm -f ~/.bashrc
   - brew install shellcheck stow pre-commit
-  - make install-gems
 
 script:
-  - ./install.sh
+  - make install
   - make test
