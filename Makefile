@@ -147,7 +147,7 @@ serverspec: ## Run serverspec
 
 pre-commit: ## Run pre-commit hooks
 	$(info --> Run precommit hooks)
-	pre-commit run --all
+	@pre-commit run --all
 
 test: ## Run shellcheck, serverspec and pre-commit hooks
 	$(info --> Run serverspec)
