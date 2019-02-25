@@ -96,6 +96,13 @@ install-brew: # Install brew and packages
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
 
+uninstall-brew: ## Uninstall brew and packages
+	@curl -o /tmp/uninstall-brew.rb \
+		-fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall \
+		&& chmod u+x /tmp/uninstall-brew.rb \
+		&& /tmp/uninstall-brew.rb
+	@rm -f /tmp/uninstall-brew.rb
+
 uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 	$(info --> Uninstall dotfiles)
 	@rm -rf $(HOME)/.patatetoy
