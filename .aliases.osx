@@ -90,19 +90,32 @@ if [[ $OS == 'Darwin' ]]; then
     eval "$(docker-machine env dev)"
   }
 
-  # Dnsmasq
-  alias dnsmasq-start='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
-  alias dnsmasq-stop='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist'
-  alias dnsmasq-restart='dnsmasq-stop;dnsmasq-start'
+  # update blacklist domains
+  function dns-update-blacklist() {
+    dest='/etc/dnscrypt-proxy-blacklist.txt'
+    source='https://download.dnscrypt.info/blacklists/domains/mybase.txt'
+    echo "Update ${dest} from ${source}"
+    sudo curl -Ls -o "${dest}" "${source}"
+  }
 
   # shellcheck disable=SC2016
-  function dnsmasq-enable() {
+  function dns-local-enable() {
     update_interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"'
   }
 
   # shellcheck disable=SC2016
-  function dnsmasq-disable() {
+  function dns-local-disable() {
     update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
+  }
+
+  # shellcheck disable=SC2016
+  function privoxy-enable() {
+    update_interfaces 'sudo networksetup -setwebproxy "$interface" "127.0.0.1" "8118"'
+  }
+
+  # shellcheck disable=SC2016
+  function privoxy-disable() {
+    update_interfaces 'sudo networksetup -setwebproxy "$interface" "Empty"'
   }
 
   # Polipo

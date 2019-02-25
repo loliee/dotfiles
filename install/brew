@@ -11,8 +11,8 @@ export PATH="${HOME}/.homebrew/bin:${PATH}"
 # INSTALL_GPGTOOLS set to 0 to bypass GPG install
 INSTALL_GPGTOOLS=${INSTALL_GPGTOOLS:-1}
 
-# RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia'
-RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia'}
+# RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia, privacy'
+RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia,privacy'}
 
 
 if [[ ! -f ~/.homebrew/bin/brew ]]; then
@@ -267,4 +267,32 @@ if [[ "${RUN_LIST}" =~ multimedia ]]; then
     pngcrush \
     pngquant \
     webkit2png
+fi
+
+
+# -----------------------------------------------------------
+# Privacy - setup dnscrypt-proxy, privoxy and tor
+# -----------------------------------------------------------
+
+if [[ "${RUN_LIST}" =~ privacy ]]; then
+  echo '--> Install and configure dnscrypt-proxy'
+  brew install dnscrypt-proxy
+  cp -f ./install/etc/dnscrypt-proxy.toml "$(brew --prefix)/etc/dnscrypt-proxy.toml"
+  sudo curl -Ls -o /etc/dnscrypt-proxy-blacklist.txt \
+      https://download.dnscrypt.info/blacklists/domains/mybase.txt
+  sudo brew services start dnscrypt-proxy
+
+  echo '--> Install and configure privoxy'
+  brew install privoxy
+  cp -f ./install/etc/privoxy/config "$(brew --prefix)/etc/privoxy/"
+  sed -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
+  brew services start privoxy
+
+  echo '--> Install and configure tor'
+  brew install tor torsocks
+  cp -f ./install/etc/tor/torrc "$(brew --prefix)/etc/tor/"
+  mkdir -p "${HOME}/.tor"
+  sed -e "s#/dev/shm#${HOME}#g" -i "$(brew --prefix)/etc/tor/torrc"
+
+  brew services start tor
 fi
