@@ -55,6 +55,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
   echo '--> Install base casks/packages'
   brew cask install \
     font-hack \
+    firefox
     flux \
     google-chrome \
     gpg-suite \

@@ -52,6 +52,7 @@ if os[:family] == 'darwin'
   %w(
     1password
     charles
+    firefox
     fly
     google-cloud-sdk
     docker
