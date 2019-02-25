@@ -81,6 +81,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     gnu-tar \
     gnu-time \
     gnu-which \
+    grep \
     gsl \
     moreutils \
     ncdu \

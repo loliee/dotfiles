@@ -17,6 +17,7 @@ require 'spec_helper'
   gnu-tar
   gnu-time
   gnu-which
+  grep
   gsl
   libxml2
   moreutils
