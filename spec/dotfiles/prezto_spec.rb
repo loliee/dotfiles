@@ -30,7 +30,7 @@ describe file("#{ENV['HOME']}/.zprofile") do
   it { should contain("export HISTFILE=~/.zsh_history") }
   it { should contain("export PAGER='less'") }
   it { should contain("export LESS='-F -g -i -M -R -S -w -X -z-4'") }
-  it { should contain("export HOMEBREW_CASK_OPTS='--appdir=/Applications'") }
+  it { should contain("export HOMEBREW_CASK_OPTS=\"--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries\"") }
   it { should contain("FZF_DEFAULT_COMMAND='ag -l -g") }
   it { should contain("export PATATETOY_VIM_MODE=1") }
 end

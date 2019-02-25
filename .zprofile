@@ -1,5 +1,5 @@
 # PATH
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}"
 
 # You may need to manually set your language environment
 export LANG='en_US.UTF-8'
@@ -18,8 +18,8 @@ export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help'
 unsetopt SHARE_HISTORY
 
 # travis
-[[ -f "/usr/local/share/zsh/site-functions/_travis" ]] \
-  && source "/usr/local/share/zsh/site-functions/_travis"
+[[ -f "${HOME}/.travis/travis.sh" ]] \
+  && source "${HOME}/.travis/travis.sh"
 
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_FILE=~/.node_history;
@@ -55,9 +55,6 @@ export BUNDLE_JOBS=4
 # MySQL prompt
 export MYSQL_PS1='(\D) \u@\h [\d] > '
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS='--appdir=/Applications'
-
 # Always enable colored `grep` output
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='30;43'
@@ -66,7 +63,8 @@ export GREP_COLOR='30;43'
 export KEYTIMEOUT=0
 
 # homebrew
-export HOMEBREW_ROOT='/usr/local'
+export HOMEBREW_ROOT=$(brew --prefix)
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
 # Nvm
 export NVM_DIR="$HOME/.nvm"
@@ -87,11 +85,10 @@ export PATATETOY_VIM_MODE=1
 eval "$(pyenv init -)"
 
 # chruby
-if [[ -f '/usr/local/share/chruby/chruby.sh' ]]; then
+if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
   RUBIES=(~/.rubies/*)
-
-  source '/usr/local/share/chruby/chruby.sh'
-  source '/usr/local/share/chruby/auto.sh'
+  source "$(brew --prefix)/share/chruby/chruby.sh"
+  source "$(brew --prefix)/share/chruby/auto.sh"
 
   [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
 fi

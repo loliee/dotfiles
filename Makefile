@@ -1,20 +1,30 @@
+OS = "$(uname | awk '{ print tolower($1) }')"
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
 .DEFAULT_GOAL := help
+.PHONY: install test
 
 help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install-packages: ## Install packages I love
-	./install.sh
+install: ## Full install
+	@if [[ $(OS) -eq "darwin" ]]; then \
+		make install-brew; \
+		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
+			make setup-iterm2; \
+		fi; \
+	fi
+	@make \
+		install-dotfiles \
+		install-gems
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
+	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
-	@which stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
@@ -27,9 +37,11 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
 		--ignore='spec'
-	make install-prezto
-	make install-tpm
-	make install-vundle
+	@make \
+		install-prezto \
+		install-tpm \
+		install-vundle \
+		install-zsh-completions
 
 setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	$(info --> Install iterm2)
@@ -39,6 +51,9 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
 	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
+
+setup-macos: ## Run macos script
+	@bash -x ./install/macos
 
 install-gems: ## Install gems
 	$(info --> run `bundle install`)
@@ -56,12 +71,6 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
 		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
-	@curl -fLo $(HOME)/.zprezto/modules/completion/external/src/_docker \
-		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
-	@hash docker-compose &>/dev/null && curl -L https://raw.githubusercontent.com/docker/compose/$(shell docker-compose version --short)/contrib/completion/zsh/_docker-compose \
-		> $(HOME)/.zprezto/modules/completion/external/src/_docker-compose
-	@hash fly &>/dev/null && curl -q -L -o $(HOME)/.zprezto/modules/completion/external/src/_fly \
-		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)
@@ -72,6 +81,17 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@mkdir -p $(HOME)/.vim/undofiles
 	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
+
+install-zsh-completions:
+	@mkdir -p $(HOME)/.zsh/completion
+	@curl -Lso $(HOME)/.zsh/completion/_fly \
+		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
+	@mkdir -p $(HOME)/.travis
+	@curl -Lso $(HOME)/.zsh/completion/travis.sh \
+		https://raw.githubusercontent.com/travis-ci/travis.rb/master/assets/travis.sh
+
+install-brew: # Install brew and packages
+	@bash -x ./install/brew
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
