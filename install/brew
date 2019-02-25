@@ -8,9 +8,6 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export PATH="${HOME}/.homebrew/bin:${PATH}"
 
-# INSTALL_GPGTOOLS set to 0 to bypass GPG install
-INSTALL_GPGTOOLS=${INSTALL_GPGTOOLS:-1}
-
 # RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia, privacy'
 RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia,privacy'}
 
@@ -60,10 +57,12 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     font-hack \
     flux \
     google-chrome \
+    gpg-suite \
     istat-menus \
     iterm2 \
     java \
     keepassx \
+    keybase
     xquartz
 
   brew install \
@@ -107,8 +106,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     zsh-syntax-highlighting \
     zsh \
     tldr
-
-  [[ $INSTALL_GPGTOOLS == 1 ]] && brew cask install gpg-suite keybase
 fi
 
 
