@@ -238,6 +238,7 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
   echo '--> Install messaging casks'
 
   brew cask install \
+    mattermost \
     signal \
     slack \
     vidyo

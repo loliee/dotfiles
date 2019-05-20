@@ -4,6 +4,7 @@ require 'spec_helper'
 if os[:family] == 'darwin'
 
   %w(
+    mattermost
     signal
     slack
     vidyo
