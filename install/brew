@@ -239,7 +239,8 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
 
   brew cask install \
     signal \
-    slack
+    slack \
+    vidyo
 fi
 
 

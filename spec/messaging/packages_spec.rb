@@ -6,6 +6,7 @@ if os[:family] == 'darwin'
   %w(
     signal
     slack
+    vidyo
   ).each do |p|
     describe command("brew cask info #{p}") do
       its(:exit_status) { should eq 0 }
