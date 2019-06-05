@@ -4,7 +4,9 @@
 SHELL=$(command -v bash)
 TMUXDIR=/tmp/.mloliee.tmux.nkCx
 TMUXSERVER="$TMUXDIR/tmuxserver"
+# shellcheck disable=SC2089
 VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
+# shellcheck disable=SC2090
 export SHELL TMUXDIR TMUXSERVER VIMINIT
 export PATH=$PATH:$SSHHOME/.sshrc.d/.bin
 export PATATETOY_INSTALL_DIR=$SSHHOME
@@ -33,24 +35,21 @@ if [[ -d /etc/profile.d ]]; then
   unset i
 fi
 
-if [[ ! -d "$SSHHOME/.patatetoy" ]]; then
-  mkdir -p "$SSHHOME/.patatetoy"
-  curl -s -o "$SSHHOME/.patatetoy/patatetoy_common.sh" -L \
-    https://raw.githubusercontent.com/loliee/patatetoy/master/patatetoy_common.sh
-  curl -s -o "$SSHHOME/.patatetoy/patatetoy.sh" -L \
-    https://raw.githubusercontent.com/loliee/patatetoy/master/patatetoy.sh
-fi
-
 # shellcheck source=/dev/null
 if [[ -d "$SSHHOME/.sshrc.d/" ]]; then
   if [[ -f "$SSHHOME/.sshrc.d/.bashrc" ]]; then
     . "$SSHHOME/.sshrc.d/.bashrc"
   fi
-  if [ -f "$SSHHOME/.patatetoy/patatetoy.sh" ]; then
-    . "$SSHHOME/.patatetoy/patatetoy.sh"
-  fi
   if [[ -f "$SSHHOME/.sshrc.d/.aliases" ]]; then
     . "$SSHHOME/.sshrc.d/.aliases"
+  fi
+  if [ -f "$SSHHOME/.sshrc.d/patatetoy.sh" ]; then
+    if [[ -f "$SSHHOME/.sshrc.d/patatetoy.sh" ]] && [[ ! -f "$SSHHOME/.patatetoy/patatetoy.sh" ]]; then
+      mkdir -p "$SSHHOME/.patatetoy"
+      mv "$SSHHOME/.sshrc.d/patatetoy.sh" "$SSHHOME/.patatetoy/patatetoy.sh"
+      mv "$SSHHOME/.sshrc.d/patatetoy_common.sh" "$SSHHOME/.patatetoy/patatetoy_common.sh"
+    fi
+    . "$SSHHOME/.patatetoy/patatetoy.sh"
   fi
 fi
 
