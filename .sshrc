@@ -22,7 +22,8 @@ tmuxrc() {
     TMUXCONFIG=$SSHHOME/.sshrc.d/.tmux.conf
 
     # shellcheck disable=SC1001
-    \cp -r "$SSHHOME/.sshrc" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
+    \cp -r "$SSHHOME/.sshrc" "$SSHHOME/.patatetoy" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
+
     SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" "$@"
 }
 
