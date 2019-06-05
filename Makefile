@@ -23,8 +23,6 @@ install: ## Full install
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
 	@command -v stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
-	@[[ -d $(PATATETOY) ]] \
-		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
@@ -39,6 +37,12 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
 		--ignore='spec'
+	@[[ -d $(PATATETOY) ]] \
+		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
+	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
+		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
+	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
+		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
 	@make \
 		install-prezto \
 		install-tpm \
