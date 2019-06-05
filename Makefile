@@ -147,7 +147,10 @@ uninstall-vundle: ## Uninstall Vundle
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
-	@find . -name '*.sh'  | xargs -P 4 -I % shellcheck %
+	@find install -type f -not -path '*etc*' -not -path '*fzf*' \
+		| xargs -P 4 -I % shellcheck %
+	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
+		| xargs -P 4 -I % shellcheck %
 
 serverspec: ## Run serverspec
 	$(info --> Run serverspec)
