@@ -38,7 +38,10 @@ if [ -f /etc/bash_completion ]; then
 fi
 
 # shellcheck source=/dev/null
-if [ -f "${HOME}/.patatetoy/patatetoy.sh" ]; then
+if [ -f "${TMUXDIR}/.patatetoy/patatetoy.sh" ]; then
+    export PATATETOY_INSTALL_DIR=$TMUXDIR
+  . "${TMUXDIR}/.patatetoy/patatetoy.sh"
+elif [ -f "${HOME}/.patatetoy/patatetoy.sh" ]; then
   . "${HOME}/.patatetoy/patatetoy.sh"
 fi
 

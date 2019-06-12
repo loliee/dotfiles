@@ -241,8 +241,7 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
   brew cask install \
     mattermost \
     signal \
-    slack \
-    vidyo
+    slack
 fi
 
 
