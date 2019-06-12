@@ -31,6 +31,10 @@ set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
 syntax enable
 
+" Disable modelines for security reasons
+set modelines=0
+set nomodeline
+
 " Store swap files in fixed location, not current directory.
 "
 " The '//' at the end ensure the swap file name will be built from the complete
