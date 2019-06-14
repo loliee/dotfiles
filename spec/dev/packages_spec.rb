@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 %w(
+  asciinema
   bats
   bfg
   chruby

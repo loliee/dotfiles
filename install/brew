@@ -132,6 +132,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     virtualbox
 
   brew install \
+    asciinema \
     bats \
     bfg \
     chruby \
