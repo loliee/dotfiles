@@ -27,6 +27,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
+		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
 		--ignore='.gemrc' \
@@ -37,6 +38,10 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
 		--ignore='spec'
+	@[[ -d $(HOME)/.config ]] \
+		|| mkdir $(HOME).config
+	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
+		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
@@ -121,6 +126,7 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
+		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
 		--ignore='install' \
 		--ignore='gemrc' \
@@ -131,6 +137,7 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
 		--ignore='spec'
+	@rm -f $(HOME)/.config/hadolint.yaml
 
 uninstall-tpm: ## Uninstall tmux plugin manager
 	$(info --> Uninstall tpm)
