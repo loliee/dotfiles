@@ -254,6 +254,15 @@ if [[ $OS == 'Linux' ]]; then
     alias php5fpmstatus='curl 127.0.0.1/status'
   fi
 
+  # docker aliases for bash
+  command -v _docker_compose &>/dev/null && complete -F _docker_compose dc
+  command -v docker &>/dev/null && command -v sudo &>/dev/null && \
+    alias sd='sudo -E docker' && command -v _docker &>/dev/null && \
+    complete -F _docker sd
+  command -v docker-compose &>/dev/null && command -v sudo &>/dev/null &>/dev/null && \
+    alias sdc='sudo -E docker-compose' && command -v _docker_compose &>/dev/null && \
+    complete -F _docker_compose sdc
+
   # Get process environment
   function penv() {
     xargs --null --max-args=1 < "/proc/$1/environ"

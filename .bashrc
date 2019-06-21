@@ -37,6 +37,12 @@ if [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
 fi
 
+# Force docker completion file loading
+# shellcheck source=/dev/null
+if [ -f /usr/share/bash-completion/completions/docker ]; then
+  . /usr/share/bash-completion/completions/docker
+fi
+
 # shellcheck source=/dev/null
 if [ -f "${TMUXDIR}/.patatetoy/patatetoy.sh" ]; then
     export PATATETOY_INSTALL_DIR=$TMUXDIR

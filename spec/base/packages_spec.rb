@@ -59,6 +59,7 @@ if os[:family] == 'darwin'
     iterm2
     java
     keepassx
+    the-unarchiver
     xquartz
   ).each do |p|
     describe command("brew cask info #{p}") do

@@ -23,6 +23,10 @@ zstyle ':prezto:load' pmodule \
     'fasd' \
     'tmux'
 
+# Docker
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:prompt' theme 'patatetoy'
 zstyle ':prezto:module:utility:grep' color 'no'

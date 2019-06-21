@@ -1,0 +1,10 @@
+---
+
+# Allow unpined packages for auto-rebuild purposes
+ignored:
+  - DL3008
+
+trustedRegistries:
+  - docker.io
+  - gcr.io
+  - eu.gcr.io
