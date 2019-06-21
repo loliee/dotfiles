@@ -63,7 +63,8 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     iterm2 \
     java \
     keepassx \
-    keybase
+    keybase \
+    the-unarchiver \
     xquartz
 
   brew install \
