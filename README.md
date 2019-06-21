@@ -18,7 +18,7 @@ curl -L https://github.com/loliee/dotfiles/tarball/master \
 
 ## Install
 
-Install brew, a lot of awesome packages 📦 and super sweet dotfile ✨
+Install brew, a lot of awesome packages 📦 and super sweet dotfiles ✨
 
 ```bash
 # Install dotfiles and packages
