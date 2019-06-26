@@ -20,6 +20,7 @@ require 'spec_helper'
   hadolint
   jq
   libxml2
+  mkcert
   node
   nmap
   packer
