@@ -119,7 +119,6 @@ fi
 if [[ "${RUN_LIST}" =~ dev ]]; then
 
   echo '--> Install dev casks/packages'
-  brew tap jeffreywildman/homebrew-virt-manager
 
   brew cask install \
     1password \
@@ -166,7 +165,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     ruby-install \
     s3cmd \
     shellcheck \
-    spark \
     svn \
     tag \
     tig \
