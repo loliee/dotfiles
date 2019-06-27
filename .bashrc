@@ -26,6 +26,7 @@ export EDITOR="${VISUAL}"
 export HISTFILESIZE=10000
 export HISTCONTROL=ignorespace
 export HISTFILE=~/.bash_history
+export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*'
 shopt -s histverify
 shopt -s histappend
 

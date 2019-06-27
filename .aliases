@@ -63,6 +63,11 @@ command -v kubectx &>/dev/null && alias kx='kubectx' \
 command -v kubens &>/dev/null && alias kn='kubens' \
   && command -v compdef &>/dev/null && compdef kn=kubens
 
+# tree
+if ! command -v tree &>/dev/null; then
+    alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+fi
+
 # Override ls alias from common-aliases plugin
 # Find processus quickly and dont want pgrep
 # shellcheck disable=SC2009

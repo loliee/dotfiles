@@ -20,6 +20,7 @@ require 'spec_helper'
   hadolint
   jq
   libxml2
+  mkcert
   node
   nmap
   packer
@@ -34,7 +35,6 @@ require 'spec_helper'
   ruby-install
   s3cmd
   shellcheck
-  spark
   tag
   tig
   tcpdump

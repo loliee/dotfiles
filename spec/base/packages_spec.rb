@@ -20,7 +20,6 @@ require 'spec_helper'
   grep
   gsl
   libxml2
-  macvim
   moreutils
   ncdu
   openssh

@@ -14,6 +14,9 @@ bind diff R !git rebase -i %(commit)^
 bind main F !git commit --fixup %(commit)
 bind diff F !git commit --fixup %(commit)
 
+# Tag
+bind main T !git tag %(prompt) %(commit)
+
 # Colors
 color cursor         white    black    bold
 color title-blur     white    black
