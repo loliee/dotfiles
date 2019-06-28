@@ -15,6 +15,7 @@ describe file("#{ENV['HOME']}/.gitconfig") do
   it { should contain('gpgsign = true') }
   it { should contain('tool = vimdiff') }
   it { should contain('followTags = true') }
+  it { should contain('rebase = true') }
 end
 
 describe file("#{ENV['HOME']}/.gitignore-global") do
