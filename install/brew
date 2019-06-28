@@ -70,7 +70,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
   brew install \
     advancecomp \
     ansifilter \
-    autoenv \
     bash \
     coreutils \
     curl \
@@ -133,6 +132,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   brew install \
     asciinema \
+    direnv \
     bats \
     bfg \
     chruby \

@@ -84,6 +84,9 @@ export PATATETOY_VIM_MODE=1
 # pyenv
 command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
+# direnv
+command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
+
 # chruby
 if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
   RUBIES=(~/.rubies/*)
