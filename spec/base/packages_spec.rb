@@ -4,7 +4,6 @@ require 'spec_helper'
   openssl
   advancecomp
   ansifilter
-  autoenv
   bash
   coreutils
   curl
