@@ -30,6 +30,14 @@ trustctime = false
 precomposeunicode = false
 commentchar =  "'"
 
+[diff]
+# Detect copies as well as renames
+renames = copies
+
+[diff "bin"]
+# Use `hexdump` to diff binary files
+textconv = hexdump -v -C
+
 [pager]
 diff = diff-so-fancy | less --tabs=4 -RFX
 show = diff-so-fancy | less --tabs=4 -RFX
