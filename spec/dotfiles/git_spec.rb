@@ -39,4 +39,5 @@ end
 describe file("#{ENV['HOME']}/.tigrc") do
   it { should be_file }
   it { should contain("set main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no") }
+  it { should contain("set refresh-mode = after-command") }
 end
