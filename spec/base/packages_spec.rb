@@ -36,6 +36,7 @@ require 'spec_helper'
   tldr
   tree
   tunnelblick
+  macvim
   watch
   wget
   xz
