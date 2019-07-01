@@ -6,16 +6,16 @@ set diff-options = --show-signature
 set refresh-mode = after-command
 
 # Interactive adding
-bind main A !git add -p %(file)
-bind diff A !git add -p %(file)
+bind main A !git a %(file)
+bind diff A !git a %(file)
 
 # Rebase
-bind main R !git rebase -i %(commit)^
-bind diff R !git rebase -i %(commit)^
+bind main R !git ri %(commit)^
+bind diff R !git ri %(commit)^
 
 # Fixup
-bind main F !git commit --fixup %(commit)
-bind diff F !git commit --fixup %(commit)
+bind main F !git cf %(commit)
+bind diff F !git cf %(commit)
 
 # Tag
 bind main T !git tag %(prompt) %(commit)
