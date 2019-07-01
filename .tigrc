@@ -9,6 +9,10 @@ set refresh-mode = after-command
 bind main A !git a %(file)
 bind diff A !git a %(file)
 
+# Commit
+bind main c !git c
+bind diff c !git c
+
 # Rebase
 bind main R !git ri %(commit)^
 bind diff R !git ri %(commit)^
