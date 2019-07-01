@@ -2,6 +2,9 @@
 set main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
 set diff-options = --show-signature
 
+# Automatically refresh after a command
+set refresh-mode = after-command
+
 # Interactive adding
 bind main A !git add -p %(file)
 bind diff A !git add -p %(file)
