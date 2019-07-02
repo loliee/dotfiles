@@ -10,6 +10,7 @@ require 'spec_helper'
   closure-compiler
   ctags
   diff-so-fancy
+  dive
   entr
   kubectx
   kubernetes-cli

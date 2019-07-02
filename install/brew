@@ -30,9 +30,7 @@ brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
 brew tap caskroom/cask
-brew tap caskroom/fonts
 brew tap homebrew/services
-brew tap tldr-pages/tldr
 
 
 # -----------------------------------------------------------
@@ -51,6 +49,9 @@ fi
 # -----------------------------------------------------------
 
 if [[ "${RUN_LIST}" =~ base ]]; then
+
+  brew tap caskroom/fonts
+  brew tap tldr-pages/tldr
 
   echo '--> Install base casks/packages'
   brew cask install \
@@ -117,6 +118,8 @@ fi
 
 if [[ "${RUN_LIST}" =~ dev ]]; then
 
+  brew tap wagoodman/dive
+
   echo '--> Install dev casks/packages'
 
   brew cask install \
@@ -140,6 +143,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     closure-compiler \
     ctags \
     diff-so-fancy \
+    dive \
     entr \
     kubectx \
     kubernetes-cli \
