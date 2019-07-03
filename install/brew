@@ -156,6 +156,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     jq \
     libxml2 \
     mkcert \
+    mtr \
     nodejs \
     nmap \
     packer \

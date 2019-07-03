@@ -23,6 +23,7 @@ require 'spec_helper'
   jq
   libxml2
   mkcert
+  mtr
   node
   nmap
   packer
