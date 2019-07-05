@@ -189,6 +189,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     fabric
     flake8
     ipython
+    gmvault
     pylint
     virtualenv
   )
