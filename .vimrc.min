@@ -235,6 +235,13 @@ nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 noremap n nzz
 noremap N Nzz
 
+" Automatically source the .vimrc and .vimrc.min files after editing
+augroup autosourcing
+  autocmd!
+  autocmd BufWritePost .vimrc source %
+  autocmd BufWritePost .vimrc.min source ~/.vimrc
+augroup END
+
 " -----------------------------------------------------------
 " Functions
 " -----------------------------------------------------------
