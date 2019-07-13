@@ -6,6 +6,8 @@ describe file("#{ENV['HOME']}/.vimrc") do
   it { should contain('set rtp+=~/.vim/bundle/Vundle.vim') }
   it { should contain('source ~/.vimrc.min') }
   %w(
+    gmarik/Vundle.vim
+    Glench/Vim-Jinja2-Syntax
     SirVer/ultisnips
     StanAngeloff/php.vim
     Yggdroot/indentLine
@@ -13,6 +15,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     editorconfig/editorconfig-vim
     ekalinin/Dockerfile.vim
     fatih/vim-go
+    hashivim/vim-hashicorp-tools
     junegunn/fzf
     junegunn/goyo.vim
     loliee/vim-patatetoy
@@ -22,11 +25,15 @@ describe file("#{ENV['HOME']}/.vimrc") do
     mv/mv-vim-nginx
     ntpeters/vim-better-whitespace
     othree/html5.vim
+    python-mode/python-mode
     stephpy/vim-yaml
     tommcdo/vim-exchange
+    tpope/vim-commentary
     tpope/vim-fugitive
+    tpope/vim-liquid
     tpope/vim-markdown
     tpope/vim-repeat
+    tpope/vim-ruby
     tpope/vim-surround
     vim-airline/vim-airline
     w0rp/ale
