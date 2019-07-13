@@ -32,6 +32,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'mv/mv-vim-nginx'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'othree/html5.vim'
+Plugin 'python-mode/python-mode'
 Plugin 'stephpy/vim-yaml'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-commentary'
@@ -125,6 +126,9 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
+
+" Python mode
+let g:pymode_python = 'python3'
 
 " -----------------------------------------------------------
 " UtilSnips config
