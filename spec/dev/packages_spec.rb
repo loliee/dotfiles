@@ -71,3 +71,7 @@ if os[:family] == 'darwin'
     end
   end
 end
+
+describe command('python --version') do
+  its(:stdout) { should match /Python 3.7/ }
+end

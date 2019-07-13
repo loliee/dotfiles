@@ -182,8 +182,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Python
   CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
-    pyenv install -s 2.7.15
-  pyenv global 2.7.15
+    pyenv install -s 3.7.4
+  pyenv global 3.7.4
 
   PIPS=(
     fabric
