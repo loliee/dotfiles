@@ -75,3 +75,7 @@ end
 describe command('python --version') do
   its(:stdout) { should match /Python 3.7/ }
 end
+
+describe command('ruby --version') do
+  its(:stdout) { should match /ruby 2.6.3/ }
+end
