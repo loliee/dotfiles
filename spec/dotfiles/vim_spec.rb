@@ -6,30 +6,30 @@ describe file("#{ENV['HOME']}/.vimrc") do
   it { should contain('set rtp+=~/.vim/bundle/Vundle.vim') }
   it { should contain('source ~/.vimrc.min') }
   %w(
-    mileszs/ack.vim
-    markcornick/vim-bats
-    ekalinin/Dockerfile.vim
-    vim-airline/vim-airline
-    editorconfig/editorconfig-vim
-    tommcdo/vim-exchange
-    tpope/vim-fugitive
+    SirVer/ultisnips
+    StanAngeloff/php.vim
+    Yggdroot/indentLine
     airblade/vim-gitgutter
+    editorconfig/editorconfig-vim
+    ekalinin/Dockerfile.vim
+    fatih/vim-go
     junegunn/fzf
     junegunn/goyo.vim
-    fatih/vim-go
-    tpope/vim-markdown
-    tpope/vim-surround
-    tpope/vim-repeat
-    w0rp/ale
-    mv/mv-vim-nginx
-    ntpeters/vim-better-whitespace
-    SirVer/ultisnips
     loliee/vim-patatetoy
     loliee/vim-snippets
-    StanAngeloff/php.vim
-    stephpy/vim-yaml
+    markcornick/vim-bats
+    mileszs/ack.vim
+    mv/mv-vim-nginx
+    ntpeters/vim-better-whitespace
     othree/html5.vim
-    Yggdroot/indentLine
+    stephpy/vim-yaml
+    tommcdo/vim-exchange
+    tpope/vim-fugitive
+    tpope/vim-markdown
+    tpope/vim-repeat
+    tpope/vim-surround
+    vim-airline/vim-airline
+    w0rp/ale
   ).each do |p|
       it { should contain("Plugin '#{p}'") }
   end
