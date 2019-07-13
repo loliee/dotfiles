@@ -48,6 +48,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
 	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
+	@mkdir -p $(HOME)/.vim/after/ftplugin && \
+		echo 'setlocal spell' > ~/.vim/after/ftplugin/gitcommit.vim
 	@make \
 		install-prezto \
 		install-tpm \

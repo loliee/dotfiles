@@ -29,6 +29,7 @@ set undofile                      " Persistent undo
 set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
 set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
+set spelllang=en                  " Check all regions of English.
 syntax enable
 
 " Disable modelines for security reasons
@@ -231,9 +232,19 @@ nmap <leader>l :set list!<CR>
 " Turn off search highlight and previous matches
 nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
+" Enable/Disable spell checking
+nnoremap <silent> <leader>g :set spell!<CR>
+
 " Center window vertically on next/previous search match
 noremap n nzz
 noremap N Nzz
+
+" Automatically source the .vimrc and .vimrc.min files after editing
+augroup autosourcing
+  autocmd!
+  autocmd BufWritePost .vimrc source %
+  autocmd BufWritePost .vimrc.min source ~/.vimrc
+augroup END
 
 " -----------------------------------------------------------
 " Functions

@@ -14,32 +14,36 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'mileszs/ack.vim'
-Plugin 'markcornick/vim-bats'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-fugitive'
+Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'SirVer/ultisnips'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/goyo.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'fatih/vim-go'
 Plugin 'hashivim/vim-hashicorp-tools'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'w0rp/ale'
-Plugin 'mv/mv-vim-nginx'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'SirVer/ultisnips'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/goyo.vim'
 Plugin 'loliee/vim-patatetoy'
 Plugin 'loliee/vim-snippets'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'stephpy/vim-yaml'
+Plugin 'markcornick/vim-bats'
+Plugin 'mileszs/ack.vim'
+Plugin 'mv/mv-vim-nginx'
+Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'othree/html5.vim'
-Plugin 'Yggdroot/indentLine'
+Plugin 'python-mode/python-mode'
+Plugin 'stephpy/vim-yaml'
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-liquid'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-ruby'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-airline/vim-airline'
+Plugin 'w0rp/ale'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -122,6 +126,9 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
+
+" Python mode
+let g:pymode_python = 'python3'
 
 " -----------------------------------------------------------
 " UtilSnips config
