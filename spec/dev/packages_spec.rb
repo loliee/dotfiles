@@ -29,7 +29,6 @@ require 'spec_helper'
   packer
   pandoc
   pgcli
-  pre-commit
   pyenv
   pyenv-virtualenv
   pyenv-virtualenvwrapper

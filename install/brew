@@ -162,7 +162,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     packer \
     pandoc \
     pgcli \
-    pre-commit \
     pyenv \
     pyenv-virtualenv \
     pyenv-virtualenvwrapper \
@@ -190,6 +189,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     flake8
     ipython
     gmvault
+    pre-commit
     pylint
     virtualenv
   )
