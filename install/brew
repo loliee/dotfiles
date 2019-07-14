@@ -177,7 +177,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     tcptraceroute \
     terraform \
     terraform-inventory \
-    xz
+    xz \
+    yamllint
 
   # Python
   CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \

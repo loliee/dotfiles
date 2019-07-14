@@ -43,6 +43,7 @@ require 'spec_helper'
   tcptraceroute
   terraform
   terraform-inventory
+  yamllint
 ).each do |p|
   describe package(p) do
     it { should be_installed }

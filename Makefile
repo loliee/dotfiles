@@ -29,6 +29,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
+		--ignore='.yamllint' \
 		--ignore='install' \
 		--ignore='.gemrc' \
 		--ignore='Gemfile' \
@@ -39,11 +40,15 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='Rakefile' \
 		--ignore='spec' \
 		--ignore='.vim'
-	@mkdir -p $(HOME)/.vim
+	@mkdir -p \
+		$(HOME)/.vim \
+		$(HOME)/.config/yamllint
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
+	@[[ -f $(HOME)/.config/yamllint/config ]] \
+		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
@@ -132,6 +137,7 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
+		--ignore='.yamllint' \
 		--ignore='install' \
 		--ignore='gemrc' \
 		--ignore='Gemfile' \
