@@ -66,6 +66,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     keepassx \
     keybase \
     the-unarchiver \
+    tunnelblick \
     xquartz
 
   brew install \
@@ -100,7 +101,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     the_silver_searcher \
     tmux \
     tree \
-    tunnelblick \
     macvim \
     watch \
     wget \

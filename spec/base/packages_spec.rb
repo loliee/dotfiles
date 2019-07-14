@@ -35,7 +35,6 @@ require 'spec_helper'
   the_silver_searcher
   tldr
   tree
-  tunnelblick
   macvim
   watch
   wget
@@ -59,6 +58,7 @@ if os[:family] == 'darwin'
     java
     keepassx
     the-unarchiver
+    tunnelblick
     xquartz
   ).each do |p|
     describe command("brew cask info #{p}") do
