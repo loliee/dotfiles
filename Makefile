@@ -37,7 +37,9 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
-		--ignore='spec'
+		--ignore='spec' \
+		--ignore='.vim'
+	@mkdir -p $(HOME)/.vim
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
@@ -48,8 +50,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
 	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
-	@mkdir -p $(HOME)/.vim/after/ftplugin && \
-		echo 'setlocal spell' > ~/.vim/after/ftplugin/gitcommit.vim
+	@[[ -d $(HOME)/.vim/after ]] \
+		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@make \
 		install-prezto \
 		install-tpm \
@@ -138,7 +140,8 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='Rakefile' \
-		--ignore='spec'
+		--ignore='spec' \
+		--ignore='.vim'
 	@rm -f $(HOME)/.config/hadolint.yaml
 
 uninstall-tpm: ## Uninstall tmux plugin manager
