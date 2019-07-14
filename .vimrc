@@ -87,7 +87,6 @@ let g:airline_theme='patatetoy'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#branch_prefix#enabled=1
-let g:airline#extensions#syntastic#enabled=1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -153,8 +152,10 @@ nnoremap <Leader>a :Ack<Space>
 nnoremap <silent> <leader>f :FZF<CR>
 nnoremap <silent> <leader>r :FZFA<CR>
 
-" Syntastic check
-nmap <leader>s :SyntasticCheck<CR>
+" Ale fix
+nmap <leader>s :ALEFix<CR>
+nmap <leader>se :let g:ale_fix_on_save=1<CR>
+nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
 " Open tig
 nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
