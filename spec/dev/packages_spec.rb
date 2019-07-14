@@ -87,3 +87,13 @@ end
 describe command('command -v node') do
   its(:stdout) { should match /.nvm\/versions\/node\/v10.16.0/ }
 end
+
+describe command('eslint --version') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /v6/ }
+end
+
+describe command('prettier --version') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /1./ }
+end

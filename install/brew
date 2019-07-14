@@ -237,6 +237,14 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       nvm install "${node}"
   done
 
+  NPM=(
+    eslint@6
+    prettier@1
+  )
+
+  for npm in "${NPM[@]}"; do
+      npm install -g "$npm"
+  done
 
   # Zsh missing completions
   for binary_name in docker docker-compose docker-machine; do
