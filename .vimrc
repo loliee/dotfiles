@@ -101,6 +101,12 @@ let g:airline_symbols.paste = 'Þ'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.readonly = ''
 
+" Git gutter
+highlight GitGutterAdd ctermfg=02
+highlight GitGutterChange ctermfg=03
+highlight GitGutterDelete ctermfg=09
+highlight GitGutterChangeDelete ctermfg=208
+
 " ------------------------------------------------------------
 "  Indent Line Plugin
 " ------------------------------------------------------------
@@ -125,6 +131,7 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
+highlight ALEWarningSign ctermfg=03
 
 " Python mode
 let g:pymode_python = 'python3'
