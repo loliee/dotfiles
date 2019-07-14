@@ -157,8 +157,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     libxml2 \
     mkcert \
     mtr \
-    nodejs \
     nmap \
+    nvm \
     packer \
     pandoc \
     pgcli \
@@ -227,6 +227,16 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   for gem in "${GEMS[@]}"; do
     gem list -i "${gem}" &>/dev/null || gem install "${gem}"
   done
+
+  # Node
+  NODEJS=(
+    10.16.0
+  )
+
+  for node in "${NODEJS[@]}"; do
+      nvm install "${node}"
+  done
+
 
   # Zsh missing completions
   for binary_name in docker docker-compose docker-machine; do

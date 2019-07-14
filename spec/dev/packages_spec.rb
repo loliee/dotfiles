@@ -24,8 +24,8 @@ require 'spec_helper'
   libxml2
   mkcert
   mtr
-  node
   nmap
+  nvm
   packer
   pandoc
   pgcli
@@ -78,4 +78,12 @@ end
 
 describe command('ruby --version') do
   its(:stdout) { should match /ruby 2.6.3/ }
+end
+
+describe command('node --version') do
+  its(:stdout) { should match /v10.16.0/ }
+end
+
+describe command('command -v node') do
+  its(:stdout) { should match /.nvm\/versions\/node\/v10.16.0/ }
 end

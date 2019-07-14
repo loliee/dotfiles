@@ -68,6 +68,9 @@ export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Font
 
 # Nvm
 export NVM_DIR="$HOME/.nvm"
+if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
+  . "$(brew --prefix)/opt/nvm/nvm.sh"
+fi
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
