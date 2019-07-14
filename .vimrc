@@ -40,9 +40,9 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-liquid'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-ruby'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'w0rp/ale'
 
 call vundle#end()            " required

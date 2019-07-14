@@ -33,9 +33,9 @@ describe file("#{ENV['HOME']}/.vimrc") do
     tpope/vim-liquid
     tpope/vim-markdown
     tpope/vim-repeat
-    tpope/vim-ruby
     tpope/vim-surround
     vim-airline/vim-airline
+    vim-ruby/vim-ruby
     w0rp/ale
   ).each do |p|
       it { should contain("Plugin '#{p}'") }
