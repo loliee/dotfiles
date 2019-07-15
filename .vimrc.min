@@ -233,7 +233,7 @@ nmap <leader>l :set list!<CR>
 nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " Enable/Disable spell checking
-nnoremap <silent> <leader>g :set spell!<CR>
+nnoremap <silent> <leader>gs :set spell!<CR>
 
 " Center window vertically on next/previous search match
 noremap n nzz
