@@ -23,7 +23,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     markcornick/vim-bats
     mileszs/ack.vim
     mv/mv-vim-nginx
-    ntpeters/vim-better-whitespace
     othree/html5.vim
     python-mode/python-mode
     stephpy/vim-yaml

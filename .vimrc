@@ -30,7 +30,6 @@ Plugin 'loliee/vim-snippets'
 Plugin 'markcornick/vim-bats'
 Plugin 'mileszs/ack.vim'
 Plugin 'mv/mv-vim-nginx'
-Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'othree/html5.vim'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'python-mode/python-mode'
@@ -118,13 +117,6 @@ let g:indentLine_enabled = 0
 " ------------------------------------------------------------
 let g:goyo_width = 120
 
-" -----------------------------------------------------------
-" better Whitespace
-" -----------------------------------------------------------
-
-let g:better_whitespace_verbosity = 1
-let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
-
 " ------------------------------------------------------------
 " Configure ale
 " ------------------------------------------------------------
@@ -133,6 +125,12 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 highlight ALEWarningSign ctermfg=03
+
+let g:ale_fix_on_save = 1
+let b:ale_warn_about_trailing_whitespace = 1
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace']
+\}
 
 " Python mode
 let g:pymode_python = 'python3'
@@ -167,9 +165,6 @@ nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
 " Open tig
 nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
-
-" Remove trailing whitespaces
-nnoremap <silent> <leader>w :StripWhitespace<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>
