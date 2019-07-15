@@ -186,6 +186,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   pyenv global 3.7.4
 
   PIPS=(
+    ansible-lint
     fabric
     flake8
     ipython
