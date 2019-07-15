@@ -11,13 +11,12 @@ export PATH="${HOME}/.homebrew/bin:${PATH}"
 # RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia, privacy'
 RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia,privacy'}
 
-
 if [[ ! -f ~/.homebrew/bin/brew ]]; then
   echo '--> Installing homebrew...'
-  mkdir -p ~/.homebrew \
-    && chmod 0700 ~/.homebrew \
-    && curl -L https://github.com/Homebrew/brew/tarball/master \
-    | tar xz --strip 1 -C ~/.homebrew
+  mkdir -p ~/.homebrew &&
+    chmod 0700 ~/.homebrew &&
+    curl -L https://github.com/Homebrew/brew/tarball/master |
+    tar xz --strip 1 -C ~/.homebrew
 fi
 
 trap 'brew cleanup' INT TERM HUP EXIT
@@ -32,7 +31,6 @@ echo '--> Tap extras Homebrew repositories'
 brew tap caskroom/cask
 brew tap homebrew/services
 
-
 # -----------------------------------------------------------
 # Dotfiles - install required dotfiles packages
 # -----------------------------------------------------------
@@ -42,7 +40,6 @@ if [[ "${RUN_LIST}" =~ dotfiles ]]; then
     git \
     stow
 fi
-
 
 # -----------------------------------------------------------
 # Base - install mandatory packages
@@ -110,7 +107,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     zsh \
     tldr
 fi
-
 
 # -----------------------------------------------------------
 # Dev - install ops/dev packages
@@ -201,7 +197,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   "${HOME}/.pyenv/shims/pip" install --upgrade pip
 
   for pip in "${PIPS[@]}"; do
-    "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null || \
+    "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null ||
       "${HOME}/.pyenv/shims/pip" install "$pip"
   done
 
@@ -216,7 +212,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       ruby "$ruby" -- --disable-install-rdoc
   done
 
-  echo "${RUBIES[@]:(-1)}" > ~/.ruby-version
+  echo "${RUBIES[@]:(-1)}" >~/.ruby-version
 
   GEMS=(
     bundler
@@ -239,7 +235,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   )
 
   for node in "${NODEJS[@]}"; do
-      nvm install "${node}"
+    nvm install "${node}"
   done
 
   NPM=(
@@ -249,17 +245,16 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   )
 
   for npm in "${NPM[@]}"; do
-      npm install -g "$npm"
+    npm install -g "$npm"
   done
 
   # Zsh missing completions
   for binary_name in docker docker-compose docker-machine; do
-    [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] && \
+    [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] &&
       ln -sf "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" \
         "$(brew --prefix)/share/zsh/site-functions/_${binary_name}"
   done
 fi
-
 
 # -----------------------------------------------------------
 # Messaging - install communication packages
@@ -274,7 +269,6 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
     signal \
     slack
 fi
-
 
 # -----------------------------------------------------------
 # Multimedia - install multimedia packages
@@ -302,7 +296,6 @@ if [[ "${RUN_LIST}" =~ multimedia ]]; then
     webkit2png
 fi
 
-
 # -----------------------------------------------------------
 # Privacy - setup dnscrypt-proxy, privoxy and tor
 # -----------------------------------------------------------
@@ -312,7 +305,7 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
   brew install dnscrypt-proxy
   cp -f ./install/etc/dnscrypt-proxy.toml "$(brew --prefix)/etc/dnscrypt-proxy.toml"
   sudo curl -Ls -o /etc/dnscrypt-proxy-blacklist.txt \
-      https://download.dnscrypt.info/blacklists/domains/mybase.txt
+    https://download.dnscrypt.info/blacklists/domains/mybase.txt
   sudo brew services start dnscrypt-proxy
 
   echo '--> Install and configure privoxy'
