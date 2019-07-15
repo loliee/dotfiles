@@ -37,6 +37,7 @@ require 'spec_helper'
   ruby-install
   s3cmd
   shellcheck
+  shfmt
   tag
   tig
   tcpdump
