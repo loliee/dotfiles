@@ -33,6 +33,7 @@ Plugin 'mv/mv-vim-nginx'
 Plugin 'othree/html5.vim'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'python-mode/python-mode'
+Plugin 'rhysd/vim-grammarous'
 Plugin 'stephpy/vim-yaml'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-commentary'
@@ -118,6 +119,14 @@ let g:indentLine_enabled = 0
 let g:goyo_width = 120
 
 " ------------------------------------------------------------
+" Configure grammarous
+" ------------------------------------------------------------
+
+let g:grammarous#default_comments_only_filetypes = {
+\  '*' : 1, 'help' : 0, 'markdown' : 0,
+\}
+
+" ------------------------------------------------------------
 " Configure ale
 " ------------------------------------------------------------
 
@@ -165,6 +174,9 @@ nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
 " Open tig
 nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
+
+" Enable/Disable spell checking
+nnoremap <silent> <leader>g :GrammarousCheck<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>
