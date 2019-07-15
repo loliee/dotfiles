@@ -29,6 +29,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.gemrc' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
+		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \
@@ -137,6 +138,7 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
+		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \
