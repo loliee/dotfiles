@@ -240,6 +240,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   NPM=(
     eslint@6
+    jsonlint@1
     prettier@1
   )
 
