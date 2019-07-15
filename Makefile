@@ -26,20 +26,20 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
+		--ignore='.gemrc' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
+		--ignore='.vim' \
 		--ignore='.yamllint' \
-		--ignore='install' \
-		--ignore='.gemrc' \
 		--ignore='Gemfile' \
 		--ignore='Gemfile.lock' \
-		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='README.md' \
 		--ignore='Rakefile' \
-		--ignore='spec' \
-		--ignore='.vim'
+		--ignore='install' \
+		--ignore='spec'
 	@mkdir -p \
 		$(HOME)/.vim \
 		$(HOME)/.config/yamllint
@@ -138,17 +138,17 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
+		--ignore='.vim' \
 		--ignore='.yamllint' \
-		--ignore='install' \
-		--ignore='gemrc' \
 		--ignore='Gemfile' \
 		--ignore='Gemfile.lock' \
-		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='README.md' \
 		--ignore='Rakefile' \
-		--ignore='spec' \
-		--ignore='.vim'
+		--ignore='gemrc' \
+		--ignore='install' \
+		--ignore='spec'
 	@rm -f $(HOME)/.config/hadolint.yaml
 
 uninstall-tpm: ## Uninstall tmux plugin manager
