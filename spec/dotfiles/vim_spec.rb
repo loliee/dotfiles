@@ -16,6 +16,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     ekalinin/Dockerfile.vim
     fatih/vim-go
     hashivim/vim-hashicorp-tools
+    itchyny/lightline.vim
     junegunn/fzf
     junegunn/goyo.vim
     loliee/vim-patatetoy
@@ -33,7 +34,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     tpope/vim-markdown
     tpope/vim-repeat
     tpope/vim-surround
-    vim-airline/vim-airline
     vim-ruby/vim-ruby
     w0rp/ale
   ).each do |p|

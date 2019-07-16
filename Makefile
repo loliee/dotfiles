@@ -104,8 +104,9 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@vim +PluginInstall +qall &>/dev/null
 	@vim +GoInstallBinaries +qall &>/dev/null
 	@mkdir -p $(HOME)/.vim/undofiles
-	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
-		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
+	@[[ -f $(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
+		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/lightline/patatetoy.vim \
+					$(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
 
 install-zsh-completions:
 	@mkdir -p $(HOME)/.zsh/completion

@@ -23,6 +23,7 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'fatih/vim-go'
 Plugin 'hashivim/vim-hashicorp-tools'
+Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/goyo.vim'
 Plugin 'loliee/vim-patatetoy'
@@ -42,7 +43,6 @@ Plugin 'tpope/vim-liquid'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-airline/vim-airline'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'w0rp/ale'
 
@@ -76,31 +76,18 @@ endtry
 " =======
 
 " -----------------------------------------------------------
-" Airline
+" Lightline
 " -----------------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tmuxline#enabled = 0
-" Show just the filename for tab
-let g:airline#extensions#tabline#fnamemod = ':t'
-
-" set airline theme
-let g:airline_theme='patatetoy'
-let g:airline_powerline_fonts=1
-let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#branch_prefix#enabled=1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = ''
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.readonly = ''
+let g:lightline = {
+\  'colorscheme': 'patatetoy',
+\  'active': {
+\    'left': [ [ 'mode', 'paste' ],
+\              [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+\  },
+\  'component_function': {
+\    'gitbranch': 'fugitive#head'
+\  },
+\  }
 
 " Git gutter
 highlight GitGutterAdd ctermfg=02
