@@ -45,6 +45,8 @@ else
   alias git='git'
 fi
 
+command -v direnv &>/dev/null && alias da='direnv allow'
+
 # Override prezto fasd module, include fzf fuzzy finder
 command -v fasd &>/dev/null && alias j='fasd_cd'
 
