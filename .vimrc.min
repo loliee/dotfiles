@@ -239,13 +239,6 @@ nnoremap <silent> <leader>g :set spell!<CR>
 noremap n nzz
 noremap N Nzz
 
-" Automatically source the .vimrc and .vimrc.min files after editing
-augroup autosourcing
-  autocmd!
-  autocmd BufWritePost .vimrc source %
-  autocmd BufWritePost .vimrc.min source ~/.vimrc
-augroup END
-
 " -----------------------------------------------------------
 " Functions
 " -----------------------------------------------------------
