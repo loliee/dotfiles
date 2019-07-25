@@ -16,6 +16,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
+# always color grep
+alias grep='grep --color=auto'
+
 # shortcuts
 alias c='clear'
 alias q='exit'

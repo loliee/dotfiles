@@ -55,8 +55,10 @@ export BUNDLE_JOBS=4
 # MySQL prompt
 export MYSQL_PS1='(\D) \u@\h [\d] > '
 
-# Always enable colored `grep` output
-export GREP_OPTIONS='--color=auto'
+# Ensure GREP_OPTIONS is undefined
+unset GREP_OPTIONS
+
+# Define grep color
 export GREP_COLOR='30;43'
 
 # O ms for key sequences
