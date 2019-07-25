@@ -9,6 +9,7 @@ command -v gdate &>/dev/null && alias date='gdate'
 command -v gsed &>/dev/null && alias sed='gsed'
 command -v gtimeout &>/dev/null && alias timeout='gtimeout'
 command -v gxargs &>/dev/null && alias xargs='gxargs'
+command -v ggrep &>/dev/null && alias grep='ggrep'
 
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
