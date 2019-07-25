@@ -17,7 +17,6 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'SirVer/ultisnips'
 Plugin 'StanAngeloff/php.vim'
-Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
@@ -94,11 +93,6 @@ highlight GitGutterAdd ctermfg=02
 highlight GitGutterChange ctermfg=03
 highlight GitGutterDelete ctermfg=09
 highlight GitGutterChangeDelete ctermfg=208
-
-" ------------------------------------------------------------
-"  Indent Line Plugin
-" ------------------------------------------------------------
-let g:indentLine_enabled = 0
 
 " ------------------------------------------------------------
 " Goyo

@@ -10,7 +10,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     Glench/Vim-Jinja2-Syntax
     SirVer/ultisnips
     StanAngeloff/php.vim
-    Yggdroot/indentLine
     airblade/vim-gitgutter
     editorconfig/editorconfig-vim
     ekalinin/Dockerfile.vim
