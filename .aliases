@@ -73,6 +73,10 @@ if ! command -v tree &>/dev/null; then
     alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 fi
 
+if command -v tmuxinator &>/dev/null; then
+  alias mux=tmuxinator
+fi
+
 # Override ls alias from common-aliases plugin
 # Find processus quickly and dont want pgrep
 # shellcheck disable=SC2009

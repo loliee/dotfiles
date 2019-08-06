@@ -218,6 +218,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     bundler
     mdl
     serverspec
+    tmuxinator
     travis
   )
 
