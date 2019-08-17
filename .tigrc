@@ -21,6 +21,10 @@ bind diff R !git ri %(commit)^
 bind main F !git cf %(commit)
 bind diff F !git cf %(commit)
 
+# Soft reset on HEAD
+bind main H !git r HEAD^
+bind diff H !git r HEAD^
+
 # Tag
 bind main T !git tag %(prompt) %(commit)
 
