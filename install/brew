@@ -164,6 +164,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     pv \
     qemu \
     ruby-install \
+    rustup \
     s3cmd \
     shellcheck \
     shfmt \
@@ -248,6 +249,10 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   for npm in "${NPM[@]}"; do
     npm install -g "$npm"
   done
+
+  # Rust
+  rustup-init -y --no-modify-path
+  rustup component add rustfmt
 
   # Zsh missing completions
   for binary_name in docker docker-compose docker-machine; do
