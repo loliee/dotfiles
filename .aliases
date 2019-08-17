@@ -48,6 +48,8 @@ else
   alias git='git'
 fi
 
+command -v cargo &>/dev/null && alias ca='cargo'
+
 command -v direnv &>/dev/null && alias da='direnv allow'
 
 # Override prezto fasd module, include fzf fuzzy finder
