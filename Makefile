@@ -26,30 +26,38 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
+		--ignore='.gemrc' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
+		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
-		--ignore='install' \
-		--ignore='.gemrc' \
+		--ignore='.vim' \
+		--ignore='.yamllint' \
 		--ignore='Gemfile' \
 		--ignore='Gemfile.lock' \
-		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='README.md' \
 		--ignore='Rakefile' \
+		--ignore='install' \
 		--ignore='spec'
+	@mkdir -p \
+		$(HOME)/.vim \
+		$(HOME)/.config/yamllint
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
+	@[[ -f $(HOME)/.config/yamllint/config ]] \
+		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(PATATETOY) ]] \
 		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
 	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
 	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
-	@mkdir -p $(HOME)/.vim/after/ftplugin && \
-		echo 'setlocal spell' > ~/.vim/after/ftplugin/gitcommit.vim
+	@[[ -d $(HOME)/.vim/after ]] \
+		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@make \
 		install-prezto \
 		install-tpm \
@@ -94,9 +102,11 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
 		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
 	@vim +PluginInstall +qall &>/dev/null
+	@vim +GoInstallBinaries +qall &>/dev/null
 	@mkdir -p $(HOME)/.vim/undofiles
-	@[[ -f $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/patatetoy.vim ]] \
-		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/airline/patatetoy.vim $(HOME)/.vim/bundle/vim-airline/autoload/airline/themes/
+	@[[ -f $(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
+		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/lightline/patatetoy.vim \
+					$(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
 
 install-zsh-completions:
 	@mkdir -p $(HOME)/.zsh/completion
@@ -129,15 +139,18 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
+		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
-		--ignore='install' \
-		--ignore='gemrc' \
+		--ignore='.vim' \
+		--ignore='.yamllint' \
 		--ignore='Gemfile' \
 		--ignore='Gemfile.lock' \
-		--ignore='README.md' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='README.md' \
 		--ignore='Rakefile' \
+		--ignore='gemrc' \
+		--ignore='install' \
 		--ignore='spec'
 	@rm -f $(HOME)/.config/hadolint.yaml
 

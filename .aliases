@@ -16,6 +16,9 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
+# always color grep
+alias grep='grep --color=auto'
+
 # shortcuts
 alias c='clear'
 alias q='exit'
@@ -45,6 +48,10 @@ else
   alias git='git'
 fi
 
+command -v cargo &>/dev/null && alias ca='cargo'
+
+command -v direnv &>/dev/null && alias da='direnv allow'
+
 # Override prezto fasd module, include fzf fuzzy finder
 command -v fasd &>/dev/null && alias j='fasd_cd'
 
@@ -66,6 +73,10 @@ command -v kubens &>/dev/null && alias kn='kubens' \
 # tree
 if ! command -v tree &>/dev/null; then
     alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+fi
+
+if command -v tmuxinator &>/dev/null; then
+  alias mux=tmuxinator
 fi
 
 # Override ls alias from common-aliases plugin

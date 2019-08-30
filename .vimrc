@@ -17,12 +17,12 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'SirVer/ultisnips'
 Plugin 'StanAngeloff/php.vim'
-Plugin 'Yggdroot/indentLine'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'fatih/vim-go'
 Plugin 'hashivim/vim-hashicorp-tools'
+Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/goyo.vim'
 Plugin 'loliee/vim-patatetoy'
@@ -30,9 +30,11 @@ Plugin 'loliee/vim-snippets'
 Plugin 'markcornick/vim-bats'
 Plugin 'mileszs/ack.vim'
 Plugin 'mv/mv-vim-nginx'
-Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'othree/html5.vim'
+Plugin 'pearofducks/ansible-vim'
 Plugin 'python-mode/python-mode'
+Plugin 'rhysd/vim-grammarous'
+Plugin 'rust-lang/rust.vim'
 Plugin 'stephpy/vim-yaml'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-commentary'
@@ -40,9 +42,8 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-liquid'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-ruby'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-airline/vim-airline'
+Plugin 'vim-ruby/vim-ruby'
 Plugin 'w0rp/ale'
 
 call vundle#end()            " required
@@ -75,49 +76,37 @@ endtry
 " =======
 
 " -----------------------------------------------------------
-" Airline
+" Lightline
 " -----------------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tmuxline#enabled = 0
-" Show just the filename for tab
-let g:airline#extensions#tabline#fnamemod = ':t'
+let g:lightline = {
+\  'colorscheme': 'patatetoy',
+\  'active': {
+\    'left': [ [ 'mode', 'paste' ],
+\              [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+\  },
+\  'component_function': {
+\    'gitbranch': 'fugitive#head'
+\  },
+\  }
 
-" set airline theme
-let g:airline_theme='patatetoy'
-let g:airline_powerline_fonts=1
-let g:airline#extensions#branch#enabled=1
-let g:airline#extensions#branch_prefix#enabled=1
-let g:airline#extensions#syntastic#enabled=1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-" unicode symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = ''
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.readonly = ''
-
-" ------------------------------------------------------------
-"  Indent Line Plugin
-" ------------------------------------------------------------
-let g:indentLine_enabled = 0
+" Git gutter
+highlight GitGutterAdd ctermfg=02
+highlight GitGutterChange ctermfg=03
+highlight GitGutterDelete ctermfg=09
+highlight GitGutterChangeDelete ctermfg=208
 
 " ------------------------------------------------------------
 " Goyo
 " ------------------------------------------------------------
 let g:goyo_width = 120
 
-" -----------------------------------------------------------
-" better Whitespace
-" -----------------------------------------------------------
+" ------------------------------------------------------------
+" Configure grammarous
+" ------------------------------------------------------------
 
-let g:better_whitespace_verbosity = 1
-let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
+let g:grammarous#default_comments_only_filetypes = {
+\  '*' : 1, 'help' : 0, 'markdown' : 0,
+\}
 
 " ------------------------------------------------------------
 " Configure ale
@@ -126,6 +115,13 @@ let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf',
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
+highlight ALEWarningSign ctermfg=03
+
+let g:ale_fix_on_save = 1
+let b:ale_warn_about_trailing_whitespace = 1
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace']
+\}
 
 " Python mode
 let g:pymode_python = 'python3'
@@ -153,14 +149,16 @@ nnoremap <Leader>a :Ack<Space>
 nnoremap <silent> <leader>f :FZF<CR>
 nnoremap <silent> <leader>r :FZFA<CR>
 
-" Syntastic check
-nmap <leader>s :SyntasticCheck<CR>
+" Ale fix
+nmap <leader>s :ALEFix<CR>
+nmap <leader>se :let g:ale_fix_on_save=1<CR>
+nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
 " Open tig
 nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
 
-" Remove trailing whitespaces
-nnoremap <silent> <leader>w :StripWhitespace<CR>
+" Enable/Disable spell checking
+nnoremap <silent> <leader>g :GrammarousCheck<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>

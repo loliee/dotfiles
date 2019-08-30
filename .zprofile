@@ -55,8 +55,10 @@ export BUNDLE_JOBS=4
 # MySQL prompt
 export MYSQL_PS1='(\D) \u@\h [\d] > '
 
-# Always enable colored `grep` output
-export GREP_OPTIONS='--color=auto'
+# Ensure GREP_OPTIONS is undefined
+unset GREP_OPTIONS
+
+# Define grep color
 export GREP_COLOR='30;43'
 
 # O ms for key sequences
@@ -68,6 +70,9 @@ export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Font
 
 # Nvm
 export NVM_DIR="$HOME/.nvm"
+if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
+  . "$(brew --prefix)/opt/nvm/nvm.sh"
+fi
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
@@ -97,3 +102,9 @@ if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
 fi
 
 export GROOVY_HOME=/usr/local/opt/groovy/libexec
+
+# Rust
+if [[ -d "${HOME}/.cargo/bin" ]]; then
+  export PATH="${HOME}/.cargo/bin:${PATH}"
+  source $HOME/.cargo/env
+fi

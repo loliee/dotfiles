@@ -24,12 +24,11 @@ require 'spec_helper'
   libxml2
   mkcert
   mtr
-  node
   nmap
+  nvm
   packer
   pandoc
   pgcli
-  pre-commit
   pyenv
   pyenv-virtualenv
   pyenv-virtualenvwrapper
@@ -38,12 +37,14 @@ require 'spec_helper'
   ruby-install
   s3cmd
   shellcheck
+  shfmt
   tag
   tig
   tcpdump
   tcptraceroute
   terraform
   terraform-inventory
+  yamllint
 ).each do |p|
   describe package(p) do
     it { should be_installed }
@@ -72,10 +73,32 @@ if os[:family] == 'darwin'
   end
 end
 
-describe command('python --version') do
+describe command('~/.pyenv/shims/python --version') do
   its(:stdout) { should match /Python 3.7/ }
 end
 
-describe command('ruby --version') do
+describe command('~/.rubies/ruby-2.6.3/bin/ruby --version') do
   its(:stdout) { should match /ruby 2.6.3/ }
+end
+
+describe command('node --version') do
+  its(:stdout) { should match /v10.16.0/ }
+end
+
+describe command('command -v node') do
+  its(:stdout) { should match /.nvm\/versions\/node\/v10.16.0/ }
+end
+
+describe command('eslint --version') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /v6/ }
+end
+
+describe command('prettier --version') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match /1./ }
+end
+
+describe command('jsonlint --version') do
+  its(:stdout) { should match /1./ }
 end

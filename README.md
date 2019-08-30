@@ -67,4 +67,7 @@ make uninstall-brew
 
 - [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).
 - [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http)
+- [Benji’s dotfiles](https://github.com/bdossantos/dotfiles)
 - [Mathias’s dotfiles](https://github.com/mathiasbynens/dotfiles)
+- [Gary's dotfiles](https://github.com/garybernhardt/dotfiles)
+- [Tim's dotfiles](https://github.com/tpope/tpope)

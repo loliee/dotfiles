@@ -10,12 +10,12 @@ describe file("#{ENV['HOME']}/.vimrc") do
     Glench/Vim-Jinja2-Syntax
     SirVer/ultisnips
     StanAngeloff/php.vim
-    Yggdroot/indentLine
     airblade/vim-gitgutter
     editorconfig/editorconfig-vim
     ekalinin/Dockerfile.vim
     fatih/vim-go
     hashivim/vim-hashicorp-tools
+    itchyny/lightline.vim
     junegunn/fzf
     junegunn/goyo.vim
     loliee/vim-patatetoy
@@ -23,7 +23,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     markcornick/vim-bats
     mileszs/ack.vim
     mv/mv-vim-nginx
-    ntpeters/vim-better-whitespace
     othree/html5.vim
     python-mode/python-mode
     stephpy/vim-yaml
@@ -33,9 +32,8 @@ describe file("#{ENV['HOME']}/.vimrc") do
     tpope/vim-liquid
     tpope/vim-markdown
     tpope/vim-repeat
-    tpope/vim-ruby
     tpope/vim-surround
-    vim-airline/vim-airline
+    vim-ruby/vim-ruby
     w0rp/ale
   ).each do |p|
       it { should contain("Plugin '#{p}'") }

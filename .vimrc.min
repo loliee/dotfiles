@@ -233,18 +233,11 @@ nmap <leader>l :set list!<CR>
 nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
 
 " Enable/Disable spell checking
-nnoremap <silent> <leader>g :set spell!<CR>
+nnoremap <silent> <leader>gs :set spell!<CR>
 
 " Center window vertically on next/previous search match
 noremap n nzz
 noremap N Nzz
-
-" Automatically source the .vimrc and .vimrc.min files after editing
-augroup autosourcing
-  autocmd!
-  autocmd BufWritePost .vimrc source %
-  autocmd BufWritePost .vimrc.min source ~/.vimrc
-augroup END
 
 " -----------------------------------------------------------
 " Functions
