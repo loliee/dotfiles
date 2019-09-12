@@ -1,7 +1,6 @@
 OS = "$(uname | awk '{ print tolower($1) }')"
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
-PATATETOY := ~/.patatetoy
 .DEFAULT_GOAL := help
 .PHONY: install test
 
@@ -20,7 +19,7 @@ install: ## Full install
 		install-dotfiles \
 		install-gems
 
-install-dotfiles: ## Install my dotfiles, included patatetoy prompt
+install-dotfiles: ## Install my dotfiles
 	$(info --> Install dotfiles)
 	@command -v stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
@@ -30,6 +29,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
+		--ignore='.starship.toml' \
 		--ignore='.travis.yml' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \
@@ -45,17 +45,13 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		$(HOME)/.vim \
 		$(HOME)/.config/yamllint
 	@[[ -d $(HOME)/.config ]] \
-		|| mkdir $(HOME).config
+		|| mkdir $(HOME)/.config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
-	@[[ -d $(PATATETOY) ]] \
-		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
-	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
-		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
-	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
-		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
+	@[[ -f $(HOME)/.config/starship.toml ]] \
+		|| ln -sf $(PWD)/.starship.toml $(HOME)/.config/starship.toml
 	@[[ -d $(HOME)/.vim/after ]] \
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@make \
@@ -131,15 +127,15 @@ uninstall-brew: ## Uninstall brew and packages
 		&& /tmp/uninstall-brew.rb
 	@rm -f /tmp/uninstall-brew.rb
 
-uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
+uninstall-dotfiles: ## Uninstall dotfiles
 	$(info --> Uninstall dotfiles)
-	@rm -rf $(HOME)/.patatetoy
 	@stow -D . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
+		--ignore='.starship.toml' \
 		--ignore='.travis.yml' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \

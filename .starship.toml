@@ -1,0 +1,51 @@
+default_prompt_order = [
+    "username",
+    "hostname",
+    "directory",
+    "git_branch",
+    "git_state",
+    "git_status",
+    "package",
+    "nodejs",
+    "ruby",
+    "rust",
+    "python",
+    "golang",
+    "nix_shell",
+    "cmd_duration",
+    "line_break",
+    "jobs",
+    "time",
+    "character"
+]
+
+[golang]
+disabled=true
+
+[python]
+disabled=true
+
+[nodejs]
+disabled=true
+
+[rust]
+disabled=true
+
+[ruby]
+disabled=true
+
+[cmd_duration]
+min_time = 4
+
+[git_branch]
+style="bold fg:245"
+
+[git_status]
+ahead = "⬆"
+behind = "⬇"
+diverged = "⬇⬆"
+untracked = "✘"
+stashed = "ⵢ"
+staged = "+"
+deleted = "-"
+style="bold yellow"

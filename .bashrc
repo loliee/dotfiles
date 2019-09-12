@@ -45,17 +45,12 @@ if [ -f /usr/share/bash-completion/completions/docker ]; then
 fi
 
 # shellcheck source=/dev/null
-if [ -f "${TMUXDIR}/.patatetoy/patatetoy.sh" ]; then
-    export PATATETOY_INSTALL_DIR=$TMUXDIR
-  . "${TMUXDIR}/.patatetoy/patatetoy.sh"
-elif [ -f "${HOME}/.patatetoy/patatetoy.sh" ]; then
-  . "${HOME}/.patatetoy/patatetoy.sh"
-fi
-
-# shellcheck source=/dev/null
 if [ -f /usr/local/share/chruby/chruby.sh ]; then
   . /usr/local/share/chruby/chruby.sh
 fi
+
+# Load starship prompt
+eval "$(starship init bash)"
 
 # shellcheck source=/dev/null
 if [ -f "${HOME}/.aliases" ]; then

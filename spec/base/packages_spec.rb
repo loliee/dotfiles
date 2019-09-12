@@ -28,6 +28,7 @@ require 'spec_helper'
   reattach-to-user-namespace
   ssh-copy-id
   sshrc
+  starship
   stow
   tag
   terminal-notifier

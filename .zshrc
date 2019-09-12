@@ -3,6 +3,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Load starship prompt
+eval "$(starship init zsh)"
+
 # Completion must ignore /etc/hosts entries
 # this has no effect when defined in ~/.zpreztorc
 zstyle ':completion:*:hosts' hosts 'off'
