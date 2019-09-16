@@ -58,6 +58,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
 	@[[ -d $(HOME)/.vim/after ]] \
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
+	@[[ -d $(HOME)/.vim/syntax ]] \
+		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
 	@make \
 		install-prezto \
 		install-tpm \
