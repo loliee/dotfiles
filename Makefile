@@ -51,13 +51,15 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(PATATETOY) ]] \
-		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
+		|| git clone https://github.com/loliee/prompt-patatetoy.git $(PATATETOY)
 	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
 	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
 	@[[ -d $(HOME)/.vim/after ]] \
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
+	@[[ -d $(HOME)/.vim/syntax ]] \
+		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
 	@make \
 		install-prezto \
 		install-tpm \
