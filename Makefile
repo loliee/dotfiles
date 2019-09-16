@@ -51,7 +51,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(PATATETOY) ]] \
-		|| git clone https://github.com/loliee/patatetoy.git $(PATATETOY)
+		|| git clone https://github.com/loliee/prompt-patatetoy.git $(PATATETOY)
 	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
 		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
 	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
