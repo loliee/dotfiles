@@ -233,7 +233,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Node
   NODEJS=(
-    10.16.0
+    10.16.3
   )
 
   for node in "${NODEJS[@]}"; do
