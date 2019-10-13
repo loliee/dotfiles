@@ -11,7 +11,7 @@ export VISUAL='vim'
 
 # history
 export HISTFILE=~/.zsh_history
-export HISTSIZE=32768
+export HISTSIZE=393216
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*'
