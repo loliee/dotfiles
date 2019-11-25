@@ -130,6 +130,9 @@ sudo defaults write \
 # disable automatic loading of remote content by Mail.app
 defaults write -app mail DisableURLLoading -bool true
 
+# Disable Remote Apple Events
+sudo systemsetup -setremoteappleevents off
+
 # You may wish to enforce hibernation and evict FileVault keys from memory
 # instead of traditional sleep to memory
 sudo pmset -a destroyfvkeyonstandby 1
