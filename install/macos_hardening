@@ -63,6 +63,9 @@ if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; th
   exit 1
 fi
 
+# check EFI Firmware Integrity
+/usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
+
 # Enable the firewall
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
