@@ -37,6 +37,7 @@ if ! fdesetup status | grep -q 'FileVault is On.'; then
   # shellcheck disable=SC1003
   1>&2 echo '/!\ FileVault is not enabled /!\'
   exit 1
+  # sudo fdesetup enable -user $USER > $HOME/FileVault_recovery_key.txt
 fi
 
 # Check firmware password
