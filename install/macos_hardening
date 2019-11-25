@@ -127,6 +127,9 @@ sudo defaults write \
   /Library/Preferences/SystemConfiguration/com.apple.captive.control Active \
   -bool false
 
+# disable automatic loading of remote content by Mail.app
+defaults write -app mail DisableURLLoading -bool true
+
 # You may wish to enforce hibernation and evict FileVault keys from memory
 # instead of traditional sleep to memory
 sudo pmset -a destroyfvkeyonstandby 1
