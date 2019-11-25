@@ -99,6 +99,10 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable Bonjour multicast advertisements
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
+# Set AirDrop Discoverability to 'Contacts Only'
+defaults write com.apple.sharingd DiscoverableMode -string 'Contacts Only'
+sudo killall -HUP sharingd
+
 # Captive portal
 sudo defaults write \
   /Library/Preferences/SystemConfiguration/com.apple.captive.control Active \
