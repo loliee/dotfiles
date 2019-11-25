@@ -95,6 +95,9 @@ rm '/tmp/system.preferences.plist'
 
 sudo pkill -HUP socketfilterfw || true
 
+# Disabled allow signed downloaded applications automatically
+/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
+
 # Set the screen to lock as soon as the screensaver starts
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
