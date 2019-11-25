@@ -66,6 +66,9 @@ fi
 # check EFI Firmware Integrity
 /usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
 
+# Enable Gatekeeper
+sudo spctl --master-enable
+
 # Enable the firewall
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
