@@ -133,6 +133,9 @@ defaults write -app mail DisableURLLoading -bool true
 # Disable Remote Apple Events
 sudo systemsetup -setremoteappleevents off
 
+# Disable Remote Login
+sudo systemsetup -f -setremotelogin off
+
 # You may wish to enforce hibernation and evict FileVault keys from memory
 # instead of traditional sleep to memory
 sudo pmset -a destroyfvkeyonstandby 1
