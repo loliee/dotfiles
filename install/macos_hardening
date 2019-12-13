@@ -65,7 +65,11 @@ if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; th
 fi
 
 # check EFI Firmware Integrity
-/usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
+if system_profiler SPiBridgeDataType | grep 'T2'; then
+  echo "T2 Present, efi integrity check skipped"
+else
+  /usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
+fi
 
 # Enable Gatekeeper
 sudo spctl --master-enable
