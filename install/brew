@@ -28,7 +28,6 @@ echo '--> Upgrade any already-installed formulae'
 brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
-brew tap caskroom/cask
 brew tap homebrew/services
 
 # -----------------------------------------------------------
@@ -47,7 +46,7 @@ fi
 
 if [[ "${RUN_LIST}" =~ base ]]; then
 
-  brew tap caskroom/fonts
+  brew tap homebrew/cask-fonts
   brew tap tldr-pages/tldr
 
   echo '--> Install base casks/packages'
