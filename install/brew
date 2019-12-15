@@ -226,6 +226,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       ruby "$ruby" -- --disable-install-rdoc
   done
 
+  rm -f ~/.ruby-version
   echo "${RUBIES[@]:(-1)}" >~/.ruby-version
 
   GEMS=(
