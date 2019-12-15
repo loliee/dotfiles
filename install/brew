@@ -203,6 +203,10 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   eval "$(pyenv init -)"
 
+  # Guess python version from program name
+  git clone git://github.com/concordusapps/pyenv-implict.git \
+    "${HOME}/.pyenv/plugins/pyenv-implict"
+
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
