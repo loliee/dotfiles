@@ -167,8 +167,8 @@ sudo networksetup -setairportpower airport off
 trap _clean INT TERM EXIT
 
 # Create a tmp location, before generate 'Automatic' location
-sudo networksetup -createlocation 'tmp' populate \
- || sudo networksetup -switchtolocation 'tmp'
+sudo networksetup -createlocation 'tmp' populate
+sudo networksetup -switchtolocation 'tmp'
 
 # Automatic
 sudo networksetup -deletelocation 'Automatic' || true
