@@ -178,9 +178,14 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     yamllint
 
   # Python
-  CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
-    pyenv install -s 3.8.0
-  pyenv global 3.8.0
+  PYTHONS=(
+     3.8.0
+  )
+
+  for python in "${PYTHONS[@]}"; do
+    cflags="-i$(xcrun --show-sdk-path)/usr/include" \
+      pyenv install -s "${python}"
+  done
 
   PIPS=(
     ansible-lint
@@ -193,6 +198,9 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     pylint
     virtualenv
   )
+
+  rm -f ~/.python-version
+  echo "${PYTHONS[@]:(-1)}" >~/.python-version
 
   "${HOME}/.pyenv/shims/pip" install --upgrade pip
 
