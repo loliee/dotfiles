@@ -13,8 +13,9 @@ matrix:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
 install:
-  - rm -f ~/.bashrc
-  - brew install shellcheck stow pre-commit
+  - rm -f ~/.bashrc ~/.gitconfig
+  - brew install shellcheck pre-commit
+  - make install-gems
 
 script:
   - make install
