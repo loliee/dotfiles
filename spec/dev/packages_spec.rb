@@ -74,7 +74,7 @@ if os[:family] == 'darwin'
 end
 
 describe command('~/.pyenv/shims/python --version') do
-  its(:stdout) { should match /Python 3.7/ }
+  its(:stdout) { should match /Python 3.8/ }
 end
 
 describe command('~/.rubies/ruby-2.6.5/bin/ruby --version') do
