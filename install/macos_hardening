@@ -77,6 +77,7 @@ sudo spctl --master-enable
 # Require an administrator password to access system-wide preferences
 security -q authorizationdb read system.preferences >/tmp/system.preferences.plist
 /usr/libexec/PlistBuddy -c 'Set :shared false' /tmp/system.preferences.plist
+# shellcheck disable=SC2024
 sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
 rm '/tmp/system.preferences.plist'
 
