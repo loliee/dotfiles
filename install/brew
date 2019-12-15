@@ -201,6 +201,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       "${HOME}/.pyenv/shims/pip" install "$pip"
   done
 
+  eval "$(pyenv init -)"
+
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
