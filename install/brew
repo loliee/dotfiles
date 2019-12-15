@@ -245,6 +245,9 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     nvm install "${node}"
   done
 
+  nvm alias default "${NODEJS[-1]}"
+  nvm use "${NODEJS[-1]}"
+
   NPM=(
     eslint@6
     jsonlint@1
