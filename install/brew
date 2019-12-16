@@ -37,6 +37,7 @@ brew tap homebrew/services
 if [[ "${RUN_LIST}" =~ dotfiles ]]; then
   brew install \
     git \
+    macvim \
     stow
 fi
 
@@ -97,7 +98,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     the_silver_searcher \
     tmux \
     tree \
-    macvim \
     watch \
     wget \
     xz \
