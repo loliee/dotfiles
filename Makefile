@@ -103,8 +103,8 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 	@mkdir -p $(HOME)/.vim/bundle/
 	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
 		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
-	@vim +PluginInstall +qall &>/dev/null
-	@vim +GoInstallBinaries +qall &>/dev/null
+	@vim +PluginInstall +qall
+	@vim +GoInstallBinaries +qall
 	@mkdir -p $(HOME)/.vim/undofiles
 	@[[ -f $(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/lightline/patatetoy.vim \
