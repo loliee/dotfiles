@@ -26,7 +26,7 @@ bind main H !git r HEAD^
 bind diff H !git r HEAD^
 
 # Tag
-bind main T !git tag -f %(prompt) %(commit)
+bind main T !git tag -f -s %(prompt) %(commit)
 
 # Colors
 color cursor         white    black    bold
