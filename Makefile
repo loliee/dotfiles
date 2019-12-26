@@ -4,6 +4,11 @@ PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
 .DEFAULT_GOAL := help
 .PHONY: install test
+.ONESHELL:
+.SHELLFLAGS := -eu -o pipefail -c
+.DELETE_ON_ERROR:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
 
 help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
