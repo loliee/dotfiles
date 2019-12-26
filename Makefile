@@ -1,4 +1,4 @@
-OS = "$(uname | awk '{ print tolower($1) }')"
+OS = $(shell uname)
 SHELL := /usr/bin/env bash
 PREZTO := ~/.zprezto
 PATATETOY := ~/.patatetoy
@@ -10,7 +10,7 @@ help:
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
 install: ## Full install
-	@if [[ $(OS) -eq "darwin" ]]; then \
+	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
 		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
 			make setup-iterm2; \
