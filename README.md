@@ -63,7 +63,7 @@ make uninstall-dotfiles
 make uninstall-brew
 ```
 
-## Ressources
+## Resources
 
 - [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).
 - [OS X Security and Privacy Guide](https://github.com/drduh/OS-X-Security-and-Privacy-Guide#http)
