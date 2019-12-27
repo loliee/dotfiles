@@ -37,6 +37,7 @@ if ! fdesetup status | grep -q 'FileVault is On.'; then
   # shellcheck disable=SC1003
   1>&2 echo '/!\ FileVault is not enabled /!\'
   exit 1
+  # sudo fdesetup enable -user $USER > $HOME/FileVault_recovery_key.txt
 fi
 
 # Check firmware password
@@ -63,6 +64,23 @@ if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; th
   exit 1
 fi
 
+# check EFI Firmware Integrity
+if system_profiler SPiBridgeDataType | grep 'T2'; then
+  echo "T2 Present, efi integrity check skipped"
+else
+  /usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
+fi
+
+# Enable Gatekeeper
+sudo spctl --master-enable
+
+# Require an administrator password to access system-wide preferences
+security -q authorizationdb read system.preferences >/tmp/system.preferences.plist
+/usr/libexec/PlistBuddy -c 'Set :shared false' /tmp/system.preferences.plist
+# shellcheck disable=SC2024
+sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
+rm '/tmp/system.preferences.plist'
+
 # Enable the firewall
 /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 
@@ -82,6 +100,9 @@ fi
 
 sudo pkill -HUP socketfilterfw || true
 
+# Disabled allow signed downloaded applications automatically
+/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
+
 # Set the screen to lock as soon as the screensaver starts
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
@@ -99,10 +120,29 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable Bonjour multicast advertisements
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
+# Set AirDrop Discoverability to 'Contacts Only'
+defaults write com.apple.sharingd DiscoverableMode -string 'Contacts Only'
+sudo killall -HUP sharingd
+
+# Set AppStore update check to every one (1) day
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
 # Captive portal
 sudo defaults write \
   /Library/Preferences/SystemConfiguration/com.apple.captive.control Active \
   -bool false
+
+# disable automatic loading of remote content by Mail.app
+defaults write -app mail DisableURLLoading -bool true
+
+# Disable Remote Apple Events
+sudo systemsetup -setremoteappleevents off
+
+# Disable Remote Login
+sudo systemsetup -f -setremotelogin off
+
+# Disable Safari Auto Open 'safe' Files
+defaults write -app safari AutoOpenSafeDownloads -bool false
 
 # You may wish to enforce hibernation and evict FileVault keys from memory
 # instead of traditional sleep to memory
@@ -128,8 +168,8 @@ sudo networksetup -setairportpower airport off
 trap _clean INT TERM EXIT
 
 # Create a tmp location, before generate 'Automatic' location
-sudo networksetup -createlocation 'tmp' populate \
- || sudo networksetup -switchtolocation 'tmp'
+sudo networksetup -createlocation 'tmp' populate
+sudo networksetup -switchtolocation 'tmp'
 
 # Automatic
 sudo networksetup -deletelocation 'Automatic' || true

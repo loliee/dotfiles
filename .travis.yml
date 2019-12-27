@@ -3,18 +3,20 @@
 language: ruby
 sudo: required
 rvm:
-  - 2.4.3
+  - 2.6
 
 matrix:
   include:
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode11.2
       env:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
+        - PATH=/Users/travis/.homebrew/bin:${PATH}
 install:
-  - rm -f ~/.bashrc
-  - brew install shellcheck stow pre-commit
+  - rm -f ~/.bashrc ~/.gitconfig
+  - brew install shellcheck pre-commit
+  - make install-gems
 
 script:
   - make install

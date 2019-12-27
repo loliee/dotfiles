@@ -28,7 +28,6 @@ echo '--> Upgrade any already-installed formulae'
 brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
-brew tap caskroom/cask
 brew tap homebrew/services
 
 # -----------------------------------------------------------
@@ -38,6 +37,7 @@ brew tap homebrew/services
 if [[ "${RUN_LIST}" =~ dotfiles ]]; then
   brew install \
     git \
+    macvim \
     stow
 fi
 
@@ -47,7 +47,7 @@ fi
 
 if [[ "${RUN_LIST}" =~ base ]]; then
 
-  brew tap caskroom/fonts
+  brew tap homebrew/cask-fonts
   brew tap tldr-pages/tldr
 
   echo '--> Install base casks/packages'
@@ -98,7 +98,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     the_silver_searcher \
     tmux \
     tree \
-    macvim \
     watch \
     wget \
     xz \
@@ -167,6 +166,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     rustup \
     s3cmd \
     shellcheck \
+    skopeo \
     shfmt \
     svn \
     tag \
@@ -179,9 +179,14 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     yamllint
 
   # Python
-  CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" \
-    pyenv install -s 3.7.4
-  pyenv global 3.7.4
+  PYTHONS=(
+    3.8.0
+  )
+
+  for python in "${PYTHONS[@]}"; do
+    cflags="-i$(xcrun --show-sdk-path)/usr/include" \
+      pyenv install -s "${python}"
+  done
 
   PIPS=(
     ansible-lint
@@ -195,6 +200,9 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     virtualenv
   )
 
+  rm -f ~/.python-version
+  echo "${PYTHONS[@]:(-1)}" >~/.python-version
+
   "${HOME}/.pyenv/shims/pip" install --upgrade pip
 
   for pip in "${PIPS[@]}"; do
@@ -202,10 +210,16 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       "${HOME}/.pyenv/shims/pip" install "$pip"
   done
 
+  eval "$(pyenv init -)"
+
+  # Guess python version from program name
+  git clone git://github.com/concordusapps/pyenv-implict.git \
+    "${HOME}/.pyenv/plugins/pyenv-implict"
+
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
-    2.6.3
+    2.6.5
   )
 
   for ruby in "${RUBIES[@]}"; do
@@ -213,6 +227,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
       ruby "$ruby" -- --disable-install-rdoc
   done
 
+  rm -f ~/.ruby-version
   echo "${RUBIES[@]:(-1)}" >~/.ruby-version
 
   GEMS=(
@@ -233,12 +248,21 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Node
   NODEJS=(
-    10.16.0
+    12.13.1
   )
+
+  export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1090
+  if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
+    . "$(brew --prefix)/opt/nvm/nvm.sh"
+  fi
 
   for node in "${NODEJS[@]}"; do
     nvm install "${node}"
   done
+
+  nvm alias default "${NODEJS[-1]}"
+  nvm use "${NODEJS[-1]}"
 
   NPM=(
     eslint@6

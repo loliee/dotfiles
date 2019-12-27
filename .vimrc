@@ -60,7 +60,6 @@ endif
 " -----------------------------------------------------------
 " Style
 " -----------------------------------------------------------
-
 set cursorline                    " Highlight current line
 set guifont=Hack:h14              " Define hack as font, powerline
 
@@ -74,6 +73,13 @@ endtry
 
 " Plugins
 " =======
+
+" -----------------------------------------------------------
+" Fugitive
+" -----------------------------------------------------------
+
+" Ensure that this plugin works well with Tim Pope's fugitive
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 
 " -----------------------------------------------------------
 " Lightline
@@ -94,6 +100,9 @@ highlight GitGutterAdd ctermfg=02
 highlight GitGutterChange ctermfg=03
 highlight GitGutterDelete ctermfg=09
 highlight GitGutterChangeDelete ctermfg=208
+
+" Update sign column every quarter second
+set updatetime=250
 
 " ------------------------------------------------------------
 " Goyo

@@ -35,7 +35,6 @@ require 'spec_helper'
   the_silver_searcher
   tldr
   tree
-  macvim
   watch
   wget
   xz

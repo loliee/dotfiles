@@ -20,6 +20,7 @@ newHighlight = green bold 22
 editor = vim
 excludesfile = ~/.gitignore-global
 whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+commitGraph = true
 
 # Make `git rebase` safer on OS X
 # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
@@ -97,8 +98,8 @@ ra = rebase --abort
 rc = rebase --continue
 rh = reset --hard
 ri = rebase -i
-rh = reset --hard
 rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
+rr = reset HEAD^
 rs = rebase --skip
 rso = remote set-url origin
 ru = remote update
@@ -113,6 +114,10 @@ tags = tag -l
 branches = branch -a
 remotes = remote -v
 
+[gc]
+auto = 1
+writeCommitGraph = true
+
 [pull]
 rebase = true
 
@@ -123,3 +128,6 @@ followTags = true
 
 [rerere]
 enabled = true
+
+[fetch]
+writeCommitGraph = true
