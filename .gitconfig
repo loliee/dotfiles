@@ -99,6 +99,7 @@ rc = rebase --continue
 rh = reset --hard
 ri = rebase -i
 rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
+rr = reset HEAD^
 rs = rebase --skip
 rso = remote set-url origin
 ru = remote update
