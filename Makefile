@@ -1,14 +1,15 @@
-OS = $(shell uname)
-SHELL := /usr/bin/env bash
-PREZTO := ~/.zprezto
-PATATETOY := ~/.patatetoy
-.DEFAULT_GOAL := help
-.PHONY: install test
-.ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
-.DELETE_ON_ERROR:
-MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --warn-undefined-variables
+OS = $(shell uname)
+PATATETOY := ~/.patatetoy
+PREZTO := ~/.zprezto
+SHELL := /usr/bin/env bash
+
+.DEFAULT_GOAL := help
+.DELETE_ON_ERROR:
+.ONESHELL:
+.PHONY: install test
+.SHELLFLAGS := -eu -o pipefail -c
 
 help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
