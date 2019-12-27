@@ -115,7 +115,7 @@ install-vundle:  ## Install vundle, the plug-in manager for Vim
 		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/lightline/patatetoy.vim \
 					$(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
 
-install-zsh-completions:
+install-zsh-completions: ## Install some zsh completion files
 	@mkdir -p $(HOME)/.zsh/completion
 	@curl -Lso $(HOME)/.zsh/completion/_docker \
 		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
