@@ -57,10 +57,10 @@ alias 'defaults.list=rc="\n" && defaults domains | sed s/,/"$rc"/g'
 alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
 
 # which resolver I use
-alias dns_resolver='scutil --dns | head'
+alias net-dns-resolver='scutil --dns | head'
 
 # update blacklist domains
-function dns_update_blacklist() {
+function net-dns-update-blacklist() {
   dest='/etc/dnscrypt-proxy-blacklist.txt'
   source='https://download.dnscrypt.info/blacklists/domains/mybase.txt'
   echo "Update ${dest} from ${source}"
@@ -68,17 +68,17 @@ function dns_update_blacklist() {
 }
 
 # shellcheck disable=SC2016
-function dns_local_enable() {
-  update_interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"'
+function net-dns-local-enable() {
+  net-update-interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"'
 }
 
 # shellcheck disable=SC2016
-function dns_local_disable() {
-  update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
+function net-dns-local-disable() {
+  net-update-interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
 }
 
 # Update interfaces config, usefull to set Proxies, DNS etc ...
-function update_interfaces() {
+function net-update-interfaces() {
   networksetup -listallnetworkservices | while read -r interface; do
     if [[ "$interface" =~ LAN || "$interface" == Wi-Fi ]]; then
       eval "$1" && print "${1//\$interface/$interface}"
