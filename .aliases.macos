@@ -85,3 +85,12 @@ function net-update-interfaces() {
     fi
   done
 }
+
+function net-recreate-automatic() {
+  networksetup -createlocation 'tmp' populate &> /dev/null
+  networksetup -switchtolocation 'tmp'
+  # Automatic
+  networksetup -deletelocation 'Automatic' || true
+  networksetup -createlocation 'Automatic' populate
+  networksetup -switchtolocation 'Automatic'
+}
