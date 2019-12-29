@@ -8,8 +8,8 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export PATH="${HOME}/.homebrew/bin:${PATH}"
 
-# RUN_GROUP_LIST group of package to install, default to 'base, dev, messaging, multimedia, privacy'
-RUN_LIST=${RUN_LIST:-'base,dev,messaging,multimedia,privacy'}
+# RUN_GROUP_LIST group of package to install, default to 'base, dev, dotfiles, messaging, multimedia, privacy'
+RUN_LIST=${RUN_LIST:-'base,dev,dotfiles,messaging,multimedia,privacy'}
 
 if [[ ! -f ~/.homebrew/bin/brew ]]; then
   echo '--> Installing homebrew...'
@@ -331,6 +331,9 @@ fi
 # -----------------------------------------------------------
 
 if [[ "${RUN_LIST}" =~ privacy ]]; then
+  brew install gnu-sed
+  sedc=$(command -v gsed || command -v sed)
+
   echo '--> Install and configure dnscrypt-proxy'
   brew install dnscrypt-proxy
   cp -f ./install/etc/dnscrypt-proxy.toml "$(brew --prefix)/etc/dnscrypt-proxy.toml"
@@ -341,14 +344,14 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
   echo '--> Install and configure privoxy'
   brew install privoxy
   cp -f ./install/etc/privoxy/config "$(brew --prefix)/etc/privoxy/"
-  sed -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
+  "${sedc}" -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
   brew services start privoxy
 
   echo '--> Install and configure tor'
   brew install tor torsocks
   cp -f ./install/etc/tor/torrc "$(brew --prefix)/etc/tor/"
   mkdir -p "${HOME}/.tor"
-  sed -e "s#/dev/shm#${HOME}#g" -i "$(brew --prefix)/etc/tor/torrc"
+  "${sedc}" -e "s#/dev/shm#${HOME}#g" -i "$(brew --prefix)/etc/tor/torrc"
 
   brew services start tor
 fi
