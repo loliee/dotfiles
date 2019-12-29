@@ -77,12 +77,6 @@ function dns_local_disable() {
   update_interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
 }
 
-# List macos settings names
-function macos_settings() {
-  defaults domains | gsed s/', '/'\n'/g
-  echo '-> Run "defaults read [settings]" to display the value'
-}
-
 # Update interfaces config, usefull to set Proxies, DNS etc ...
 function update_interfaces() {
   networksetup -listallnetworkservices | while read -r interface; do
