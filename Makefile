@@ -3,6 +3,7 @@ MAKEFLAGS += --warn-undefined-variables
 OS = $(shell uname)
 PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
+RUN_LIST ?= base dev dotfiles messaging multimedia privacy
 SHELL := /usr/bin/env bash
 
 .DEFAULT_GOAL := help
@@ -18,13 +19,15 @@ help:
 install: ## Full install
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
-		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
+		if [[ -d $(HOME)/Applications/iTerm.app && "$(RUN_LIST)" =~ dotfiles ]]; then \
 			make setup-iterm2; \
 		fi; \
 	fi
-	@make \
-		install-dotfiles \
-		install-gems
+	@if [[ "$(RUN_LIST)" =~ dotfiles ]]; then \
+		make \
+			install-dotfiles \
+			install-gems; \
+	fi
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
