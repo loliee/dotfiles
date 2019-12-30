@@ -15,8 +15,8 @@ matrix:
         - PATH=/Users/travis/.homebrew/bin:${PATH}
 install:
   - rm -f ~/.bashrc ~/.gitconfig
-  - brew install shellcheck pre-commit
-  - make install-gems
+  - pip install virtualenv
+  - make install-dev
 
 script:
   - make install

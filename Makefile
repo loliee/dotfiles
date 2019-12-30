@@ -1,10 +1,12 @@
 MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --warn-undefined-variables
+DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
 RUN_LIST ?= base dev dotfiles messaging multimedia privacy
 SHELL := /usr/bin/env bash
+VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
@@ -24,10 +26,19 @@ install: ## Full install
 		fi; \
 	fi
 	@if [[ "$(RUN_LIST)" =~ dotfiles ]]; then \
-		make \
-			install-dotfiles \
-			install-gems; \
+		make install-dotfiles; \
 	fi
+
+install-brew: # Install brew and packages
+	@bash -x ./install/brew
+
+install-dev: ## Install test environment
+	@if [[ "$(OS)" == "Darwin" ]]; then \
+		brew install shellcheck; \
+	fi
+	@$(MAKE) -j 2 \
+		install-gems \
+		install-pip-packages;
 
 install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	$(info --> Install dotfiles)
@@ -49,7 +60,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='README.md' \
 		--ignore='Rakefile' \
 		--ignore='install' \
-		--ignore='spec'
+		--ignore='spec' \
+		--ignore='venv'
 	@mkdir -p \
 		$(HOME)/.vim \
 		$(HOME)/.config/yamllint
@@ -101,6 +113,15 @@ install-tpm: ## Install tpm, the tmux plugin manager
 	@[[ -d $(HOME)/.tmux/plugins/tpm ]] \
 		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
 
+install-pip-packages: ## Install python requirements
+	$(MAKE) venv
+	$(info --> Install ansible via `pip`)
+	@( \
+		source $(VIRTUALENV_DIR)/bin/activate; \
+		pip install --upgrade setuptools; \
+		pip install -r requirements.txt; \
+	)
+
 install-prezto: ## Install prezto, the confuguration framework for Zsh
 	$(info --> Install Prezto)
 	@[[ -d $(PREZTO) ]] \
@@ -132,6 +153,14 @@ install-zsh-completions: ## Install some zsh completion files
 install-brew: # Install brew and packages
 	@bash -x ./install/brew
 
+outdated-pip-packages: ## List outdated pip packages
+	$(info --> List outdated packages)
+	$(MAKE) venv
+	@( \
+		source $(VIRTUALENV_DIR)/bin/activate; \
+		piprot requirements.txt; \
+	)
+
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
 
@@ -162,7 +191,8 @@ uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
 		--ignore='Rakefile' \
 		--ignore='gemrc' \
 		--ignore='install' \
-		--ignore='spec'
+		--ignore='spec' \
+		--ignore='venv'
 	@rm -f $(HOME)/.config/hadolint.yaml
 
 uninstall-tpm: ## Uninstall tmux plugin manager
@@ -195,7 +225,11 @@ serverspec: ## Run serverspec
 
 pre-commit: ## Run pre-commit hooks
 	$(info --> Run precommit hooks)
-	@pre-commit run --all
+	$(MAKE) venv
+	@( \
+		source $(VIRTUALENV_DIR)/bin/activate; \
+		pre-commit run --all; \
+	)
 
 test-packages: ## Ensure that the OS is well configured
 	$(info --> Run serverspec)
@@ -206,3 +240,6 @@ test-packages: ## Ensure that the OS is well configured
 test: ## Run shellcheck, serverspec and pre-commit hooks
 	$(info --> Run serverspec)
 	@make -j -l 3 shellcheck serverspec pre-commit
+
+venv: ## Create python virtualenv
+		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
