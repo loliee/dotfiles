@@ -15,5 +15,9 @@ end
 
 describe file("#{brew_prefix}/etc/privoxy/config") do
   it { should be_file }
-  its(:content) { should match /listen-address 0.0.0.0:8118/ }
+  its(:content) { should match /listen-address 127.0.0.1:8118/ }
+end
+
+describe port(8118) do
+  it { should be_listening.on('127.0.0.1').with('tcp') }
 end
