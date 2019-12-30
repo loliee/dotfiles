@@ -13,6 +13,13 @@ matrix:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
         - PATH=/Users/travis/.homebrew/bin:${PATH}
+    - os: osx
+      osx_image: xcode11.2
+      env:
+        - TAG='[ privacy/packages ]'
+        - RUN_LIST=privacy
+        - PATH=/Users/travis/.homebrew/bin:${PATH}
+
 install:
   - rm -f ~/.bashrc ~/.gitconfig
   - pip install virtualenv
