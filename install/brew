@@ -337,8 +337,10 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
   echo '--> Install and configure dnscrypt-proxy'
   brew install dnscrypt-proxy
   cp -f ./install/etc/dnscrypt-proxy.toml "$(brew --prefix)/etc/dnscrypt-proxy.toml"
-  sudo curl -Ls -o /etc/dnscrypt-proxy-blacklist.txt \
+  curl -Ls -o "$(brew --prefix)/etc/dnscrypt-proxy-blacklist.txt" \
     https://download.dnscrypt.info/blacklists/domains/mybase.txt
+  "${sedc}" -e "s#/etc/#$(brew --prefix)/etc/#g" -i "$(brew --prefix)/etc/dnscrypt-proxy.toml"
+  "${sedc}" -e "s#0.0.0.0:53#127.0.0.1:53#g" -i "$(brew --prefix)/etc/dnscrypt-proxy.toml"
   sudo brew services start dnscrypt-proxy
 
   echo '--> Install and configure privoxy'
