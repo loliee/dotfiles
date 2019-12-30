@@ -341,14 +341,22 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
     https://download.dnscrypt.info/blacklists/domains/mybase.txt
   "${sedc}" -e "s#/etc/#$(brew --prefix)/etc/#g" -i "$(brew --prefix)/etc/dnscrypt-proxy.toml"
   "${sedc}" -e "s#0.0.0.0:53#127.0.0.1:53#g" -i "$(brew --prefix)/etc/dnscrypt-proxy.toml"
-  sudo brew services start dnscrypt-proxy
+  action='start'
+  if sudo brew services list | grep -E '^dnscrypt-proxy(\s)+started.*'; then
+    action='restart'
+  fi
+  sudo brew services "${action}" dnscrypt-proxy
 
   echo '--> Install and configure privoxy'
   brew install privoxy
   cp -f ./install/etc/privoxy/config "$(brew --prefix)/etc/privoxy/"
   "${sedc}" -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
   "${sedc}" -e "s#0.0.0.0:8118#127.0.0.1:8118#g" -i "$(brew --prefix)/etc/privoxy/config"
-  brew services start privoxy
+  action='start'
+  if brew services list | grep -E '^privoxy(\s)+started.*'; then
+    action='restart'
+  fi
+  brew services "${action}" privoxy
 
   echo '--> Install and configure tor'
   brew install tor torsocks
@@ -356,5 +364,9 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
   mkdir -p "${HOME}/.tor"
   "${sedc}" -e "s#/dev/shm#${HOME}#g" -i "$(brew --prefix)/etc/tor/torrc"
 
-  brew services start tor
+  action='start'
+  if brew services list | grep -E '^tor(\s)+started.*'; then
+    action='restart'
+  fi
+  brew services "${action}" tor
 fi
