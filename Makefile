@@ -18,7 +18,7 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Full install
+install: ## Full install, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
 		if [[ -d $(HOME)/Applications/iTerm.app && "$(RUN_LIST)" =~ dotfiles ]]; then \
@@ -87,12 +87,12 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		install-vundle \
 		install-zsh-completions
 
-install-gems: ## Install gems
+install-gems: ## Install gems, used for testing env
 	$(info --> run `bundle install`)
 	@gem install bundler --quiet
 	@bundle install
 
-install-pip-packages: ## Install python requirements
+install-pip-packages: ## Install python requirements, used for testing code
 	$(MAKE) venv
 	$(info --> Install ansible via `pip`)
 	@( \
@@ -166,7 +166,7 @@ setup-macos: ## Run macos script
 setup-macos-hardening: ## Run macos_hardening script
 	@bash -x ./install/macos_hardening
 
-serverspec: ## Run serverspec
+serverspec: ## Run serverspec, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	$(info --> Run serverspec)
 	@env \
 		SPEC_OPTS='--format documentation --color' \
@@ -185,7 +185,7 @@ test-packages: ## Ensure that the OS is well configured
 		RUN_LIST=base,dev,messaging,multimedia,privacy \
 		make serverspec
 
-test: ## Run shellcheck, serverspec and pre-commit hooks
+test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	$(info --> Run serverspec)
 	@make -j -l 3 shellcheck serverspec pre-commit
 
