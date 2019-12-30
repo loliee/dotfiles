@@ -7,4 +7,6 @@ describe file("#{ENV['HOME']}/.tigrc") do
   it { should contain('bind main F !git cf %(commit)') }
   it { should contain('bind main R !git ri %(commit)^') }
   it { should contain('bind main A !git a %(file)') }
+  it { should contain('bind generic YI @sh -c "printf \'%s\' %(commit) | pbcopy"') }
+  it { should contain('bind generic YM @sh -c "git rev-list --format=%B --max-count=1 %(commit) | sed \'1d\' | pbcopy"') }
 end
