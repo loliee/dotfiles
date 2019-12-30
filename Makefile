@@ -87,31 +87,10 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		install-vundle \
 		install-zsh-completions
 
-setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
-	$(info --> Install iterm2)
-	@[[ -L $(HOME)/.iterm2 ]] \
-		|| ln -sf $(PWD)/.iterm2 $(HOME)/.iterm2
-	@[[ -d $(HOME)/.iterm2/iterm2-patatetoy ]] \
-		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
-	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
-	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
-
-setup-macos: ## Run macos script
-	@bash -x ./install/macos
-
-setup-macos-hardening: ## Run macos_hardening script
-	@bash -x ./install/macos_hardening
-
 install-gems: ## Install gems
 	$(info --> run `bundle install`)
 	@gem install bundler --quiet
 	@bundle install
-
-install-tpm: ## Install tpm, the tmux plugin manager
-	$(info --> Install tpm)
-	@mkdir -p $(HOME)/.tmux/plugins
-	@[[ -d $(HOME)/.tmux/plugins/tpm ]] \
-		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
 
 install-pip-packages: ## Install python requirements
 	$(MAKE) venv
@@ -127,6 +106,12 @@ install-prezto: ## Install prezto, the confuguration framework for Zsh
 	@[[ -d $(PREZTO) ]] \
 		|| git clone -q --depth 1 --recursive \
 		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
+
+install-tpm: ## Install tpm, the tmux plugin manager
+	$(info --> Install tpm)
+	@mkdir -p $(HOME)/.tmux/plugins
+	@[[ -d $(HOME)/.tmux/plugins/tpm ]] \
+		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
 
 install-vundle:  ## Install vundle, the plug-in manager for Vim
 	$(info --> Install Vundle)
@@ -150,9 +135,6 @@ install-zsh-completions: ## Install some zsh completion files
 	@curl -Lso $(HOME)/.zsh/completion/travis.sh \
 		https://raw.githubusercontent.com/travis-ci/travis.rb/master/assets/travis.sh
 
-install-brew: # Install brew and packages
-	@bash -x ./install/brew
-
 outdated-pip-packages: ## List outdated pip packages
 	$(info --> List outdated packages)
 	$(MAKE) venv
@@ -160,6 +142,52 @@ outdated-pip-packages: ## List outdated pip packages
 		source $(VIRTUALENV_DIR)/bin/activate; \
 		piprot requirements.txt; \
 	)
+
+pre-commit: ## Run pre-commit hooks
+	$(info --> Run precommit hooks)
+	$(MAKE) venv
+	@( \
+		source $(VIRTUALENV_DIR)/bin/activate; \
+		pre-commit run --all; \
+	)
+
+setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
+	$(info --> Install iterm2)
+	@[[ -L $(HOME)/.iterm2 ]] \
+		|| ln -sf $(PWD)/.iterm2 $(HOME)/.iterm2
+	@[[ -d $(HOME)/.iterm2/iterm2-patatetoy ]] \
+		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
+	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
+	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
+
+setup-macos: ## Run macos script
+	@bash -x ./install/macos
+
+setup-macos-hardening: ## Run macos_hardening script
+	@bash -x ./install/macos_hardening
+
+serverspec: ## Run serverspec
+	$(info --> Run serverspec)
+	@env \
+		SPEC_OPTS='--format documentation --color' \
+		rake serverspec:run
+
+shellcheck: ## Run shellcheck
+	$(info --> Run shellcheck)
+	@find install -type f -not -path '*etc*' -not -path '*fzf*' \
+		| xargs -P 4 -I % shellcheck %
+	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
+		| xargs -P 4 -I % shellcheck %
+
+test-packages: ## Ensure that the OS is well configured
+	$(info --> Run serverspec)
+	@env \
+		RUN_LIST=base,dev,messaging,multimedia,privacy \
+		make serverspec
+
+test: ## Run shellcheck, serverspec and pre-commit hooks
+	$(info --> Run serverspec)
+	@make -j -l 3 shellcheck serverspec pre-commit
 
 uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
 	@make uninstall-dotfiles \
@@ -209,37 +237,6 @@ uninstall-vundle: ## Uninstall Vundle
 	$(info --> Uninstall vundle)
 	@[[ -d $(HOME)/.vim/bundle ]] \
 		&& rm -rf $(HOME)/.vim/bundle
-
-shellcheck: ## Run shellcheck
-	$(info --> Run shellcheck)
-	@find install -type f -not -path '*etc*' -not -path '*fzf*' \
-		| xargs -P 4 -I % shellcheck %
-	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
-		| xargs -P 4 -I % shellcheck %
-
-serverspec: ## Run serverspec
-	$(info --> Run serverspec)
-	@env \
-		SPEC_OPTS='--format documentation --color' \
-		rake serverspec:run
-
-pre-commit: ## Run pre-commit hooks
-	$(info --> Run precommit hooks)
-	$(MAKE) venv
-	@( \
-		source $(VIRTUALENV_DIR)/bin/activate; \
-		pre-commit run --all; \
-	)
-
-test-packages: ## Ensure that the OS is well configured
-	$(info --> Run serverspec)
-	@env \
-		RUN_LIST=base,dev,messaging,multimedia,privacy \
-		make serverspec
-
-test: ## Run shellcheck, serverspec and pre-commit hooks
-	$(info --> Run serverspec)
-	@make -j -l 3 shellcheck serverspec pre-commit
 
 venv: ## Create python virtualenv
 		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
