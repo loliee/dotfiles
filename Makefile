@@ -179,12 +179,6 @@ shellcheck: ## Run shellcheck
 	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
 		| xargs -P 4 -I % shellcheck %
 
-test-packages: ## Ensure that the OS is well configured
-	$(info --> Run serverspec)
-	@env \
-		RUN_LIST=base,dev,messaging,multimedia,privacy \
-		make serverspec
-
 test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	$(info --> Run serverspec)
 	@make -j -l 3 shellcheck serverspec pre-commit
