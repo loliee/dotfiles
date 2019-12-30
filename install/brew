@@ -347,6 +347,7 @@ if [[ "${RUN_LIST}" =~ privacy ]]; then
   brew install privoxy
   cp -f ./install/etc/privoxy/config "$(brew --prefix)/etc/privoxy/"
   "${sedc}" -e "s#/etc/privoxy#$(brew --prefix)/etc/privoxy#g" -i "$(brew --prefix)/etc/privoxy/config"
+  "${sedc}" -e "s#0.0.0.0:8118#127.0.0.1:8118#g" -i "$(brew --prefix)/etc/privoxy/config"
   brew services start privoxy
 
   echo '--> Install and configure tor'
