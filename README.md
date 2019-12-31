@@ -54,13 +54,13 @@ echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 chsh -s "$(brew --prefix)/bin/zsh"
 ```
 
-## Uninstall
+## Test
 
-Remove dotfiles and packages with:
+Run linters & specs:
 
 ```bash
-make uninstall-dotfiles
-make uninstall-brew
+make install-dev
+make test
 ```
 
 ## Resources

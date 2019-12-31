@@ -17,3 +17,8 @@ describe file("#{brew_prefix}/etc/tor/torrc") do
   it { should be_file }
   its(:content) { should match /SocksPort 127.0.0.1:9050/ }
 end
+
+# Torsocks
+describe port(9050) do
+  it { should be_listening.on('127.0.0.1').with('tcp') }
+end
