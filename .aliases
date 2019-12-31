@@ -56,23 +56,23 @@ command -v direnv &>/dev/null && alias da='direnv allow'
 command -v fasd &>/dev/null && alias j='fasd_cd'
 
 # docker-compose
-command -v docker-compose &>/dev/null && alias dc='docker-compose' \
-  && command -v compdef &>/dev/null && compdef dc=docker-compose
+command -v docker-compose &>/dev/null && alias dc='docker-compose' &&
+  command -v compdef &>/dev/null && compdef dc=docker-compose
 
 # Cuz IMADUMMY
 command -v mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
 # kubernetes
-command -v kubectl &>/dev/null && alias kb='kubectl' \
-  && command -v compdef &>/dev/null && compdef kb=kubectl
-command -v kubectx &>/dev/null && alias kx='kubectx' \
-  && command -v compdef &>/dev/null && compdef kx=kubectx
-command -v kubens &>/dev/null && alias kn='kubens' \
-  && command -v compdef &>/dev/null && compdef kn=kubens
+command -v kubectl &>/dev/null && alias kb='kubectl' &&
+  command -v compdef &>/dev/null && compdef kb=kubectl
+command -v kubectx &>/dev/null && alias kx='kubectx' &&
+  command -v compdef &>/dev/null && compdef kx=kubectx
+command -v kubens &>/dev/null && alias kn='kubens' &&
+  command -v compdef &>/dev/null && compdef kn=kubens
 
 # tree
 if ! command -v tree &>/dev/null; then
-    alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+  alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 fi
 
 if command -v tmuxinator &>/dev/null; then
@@ -90,9 +90,9 @@ function pcf() {
 alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
 
 function colors() {
-  for code in $(seq -w 0 255); do for attr in 0 1;
-    do printf "%s-%03s %b■■■■%b\\n" "${attr}" "${code}" "\\e[${attr};38;05;${code}m" "\\e[m";
-  done; done | column -c $((COLUMNS*2))
+  for code in $(seq -w 0 255); do for attr in 0 1; do
+    printf "%s-%03s %b■■■■%b\\n" "${attr}" "${code}" "\\e[${attr};38;05;${code}m" "\\e[m"
+  done; done | column -c $((COLUMNS * 2))
 }
 
 # Tig reflog
@@ -105,7 +105,7 @@ fi
 # update tab name
 function tabname() {
   echo -en "\\033];$1\\007"
-  if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" = 'tmux' ]]; then
+  if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" == 'tmux' ]]; then
     tmux rename-window "$(echo "$*" | cut -d . -f 1)"
   fi
 }
@@ -133,15 +133,15 @@ if command -v fzf &>/dev/null; then
   # fkill - kill process
   function fkill() {
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    if [ "x$pid" != "x" ]
-    then
+    if [ "x$pid" != "x" ]; then
       kill -"${1:-9}" "$pid"
     fi
   }
 fi
 
 function zsh_completion_reset() {
-  rm -f ~/.zcompdump; compinit
+  rm -f ~/.zcompdump
+  compinit
 }
 
 # Remove quickly a huge directory
@@ -156,15 +156,15 @@ function rmf() {
   # http://stackoverflow.com/questions/14141933/zsh-read-q-broken-on-osx
   answer=$(/bin/bash -c "read -p '$question' -r REPLY && echo \"\$REPLY\"")
   case $answer in
-    [yY])
-      mkdir -p /tmp/empty_dir/
-      [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
-      [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1";
-      rmdir /tmp/empty_dir
-      ;;
-    *)
-      print 'cancel...'
-      ;;
+  [yY])
+    mkdir -p /tmp/empty_dir/
+    [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
+    [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1"
+    rmdir /tmp/empty_dir
+    ;;
+  *)
+    print 'cancel...'
+    ;;
   esac
 }
 
@@ -272,16 +272,16 @@ if [[ $OS == 'Linux' ]]; then
 
   # docker aliases for bash
   command -v _docker_compose &>/dev/null && complete -F _docker_compose dc
-  command -v docker &>/dev/null && command -v sudo &>/dev/null && \
-    alias sd='sudo -E docker' && command -v _docker &>/dev/null && \
+  command -v docker &>/dev/null && command -v sudo &>/dev/null &&
+    alias sd='sudo -E docker' && command -v _docker &>/dev/null &&
     complete -F _docker sd
-  command -v docker-compose &>/dev/null && command -v sudo &>/dev/null &>/dev/null && \
-    alias sdc='sudo -E docker-compose' && command -v _docker_compose &>/dev/null && \
+  command -v docker-compose &>/dev/null && command -v sudo &>/dev/null &>/dev/null &&
+    alias sdc='sudo -E docker-compose' && command -v _docker_compose &>/dev/null &&
     complete -F _docker_compose sdc
 
   # Get process environment
   function penv() {
-    xargs --null --max-args=1 < "/proc/$1/environ"
+    xargs --null --max-args=1 <"/proc/$1/environ"
   }
 fi
 
