@@ -41,8 +41,8 @@ bind generic YI @sh -c "printf '%s' %(commit) | pbcopy"
 bind generic YM @sh -c "git rev-list --format=%B --max-count=1 %(commit) | sed '1d' | pbcopy"
 
 # Colors
-color cursor         white   black   bold
-color id             yellow  default bold
-color author         green   default bold
-color title-blur     white   black
-color title-focus    white   black   bold
+color cursor         white  black   bold
+color id             yellow default bold
+color author         green  default bold
+color title-blur     white  black
+color title-focus    white  black   bold
