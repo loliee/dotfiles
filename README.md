@@ -54,15 +54,6 @@ echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
 chsh -s "$(brew --prefix)/bin/zsh"
 ```
 
-## Uninstall
-
-Remove dotfiles and packages with:
-
-```bash
-make uninstall-dotfiles
-make uninstall-brew
-```
-
 ## Resources
 
 - [Apple Official manual page](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/defaults.1.html).

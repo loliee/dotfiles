@@ -183,54 +183,5 @@ test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev
 	$(info --> Run serverspec)
 	@make -j -l 3 shellcheck serverspec pre-commit
 
-uninstall: ## Uninstall dotfiles, Tmux Tpm, Prezto, Vundle
-	@make uninstall-dotfiles \
-
-uninstall-brew: ## Uninstall brew and packages
-	@curl -o /tmp/uninstall-brew.rb \
-		-fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall \
-		&& chmod u+x /tmp/uninstall-brew.rb \
-		&& /tmp/uninstall-brew.rb
-	@rm -f /tmp/uninstall-brew.rb
-
-uninstall-dotfiles: ## Uninstall dotfiles and patatetoy prompt
-	$(info --> Uninstall dotfiles)
-	@rm -rf $(HOME)/.patatetoy
-	@stow -D . -t "$(HOME)" -v \
-		--ignore='.DS_Store' \
-		--ignore='.fzf_history' \
-		--ignore='.git' \
-		--ignore='.hadolint.yml' \
-		--ignore='.iterm2' \
-		--ignore='.travis.yml' \
-		--ignore='.vim' \
-		--ignore='.yamllint' \
-		--ignore='Gemfile' \
-		--ignore='Gemfile.lock' \
-		--ignore='LICENCE' \
-		--ignore='Makefile' \
-		--ignore='README.md' \
-		--ignore='Rakefile' \
-		--ignore='gemrc' \
-		--ignore='install' \
-		--ignore='spec' \
-		--ignore='venv'
-	@rm -f $(HOME)/.config/hadolint.yaml
-
-uninstall-tpm: ## Uninstall tmux plugin manager
-	$(info --> Uninstall tpm)
-	@[[ -d $(HOME)/.tmux/plugins/tpm ]] \
-		&& rm -rf $(HOME)/.tmux/plugins/tmp
-
-uninstall-prezto: ## Uninstall Prezto
-	$(info --> Uninstall Prezto)
-	@[[ -d $(PREZTO) ]] \
-		&& rm -rf $(PREZTO)
-
-uninstall-vundle: ## Uninstall Vundle
-	$(info --> Uninstall vundle)
-	@[[ -d $(HOME)/.vim/bundle ]] \
-		&& rm -rf $(HOME)/.vim/bundle
-
 venv: ## Create python virtualenv
 		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
