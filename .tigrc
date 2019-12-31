@@ -2,6 +2,10 @@
 set main-view = line-number:no,interval=5 id:yes date:default author:full commit-title:yes,graph,refs,overflow=no
 set diff-options = --show-signature
 
+# Short date
+set main-view-date = custom
+set main-view-date-format = "%Y-%m-%d %H:%M"
+
 # Automatically refresh after a command
 set refresh-mode = after-command
 
