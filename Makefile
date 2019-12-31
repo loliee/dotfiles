@@ -181,7 +181,10 @@ shellcheck: ## Run shellcheck
 
 test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	$(info --> Run serverspec)
-	@make -j -l 3 shellcheck serverspec pre-commit
+	$(MAKE) \
+		shellcheck \
+		pre-commit \
+		serverspec
 
 venv: ## Create python virtualenv
 		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
