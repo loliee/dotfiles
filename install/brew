@@ -131,6 +131,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   brew install \
     asciinema \
     direnv \
+    bat \
     bats \
     bfg \
     chruby \
