@@ -68,11 +68,8 @@ export KEYTIMEOUT=0
 export HOMEBREW_ROOT=$(brew --prefix)
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
-# Nvm
-export NVM_DIR="$HOME/.nvm"
-if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
-  . "$(brew --prefix)/opt/nvm/nvm.sh"
-fi
+# fvm
+eval "$(fnm env --multi)"
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local

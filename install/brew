@@ -154,7 +154,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     mkcert \
     mtr \
     nmap \
-    nvm \
     packer \
     pandoc \
     pgcli \
@@ -166,6 +165,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     ruby-install \
     rustup \
     s3cmd \
+    Schniz/tap/fnm \
     shellcheck \
     skopeo \
     shfmt \
@@ -252,18 +252,13 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     12.13.1
   )
 
-  export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1090
-  if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
-    . "$(brew --prefix)/opt/nvm/nvm.sh"
-  fi
-
+  eval "$(fnm env --multi)"
   for node in "${NODEJS[@]}"; do
-    nvm install "${node}"
+    fnm install "${node}"
   done
 
-  nvm alias default "${NODEJS[-1]}"
-  nvm use "${NODEJS[-1]}"
+  fnm default "${NODEJS[-1]}"
+  fnm use "${NODEJS[-1]}"
 
   NPM=(
     eslint@6
