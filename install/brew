@@ -181,7 +181,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Python
   PYTHONS=(
-    3.8.0
+    3.8.1
   )
 
   for python in "${PYTHONS[@]}"; do
