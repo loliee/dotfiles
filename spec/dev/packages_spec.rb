@@ -83,7 +83,7 @@ describe command('~/.rubies/ruby-2.6.5/bin/ruby --version') do
 end
 
 describe command('node --version') do
-  its(:stdout) { should match /v12.13.1/ }
+  its(:stdout) { should match /v12.16.1/ }
 end
 
 describe command('eslint --version') do
