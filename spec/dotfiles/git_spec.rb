@@ -26,12 +26,7 @@ end
 
 describe file("#{ENV['HOME']}/.gitmessage") do
   it { should be_file }
-  it { should contain('feat') }
-  it { should contain('fix') }
-  it { should contain('docs') }
-  it { should contain('style') }
-  it { should contain('refactor') }
-  it { should contain('perf') }
-  it { should contain('chore') }
-  it { should contain('test') }
+  it { should contain('<subject>') }
+  it { should contain('<body>') }
+  it { should contain('<footer>') }
 end

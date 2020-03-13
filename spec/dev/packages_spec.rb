@@ -12,6 +12,7 @@ require 'spec_helper'
   diff-so-fancy
   dive
   entr
+  fnm
   kubectx
   kubernetes-cli
   kubernetes-helm
@@ -25,7 +26,6 @@ require 'spec_helper'
   mkcert
   mtr
   nmap
-  nvm
   packer
   pandoc
   pgcli
@@ -78,16 +78,12 @@ describe command('~/.pyenv/shims/python --version') do
   its(:stdout) { should match /Python 3.8/ }
 end
 
-describe command('~/.rubies/ruby-2.6.5/bin/ruby --version') do
-  its(:stdout) { should match /ruby 2.6.5/ }
+describe command('~/.rubies/ruby-2.7.0/bin/ruby --version') do
+  its(:stdout) { should match /ruby 2.7.0/ }
 end
 
 describe command('node --version') do
-  its(:stdout) { should match /v12.13.1/ }
-end
-
-describe command('command -v node') do
-  its(:stdout) { should match /.nvm\/versions\/node\/v12.13.1/ }
+  its(:stdout) { should match /v12.16.1/ }
 end
 
 describe command('eslint --version') do

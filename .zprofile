@@ -68,21 +68,24 @@ export KEYTIMEOUT=0
 export HOMEBREW_ROOT=$(brew --prefix)
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
-# Nvm
-export NVM_DIR="$HOME/.nvm"
-if [[ -f "$(brew --prefix)/opt/nvm/nvm.sh" ]]; then
-  . "$(brew --prefix)/opt/nvm/nvm.sh"
-fi
+# fvm
+eval "$(fnm env --multi)"
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 
 # Setting ag as the default source for fzf
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
-export FZF_DEFAULT_OPTS='--history=.fzf_history --history-size=10000
---color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
---color info:7,prompt:3,spinner:4,pointer:4,marker:1'
 
+# fzf preview
+export FZF_PREVIEW_COMMAND="bat --style=numbers,changes --wrap never --color always {} || cat {} || tree -C {}"
+export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
+--color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
+--color info:7,prompt:3,spinner:4,pointer:4,marker:1
+--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
+export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$LINES'"
+#
 # Switch pure prompt theme to vi mode
 export PATATETOY_VIM_MODE=1
 

@@ -3,19 +3,17 @@
 ' Commit Guidelines
 ' =================
 '
-' <type>: <subject>\n\n
+' <subject>\n
 ' <body>\n
 ' <footer>
 '
-' Subject: use the imperative, present tense: "change" not "changed", don't capitalize first letter, no (.) at the end.
-' Body: like <subject>
+' Subject:
+'   - use the imperative present tense: "change" not "changed",
+'   - capitalize first letter, no (.) at the end.
+'   - 50 chars max
+' Body: like <subject> but 72 chars max
 ' Footer: place for breaking changes, github issues...
-' Type:
-'  - feat: A new feature
-'  - fix: A bug fix
-'  - docs: Documentation only changes
-'  - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-'  - refactor: A code change that neither fixes a bug or adds a feature
-'  - perf: A code change that improves performance
-'  - test: Adding missing tests
-'  - chore: Changes to the build process or auxiliary tools and libraries such as documentation generation
+'
+' @see interesting resources
+'   - https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+'   - https://dhwthompson.com/2019/my-favourite-git-commit
