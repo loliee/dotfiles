@@ -6,3 +6,6 @@ rules:
   line-length:
     max: 120
     level: warning
+  indentation: { spaces: 2 }
+  truthy: { allowed-values: ["true", "yes", "false", "no"] }
+  braces: { min-spaces-inside: 0, max-spaces-inside: 1 }
