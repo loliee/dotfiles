@@ -19,6 +19,13 @@ matrix:
         - RUN_LIST=privacy
         - PATH=/Users/travis/.homebrew/bin:${PATH}
 
+addons:
+  apt:
+    update: true
+    packages:
+      - "python3"
+      - "python3-pip"
+
 install:
   - rm -f ~/.bashrc ~/.gitconfig
   - pip install virtualenv
