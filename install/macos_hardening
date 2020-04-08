@@ -30,12 +30,16 @@ function _clean() {
   echo 'Cleaned'
 }
 
-while true; do sudo -n true; sleep 60; kill -0 $$ || exit; done 2>/dev/null &
+while true; do
+  sudo -n true
+  sleep 60
+  kill -0 $$ || exit
+done 2>/dev/null &
 
 # Check FileVault status
 if ! fdesetup status | grep -q 'FileVault is On.'; then
   # shellcheck disable=SC1003
-  1>&2 echo '/!\ FileVault is not enabled /!\'
+  echo 1>&2 '/!\ FileVault is not enabled /!\'
   exit 1
   # sudo fdesetup enable -user $USER > $HOME/FileVault_recovery_key.txt
 fi
@@ -43,24 +47,24 @@ fi
 # Check firmware password
 if ! sudo firmwarepasswd -check | grep -q 'Password Enabled: Yes'; then
   # shellcheck disable=SC1003
-  1>&2 echo '/!\ firmware password is not set /!\'
-  1>&2 echo 'Hint: "sudo firmwarepasswd -setpasswd"'
+  echo 1>&2 '/!\ firmware password is not set /!\'
+  echo 1>&2 'Hint: "sudo firmwarepasswd -setpasswd"'
   exit 1
 fi
 
 # Check firmware password mode
 if ! sudo firmwarepasswd -mode | grep -q 'Mode: full'; then
   # shellcheck disable=SC1003
-  1>&2 echo '/!\ firmware password is not required on all startups /!\'
-  1>&2 echo 'Hint: "sudo firmwarepasswd -setmode full"'
+  echo 1>&2 '/!\ firmware password is not required on all startups /!\'
+  echo 1>&2 'Hint: "sudo firmwarepasswd -setmode full"'
   exit 1
 fi
 
 # Check System Integrity Protection
 if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; then
   # shellcheck disable=SC1003
-  1>&2 echo '/!\ System Integrity protection is disabled /!\'
-  1>&2 echo 'Hint: "sudo csrutil enable"'
+  echo 1>&2 '/!\ System Integrity protection is disabled /!\'
+  echo 1>&2 'Hint: "sudo csrutil enable"'
   exit 1
 fi
 
@@ -159,8 +163,8 @@ sudo pmset -a autopoweroff 0
 
 # Consolidate my /etc/hosts too just in case I don't use my DNS, eg: automatic
 # network profile
-curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' \
-  | sudo tee '/etc/hosts'
+curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' |
+  sudo tee '/etc/hosts'
 
 # Shutdown Wi-Fi
 sudo networksetup -setairportpower airport off

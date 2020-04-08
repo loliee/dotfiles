@@ -1,5 +1,4 @@
 ---
-
 language: ruby
 sudo: required
 rvm:
@@ -12,17 +11,29 @@ matrix:
       env:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
-        - PATH=/Users/travis/.homebrew/bin:${PATH}
+        - PATH=${HOME}/.homebrew/bin:${HOME}/bin:${PATH}
     - os: osx
       osx_image: xcode11.2
       env:
         - TAG='[ privacy/packages ]'
         - RUN_LIST=privacy
-        - PATH=/Users/travis/.homebrew/bin:${PATH}
+        - PATH=${HOME}/.homebrew/bin:${HOME}/bin:${PATH}
+
+addons:
+  apt:
+    update: true
+    packages:
+      - "python3"
+      - "python3-pip"
+
+before_install:
+  - rm -f ${HOME}/.bashrc ${HOME}/.gitconfig
+  - mkdir -p ${HOME}/bin
+  - curl -L https://github.com/mvdan/sh/releases/download/v3.1.0/shfmt_v3.1.0_darwin_amd64 -o ${HOME}/bin/shfmt
+  - chmod u+x ${HOME}/bin/shfmt
+  - pip install virtualenv
 
 install:
-  - rm -f ~/.bashrc ~/.gitconfig
-  - pip install virtualenv
   - make install-dev
 
 script:

@@ -25,3 +25,7 @@ indent_size = 2
 
 [{package.json,.travis.yml}]
 indent_size = 2
+
+[install/*]
+indent_size = 2
+switch_case_indent = true

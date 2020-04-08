@@ -9,22 +9,22 @@ VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 # shellcheck disable=SC2090
 export SHELL TMUXDIR TMUXSERVER VIMINIT
 export PATH=$PATH:$SSHHOME/.sshrc.d/.bin
-export PATATETOY_INSTALL_DIR=$SSHHOME
+export PATATETOY_SRC_DIR="${SSHHOME}/.patatetoy"
 
 tmuxrc() {
-    export TMUXSERVER
-    export TMUXCONFIG
-    if ! [ -d $TMUXDIR ]; then
-        rm -rf $TMUXDIR;
-        mkdir -p $TMUXDIR;
-    fi;
-    rm -rf $TMUXDIR/.sshrc.d;
-    TMUXCONFIG=$SSHHOME/.sshrc.d/.tmux.conf
+  export TMUXSERVER
+  export TMUXCONFIG
+  if ! [ -d $TMUXDIR ]; then
+    rm -rf $TMUXDIR
+    mkdir -p $TMUXDIR
+  fi
+  rm -rf $TMUXDIR/.sshrc.d
+  TMUXCONFIG=$SSHHOME/.sshrc.d/.tmux.conf
 
-    # shellcheck disable=SC1001
-    \cp -r "$SSHHOME/.sshrc" "$SSHHOME/.patatetoy" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR";
+  # shellcheck disable=SC1001
+  \cp -r "$SSHHOME/.sshrc" "$SSHHOME/.patatetoy" "$SSHHOME/bashsshrc" "$SSHHOME/sshrc" "$SSHHOME/.sshrc.d" "$TMUXDIR"
 
-    SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" "$@"
+  SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" "$@"
 }
 
 # load system-wide profile.d if needed
@@ -57,7 +57,7 @@ fi
 # Tmux on startup
 if [[ -r "$TMUXSERVER" ]]; then
   if [[ -z $TMUX ]]; then
-    if tmuxrc ls &> /dev/null; then
+    if tmuxrc ls &>/dev/null; then
       echo "$SSHHOME"
       exec /usr/bin/tmux -f "$TMUXCONFIG" -S "$TMUXSERVER" a
     else
