@@ -26,9 +26,11 @@ addons:
       - "python3"
       - "python3-pip"
 
-install:
+before_install:
   - rm -f ${HOME}/.bashrc ${HOME}/.gitconfig
   - pip install virtualenv
+
+install:
   - make install-dev
 
 script:
