@@ -11,13 +11,13 @@ matrix:
       env:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
-        - PATH=/Users/travis/.homebrew/bin:${PATH}
+        - PATH=${HOME}/.homebrew/bin:${PATH}
     - os: osx
       osx_image: xcode11.2
       env:
         - TAG='[ privacy/packages ]'
         - RUN_LIST=privacy
-        - PATH=/Users/travis/.homebrew/bin:${PATH}
+        - PATH=${HOME}/.homebrew/bin:${PATH}
 
 addons:
   apt:
@@ -27,7 +27,7 @@ addons:
       - "python3-pip"
 
 install:
-  - rm -f ~/.bashrc ~/.gitconfig
+  - rm -f ${HOME}/.bashrc ${HOME}/.gitconfig
   - pip install virtualenv
   - make install-dev
 
