@@ -93,7 +93,7 @@ end
 
 describe command('prettier --version') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match /1./ }
+  its(:stdout) { should match /2./ }
 end
 
 describe command('jsonlint --version') do
