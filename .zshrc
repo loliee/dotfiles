@@ -18,5 +18,11 @@ if [[ -f "${GOOGLE_SDK_PATH}/path.zsh.inc" && -f "${GOOGLE_SDK_PATH}/completion.
   source "${GOOGLE_SDK_PATH}/completion.zsh.inc"
 fi
 
+# Minio competion
+command -v mc &>/dev/null && {
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C "${HOMEBREW_ROOT}/bin/mc" mc
+}
+
 # Aliases
 [[ -f ${HOME}/.aliases ]] && source ${HOME}/.aliases
