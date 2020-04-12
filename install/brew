@@ -151,6 +151,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     hadolint \
     jq \
     libxml2 \
+    minio-mc \
     mkcert \
     mtr \
     nmap \

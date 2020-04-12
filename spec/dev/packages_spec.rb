@@ -23,6 +23,7 @@ require 'spec_helper'
   hadolint
   jq
   libxml2
+  minio-mc
   mkcert
   mtr
   nmap
