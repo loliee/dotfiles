@@ -5,48 +5,48 @@ filetype off                  " required
 set modelines=0
 
 " -----------------------------------------------------------
-" Vundle init
+" Plug init
 " -----------------------------------------------------------
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'SirVer/ultisnips'
+Plug 'StanAngeloff/php.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'fatih/vim-go'
+Plug 'hashivim/vim-hashicorp-tools'
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/goyo.vim'
+Plug 'loliee/vim-patatetoy'
+Plug 'loliee/vim-snippets'
+Plug 'markcornick/vim-bats'
+Plug 'mileszs/ack.vim'
+Plug 'mv/mv-vim-nginx'
+Plug 'othree/html5.vim'
+Plug 'pearofducks/ansible-vim'
+Plug 'python-mode/python-mode'
+Plug 'rhysd/vim-grammarous'
+Plug 'rust-lang/rust.vim'
+Plug 'stephpy/vim-yaml'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-liquid'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-ruby/vim-ruby'
+Plug 'w0rp/ale'
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Initialize plugin system
+call plug#end()
 
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'SirVer/ultisnips'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'fatih/vim-go'
-Plugin 'hashivim/vim-hashicorp-tools'
-Plugin 'itchyny/lightline.vim'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/goyo.vim'
-Plugin 'loliee/vim-patatetoy'
-Plugin 'loliee/vim-snippets'
-Plugin 'markcornick/vim-bats'
-Plugin 'mileszs/ack.vim'
-Plugin 'mv/mv-vim-nginx'
-Plugin 'othree/html5.vim'
-Plugin 'pearofducks/ansible-vim'
-Plugin 'python-mode/python-mode'
-Plugin 'rhysd/vim-grammarous'
-Plugin 'rust-lang/rust.vim'
-Plugin 'stephpy/vim-yaml'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-liquid'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'w0rp/ale'
-
-call vundle#end()            " required
 filetype plugin indent on    " required
 
 " -----------------------------------------------------------

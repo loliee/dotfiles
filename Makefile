@@ -84,7 +84,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 	@make \
 		install-prezto \
 		install-tpm \
-		install-vundle \
+		install-plug \
 		install-zsh-completions
 
 install-gems: ## Install gems, used for testing env
@@ -113,17 +113,16 @@ install-tpm: ## Install tpm, the tmux plugin manager
 	@[[ -d $(HOME)/.tmux/plugins/tpm ]] \
 		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
 
-install-vundle:  ## Install vundle, the plug-in manager for Vim
-	$(info --> Install Vundle)
-	@mkdir -p $(HOME)/.vim/bundle/
-	@[[ -d $(HOME)/.vim/bundle/Vundle.vim ]] \
-		|| git clone https://github.com/gmarik/Vundle.vim.git $(HOME)/.vim/bundle/Vundle.vim
-	@vim +PluginInstall +qall
+install-plug:  ## Install plug, the minimal plug-in manager for Vim
+	$(info --> Install Plug)
+	@curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	@vim +:PlugInstall +qall
 	@vim +GoInstallBinaries +qall
 	@mkdir -p $(HOME)/.vim/undofiles
-	@[[ -f $(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
-		|| cp -f $(HOME)/.vim/bundle/vim-patatetoy/lightline/patatetoy.vim \
-					$(HOME)/.vim/bundle/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
+	@[[ -f $(HOME)/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
+		|| cp -f $(HOME)/.vim/plugged/vim-patatetoy/lightline/patatetoy.vim \
+					$(HOME)/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
 
 install-zsh-completions: ## Install some zsh completion files
 	@mkdir -p $(HOME)/.zsh/completion
