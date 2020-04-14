@@ -193,6 +193,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   PIPS=(
     ansible-lint
     autopep8
+    docutils
     fabric
     flake8
     ipython
