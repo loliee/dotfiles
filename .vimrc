@@ -30,6 +30,7 @@ Plug 'mileszs/ack.vim'
 Plug 'mv/mv-vim-nginx'
 Plug 'othree/html5.vim'
 Plug 'pearofducks/ansible-vim'
+Plug 'previm/previm'
 Plug 'python-mode/python-mode'
 Plug 'rhysd/vim-grammarous'
 Plug 'rust-lang/rust.vim'
@@ -131,6 +132,10 @@ let b:ale_warn_about_trailing_whitespace = 1
 let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace']
 \}
+
+" Previm
+let g:previm_open_cmd = 'open -a Firefox'
+nnoremap <silent> <leader><CR> :PrevimOpen<CR>
 
 " Python mode
 let g:pymode_python = 'python3'
