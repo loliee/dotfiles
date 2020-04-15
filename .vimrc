@@ -187,6 +187,19 @@ vmap X <Plug>(Exchange)
 nmap cxc <Plug>(ExchangeClear)
 nmap cxx <Plug>(ExchangeLine)
 
+" ----------------------------------------------------------------------------
+" <leader>S | Search it
+" ----------------------------------------------------------------------------
+function! s:duckduck(pat)
+  let q = ''.substitute(a:pat, '["\n]', ' ', 'g')
+  let q = substitute(q, '[[:punct:] ]',
+       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
+  call system(printf('open "https://www.duckduckgo.com/%s"', q))
+endfunction
+
+nnoremap <leader>S :call <SID>duckduck(expand("<cWORD>"))<cr>
+xnoremap <leader>S "gy:call <SID>duckduck(@g)<cr>gv
+
 " -----------------------------------------------------------
 " COMMANDS
 " -----------------------------------------------------------
