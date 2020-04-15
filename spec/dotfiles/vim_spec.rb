@@ -16,6 +16,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     hashivim/vim-hashicorp-tools
     itchyny/lightline.vim
     junegunn/fzf
+    junegunn/fzf.vim
     junegunn/goyo.vim
     loliee/vim-patatetoy
     loliee/vim-snippets
