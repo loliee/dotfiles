@@ -4,6 +4,12 @@ sudo: required
 rvm:
   - 2.6
 
+cache:
+  directories:
+    - ${HOME}/.cache/pip
+    - ${HOME}/node_modules
+    - ${HOME}/Library/Caches/Homebrew
+
 matrix:
   include:
     - os: osx
@@ -24,6 +30,9 @@ addons:
     packages:
       - "python3"
       - "python3-pip"
+
+before_cache:
+  - brew cleanup
 
 before_install:
   - rm -f ${HOME}/.bashrc ${HOME}/.gitconfig
