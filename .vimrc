@@ -50,6 +50,14 @@ call plug#end()
 
 filetype plugin indent on    " required
 
+" Set patatetoy theme, inspired from tommorow
+try
+  let g:patatetoy_custom_term_colors=1
+  colorscheme patatetoy
+catch /^Vim\%((\a\+)\)\=:E185/
+  " Should fail only at the first plugin install execution
+endtry
+
 " -----------------------------------------------------------
 " Load .vimrc.min
 " -----------------------------------------------------------
@@ -63,14 +71,6 @@ endif
 " -----------------------------------------------------------
 set cursorline                    " Highlight current line
 set guifont=Hack:h14              " Define hack as font, powerline
-
-" Set patatetoy theme, inspired from tommorow
-try
-  let g:patatetoy_custom_term_colors=1
-  colorscheme patatetoy
-catch /^Vim\%((\a\+)\)\=:E185/
-  " Should fail only at the first PluginInstall execution
-endtry
 
 " Plugins
 " =======
