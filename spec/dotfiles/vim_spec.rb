@@ -21,7 +21,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     loliee/vim-patatetoy
     loliee/vim-snippets
     markcornick/vim-bats
-    mileszs/ack.vim
     mv/mv-vim-nginx
     othree/html5.vim
     python-mode/python-mode

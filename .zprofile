@@ -74,8 +74,10 @@ eval "$(fnm env --multi)"
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
 
-# Setting ag as the default source for fzf
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
 
 # fzf preview
 export FZF_PREVIEW_COMMAND="bat --style=numbers,changes --wrap never --color always {} || cat {} || tree -C {}"

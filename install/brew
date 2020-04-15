@@ -73,6 +73,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     coreutils \
     curl \
     fasd \
+    fd \
     findutils \
     fzf \
     git \
@@ -90,12 +91,12 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     pwgen \
     readline \
     reattach-to-user-namespace \
+    rg \
     ssh-copy-id \
     sshrc \
     stow \
     tag \
     terminal-notifier \
-    the_silver_searcher \
     tmux \
     tree \
     watch \

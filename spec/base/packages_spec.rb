@@ -9,6 +9,7 @@ require 'spec_helper'
   curl
   dnscrypt-proxy
   fasd
+  fd
   findutils
   fzf
   git
@@ -32,7 +33,6 @@ require 'spec_helper'
   tag
   terminal-notifier
   tmux
-  the_silver_searcher
   tldr
   tree
   watch
@@ -45,6 +45,11 @@ require 'spec_helper'
   describe package(p) do
     it { should be_installed }
   end
+end
+
+# Package not detected rg binary so install is tested  via the following task
+describe command("rg --version") do
+  its(:exit_status) { should eq 0 }
 end
 
 # macOS specific

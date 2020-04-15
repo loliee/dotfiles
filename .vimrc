@@ -27,7 +27,6 @@ Plug 'junegunn/goyo.vim'
 Plug 'loliee/vim-patatetoy'
 Plug 'loliee/vim-snippets'
 Plug 'markcornick/vim-bats'
-Plug 'mileszs/ack.vim'
 Plug 'mv/mv-vim-nginx'
 Plug 'othree/html5.vim'
 Plug 'pearofducks/ansible-vim'
@@ -142,6 +141,11 @@ nnoremap <silent> <leader><CR> :PrevimOpen<CR>
 let g:pymode_python = 'python3'
 
 " -----------------------------------------------------------
+" Rg config
+" -----------------------------------------------------------
+let g:rg_command_args = '--column --line-number --no-heading --color=always --smart-case'
+
+" -----------------------------------------------------------
 " UtilSnips config
 " -----------------------------------------------------------
 
@@ -154,15 +158,10 @@ let g:UltiSnipsJumpBackwardTrigger="<Up>"
 " Bindings, command key send <NUL> value
 " -----------------------------------------------------------
 
-" Search with ack / ag
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-nnoremap <Leader>a :Ack<Space>
-
-" Open fzf
+" Fzf
 nnoremap <silent> <leader>f :FZF<CR>
-nnoremap <silent> <leader>r :FZFA<CR>
+nnoremap <silent> <leader>a :FZFA<CR>
+nnoremap <leader>r :Rg<Space>
 
 " Ale fix
 nmap <leader>s :ALEFix<CR>
@@ -228,12 +227,19 @@ xnoremap <leader>S "gy:call <SID>duckduck(@g)<cr>gv
 :command! Hpc execute ":Silent !hub browse -- \"pull/$(git rev-parse --abbrev-ref HEAD)\""
 :command! Hpp execute ":!clear && hub pull-request"
 
-" Wrapper arround fzf, setup ag to not ignore files
+" Rg  search with fzf and a small preview window
+" Rg! search wiith fzf in fullscreen mode
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep('rg '. g:rg_command_args .' '. <q-args>, 1,
+  \                   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%', '?'),
+  \                   <bang>0)
+
+" Search in all files, temporarly modify FZF_DEFAULT_COMMAND
 command! -nargs=0 FZFA
-      \  execute ':let $FZF_DEFAULT_COMMAND_DEFAULT=$FZF_DEFAULT_COMMAND'
-      \ | execute ':let $FZF_DEFAULT_COMMAND="ag -l -a --hidden"'
-      \ | execute ':FZF'
-      \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_DEFAULT'
+  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_COMMAND'
+  \ | execute ':let $FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --no-ignore --exclude .git"'
+  \ | execute ':FZF' | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_BK'
 
 " -----------------------------------------------------------
 " Local config
