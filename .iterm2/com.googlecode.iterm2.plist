@@ -518,9 +518,9 @@
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>127 443 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>411 147 1060 727 0 0 1680 1027 </string>
+	<string>0 147 1060 877 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>0 300 1060 727 0 0 1680 1027 </string>
+	<string>0 323 1060 727 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>233 78 1060 727 0 0 1680 1050 </string>
 	<key>NeverWarnAboutShortLivedSessions_2BAEA223-5156-4CD5-9C0D-ADD9507AC80A</key>
@@ -1568,17 +1568,24 @@
 		<string>3.3.8beta3</string>
 		<string>3.3.8beta4</string>
 		<string>3.3.8beta5</string>
+		<string>3.3.9beta1</string>
+		<string>3.3.10beta1</string>
+		<string>3.3.10beta2</string>
+		<string>3.3.10beta3</string>
 	</array>
+	<key>NoSyncBFPRecents</key>
 	<array>
 		<string>Iosevka</string>
 		<string>Iosevka Term</string>
+		<string>Iosevka Term Slab</string>
+		<string>Hack</string>
 	</array>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
 		<string>{{0, 0}, {1680, 1050}}</string>
 		<key>topLeft</key>
-		<string>{132, 1027}</string>
+		<string>{401, 842}</string>
 	</dict>
 	<key>NoSyncHaveRequestedFullDiskAccess</key>
 	<true/>
@@ -1587,7 +1594,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>2FB28755-950E-41F4-8F4B-EB2CFBF9B2C0</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>248</integer>
+	<integer>308</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
 	<real>579349048.61577904</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
@@ -2397,9 +2404,11 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-02-08T10:20:17Z</date>
+	<date>2020-04-22T08:05:03Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
+	<key>SUUpdateGroupIdentifier</key>
+	<integer>4081254694</integer>
 	<key>SUUpdateRelaunchingMarker</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2459,7 +2468,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.3.8beta5</string>
+	<string>3.3.10beta3</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
