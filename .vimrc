@@ -76,6 +76,15 @@ set guifont=Hack:h14              " Define hack as font, powerline
 " =======
 
 " -----------------------------------------------------------
+" Ansible vim
+" -----------------------------------------------------------
+
+" Reset indent after two new lines
+let g:ansible_unindent_after_newline = 1
+" Ensure compatibility with stephpy/vim-yaml
+let g:ansible_yamlKeyName = 'yamlKey'
+
+" -----------------------------------------------------------
 " Fugitive
 " -----------------------------------------------------------
 
