@@ -161,6 +161,8 @@ let g:UltiSnipsJumpBackwardTrigger="<Up>"
 " Fzf
 nnoremap <silent> <leader>f :FZF<CR>
 nnoremap <silent> <leader>a :FZFA<CR>
+nnoremap <silent> <leader>h :History<CR>
+nnoremap <silent> <leader>c :FZFHC<CR>
 nnoremap <leader>r :Rg<Space>
 
 " Ale fix
@@ -176,9 +178,6 @@ nnoremap <silent> <leader>g :GrammarousCheck<CR>
 
 " Goyo
 nmap <leader>z :Goyo<CR>
-
-" IndentLine
-nnoremap <silent> <leader>h :IndentLinesToggle<CR>
 
 " Exchange
 let g:exchange_no_mappings=1
@@ -240,6 +239,12 @@ command! -nargs=0 FZFA
   \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_COMMAND'
   \ | execute ':let $FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --no-ignore --exclude .git"'
   \ | execute ':FZF' | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_BK'
+
+" Commande history without preview or default options
+command! -nargs=0 FZFHC
+  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_OPTS'
+  \ | execute ':let $FZF_DEFAULT_OPTS=""'
+  \ | execute ':History:' | execute ':let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_BK'
 
 " -----------------------------------------------------------
 " Local config
