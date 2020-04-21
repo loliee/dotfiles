@@ -70,7 +70,7 @@ endif
 " Style
 " -----------------------------------------------------------
 set cursorline                    " Highlight current line
-set guifont=Hack:h14              " Define hack as font, powerline
+set guifont=iosevka:h14           " Define hack as font, powerline
 
 " Plugins
 " =======
