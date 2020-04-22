@@ -11,6 +11,7 @@ require 'spec_helper'
   ctags
   diff-so-fancy
   dive
+  dust
   entr
   fnm
   kubectx
