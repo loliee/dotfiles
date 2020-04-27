@@ -55,7 +55,9 @@ set relativenumber                " Set relative number for fast dd/yy
 set number                        " Display line number for current line
 
 " Set basic colorscheme
-colorscheme delek
+if ! exists("patatetoy_custom_term_colors")
+  colorscheme delek
+endif
 
 " Set the terminal's title
 if &term == 'screen'
@@ -106,6 +108,14 @@ augroup vimrcEx
   " insert mode and relative numbers when we're in normal mode
   autocmd InsertEnter * :set number
   autocmd InsertLeave * :set relativenumber
+
+  " https://vim.fandom.com/wiki/Highlight_unwanted_spaces
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
 augroup END
 
 " -----------------------------------------------------------

@@ -5,49 +5,58 @@ filetype off                  " required
 set modelines=0
 
 " -----------------------------------------------------------
-" Vundle init
+" Plug init
 " -----------------------------------------------------------
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'SirVer/ultisnips'
+Plug 'StanAngeloff/php.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'fatih/vim-go'
+Plug 'hashivim/vim-hashicorp-tools'
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'loliee/vim-patatetoy'
+Plug 'loliee/vim-snippets'
+Plug 'markcornick/vim-bats'
+Plug 'mv/mv-vim-nginx'
+Plug 'othree/html5.vim'
+Plug 'pearofducks/ansible-vim'
+Plug 'previm/previm'
+Plug 'python-mode/python-mode'
+Plug 'rhysd/vim-grammarous'
+Plug 'rust-lang/rust.vim'
+Plug 'stephpy/vim-yaml'
+Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-liquid'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-ruby/vim-ruby'
+Plug 'w0rp/ale'
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Initialize plugin system
+call plug#end()
 
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'SirVer/ultisnips'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'ekalinin/Dockerfile.vim'
-Plugin 'fatih/vim-go'
-Plugin 'hashivim/vim-hashicorp-tools'
-Plugin 'itchyny/lightline.vim'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/goyo.vim'
-Plugin 'loliee/vim-patatetoy'
-Plugin 'loliee/vim-snippets'
-Plugin 'markcornick/vim-bats'
-Plugin 'mileszs/ack.vim'
-Plugin 'mv/mv-vim-nginx'
-Plugin 'othree/html5.vim'
-Plugin 'pearofducks/ansible-vim'
-Plugin 'python-mode/python-mode'
-Plugin 'rhysd/vim-grammarous'
-Plugin 'rust-lang/rust.vim'
-Plugin 'stephpy/vim-yaml'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-liquid'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'w0rp/ale'
-
-call vundle#end()            " required
 filetype plugin indent on    " required
+
+" Set patatetoy theme, inspired from tommorow
+try
+  let g:patatetoy_custom_term_colors=1
+  colorscheme patatetoy
+catch /^Vim\%((\a\+)\)\=:E185/
+  " Should fail only at the first plugin install execution
+endtry
 
 " -----------------------------------------------------------
 " Load .vimrc.min
@@ -61,18 +70,19 @@ endif
 " Style
 " -----------------------------------------------------------
 set cursorline                    " Highlight current line
-set guifont=Hack:h14              " Define hack as font, powerline
-
-" Set patatetoy theme, inspired from tommorow
-try
-  let g:patatetoy_custom_term_colors=1
-  colorscheme patatetoy
-catch /^Vim\%((\a\+)\)\=:E185/
-  " Should fail only at the first PluginInstall execution
-endtry
+set guifont=iosevka:h14           " Define hack as font, powerline
 
 " Plugins
 " =======
+
+" -----------------------------------------------------------
+" Ansible vim
+" -----------------------------------------------------------
+
+" Reset indent after two new lines
+let g:ansible_unindent_after_newline = 1
+" Ensure compatibility with stephpy/vim-yaml
+let g:ansible_yamlKeyName = 'yamlKey'
 
 " -----------------------------------------------------------
 " Fugitive
@@ -132,8 +142,17 @@ let g:ale_fixers = {
 \  '*': ['remove_trailing_lines', 'trim_whitespace']
 \}
 
+" Previm
+let g:previm_open_cmd = 'open -a Firefox'
+nnoremap <silent> <leader><CR> :PrevimOpen<CR>
+
 " Python mode
 let g:pymode_python = 'python3'
+
+" -----------------------------------------------------------
+" Rg config
+" -----------------------------------------------------------
+let g:rg_command_args = '--column --line-number --no-heading --color=always --smart-case'
 
 " -----------------------------------------------------------
 " UtilSnips config
@@ -148,15 +167,12 @@ let g:UltiSnipsJumpBackwardTrigger="<Up>"
 " Bindings, command key send <NUL> value
 " -----------------------------------------------------------
 
-" Search with ack / ag
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-nnoremap <Leader>a :Ack<Space>
-
-" Open fzf
+" Fzf
 nnoremap <silent> <leader>f :FZF<CR>
-nnoremap <silent> <leader>r :FZFA<CR>
+nnoremap <silent> <leader>a :FZFA<CR>
+nnoremap <silent> <leader>h :History<CR>
+nnoremap <silent> <leader>c :FZFHC<CR>
+nnoremap <leader>r :Rg<Space>
 
 " Ale fix
 nmap <leader>s :ALEFix<CR>
@@ -172,15 +188,25 @@ nnoremap <silent> <leader>g :GrammarousCheck<CR>
 " Goyo
 nmap <leader>z :Goyo<CR>
 
-" IndentLine
-nnoremap <silent> <leader>h :IndentLinesToggle<CR>
-
 " Exchange
 let g:exchange_no_mappings=1
 nmap cx <Plug>(Exchange)
 vmap X <Plug>(Exchange)
 nmap cxc <Plug>(ExchangeClear)
 nmap cxx <Plug>(ExchangeLine)
+
+" ----------------------------------------------------------------------------
+" <leader>S | Search it
+" ----------------------------------------------------------------------------
+function! s:duckduck(pat)
+  let q = ''.substitute(a:pat, '["\n]', ' ', 'g')
+  let q = substitute(q, '[[:punct:] ]',
+       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
+  call system(printf('open "https://www.duckduckgo.com/%s"', q))
+endfunction
+
+nnoremap <leader>S :call <SID>duckduck(expand("<cWORD>"))<cr>
+xnoremap <leader>S "gy:call <SID>duckduck(@g)<cr>gv
 
 " -----------------------------------------------------------
 " COMMANDS
@@ -209,12 +235,25 @@ nmap cxx <Plug>(ExchangeLine)
 :command! Hpc execute ":Silent !hub browse -- \"pull/$(git rev-parse --abbrev-ref HEAD)\""
 :command! Hpp execute ":!clear && hub pull-request"
 
-" Wrapper arround fzf, setup ag to not ignore files
+" Rg  search with fzf and a small preview window
+" Rg! search wiith fzf in fullscreen mode
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep('rg '. g:rg_command_args .' '. <q-args>, 1,
+  \                   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%', '?'),
+  \                   <bang>0)
+
+" Search in all files, temporarly modify FZF_DEFAULT_COMMAND
 command! -nargs=0 FZFA
-      \  execute ':let $FZF_DEFAULT_COMMAND_DEFAULT=$FZF_DEFAULT_COMMAND'
-      \ | execute ':let $FZF_DEFAULT_COMMAND="ag -l -a --hidden"'
-      \ | execute ':FZF'
-      \ | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_DEFAULT'
+  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_COMMAND'
+  \ | execute ':let $FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --no-ignore --exclude .git"'
+  \ | execute ':FZF' | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_BK'
+
+" Commande history without preview or default options
+command! -nargs=0 FZFHC
+  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_OPTS'
+  \ | execute ':let $FZF_DEFAULT_OPTS=""'
+  \ | execute ':History:' | execute ':let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_BK'
 
 " -----------------------------------------------------------
 " Local config

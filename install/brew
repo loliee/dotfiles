@@ -52,7 +52,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
 
   echo '--> Install base casks/packages'
   brew cask install \
-    font-hack \
+    font-iosevka \
     firefox \
     flux \
     google-chrome \
@@ -73,6 +73,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     coreutils \
     curl \
     fasd \
+    fd \
     findutils \
     fzf \
     git \
@@ -90,12 +91,12 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     pwgen \
     readline \
     reattach-to-user-namespace \
+    rg \
     ssh-copy-id \
     sshrc \
     stow \
     tag \
     terminal-notifier \
-    the_silver_searcher \
     tmux \
     tree \
     watch \
@@ -140,6 +141,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     ctags \
     diff-so-fancy \
     dive \
+    dust \
     entr \
     kubectx \
     kubernetes-cli \
@@ -151,6 +153,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     hadolint \
     jq \
     libxml2 \
+    minio-mc \
     mkcert \
     mtr \
     nmap \
@@ -192,6 +195,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   PIPS=(
     ansible-lint
     autopep8
+    docutils
     fabric
     flake8
     ipython
@@ -220,7 +224,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
-    2.7.0
+    2.7.1
   )
 
   for ruby in "${RUBIES[@]}"; do
@@ -249,7 +253,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Node
   NODEJS=(
-    12.16.1
+    12.16.2
   )
 
   eval "$(fnm env --multi)"
@@ -263,7 +267,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   NPM=(
     eslint@6
     jsonlint@1
-    prettier@1
+    prettier@2
   )
 
   for npm in "${NPM[@]}"; do

@@ -3,10 +3,9 @@ require 'spec_helper'
 describe file("#{ENV['HOME']}/.vimrc") do
   it { should be_file }
   it { should contain('set nocompatible') }
-  it { should contain('set rtp+=~/.vim/bundle/Vundle.vim') }
+  it { should contain('call plug#begin(\'~/.vim/plugged\')') }
   it { should contain('source ~/.vimrc.min') }
   %w(
-    gmarik/Vundle.vim
     Glench/Vim-Jinja2-Syntax
     SirVer/ultisnips
     StanAngeloff/php.vim
@@ -17,11 +16,11 @@ describe file("#{ENV['HOME']}/.vimrc") do
     hashivim/vim-hashicorp-tools
     itchyny/lightline.vim
     junegunn/fzf
+    junegunn/fzf.vim
     junegunn/goyo.vim
     loliee/vim-patatetoy
     loliee/vim-snippets
     markcornick/vim-bats
-    mileszs/ack.vim
     mv/mv-vim-nginx
     othree/html5.vim
     python-mode/python-mode
@@ -36,7 +35,7 @@ describe file("#{ENV['HOME']}/.vimrc") do
     vim-ruby/vim-ruby
     w0rp/ale
   ).each do |p|
-      it { should contain("Plugin '#{p}'") }
+      it { should contain("Plug '#{p}'") }
   end
 end
 

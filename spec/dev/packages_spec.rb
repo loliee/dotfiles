@@ -11,6 +11,7 @@ require 'spec_helper'
   ctags
   diff-so-fancy
   dive
+  dust
   entr
   fnm
   kubectx
@@ -23,6 +24,7 @@ require 'spec_helper'
   hadolint
   jq
   libxml2
+  minio-mc
   mkcert
   mtr
   nmap
@@ -78,12 +80,12 @@ describe command('~/.pyenv/shims/python --version') do
   its(:stdout) { should match /Python 3.8/ }
 end
 
-describe command('~/.rubies/ruby-2.7.0/bin/ruby --version') do
-  its(:stdout) { should match /ruby 2.7.0/ }
+describe command('~/.rubies/ruby-2.7.1/bin/ruby --version') do
+  its(:stdout) { should match /ruby 2.7.1/ }
 end
 
 describe command('node --version') do
-  its(:stdout) { should match /v12.16.1/ }
+  its(:stdout) { should match /v12.16.2/ }
 end
 
 describe command('eslint --version') do
@@ -93,7 +95,7 @@ end
 
 describe command('prettier --version') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match /1./ }
+  its(:stdout) { should match /2./ }
 end
 
 describe command('jsonlint --version') do
