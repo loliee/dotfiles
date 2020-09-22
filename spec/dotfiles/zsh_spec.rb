@@ -8,10 +8,6 @@ describe file("#{ENV['HOME']}/.zsh/completion/_docker") do
   it { should be_file }
 end
 
-describe file("#{ENV['HOME']}/.zsh/completion/_fly") do
-  it { should be_file }
-end
-
 describe file("#{ENV['HOME']}/.zsh/completion/travis.sh") do
   it { should be_file }
 end

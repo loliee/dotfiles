@@ -56,7 +56,6 @@ end
 if os[:family] == 'darwin'
 
   %w(
-    google-chrome
     istat-menus
     iterm2
     java

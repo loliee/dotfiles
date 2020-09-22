@@ -37,7 +37,6 @@ require 'spec_helper'
   pv
   qemu
   ruby-install
-  s3cmd
   shellcheck
   skopeo
   shfmt
@@ -61,7 +60,6 @@ if os[:family] == 'darwin'
     1password
     charles
     firefox
-    fly
     google-cloud-sdk
     docker
     little-snitch
