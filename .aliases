@@ -149,15 +149,15 @@ function rmf() {
   # http://stackoverflow.com/questions/14141933/zsh-read-q-broken-on-osx
   answer=$(/bin/bash -c "read -p '$question' -r REPLY && echo \"\$REPLY\"")
   case $answer in
-  [yY])
-    mkdir -p /tmp/empty_dir/
-    [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
-    [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1"
-    rmdir /tmp/empty_dir
-    ;;
-  *)
-    print 'cancel...'
-    ;;
+    [yY])
+      mkdir -p /tmp/empty_dir/
+      [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
+      [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1"
+      rmdir /tmp/empty_dir
+      ;;
+    *)
+      print 'cancel...'
+      ;;
   esac
 }
 
