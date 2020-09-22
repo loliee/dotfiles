@@ -130,6 +130,21 @@ if command -v fzf &>/dev/null; then
       kill -"${1:-9}" "$pid"
     fi
   }
+
+  # git checkout
+  gco() {
+    local branches branch
+    branches=$(git --no-pager branch -vv) &&
+      branch=$(echo "${branches}" | FZF_DEFAULT_OPTS="" fzf +m) &&
+      git checkout "$(echo "$branch" | awk '{print $1}' | sed "s/.* //")"
+  }
+  gcoo() {
+    local branches branch
+    branches=$(git for-each-ref --count=60 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+      branch=$(echo "${branches}" |
+        FZF_DEFAULT_OPTS="" fzf -d $((2 + $(wc -l <<<"${branches}"))) +m) &&
+      git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
+  }
 fi
 
 function zsh_completion_reset() {
