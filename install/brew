@@ -195,6 +195,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   PIPS=(
     ansible-lint
     autopep8
+    bandit
+    black
     docutils
     fabric
     flake8
