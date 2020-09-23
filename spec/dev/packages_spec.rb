@@ -3,6 +3,7 @@ require 'spec_helper'
 %w(
   asciinema
   direnv
+  bat
   bats
   bfg
   chruby
