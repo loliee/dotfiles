@@ -128,8 +128,6 @@ install-zsh-completions: ## Install some zsh completion files
 	@mkdir -p $(HOME)/.zsh/completion
 	@curl -Lso $(HOME)/.zsh/completion/_docker \
 		  https://raw.github.com/felixr/docker-zsh-completion/master/_docker
-	@curl -Lso $(HOME)/.zsh/completion/_fly \
-		https://raw.githubusercontent.com/sergiubodiu/fly-zsh-autocomplete-plugin/master/_fly
 	@mkdir -p $(HOME)/.travis
 	@curl -Lso $(HOME)/.zsh/completion/travis.sh \
 		https://raw.githubusercontent.com/travis-ci/travis.rb/master/assets/travis.sh

@@ -87,10 +87,10 @@ function net-update-interfaces() {
 }
 
 function net-recreate-automatic() {
-  networksetup -createlocation 'tmp' populate &> /dev/null
-  networksetup -switchtolocation 'tmp'
+  sudo networksetup -createlocation 'tmp' populate &>/dev/null
+  sudo networksetup -switchtolocation 'tmp'
   # Automatic
-  networksetup -deletelocation 'Automatic' || true
-  networksetup -createlocation 'Automatic' populate
-  networksetup -switchtolocation 'Automatic'
+  sudo networksetup -deletelocation 'Automatic' || true
+  sudo networksetup -createlocation 'Automatic' populate
+  sudo networksetup -switchtolocation 'Automatic'
 }

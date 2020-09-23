@@ -92,6 +92,11 @@ let g:ansible_yamlKeyName = 'yamlKey'
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
 
 " -----------------------------------------------------------
+" Fzf
+" -----------------------------------------------------------
+let g:fzf_layout = {'window': {'width': 1, 'height': 1}}
+
+" -----------------------------------------------------------
 " Lightline
 " -----------------------------------------------------------
 let g:lightline = {
@@ -236,7 +241,7 @@ xnoremap <leader>S "gy:call <SID>duckduck(@g)<cr>gv
 :command! Hpp execute ":!clear && hub pull-request"
 
 " Rg  search with fzf and a small preview window
-" Rg! search wiith fzf in fullscreen mode
+" Rg! search with fzf in fullscreen mode
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep('rg '. g:rg_command_args .' '. <q-args>, 1,
   \                   <bang>0 ? fzf#vim#with_preview('up:60%')
