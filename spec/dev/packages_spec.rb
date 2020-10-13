@@ -89,7 +89,7 @@ end
 
 describe command('eslint --version') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match /v6/ }
+  its(:stdout) { should match /v7/ }
 end
 
 describe command('prettier --version') do

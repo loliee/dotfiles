@@ -263,7 +263,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   fnm use "${NODEJS[-1]}"
 
   NPM=(
-    eslint@6
+    eslint@7
     jsonlint@1
     prettier@2
   )
