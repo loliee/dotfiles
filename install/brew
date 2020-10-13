@@ -251,7 +251,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Node
   NODEJS=(
-    12.16.2
+    12.19.0
   )
 
   eval "$(fnm env --multi)"
