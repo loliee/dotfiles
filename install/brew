@@ -222,7 +222,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
-    2.7.1
+    2.7.2
   )
 
   for ruby in "${RUBIES[@]}"; do
