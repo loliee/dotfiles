@@ -80,7 +80,7 @@ describe command('~/.pyenv/shims/python --version') do
 end
 
 describe command('~/.rubies/ruby-2.7.1/bin/ruby --version') do
-  its(:stdout) { should match /ruby 2.7.1/ }
+  its(:stdout) { should match /ruby 2.7/ }
 end
 
 describe command('node --version') do
