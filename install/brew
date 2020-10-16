@@ -54,7 +54,6 @@ if [[ "${RUN_LIST}" =~ base ]]; then
   brew cask install \
     font-iosevka \
     firefox \
-    flux \
     gpg-suite \
     istat-menus \
     iterm2 \
