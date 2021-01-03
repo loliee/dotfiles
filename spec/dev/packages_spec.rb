@@ -42,6 +42,7 @@ require 'spec_helper'
   skopeo
   shfmt
   tag
+  tflint
   tig
   tcpdump
   tcptraceroute

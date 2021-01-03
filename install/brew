@@ -94,6 +94,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     sshrc \
     stow \
     tag \
+    tflint \
     terminal-notifier \
     tmux \
     tree \
