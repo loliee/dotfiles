@@ -25,7 +25,7 @@ if os[:family] == 'darwin'
     transmission
     vlc
   ).each do |p|
-    describe command("brew cask info #{p}") do
+    describe command("brew info #{p}") do
       its(:exit_status) { should eq 0 }
       its(:stdout) { should_not match /Not installed/ }
     end

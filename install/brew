@@ -51,7 +51,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
   brew tap tldr-pages/tldr
 
   echo '--> Install base casks/packages'
-  brew cask install \
+  brew install --cask \
     font-iosevka \
     firefox \
     gpg-suite \
@@ -118,7 +118,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   echo '--> Install dev casks/packages'
 
-  brew cask install \
+  brew install --cask \
     1password \
     charles \
     google-cloud-sdk \
@@ -293,7 +293,7 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
 
   echo '--> Install messaging casks'
 
-  brew cask install \
+  brew install --cask \
     mattermost \
     signal \
     slack
@@ -307,7 +307,7 @@ if [[ "${RUN_LIST}" =~ multimedia ]]; then
 
   echo '--> Install multimedia cask/packages'
 
-  brew cask install \
+  brew install --cask \
     imageoptim \
     gimp \
     transmission \
