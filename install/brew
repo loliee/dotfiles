@@ -95,6 +95,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     stow \
     tag \
     tflint \
+    tfsec \
     terminal-notifier \
     tmux \
     tree \

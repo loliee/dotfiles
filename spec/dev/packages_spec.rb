@@ -43,6 +43,7 @@ require 'spec_helper'
   shfmt
   tag
   tflint
+  tfsec
   tig
   tcpdump
   tcptraceroute
