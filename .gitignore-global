@@ -1,5 +1,4 @@
 .env
-.envrc
 *.pyc
 *.tmproj
 *~
