@@ -3,6 +3,7 @@
 *.tmproj
 *~
 .*.sw*
+.terraform
 .DS_Store
 .Spotlight-V100
 .Trashes
