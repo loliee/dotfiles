@@ -185,7 +185,8 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   )
 
   for python in "${PYTHONS[@]}"; do
-    CFLAGS="-i$(xcrun --show-sdk-path)/usr/include" \
+    CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" \
+    LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" \
       pyenv install -s "${python}"
   done
 
