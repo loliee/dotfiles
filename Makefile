@@ -6,6 +6,7 @@ PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
 RUN_LIST ?= base dev dotfiles messaging multimedia privacy
 SHELL := /usr/bin/env bash
+PATH := $(HOME)/.homebrew/bin/:$(PATH)
 VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
 
 .DEFAULT_GOAL := help
