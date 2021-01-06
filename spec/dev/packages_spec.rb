@@ -17,7 +17,6 @@ require 'spec_helper'
   fnm
   kubectx
   kubernetes-cli
-  kubernetes-helm
   go
   gawk
   hub
@@ -65,6 +64,7 @@ if os[:family] == 'darwin'
     firefox
     google-cloud-sdk
     homebrew/cask/docker
+    kubernetes-helm
     little-snitch
     micro-snitch
     vagrant
