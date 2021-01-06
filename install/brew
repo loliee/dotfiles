@@ -57,7 +57,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     gpg-suite \
     istat-menus \
     iterm2 \
-    java \
+    homebrew/cask-versions/adoptopenjdk8 \
     keepassx \
     the-unarchiver \
     tunnelblick \
