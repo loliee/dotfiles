@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 %w(
-  openssl
   advancecomp
   ansifilter
   bash
@@ -60,6 +59,7 @@ if os[:family] == 'darwin'
     iterm2
     java
     keepassx
+    openssl
     the-unarchiver
     tunnelblick
     xquartz
