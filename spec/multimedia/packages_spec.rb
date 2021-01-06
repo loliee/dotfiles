@@ -22,7 +22,7 @@ if os[:family] == 'darwin'
   %w(
     imageoptim
     gimp
-    transmission
+    homebrew/cask/transmission
     vlc
   ).each do |p|
     describe command("brew info #{p}") do
