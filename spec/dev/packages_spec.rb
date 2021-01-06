@@ -64,7 +64,7 @@ if os[:family] == 'darwin'
     charles
     firefox
     google-cloud-sdk
-    docker
+    homebrew/cask/docker
     little-snitch
     micro-snitch
     vagrant
