@@ -132,3 +132,6 @@ enabled = true
 
 [fetch]
 writeCommitGraph = true
+
+[include]
+path = ~/.gitconfig-override
