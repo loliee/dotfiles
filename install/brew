@@ -90,7 +90,7 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     reattach-to-user-namespace \
     rg \
     ssh-copy-id \
-    sshrc \
+    ikuwow/ikuwow-sshrc/sshrc \
     stow \
     tag \
     tflint \
