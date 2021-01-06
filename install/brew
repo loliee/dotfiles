@@ -185,7 +185,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   )
 
   for python in "${PYTHONS[@]}"; do
-    cflags="-i$(xcrun --show-sdk-path)/usr/include" \
+    CFLAGS="-i$(xcrun --show-sdk-path)/usr/include" \
       pyenv install -s "${python}"
   done
 
