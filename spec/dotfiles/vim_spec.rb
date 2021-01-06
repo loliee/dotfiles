@@ -23,7 +23,6 @@ describe file("#{ENV['HOME']}/.vimrc") do
     markcornick/vim-bats
     mv/mv-vim-nginx
     othree/html5.vim
-    python-mode/python-mode
     stephpy/vim-yaml
     tommcdo/vim-exchange
     tpope/vim-commentary
