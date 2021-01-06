@@ -49,6 +49,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.fzf_history' \
 		--ignore='.gemrc' \
 		--ignore='.git' \
+		--ignore='.gnupg' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
@@ -64,8 +65,11 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='spec' \
 		--ignore='venv'
 	@mkdir -p \
+		$(HOME)/.gnupg \
 		$(HOME)/.vim \
 		$(HOME)/.config/yamllint
+	@chmod 700 $(HOME)/.gnupg
+	@cp -f ~/.dotfiles/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
