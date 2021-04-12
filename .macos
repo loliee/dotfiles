@@ -844,23 +844,23 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.c
 # Reduce motions                                                              #
 ###############################################################################
 # https://github.com/734MNOOB/Disable-Mac-Animations
-defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
-defaults write -g NSScrollAnimationEnabled -bool false
-defaults write -g NSWindowResizeTime -float 0.001
-defaults write -g QLPanelAnimationDuration -float 0
-defaults write -g NSScrollViewRubberbanding -bool false
-defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
-defaults write -g NSToolbarFullScreenAnimationDuration -float 0
-defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
-defaults write -g com.apple.dock autohide-time-modifier -float 0
-defaults write -g com.apple.dock autohide-delay -float 0
-defaults write -g com.apple.dock expose-animation-duration -float 0
-defaults write -g com.apple.dock springboard-show-duration -float 0
-defaults write -g com.apple.dock springboard-hide-duration -float 0
-defaults write -g com.apple.dock springboard-page-duration -float 0
-defaults write -g com.apple.finder DisableAllAnimations -bool true
-defaults write -g com.apple.Mail DisableSendAnimations -bool true
-defaults write -g com.apple.Mail DisableReplyAnimations -bool true
-defaults write -g com.apple.universalaccess reduceMotion -bool true
+defaults write NSAutomaticWindowAnimationsEnabled -bool false
+defaults write NSScrollAnimationEnabled -bool false
+defaults write NSWindowResizeTime -float 0.001
+defaults write QLPanelAnimationDuration -float 0
+defaults write NSScrollViewRubberbanding -bool false
+defaults write NSDocumentRevisionsWindowTransformAnimation -bool false
+defaults write NSToolbarFullScreenAnimationDuration -float 0
+defaults write NSBrowserColumnAnimationSpeedMultiplier -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock expose-animation-duration -float 0
+defaults write com.apple.dock springboard-show-duration -float 0
+defaults write com.apple.dock springboard-hide-duration -float 0
+defaults write com.apple.dock springboard-page-duration -float 0
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.Mail DisableSendAnimations -bool true
+defaults write com.apple.Mail DisableReplyAnimations -bool true
+defaults write com.apple.universalaccess reduceMotion -bool true
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
