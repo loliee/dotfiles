@@ -81,7 +81,7 @@ describe command('~/.pyenv/shims/python --version') do
   its(:stdout) { should match /Python 3.8/ }
 end
 
-describe command('~/.rubies/ruby-2.7.2/bin/ruby --version') do
+describe command('~/.rubies/ruby-2.7.3/bin/ruby --version') do
   its(:stdout) { should match /ruby 2.7/ }
 end
 
