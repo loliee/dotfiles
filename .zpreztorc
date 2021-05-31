@@ -7,21 +7,21 @@ zstyle ':prezto:*:*' color 'yes'
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
-    'environment' \
-    'terminal' \
+    'completion' \
+    'directory' \
     'editor' \
+    'environment' \
+    'fasd' \
     'gpg' \
     'history' \
-    'directory' \
-    'spectrum' \
-    'utility' \
-    'ssh' \
-    'completion' \
-    'syntax-highlighting' \
     'history-substring-search' \
     'prompt' \
-    'fasd' \
-    'tmux'
+    'spectrum' \
+    'ssh' \
+    'syntax-highlighting' \
+    'terminal' \
+    'tmux' \
+    'utility'
 
 # Docker
 zstyle ':completion:*:*:docker:*' option-stacking yes

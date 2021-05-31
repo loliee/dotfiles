@@ -17,7 +17,6 @@ require 'spec_helper'
   fnm
   kubectx
   kubernetes-cli
-  kubernetes-helm
   go
   gawk
   hub
@@ -42,6 +41,8 @@ require 'spec_helper'
   skopeo
   shfmt
   tag
+  tflint
+  tfsec
   tig
   tcpdump
   tcptraceroute
@@ -62,13 +63,14 @@ if os[:family] == 'darwin'
     charles
     firefox
     google-cloud-sdk
-    docker
+    homebrew/cask/docker
+    kubernetes-helm
     little-snitch
     micro-snitch
     vagrant
     virtualbox
   ).each do |p|
-    describe command("brew cask info #{p}") do
+    describe command("brew info #{p}") do
       its(:exit_status) { should eq 0 }
       its(:stdout) { should_not match /Not installed/ }
     end
@@ -79,17 +81,17 @@ describe command('~/.pyenv/shims/python --version') do
   its(:stdout) { should match /Python 3.8/ }
 end
 
-describe command('~/.rubies/ruby-2.7.1/bin/ruby --version') do
-  its(:stdout) { should match /ruby 2.7.1/ }
+describe command('~/.rubies/ruby-2.7.2/bin/ruby --version') do
+  its(:stdout) { should match /ruby 2.7/ }
 end
 
 describe command('node --version') do
-  its(:stdout) { should match /v12.16.2/ }
+  its(:stdout) { should match /v12/ }
 end
 
 describe command('eslint --version') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match /v6/ }
+  its(:stdout) { should match /v7/ }
 end
 
 describe command('prettier --version') do

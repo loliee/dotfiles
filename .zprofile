@@ -1,5 +1,5 @@
 # PATH
-export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}"
+export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/opt/openssl@1.1/bin:${HOME}/.homebrew/sbin:${PATH}"
 
 # You may need to manually set your language environment
 export LANG='en_US.UTF-8'
@@ -69,7 +69,7 @@ export HOMEBREW_ROOT=$(brew --prefix)
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
 # fvm
-eval "$(fnm env --multi)"
+eval "$(fnm env)"
 
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
@@ -95,9 +95,9 @@ export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$
 export PATATETOY_VIM_MODE=1
 
 # pyenv
-command -v pyenv &>/dev/null && \
-  eval "$(pyenv init -)" && \
-  eval "$(pyenv virtualenv-init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 # direnv
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"

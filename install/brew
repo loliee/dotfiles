@@ -51,16 +51,14 @@ if [[ "${RUN_LIST}" =~ base ]]; then
   brew tap tldr-pages/tldr
 
   echo '--> Install base casks/packages'
-  brew cask install \
+  brew install --cask \
     font-iosevka \
     firefox \
-    flux \
     gpg-suite \
     istat-menus \
     iterm2 \
-    java \
+    homebrew/cask-versions/adoptopenjdk8 \
     keepassx \
-    keybase \
     the-unarchiver \
     tunnelblick \
     xquartz
@@ -92,9 +90,11 @@ if [[ "${RUN_LIST}" =~ base ]]; then
     reattach-to-user-namespace \
     rg \
     ssh-copy-id \
-    sshrc \
+    ikuwow/ikuwow-sshrc/sshrc \
     stow \
     tag \
+    tflint \
+    tfsec \
     terminal-notifier \
     tmux \
     tree \
@@ -117,7 +117,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   echo '--> Install dev casks/packages'
 
-  brew cask install \
+  brew install --cask \
     1password \
     charles \
     google-cloud-sdk \
@@ -181,11 +181,12 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Python
   PYTHONS=(
-    3.8.2
+    3.8.6
   )
 
   for python in "${PYTHONS[@]}"; do
-    cflags="-i$(xcrun --show-sdk-path)/usr/include" \
+    CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" \
+    LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" \
       pyenv install -s "${python}"
   done
 
@@ -222,7 +223,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
-    2.7.1
+    2.7.2
   )
 
   for ruby in "${RUBIES[@]}"; do
@@ -251,7 +252,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   # Node
   NODEJS=(
-    12.16.2
+    12.19.0
   )
 
   eval "$(fnm env --multi)"
@@ -263,7 +264,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   fnm use "${NODEJS[-1]}"
 
   NPM=(
-    eslint@6
+    eslint@7
     jsonlint@1
     prettier@2
   )
@@ -292,7 +293,7 @@ if [[ "${RUN_LIST}" =~ messaging ]]; then
 
   echo '--> Install messaging casks'
 
-  brew cask install \
+  brew install --cask \
     mattermost \
     signal \
     slack
@@ -306,7 +307,7 @@ if [[ "${RUN_LIST}" =~ multimedia ]]; then
 
   echo '--> Install multimedia cask/packages'
 
-  brew cask install \
+  brew install --cask \
     imageoptim \
     gimp \
     transmission \

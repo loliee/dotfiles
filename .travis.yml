@@ -13,13 +13,13 @@ cache:
 matrix:
   include:
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode12.2
       env:
         - TAG='[ dotfiles/packages ]'
         - RUN_LIST=dotfiles
         - PATH=${HOME}/.homebrew/bin:${HOME}/bin:${PATH}
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode12.2
       env:
         - TAG='[ privacy/packages ]'
         - RUN_LIST=privacy

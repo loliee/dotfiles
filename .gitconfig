@@ -90,7 +90,7 @@ p = push
 pf = push -f
 po = push origin
 pod = push --delete origin
-pof = push --force origin
+pof = push --force-with-lease origin
 pt = push --follow-tags
 pu = pull
 r = reset
@@ -132,3 +132,9 @@ enabled = true
 
 [fetch]
 writeCommitGraph = true
+
+[include]
+path = ~/.gitconfig-override
+
+[gpg]
+program = gpg2
