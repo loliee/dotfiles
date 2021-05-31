@@ -95,9 +95,9 @@ export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$
 export PATATETOY_VIM_MODE=1
 
 # pyenv
-command -v pyenv &>/dev/null && \
-  eval "$(pyenv init -)" && \
-  eval "$(pyenv virtualenv-init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 # direnv
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
