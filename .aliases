@@ -12,6 +12,7 @@ command -v vim &>/dev/null && alias vi='vim'
 
 # Some aliases to avoid making mistakes
 alias rm='rm -i'
+alias rma='find ~/.ssh -name "${USER}@*" -exec rm "{}" \;'
 alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
