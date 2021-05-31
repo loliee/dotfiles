@@ -135,3 +135,6 @@ writeCommitGraph = true
 
 [include]
 path = ~/.gitconfig-override
+
+[gpg]
+program = gpg2
