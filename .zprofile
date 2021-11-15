@@ -71,9 +71,6 @@ export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Font
 # fvm
 eval "$(fnm env)"
 
-# Local config
-[[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
-
 # Bat config
 export BAT_CONFIG_PATH="${HOME}/.batrc"
 

@@ -26,3 +26,6 @@ command -v mc &>/dev/null && {
 
 # Aliases
 [[ -f ${HOME}/.aliases ]] && source ${HOME}/.aliases
+
+# Local config
+[[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
