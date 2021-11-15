@@ -71,9 +71,6 @@ export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Font
 # fvm
 eval "$(fnm env)"
 
-# Local config
-[[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
-
 # Bat config
 export BAT_CONFIG_PATH="${HOME}/.batrc"
 
@@ -98,6 +95,7 @@ export PATATETOY_VIM_MODE=1
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
 
 # direnv
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
