@@ -91,6 +91,11 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		install-tpm \
 		install-plug \
 		install-zsh-completions
+	@[[ -f $(HOME)/.tmux/scripts/clean ]] || { \
+		mkdir -p $(HOME)/.tmux/scripts && \
+			touch $(HOME)/.tmux/scripts/clean && \
+			chmod 755 $(HOME)/.tmux/scripts/clean; \
+	}
 
 install-gems: ## Install gems, used for testing env
 	$(info --> run `bundle install`)
