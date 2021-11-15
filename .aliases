@@ -56,6 +56,10 @@ command -v direnv &>/dev/null && alias da='direnv allow'
 # Override prezto fasd module, include fzf fuzzy finder
 command -v fasd &>/dev/null && alias j='fasd_cd'
 
+# docker-compose
+command -v docker-compose &>/dev/null && alias dc='docker-compose' &&
+  command -v compdef &>/dev/null && compdef dc=docker-compose
+
 # Cuz IMADUMMY
 command -v mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
 
