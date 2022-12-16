@@ -1,0 +1,135 @@
+---
+# patatetoy.yml
+# Styles...
+foreground: &foreground "#c9cac0"
+background: &background "#292a2d"
+backgroundOpaque: &backgroundOpaque "#333333"
+current_line: &current_line "#6c6d6c"
+grey: &grey "#6c6d6c"
+darkGrey: &darkGrey "#4c4c4c"
+red: &red "#f0522a"
+yellow: &yellow "#fee040"
+lightBlue: &lightBlue "#91cce9"
+blue: &blue "#73b8dc"
+darkBlue: &darkBlue "#5eb1dd"
+green: &green "#82c476"
+purple: &purple "#c4a5c7"
+
+# Skin...
+k9s:
+  # General K9s styles
+  body:
+    fgColor: *foreground
+    bgColor: *background
+    logoColor: *yellow
+  # Command prompt styles
+  prompt:
+    fgColor: *foreground
+    bgColor: *background
+    suggestColor: *yellow
+  # ClusterInfoView styles.
+  info:
+    fgColor: *blue
+    sectionColor: *lightBlue
+  # Dialog styles.
+  dialog:
+    fgColor: *foreground
+    bgColor: *background
+    buttonFgColor: *foreground
+    buttonBgColor: *green
+    buttonFocusFgColor: *foreground
+    buttonFocusBgColor: *darkBlue
+    labelFgColor: *yellow
+    fieldFgColor: *blue
+  frame:
+    # Borders styles.
+    border:
+      fgColor: *grey
+      focusColor: *current_line
+    menu:
+      fgColor: *foreground
+      keyColor: *green
+      # Used for favorite namespaces
+      numKeyColor: *green
+    # CrumbView attributes for history navigation.
+    crumbs:
+      fgColor: *foreground
+      bgColor: *current_line
+      activeColor: *current_line
+    # Resource status and update styles
+    status:
+      newColor: *foreground
+      modifyColor: *purple
+      addColor: *green
+      pendingColor: *yellow
+      errorColor: *red
+      highlightColor: *blue
+      killColor: *green
+      completedColor: *darkBlue
+    # Border title styles.
+    title:
+      fgColor: *foreground
+      bgColor: *background
+      highlightColor: *blue
+      counterColor: *lightBlue
+      filterColor: *yellow
+  views:
+    # Charts skins...
+    charts:
+      bgColor: *background
+      dialBgColor: *background
+      chartBgColor: *background
+      defaultDialColors:
+        - *blue
+        - *red
+      defaultChartColors:
+        - *blue
+        - *red
+      resourceColors:
+        batch/v1/jobs:
+          - *blue
+          - *red
+        v1/persistentvolumes:
+          - *blue
+          - *red
+        cpu:
+          - *blue
+          - *red
+        mem:
+          - *blue
+          - *red
+        v1/events:
+          - *blue
+          - *red
+        v1/pods:
+          - *blue
+          - *red
+    # TableView attributes.
+    table:
+      fgColor: *foreground
+      bgColor: *background
+      markColor: *red
+      # Header row styles.
+      header:
+        fgColor: *yellow
+        bgColor: *darkGrey
+        sorterColor: *darkBlue
+    # Xray view attributes.
+    xray:
+      fgColor: *foreground
+      bgColor: *background
+      cursorColor: *blue
+      cursorTextColor: *foreground
+      graphicColor: *blue
+    # YAML info styles.
+    yaml:
+      keyColor: *yellow
+      colonColor: *yellow
+      valueColor: *foreground
+    # Logs styles.
+    logs:
+      fgColor: *foreground
+      bgColor: *background
+      indicator:
+        fgColor: *background
+        bgColor: *yellow

@@ -116,3 +116,6 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
   source $HOME/.cargo/env
 fi
+
+# K9S
+export K9SCONFIG="${HOME}/.config/k9s"

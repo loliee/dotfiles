@@ -62,6 +62,7 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='README.md' \
 		--ignore='Rakefile' \
 		--ignore='install' \
+		--ignore='k9s' \
 		--ignore='spec' \
 		--ignore='venv'
 	@mkdir -p \
@@ -74,6 +75,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
+	@[[ -f $(HOME)/.config/k9s ]] \
+		|| ln -sf $(PWD)/k9s $(HOME)/.config/k9s
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(PATATETOY) ]] \
