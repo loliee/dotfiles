@@ -84,7 +84,8 @@ export FZF_PREVIEW_COMMAND="bat {} || cat {} || tree -C {}"
 export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
 --color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
 --color info:7,prompt:3,spinner:4,pointer:4,marker:1
---preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%"
+--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%
+--bind ctrl-b:preview-page-up,ctrl-f:preview-page-down"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
 export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$LINES'"
 #
