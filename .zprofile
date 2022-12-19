@@ -16,6 +16,8 @@ export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
 unsetopt SHARE_HISTORY
+# zsh history
+export HISTORY_IGNORE="(${HISTIGNORE//:/|})"
 
 # travis
 [[ -f "${HOME}/.travis/travis.sh" ]] \
