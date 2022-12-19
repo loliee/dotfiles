@@ -14,7 +14,7 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=393216
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL='ignoreboth'
-export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*'
+export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
 unsetopt SHARE_HISTORY
 
 # travis
