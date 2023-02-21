@@ -61,7 +61,7 @@ export MYSQL_PS1='(\D) \u@\h [\d] > '
 unset GREP_OPTIONS
 
 # Define grep color
-export GREP_COLOR='30;43'
+export GREP_COLORS='30;43'
 
 # O ms for key sequences
 export KEYTIMEOUT=0
