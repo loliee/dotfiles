@@ -131,7 +131,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     asciinema \
     direnv \
     bat \
-    bats \
     bfg \
     chruby \
     cloc \

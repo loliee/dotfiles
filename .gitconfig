@@ -117,7 +117,6 @@ remotes = remote -v
 
 [gc]
 auto = 1
-writeCommitGraph = true
 
 [pull]
 rebase = true

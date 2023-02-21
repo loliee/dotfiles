@@ -14,8 +14,10 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=393216
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL='ignoreboth'
-export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*'
+export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
 unsetopt SHARE_HISTORY
+# zsh history
+export HISTORY_IGNORE="(${HISTIGNORE//:/|})"
 
 # travis
 [[ -f "${HOME}/.travis/travis.sh" ]] \
@@ -59,7 +61,7 @@ export MYSQL_PS1='(\D) \u@\h [\d] > '
 unset GREP_OPTIONS
 
 # Define grep color
-export GREP_COLOR='30;43'
+export GREP_COLORS='30;43'
 
 # O ms for key sequences
 export KEYTIMEOUT=0
@@ -84,7 +86,8 @@ export FZF_PREVIEW_COMMAND="bat {} || cat {} || tree -C {}"
 export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
 --color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
 --color info:7,prompt:3,spinner:4,pointer:4,marker:1
---preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%"
+--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%
+--bind ctrl-b:preview-page-up,ctrl-f:preview-page-down"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
 export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$LINES'"
 #
@@ -116,3 +119,6 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
   source $HOME/.cargo/env
 fi
+
+# K9S
+export K9SCONFIG="${HOME}/.config/k9s"

@@ -24,6 +24,7 @@ alias grep='grep --color=auto'
 alias c='clear'
 alias q='exit'
 alias h='history'
+alias k='k9s'
 
 # Time
 alias now='date +"%T"'
