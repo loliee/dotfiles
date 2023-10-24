@@ -161,7 +161,7 @@ if [[ ${RUN_LIST} =~ dev ]]; then
     pyenv-virtualenvwrapper \
     pv \
     qemu \
-    ruby-install \
+    ruby-build \
     rustup \
     shellcheck \
     skopeo \
@@ -223,12 +223,11 @@ if [[ ${RUN_LIST} =~ dev ]]; then
   # Ruby
   mkdir -p ~/.rubies
   RUBIES=(
-    2.7.3
+    3.2.2
   )
 
   for ruby in "${RUBIES[@]}"; do
-    "$(brew --prefix)/bin/ruby-install" --no-reinstall --rubies-dir ~/.rubies \
-      ruby "$ruby" -- --disable-install-rdoc
+    "${HOME}/.homebrew/bin/ruby-build" "$ruby" "${HOME}/.rubies/ruby-${ruby}"
   done
 
   rm -f ~/.ruby-version
