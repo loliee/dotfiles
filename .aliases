@@ -72,6 +72,8 @@ command -v kubectx &>/dev/null && alias kx='kubectx' &&
 command -v kubens &>/dev/null && alias kn='kubens' &&
   command -v compdef &>/dev/null && compdef kn=kubens
 
+command -v rg &>/dev/null && alias rga='rg --hidden --no-ignore'
+
 # tree
 if ! command -v tree &>/dev/null; then
   alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
