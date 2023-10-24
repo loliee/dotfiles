@@ -251,7 +251,7 @@ if [[ ${RUN_LIST} =~ dev ]]; then
 
   # Node
   NODEJS=(
-    14.17.0
+    20.9.0
   )
 
   eval "$(fnm env --multi)"
@@ -263,9 +263,8 @@ if [[ ${RUN_LIST} =~ dev ]]; then
   fnm use "${NODEJS[-1]}"
 
   NPM=(
-    eslint@7
-    jsonlint@1
-    prettier@2
+    eslint@8
+    prettier@3
   )
 
   for npm in "${NPM[@]}"; do
