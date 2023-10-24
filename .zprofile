@@ -9,6 +9,11 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='vim'
 export VISUAL='vim'
 
+if command -v nvim &>/dev/null; then
+  export EDITOR='nvim'
+  export VISUAL='nvim'
+fi
+
 # history
 export HISTFILE=~/.zsh_history
 export HISTSIZE=393216

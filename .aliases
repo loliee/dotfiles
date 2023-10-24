@@ -9,6 +9,7 @@ OS="$(uname)"
 alias ri='ri -f ansi'
 command -v colordiff &>/dev/null && alias diff='colordiff'
 command -v vim &>/dev/null && alias vi='vim'
+command -v nvim &>/dev/null && alias vi='nvim' && alias vim=nvim
 
 # Some aliases to avoid making mistakes
 alias rm='rm -i'

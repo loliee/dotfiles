@@ -52,7 +52,11 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.gnupg' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
+<<<<<<< HEAD
 		--ignore='.travis.yml' \
+=======
+		--ignore='.nvim' \
+>>>>>>> 7769ec4 (fixup! Switch to neovim)
 		--ignore='.vim' \
 		--ignore='.yamllint' \
 		--ignore='Gemfile' \
@@ -89,6 +93,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@[[ -d $(HOME)/.vim/syntax ]] \
 		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
+	@[[ -d $(HOME)/.config/nvim ]] \
+		|| ln -sf $(PWD)/.nvim $(HOME)/.config/nvim
 	@make \
 		install-prezto \
 		install-tpm \
