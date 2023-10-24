@@ -92,7 +92,7 @@ alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --ini
 
 function colors() {
   for code in $(seq -w 0 255); do for attr in 0 1; do
-    printf "%s-%03s %b■■■■%b\\n" "${attr}" "${code}" "\\e[${attr};38;05;${code}m" "\\e[m"
+    printf '%s-%03s %b■■■■%b\n' "${attr}" "${code}" "\\e[${attr};38;05;${code}m" '\e[m'
   done; done | column -c $((COLUMNS * 2))
 }
 
@@ -158,8 +158,8 @@ function rmf() {
   case $answer in
     [yY])
       mkdir -p /tmp/empty_dir/
-      [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
-      [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1"
+      [[ -n $1 ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
+      [[ -d $1 ]] && [[ $1 != '.' ]] && rmdir "$1"
       rmdir /tmp/empty_dir
       ;;
     *)
