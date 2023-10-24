@@ -34,7 +34,7 @@ brew tap homebrew/services
 # Dotfiles - install required dotfiles packages
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ dotfiles ]]; then
+if [[ ${RUN_LIST} =~ dotfiles ]]; then
   brew install \
     git \
     neovim \
@@ -45,7 +45,7 @@ fi
 # Base - install mandatory packages
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ base ]]; then
+if [[ ${RUN_LIST} =~ base ]]; then
 
   brew tap homebrew/cask-fonts
   brew tap tldr-pages/tldr
@@ -111,7 +111,7 @@ fi
 # Dev - install ops/dev packages
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ dev ]]; then
+if [[ ${RUN_LIST} =~ dev ]]; then
 
   brew tap wagoodman/dive
 
@@ -205,7 +205,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   )
 
   rm -f ~/.python-version
-  echo "${PYTHONS[@]:(-1)}" >~/.python-version
+  echo "${PYTHONS[@]: -1}" >~/.python-version
 
   "${HOME}/.pyenv/shims/pip" install --upgrade pip
 
@@ -232,7 +232,7 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
   done
 
   rm -f ~/.ruby-version
-  echo "${RUBIES[@]:(-1)}" >~/.ruby-version
+  echo "${RUBIES[@]: -1}" >~/.ruby-version
 
   GEMS=(
     bundler
@@ -288,7 +288,7 @@ fi
 # Messaging - install communication packages
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ messaging ]]; then
+if [[ ${RUN_LIST} =~ messaging ]]; then
 
   echo '--> Install messaging casks'
 
@@ -302,7 +302,7 @@ fi
 # Multimedia - install multimedia packages
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ multimedia ]]; then
+if [[ ${RUN_LIST} =~ multimedia ]]; then
 
   echo '--> Install multimedia cask/packages'
 
@@ -326,7 +326,7 @@ fi
 # Privacy - setup dnscrypt-proxy, privoxy and tor
 # -----------------------------------------------------------
 
-if [[ "${RUN_LIST}" =~ privacy ]]; then
+if [[ ${RUN_LIST} =~ privacy ]]; then
   brew install gnu-sed
   sedc=$(command -v gsed || command -v sed)
 
