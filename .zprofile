@@ -120,5 +120,8 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   source $HOME/.cargo/env
 fi
 
+# Autojump
+eval "$(zoxide init zsh --cmd j)"
+
 # K9S
 export K9SCONFIG="${HOME}/.config/k9s"

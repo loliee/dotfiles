@@ -54,9 +54,6 @@ command -v cargo &>/dev/null && alias ca='cargo'
 
 command -v direnv &>/dev/null && alias da='direnv allow'
 
-# Override prezto fasd module, include fzf fuzzy finder
-command -v fasd &>/dev/null && alias j='fasd_cd'
-
 # docker-compose
 command -v docker-compose &>/dev/null && alias dc='docker-compose' &&
   command -v compdef &>/dev/null && compdef dc=docker-compose
@@ -118,15 +115,6 @@ command -v compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 
 # FZF amazing fuzzy finder
 if command -v fzf &>/dev/null; then
-  function fasd_cd() {
-    fasd_ret=$(fasd -Rdl "$@")
-    if [[ -d "$fasd_ret" ]]; then
-      cd "$fasd_ret" || exit
-    else
-      dir="$(print "$fasd_ret" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-    fi
-  }
-
   # fkill - kill process
   function fkill() {
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')

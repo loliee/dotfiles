@@ -69,7 +69,6 @@ if [[ ${RUN_LIST} =~ base ]]; then
     bash \
     coreutils \
     curl \
-    fasd \
     fd \
     findutils \
     fzf \
@@ -102,6 +101,7 @@ if [[ ${RUN_LIST} =~ base ]]; then
     wget \
     xz \
     zopfli \
+    zoxide \
     zsh-syntax-highlighting \
     zsh \
     tldr
