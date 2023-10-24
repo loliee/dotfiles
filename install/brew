@@ -37,7 +37,7 @@ brew tap homebrew/services
 if [[ "${RUN_LIST}" =~ dotfiles ]]; then
   brew install \
     git \
-    macvim \
+    neovim \
     stow
 fi
 
@@ -119,8 +119,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
 
   brew install --cask \
     1password \
-    charles \
-    google-cloud-sdk \
     docker \
     little-snitch \
     micro-snitch \
@@ -135,7 +133,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     chruby \
     cloc \
     closure-compiler \
-    ctags \
     diff-so-fancy \
     dive \
     dust \
@@ -169,7 +166,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     shellcheck \
     skopeo \
     shfmt \
-    svn \
     tag \
     tig \
     tcpdump \
@@ -243,7 +239,6 @@ if [[ "${RUN_LIST}" =~ dev ]]; then
     mdl
     serverspec
     tmuxinator
-    travis
   )
 
   # shellcheck source=/dev/null
@@ -313,13 +308,11 @@ if [[ "${RUN_LIST}" =~ multimedia ]]; then
 
   brew install --cask \
     imageoptim \
-    gimp \
     transmission \
     vlc
 
   brew install \
     gifsicle \
-    graphviz \
     jhead \
     jpeg \
     jpegoptim \
