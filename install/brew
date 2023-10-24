@@ -237,7 +237,6 @@ if [[ ${RUN_LIST} =~ dev ]]; then
   GEMS=(
     bundler
     mdl
-    serverspec
     tmuxinator
   )
 

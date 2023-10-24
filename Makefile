@@ -59,12 +59,9 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 >>>>>>> 7769ec4 (fixup! Switch to neovim)
 		--ignore='.vim' \
 		--ignore='.yamllint' \
-		--ignore='Gemfile' \
-		--ignore='Gemfile.lock' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='README.md' \
-		--ignore='Rakefile' \
 		--ignore='install' \
 		--ignore='k9s' \
 		--ignore='spec' \
@@ -182,12 +179,6 @@ setup-macos: ## Run macos script
 setup-macos-hardening: ## Run macos_hardening script
 	@bash -x ./install/macos_hardening
 
-serverspec: ## Run serverspec, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
-	$(info --> Run serverspec)
-	@env \
-		SPEC_OPTS='--format documentation --color' \
-		rake serverspec:run
-
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
 	@find install -type f -not -path '*etc*' -not -path '*fzf*' \
@@ -195,12 +186,10 @@ shellcheck: ## Run shellcheck
 	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
 		| xargs -P 4 -I % shellcheck %
 
-test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
-	$(info --> Run serverspec)
+test: ## Run shellcheck and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
 	$(MAKE) \
 		shellcheck \
-		pre-commit \
-		serverspec
+		pre-commit
 
 venv: ## Create python virtualenv
 		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
