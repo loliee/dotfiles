@@ -71,7 +71,7 @@ export HOMEBREW_ROOT=$(brew --prefix)
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
 # fvm
-eval "$(fnm env)"
+eval "$(fnm env --use-on-cd)"
 
 # Bat config
 export BAT_CONFIG_PATH="${HOME}/.batrc"

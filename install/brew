@@ -137,6 +137,7 @@ if [[ ${RUN_LIST} =~ dev ]]; then
     dive \
     dust \
     entr \
+    fnm \
     kubectx \
     kubernetes-cli \
     kubernetes-helm \
@@ -162,7 +163,6 @@ if [[ ${RUN_LIST} =~ dev ]]; then
     qemu \
     ruby-install \
     rustup \
-    Schniz/tap/fnm \
     shellcheck \
     skopeo \
     shfmt \
