@@ -52,8 +52,8 @@ if [[ ${RUN_LIST} =~ base ]]; then
 
   echo '--> Install base casks/packages'
   brew install --cask \
-    font-iosevka \
     firefox \
+    font-iosevka-nerd-font \
     gpg-suite \
     istat-menus \
     iterm2 \
