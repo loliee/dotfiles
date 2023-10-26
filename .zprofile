@@ -24,10 +24,6 @@ unsetopt SHARE_HISTORY
 # zsh history
 export HISTORY_IGNORE="(${HISTIGNORE//:/|})"
 
-# travis
-[[ -f "${HOME}/.travis/travis.sh" ]] \
-  && source "${HOME}/.travis/travis.sh"
-
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_FILE=~/.node_history;
 # Allow 32³ entries; the default is 1000.
