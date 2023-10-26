@@ -19,7 +19,7 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Full install, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
+install: ## Full install, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
 		if [[ -d $(HOME)/Applications/iTerm.app && "$(RUN_LIST)" =~ dotfiles ]]; then \
