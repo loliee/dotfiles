@@ -4,7 +4,6 @@ DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
-RUN_LIST ?= base dev dotfiles messaging multimedia privacy
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
 VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
@@ -19,16 +18,14 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Full install, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia
+install: ## Full install
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
-		if [[ -d $(HOME)/Applications/iTerm.app && "$(RUN_LIST)" =~ dotfiles ]]; then \
+		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
 			make setup-iterm2; \
 		fi; \
 	fi
-	@if [[ "$(RUN_LIST)" =~ dotfiles ]]; then \
-		make install-dotfiles; \
-	fi
+	make install-dotfiles
 
 install-brew: # Install brew and packages
 	@bash -x ./install/brew
@@ -181,7 +178,7 @@ shellcheck: ## Run shellcheck
 	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
 		| xargs -P 4 -I % shellcheck %
 
-test: ## Run shellcheck and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
+test: ## Run shellcheck and pre-commit hooks
 	$(MAKE) \
 		shellcheck \
 		pre-commit
