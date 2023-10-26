@@ -138,6 +138,7 @@ if [[ ${RUN_LIST} =~ dev ]]; then
     dust \
     entr \
     fnm \
+    k9s \
     kubectx \
     kubernetes-cli \
     kubernetes-helm \
