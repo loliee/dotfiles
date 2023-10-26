@@ -274,8 +274,12 @@ if [[ ${RUN_LIST} =~ dev ]]; then
   done
 
   # Rust
-  rustup-init -y --no-modify-path
-  rustup component add rustfmt
+  if command -v rustup &>/dev/null; then
+    rustup update
+  else
+    rustup-init -y --no-modify-path
+    rustup component add rustfmt
+  fi
 
   # Zsh missing completions
   for binary_name in docker docker-compose docker-machine; do
