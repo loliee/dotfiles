@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -f
+set -o errexit
+set -o pipefail
+set -o nounset
 
 # HOMEBREW options
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
