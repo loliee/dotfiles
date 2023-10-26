@@ -28,7 +28,7 @@ install: ## Full install
 	make install-dotfiles
 
 install-brew: # Install brew and packages
-	@bash -x ./install/brew
+	@bash -x ./.brew
 
 install-dev: ## Install test environment
 	@if [[ "$(OS)" == "Darwin" ]]; then \
@@ -46,6 +46,9 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.fzf_history' \
 		--ignore='.gemrc' \
 		--ignore='.git' \
+		--ignore='.brew' \
+		--ignore='.macos' \
+		--ignore='.macos_hardening' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
@@ -55,7 +58,6 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='README.md' \
-		--ignore='install' \
 		--ignore='k9s' \
 		--ignore='spec' \
 		--ignore='venv'
@@ -166,10 +168,10 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
 setup-macos: ## Run macos script
-	@bash -x ./install/macos
+	@bash -x ./.macos
 
 setup-macos-hardening: ## Run macos_hardening script
-	@bash -x ./install/macos_hardening
+	@bash -x ./.macos_hardening
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
