@@ -1,5 +1,5 @@
 # PATH
-export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/opt/openssl@1.1/bin:${HOME}/.homebrew/sbin:${PATH}"
+export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # You may need to manually set your language environment
 export LANG='en_US.UTF-8'
