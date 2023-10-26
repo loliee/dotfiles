@@ -1,0 +1,265 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# HOMEBREW options
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export PATH="${HOME}/.homebrew/bin:${PATH}"
+
+if [[ ! -f ~/.homebrew/bin/brew ]]; then
+  echo '--> Installing homebrew...'
+  mkdir -p ~/.homebrew &&
+    chmod 0700 ~/.homebrew &&
+    curl -L https://github.com/Homebrew/brew/tarball/master |
+    tar xz --strip 1 -C ~/.homebrew
+fi
+
+trap 'brew cleanup' INT TERM HUP EXIT
+
+echo "--> Make sure we're using the latest Homebrew"
+brew update
+
+echo '--> Upgrade any already-installed formulae'
+brew upgrade
+
+echo '--> Tap extras Homebrew repositories'
+brew tap homebrew/services
+
+brew install \
+  docker \
+  firefox \
+  gpg-suite \
+  homebrew/cask-versions/adoptopenjdk8 \
+  istat-menus \
+  iterm2 \
+  keepassx \
+  the-unarchiver \
+  tunnelblick \
+  vagrant \
+  virtualbox \
+  xquartz
+
+brew install \
+  advancecomp \
+  ansifilter \
+  asciinema \
+  bash \
+  bat \
+  bfg \
+  chruby \
+  cloc \
+  closure-compiler \
+  coreutils \
+  curl \
+  diff-so-fancy \
+  direnv \
+  dive \
+  dust \
+  entr \
+  fd \
+  findutils \
+  fnm \
+  font-iosevka-nerd-font \
+  fzf \
+  gawk \
+  gifsicle \
+  git \
+  gnu-sed \
+  gnu-tar \
+  gnu-time \
+  gnu-which \
+  go \
+  grep \
+  gsl \
+  hadolint \
+  hub \
+  ikuwow/ikuwow-sshrc/sshrc \
+  imageoptim \
+  ipcalc \
+  jhead \
+  jpeg \
+  jpegoptim \
+  jq \
+  k9s \
+  kubectx \
+  kubernetes-cli \
+  kubernetes-helm \
+  libxml2 \
+  mattermost \
+  minio-mc \
+  mkcert \
+  moreutils \
+  mtr \
+  ncdu \
+  neovim \
+  nmap \
+  openssh \
+  openssl \
+  optipng \
+  packer \
+  pandoc \
+  parallel \
+  pgcli \
+  pigz \
+  pngcrush \
+  pngquant \
+  pv \
+  pwgen \
+  pyenv \
+  pyenv-virtualenv \
+  pyenv-virtualenvwrapper \
+  qemu \
+  readline \
+  reattach-to-user-namespace \
+  rg \
+  ruby-build \
+  rustup \
+  shellcheck \
+  shfmt \
+  signal \
+  skopeo \
+  slack \
+  ssh-copy-id \
+  stow \
+  tag \
+  tcpdump \
+  tcptraceroute \
+  terminal-notifier \
+  terraform \
+  terraform-inventory \
+  tflint \
+  tfsec \
+  tig \
+  tldr \
+  tmux \
+  transmission \
+  tree \
+  vlc \
+  watch \
+  webkit2png \
+  wget \
+  xz \
+  yamllint \
+  zopfli \
+  zoxide \
+  zsh \
+  zsh-syntax-highlighting
+
+# Force link because already installed by moreutils formula
+brew install --force parallel
+
+brew install --appdir /Applications \
+  1password \
+  little-snitch \
+  micro-snitch
+
+# Python
+PYTHONS=(
+  3.11.6
+)
+
+for python in "${PYTHONS[@]}"; do
+  CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" \
+  LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" \
+    pyenv install -s "${python}"
+done
+
+PIPS=(
+  ansible-lint
+  autopep8
+  bandit
+  black
+  docutils
+  fabric
+  flake8
+  ipython
+  isort
+  pre-commit
+  pylint
+  pynvim
+  virtualenv
+)
+
+rm -f ~/.python-version
+echo "${PYTHONS[@]: -1}" >~/.python-version
+
+"${HOME}/.pyenv/shims/pip" install --upgrade pip
+
+for pip in "${PIPS[@]}"; do
+  "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null ||
+    "${HOME}/.pyenv/shims/pip" install "$pip"
+done
+
+eval "$(pyenv init -)"
+
+# Guess python version from program name
+[[ -d "${HOME}/.pyenv/plugins/pyenv-implict" ]] ||
+  git clone git://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
+
+# Ruby
+mkdir -p ~/.rubies
+RUBIES=(
+  3.2.2
+)
+
+for ruby in "${RUBIES[@]}"; do
+  "${HOME}/.homebrew/bin/ruby-build" "$ruby" "${HOME}/.rubies/ruby-${ruby}"
+done
+
+rm -f ~/.ruby-version
+echo "${RUBIES[@]: -1}" >~/.ruby-version
+
+GEMS=(
+  bundler
+  mdl
+  tmuxinator
+)
+
+# shellcheck source=/dev/null
+source "$(brew --prefix)/share/chruby/chruby.sh"
+chruby "$(cat ~/.ruby-version)"
+
+for gem in "${GEMS[@]}"; do
+  gem list -i "${gem}" &>/dev/null || gem install "${gem}"
+done
+
+# Node
+NODEJS=(
+  20.9.0
+)
+
+eval "$(fnm env --multi)"
+for node in "${NODEJS[@]}"; do
+  fnm install "${node}"
+done
+
+fnm default "${NODEJS[-1]}"
+fnm use "${NODEJS[-1]}"
+
+NPM=(
+  eslint@8
+  prettier@3
+)
+
+for npm in "${NPM[@]}"; do
+  npm install -g "$npm"
+done
+
+# Rust
+if command -v rustup &>/dev/null; then
+  rustup update
+else
+  rustup-init -y --no-modify-path
+  rustup component add rustfmt
+fi
+
+# Zsh missing completions
+for binary_name in docker docker-compose docker-machine; do
+  [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] &&
+    ln -sf "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" \
+      "$(brew --prefix)/share/zsh/site-functions/_${binary_name}"
+done

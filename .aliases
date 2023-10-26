@@ -9,6 +9,7 @@ OS="$(uname)"
 alias ri='ri -f ansi'
 command -v colordiff &>/dev/null && alias diff='colordiff'
 command -v vim &>/dev/null && alias vi='vim'
+command -v nvim &>/dev/null && alias vi='nvim' && alias vim=nvim
 
 # Some aliases to avoid making mistakes
 alias rm='rm -i'
@@ -54,9 +55,6 @@ command -v cargo &>/dev/null && alias ca='cargo'
 
 command -v direnv &>/dev/null && alias da='direnv allow'
 
-# Override prezto fasd module, include fzf fuzzy finder
-command -v fasd &>/dev/null && alias j='fasd_cd'
-
 # docker-compose
 command -v docker-compose &>/dev/null && alias dc='docker-compose' &&
   command -v compdef &>/dev/null && compdef dc=docker-compose
@@ -71,6 +69,8 @@ command -v kubectx &>/dev/null && alias kx='kubectx' &&
   command -v compdef &>/dev/null && compdef kx=kubectx
 command -v kubens &>/dev/null && alias kn='kubens' &&
   command -v compdef &>/dev/null && compdef kn=kubens
+
+command -v rg &>/dev/null && alias rga='rg --hidden --no-ignore'
 
 # tree
 if ! command -v tree &>/dev/null; then
@@ -93,7 +93,7 @@ alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --ini
 
 function colors() {
   for code in $(seq -w 0 255); do for attr in 0 1; do
-    printf "%s-%03s %b■■■■%b\\n" "${attr}" "${code}" "\\e[${attr};38;05;${code}m" "\\e[m"
+    printf '%s-%03s %b■■■■%b\n' "${attr}" "${code}" "\\e[${attr};38;05;${code}m" '\e[m'
   done; done | column -c $((COLUMNS * 2))
 }
 
@@ -116,15 +116,6 @@ command -v compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
 
 # FZF amazing fuzzy finder
 if command -v fzf &>/dev/null; then
-  function fasd_cd() {
-    fasd_ret=$(fasd -Rdl "$@")
-    if [[ -d "$fasd_ret" ]]; then
-      cd "$fasd_ret" || exit
-    else
-      dir="$(print "$fasd_ret" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-    fi
-  }
-
   # fkill - kill process
   function fkill() {
     pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
@@ -168,8 +159,8 @@ function rmf() {
   case $answer in
     [yY])
       mkdir -p /tmp/empty_dir/
-      [[ -n "$1" ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
-      [[ -d "$1" ]] && [[ "$1" != '.' ]] && rmdir "$1"
+      [[ -n $1 ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
+      [[ -d $1 ]] && [[ $1 != '.' ]] && rmdir "$1"
       rmdir /tmp/empty_dir
       ;;
     *)

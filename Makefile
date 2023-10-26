@@ -4,7 +4,6 @@ DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
-RUN_LIST ?= base dev dotfiles messaging multimedia privacy
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
 VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
@@ -19,19 +18,17 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: ## Full install, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
+install: ## Full install
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
-		if [[ -d $(HOME)/Applications/iTerm.app && "$(RUN_LIST)" =~ dotfiles ]]; then \
+		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
 			make setup-iterm2; \
 		fi; \
 	fi
-	@if [[ "$(RUN_LIST)" =~ dotfiles ]]; then \
-		make install-dotfiles; \
-	fi
+	make install-dotfiles
 
 install-brew: # Install brew and packages
-	@bash -x ./install/brew
+	@bash -x ./.brew
 
 install-dev: ## Install test environment
 	@if [[ "$(OS)" == "Darwin" ]]; then \
@@ -49,19 +46,18 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		--ignore='.fzf_history' \
 		--ignore='.gemrc' \
 		--ignore='.git' \
-		--ignore='.gnupg' \
+		--ignore='.brew' \
+		--ignore='.macos' \
+		--ignore='.macos_hardening' \
 		--ignore='.hadolint.yml' \
 		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
+		--ignore='.nvim' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \
-		--ignore='Gemfile' \
-		--ignore='Gemfile.lock' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='README.md' \
-		--ignore='Rakefile' \
-		--ignore='install' \
 		--ignore='k9s' \
 		--ignore='spec' \
 		--ignore='venv'
@@ -70,12 +66,11 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		$(HOME)/.vim \
 		$(HOME)/.config/yamllint
 	@chmod 700 $(HOME)/.gnupg
-	@cp -f ~/.dotfiles/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
 	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
-	@[[ -f $(HOME)/.config/k9s ]] \
+	@[[ -d $(HOME)/.config/k9s ]] \
 		|| ln -sf $(PWD)/k9s $(HOME)/.config/k9s
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
@@ -89,6 +84,8 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@[[ -d $(HOME)/.vim/syntax ]] \
 		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
+	@[[ -d $(HOME)/.config/nvim ]] \
+		|| ln -sf $(PWD)/.nvim $(HOME)/.config/nvim
 	@make \
 		install-prezto \
 		install-tpm \
@@ -171,16 +168,10 @@ setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
 	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
 setup-macos: ## Run macos script
-	@bash -x ./install/macos
+	@bash -x ./.macos
 
 setup-macos-hardening: ## Run macos_hardening script
-	@bash -x ./install/macos_hardening
-
-serverspec: ## Run serverspec, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
-	$(info --> Run serverspec)
-	@env \
-		SPEC_OPTS='--format documentation --color' \
-		rake serverspec:run
+	@bash -x ./.macos_hardening
 
 shellcheck: ## Run shellcheck
 	$(info --> Run shellcheck)
@@ -189,12 +180,10 @@ shellcheck: ## Run shellcheck
 	@find . -type f -path '*sshrc*' -not -path '*tmux*' -not -path '*patatetoy*' \
 		| xargs -P 4 -I % shellcheck %
 
-test: ## Run shellcheck, serverspec and pre-commit hooks, var: RUN_LIST=base,dev,dotfiles,messaging,multimedia,privacy
-	$(info --> Run serverspec)
+test: ## Run shellcheck and pre-commit hooks
 	$(MAKE) \
 		shellcheck \
-		pre-commit \
-		serverspec
+		pre-commit
 
 venv: ## Create python virtualenv
 		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)

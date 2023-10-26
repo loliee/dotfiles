@@ -1,5 +1,5 @@
 # PATH
-export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/opt/openssl@1.1/bin:${HOME}/.homebrew/sbin:${PATH}"
+export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # You may need to manually set your language environment
 export LANG='en_US.UTF-8'
@@ -8,6 +8,11 @@ export LC_ALL='en_US.UTF-8'
 # default editor
 export EDITOR='vim'
 export VISUAL='vim'
+
+if command -v nvim &>/dev/null; then
+  export EDITOR='nvim'
+  export VISUAL='nvim'
+fi
 
 # history
 export HISTFILE=~/.zsh_history
@@ -18,10 +23,6 @@ export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
 unsetopt SHARE_HISTORY
 # zsh history
 export HISTORY_IGNORE="(${HISTIGNORE//:/|})"
-
-# travis
-[[ -f "${HOME}/.travis/travis.sh" ]] \
-  && source "${HOME}/.travis/travis.sh"
 
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_FILE=~/.node_history;
@@ -71,7 +72,7 @@ export HOMEBREW_ROOT=$(brew --prefix)
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
 
 # fvm
-eval "$(fnm env)"
+eval "$(fnm env --use-on-cd)"
 
 # Bat config
 export BAT_CONFIG_PATH="${HOME}/.batrc"
@@ -119,6 +120,9 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
   source $HOME/.cargo/env
 fi
+
+# Autojump
+eval "$(zoxide init zsh --cmd j)"
 
 # K9S
 export K9SCONFIG="${HOME}/.config/k9s"
