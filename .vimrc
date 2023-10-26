@@ -13,7 +13,6 @@ set modelines=0
 call plug#begin('~/.vim/plugged')
 
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'SirVer/ultisnips'
 Plug 'StanAngeloff/php.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'editorconfig/editorconfig-vim'
@@ -24,7 +23,6 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'loliee/vim-patatetoy'
-Plug 'loliee/vim-snippets'
 Plug 'markcornick/vim-bats'
 Plug 'mv/mv-vim-nginx'
 Plug 'othree/html5.vim'
