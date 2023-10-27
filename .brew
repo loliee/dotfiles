@@ -198,7 +198,7 @@ eval "$(pyenv init -)"
 
 # Guess python version from program name
 [[ -d "${HOME}/.pyenv/plugins/pyenv-implict" ]] ||
-  git clone git://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
+  git clone https://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
 
 # Ruby
 mkdir -p ~/.rubies
