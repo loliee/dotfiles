@@ -1,2 +1,0 @@
-piprot==0.9.11
-pre-commit==1.20.0
