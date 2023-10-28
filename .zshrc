@@ -11,12 +11,6 @@ zstyle ':completion:*:hosts' hosts 'off'
 bindkey '^[[B' history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 
-# Gcloud SDK
-GOOGLE_SDK_PATH="${ZDOTDIR:-$HOME}/.homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
-if [[ -f "${GOOGLE_SDK_PATH}/path.zsh.inc" && -f "${GOOGLE_SDK_PATH}/completion.zsh.inc" ]]; then
-  source "${GOOGLE_SDK_PATH}/path.zsh.inc"
-  source "${GOOGLE_SDK_PATH}/completion.zsh.inc"
-fi
 # Starship
 eval "$(starship init zsh)"
 
