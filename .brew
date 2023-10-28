@@ -36,13 +36,13 @@ brew install \
   gpg-suite \
   homebrew/cask-versions/adoptopenjdk8 \
   istat-menus \
-  iterm2 \
   the-unarchiver \
   virtualbox \
   xquartz
 
 brew install \
   advancecomp \
+  alacritty \
   ansifilter \
   asciinema \
   bash \
