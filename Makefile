@@ -171,6 +171,3 @@ test: ## Run shellcheck and pre-commit hooks
 	$(MAKE) \
 		shellcheck \
 		pre-commit
-
-venv: ## Create python virtualenv
-		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
