@@ -5,7 +5,6 @@ OS = $(shell uname)
 PREZTO := ~/.zprezto
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
-VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
@@ -171,6 +170,3 @@ test: ## Run shellcheck and pre-commit hooks
 	$(MAKE) \
 		shellcheck \
 		pre-commit
-
-venv: ## Create python virtualenv
-		[[ -d $(VIRTUALENV_DIR) ]] || virtualenv -p $(shell command -v python3) $(VIRTUALENV_DIR)
