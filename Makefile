@@ -2,9 +2,10 @@ MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --warn-undefined-variables
 DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
-PREZTO := ~/.zprezto
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
+XDG_CONFIG_HOME ?= $(HOME)/.config
+ZDOTDIR ?= $(XDG_CONFIG_HOME)/zprezto
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
@@ -108,9 +109,8 @@ install-pip-packages: ## Install python requirements, used for testing code
 
 install-prezto: ## Install prezto, the confuguration framework for Zsh
 	$(info --> Install Prezto)
-	@[[ -d $(PREZTO) ]] \
-		|| git clone -q --depth 1 --recursive \
-		https://github.com/sorin-ionescu/prezto.git $(PREZTO)
+	@[[ -d $(ZDOTDIR) ]] \
+		|| git clone -q --depth 1 --recursive https://github.com/sorin-ionescu/prezto.git $(ZDOTDIR)
 
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)

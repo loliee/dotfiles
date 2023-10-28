@@ -55,4 +55,3 @@ zstyle ':prezto:module:syntax-highlighting' styles \
 
 zstyle ':prezto:module:tmux:auto-start' local 'yes'
 zstyle ':prezto:module:tmux:auto-start' remote 'yes'
-zstyle ':prezto:module:tmux:iterm' integrate 'no'
