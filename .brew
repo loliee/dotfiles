@@ -37,10 +37,8 @@ brew install \
   homebrew/cask-versions/adoptopenjdk8 \
   istat-menus \
   iterm2 \
-  keepassx \
   the-unarchiver \
   tunnelblick \
-  vagrant \
   virtualbox \
   xquartz
 
@@ -103,7 +101,6 @@ brew install \
   optipng \
   hashicorp/tap/packer \
   pandoc \
-  parallel \
   pgcli \
   pigz \
   pngcrush \
