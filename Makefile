@@ -79,6 +79,9 @@ install-dotfiles: ## Install my dotfiles
 		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
 	@[[ -d $(HOME)/.config/nvim ]] \
 		|| ln -sf $(PWD)/.nvim $(HOME)/.config/nvim
+	@[[ -d $(HOME)/.config/nvim/pack/github/start/copilot.vim ]] \
+		|| git clone https://github.com/github/copilot.vim \
+			 $(HOME)/.config/nvim/pack/github/start/copilot.vim
 	@make \
 		install-prezto \
 		install-tpm \
