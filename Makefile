@@ -40,8 +40,10 @@ install-dotfiles: ## Install my dotfiles
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
+		--ignore='.config' \
 		--ignore='.gemrc' \
 		--ignore='.git' \
+		--ignore='.gnupg' \
 		--ignore='.brew' \
 		--ignore='.macos' \
 		--ignore='.macos_hardening' \
