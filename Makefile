@@ -5,7 +5,6 @@ OS = $(shell uname)
 PREZTO := ~/.zprezto
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
-VIRTUALENV_DIR := $(DOTFILES_DIR)/venv
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
