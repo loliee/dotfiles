@@ -2,7 +2,6 @@ MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --warn-undefined-variables
 DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
-PATATETOY := ~/.patatetoy
 PREZTO := ~/.zprezto
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.homebrew/bin/:$(PATH)
@@ -38,7 +37,7 @@ install-dev: ## Install test environment
 		install-gems \
 		install-pip-packages;
 
-install-dotfiles: ## Install my dotfiles, included patatetoy prompt
+install-dotfiles: ## Install my dotfiles
 	$(info --> Install dotfiles)
 	@command -v stow >/dev/null || { echo'CAN I HAZ STOW ?'; exit 1; }
 	@stow -S . -t "$(HOME)" -v \
@@ -72,14 +71,10 @@ install-dotfiles: ## Install my dotfiles, included patatetoy prompt
 		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
 	@[[ -d $(HOME)/.config/k9s ]] \
 		|| ln -sf $(PWD)/k9s $(HOME)/.config/k9s
+	@[[ -f $(HOME)/.config/starship.toml ]] \
+		|| ln -sf $(PWD)/.config/starship.toml $(HOME)/.config/starship.toml
 	@[[ -f $(HOME)/.config/yamllint/config ]] \
 		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
-	@[[ -d $(PATATETOY) ]] \
-		|| git clone https://github.com/loliee/prompt-patatetoy.git $(PATATETOY)
-	@[[ -d $(HOME)/.sshrc.d/patatetoy_common.sh ]] \
-		|| ln -sf $(PATATETOY)/patatetoy_common.sh $(HOME)/.sshrc.d/patatetoy_common.sh
-	@[[ -d $(HOME)/.sshrc.d/patatetoy.sh ]] \
-		|| ln -sf $(PATATETOY)/patatetoy.sh $(HOME)/.sshrc.d/patatetoy.sh
 	@[[ -d $(HOME)/.vim/after ]] \
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@[[ -d $(HOME)/.vim/syntax ]] \

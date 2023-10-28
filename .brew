@@ -121,6 +121,7 @@ brew install \
   skopeo \
   slack \
   ssh-copy-id \
+  starship \
   stow \
   tag \
   tcpdump \

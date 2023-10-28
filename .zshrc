@@ -17,6 +17,8 @@ if [[ -f "${GOOGLE_SDK_PATH}/path.zsh.inc" && -f "${GOOGLE_SDK_PATH}/completion.
   source "${GOOGLE_SDK_PATH}/path.zsh.inc"
   source "${GOOGLE_SDK_PATH}/completion.zsh.inc"
 fi
+# Starship
+eval "$(starship init zsh)"
 
 # Minio competion
 command -v mc &>/dev/null && {
