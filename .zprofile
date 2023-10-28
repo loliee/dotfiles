@@ -113,8 +113,6 @@ if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
   [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
 fi
 
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
-
 # Rust
 if [[ -d "${HOME}/.cargo/bin" ]]; then
   export PATH="${HOME}/.cargo/bin:${PATH}"
