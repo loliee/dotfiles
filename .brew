@@ -28,6 +28,7 @@ brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
 brew tap homebrew/cask-fonts
+brew tap hashicorp/tap
 
 brew install \
   docker \
@@ -100,7 +101,7 @@ brew install \
   openssh \
   openssl \
   optipng \
-  packer \
+  hashicorp/tap/packer \
   pandoc \
   parallel \
   pgcli \
@@ -129,8 +130,7 @@ brew install \
   tcpdump \
   tcptraceroute \
   terminal-notifier \
-  terraform \
-  terraform-inventory \
+  hashicorp/tap/terraform \
   tflint \
   tfsec \
   tig \
