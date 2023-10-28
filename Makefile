@@ -13,6 +13,8 @@ ZDOTDIR ?= $(XDG_CONFIG_HOME)/zprezto
 .PHONY: install test
 .SHELLFLAGS := -eu -o pipefail -c
 
+export XDG_CONFIG_HOME
+
 help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
@@ -40,7 +42,6 @@ install-dotfiles: ## Install my dotfiles
 	@stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.fzf_history' \
-		--ignore='.config' \
 		--ignore='.gemrc' \
 		--ignore='.git' \
 		--ignore='.gnupg' \
@@ -49,13 +50,11 @@ install-dotfiles: ## Install my dotfiles
 		--ignore='.macos_hardening' \
 		--ignore='.hadolint.yml' \
 		--ignore='.travis.yml' \
-		--ignore='.nvim' \
 		--ignore='.vim' \
 		--ignore='.yamllint' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='README.md' \
-		--ignore='k9s' \
 		--ignore='spec' \
 		--ignore='venv'
 	@mkdir -p \
@@ -65,20 +64,10 @@ install-dotfiles: ## Install my dotfiles
 	@chmod 700 $(HOME)/.gnupg
 	@[[ -d $(HOME)/.config ]] \
 		|| mkdir $(HOME).config
-	@[[ -f $(HOME)/.config/hadolint.yaml ]] \
-		|| ln -sf $(PWD)/.hadolint.yml $(HOME)/.config/hadolint.yaml
-	@[[ -d $(HOME)/.config/k9s ]] \
-		|| ln -sf $(PWD)/k9s $(HOME)/.config/k9s
-	@[[ -f $(HOME)/.config/starship.toml ]] \
-		|| ln -sf $(PWD)/.config/starship.toml $(HOME)/.config/starship.toml
-	@[[ -f $(HOME)/.config/yamllint/config ]] \
-		|| ln -sf $(PWD)/.yamllint $(HOME)/.config/yamllint/config
 	@[[ -d $(HOME)/.vim/after ]] \
 		|| ln -sf $(PWD)/.vim/after $(HOME)/.vim/after
 	@[[ -d $(HOME)/.vim/syntax ]] \
 		|| ln -sf $(PWD)/.vim/syntax $(HOME)/.vim/syntax
-	@[[ -d $(HOME)/.config/nvim ]] \
-		|| ln -sf $(PWD)/.nvim $(HOME)/.config/nvim
 	@[[ -d $(HOME)/.config/nvim/pack/github/start/copilot.vim ]] \
 		|| git clone https://github.com/github/copilot.vim \
 			 $(HOME)/.config/nvim/pack/github/start/copilot.vim

@@ -1,7 +1,7 @@
 .aliases.local
+.config/nvim/pack
+.config/k9s/config.yml
 .iterm2/iterm2-patatetoy
 .sshrc.d/patatetoy.sh
 .sshrc.d/patatetoy_common.sh
-.nvim/pack
-k9s/config.yml
 venv
