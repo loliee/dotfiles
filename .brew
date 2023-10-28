@@ -38,7 +38,6 @@ brew install \
   istat-menus \
   iterm2 \
   the-unarchiver \
-  tunnelblick \
   virtualbox \
   xquartz
 
@@ -146,13 +145,11 @@ brew install \
   zsh \
   zsh-syntax-highlighting
 
-# Force link because already installed by moreutils formula
-brew install --force parallel
-
 brew install --appdir /Applications \
   1password \
   little-snitch \
-  micro-snitch
+  micro-snitch \
+  tunnelblick
 
 # Python
 PYTHONS=(
