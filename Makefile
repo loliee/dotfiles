@@ -20,9 +20,6 @@ help:
 install: ## Full install
 	@if [[ "$(OS)" == "Darwin" ]]; then \
 		make install-brew; \
-		if [[ -d $(HOME)/Applications/iTerm.app ]]; then \
-			make setup-iterm2; \
-		fi; \
 	fi
 	make install-dotfiles
 
@@ -49,7 +46,6 @@ install-dotfiles: ## Install my dotfiles
 		--ignore='.macos' \
 		--ignore='.macos_hardening' \
 		--ignore='.hadolint.yml' \
-		--ignore='.iterm2' \
 		--ignore='.travis.yml' \
 		--ignore='.nvim' \
 		--ignore='.vim' \
@@ -152,15 +148,6 @@ pre-commit: ## Run pre-commit hooks
 		source $(VIRTUALENV_DIR)/bin/activate; \
 		pre-commit run --all; \
 	)
-
-setup-iterm2: ## Configure iterm2 with patatetoy theme and great shortcut keys
-	$(info --> Install iterm2)
-	@[[ -L $(HOME)/.iterm2 ]] \
-		|| ln -sf $(PWD)/.iterm2 $(HOME)/.iterm2
-	@[[ -d $(HOME)/.iterm2/iterm2-patatetoy ]] \
-		|| git clone https://github.com/loliee/iterm2-patatetoy/ $(HOME)/.iterm2/iterm2-patatetoy
-	@open $(HOME)/.iterm2/iterm2-patatetoy/patatetoy.itermcolors
-	@defaults read $(HOME)/.iterm2/com.googlecode.iterm2 &>/dev/null
 
 setup-macos: ## Run macos script
 	@bash -x ./.macos
