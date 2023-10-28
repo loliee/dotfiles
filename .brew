@@ -28,6 +28,7 @@ brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
 brew tap homebrew/services
+brew tap homebrew/cask-fonts
 
 brew install \
   docker \
