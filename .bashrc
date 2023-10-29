@@ -1,65 +1,128 @@
-# ~/.bashrc
+# shellcheck shell=bash
+# shellcheck disable=SC1090
 
-SHELL=$(command -v bash)
-
-shopt -s cdable_vars    # if cd arg is not valid, assumes its a var defining a dir
-shopt -s cdspell        # autocorrects cd misspellings
-shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
-shopt -s cmdhist        # save multi-line commands in history as single line
-shopt -s dotglob        # include dotfiles in pathname expansion
-shopt -s expand_aliases # expand aliases
-shopt -s extglob        # enable extended pattern-matching features
-shopt -s hostcomplete   # attempt hostname expansion when @ is at the beginning of a word
-shopt -s nocaseglob     # pathname expansion will be treated as case-insensitive
-
-# Setup vi mode
+# vi mode
 set -o vi
 
-# Locale
-export LANGUAGE="en_US.UTF-8"
-
-# Editor
-export VISUAL=vim
-export EDITOR="${VISUAL}"
-
-# History
-export HISTFILESIZE=10000
-export HISTCONTROL=ignorespace
-export HISTFILE=~/.bash_history
-export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*'
-shopt -s histverify
+# append history instead of rewriting it
 shopt -s histappend
 
-# Specific linux takeaway aliases
-alias grep='grep --color'
+# save multi-line commands in history as single line
+shopt -s cmdhist
 
-# shellcheck source=/dev/null
-if [ -f /etc/bash_completion ]; then
-  . /etc/bash_completion
+# autocorrects cd misspellings
+shopt -s cdspell
+
+# include dotfiles in pathname expansio
+shopt -s dotglob
+
+# expand aliases
+shopt -s expand_aliases
+
+# enable extended pattern-matching features
+shopt -s extglob
+
+# pathname expansion will be treated as case-insensitive
+shopt -s nocaseglob
+
+# starship
+if command -v starship &>/dev/null; then
+  eval "$(starship init bash)"
 fi
 
-# Force docker completion file loading
-# shellcheck source=/dev/null
-if [ -f /usr/share/bash-completion/completions/docker ]; then
-  . /usr/share/bash-completion/completions/docker
+# bash completions
+if [[ -r /etc/bash_completion ]]; then
+  # shellcheck disable=SC1091
+  source /etc/bash_completion
 fi
 
-# shellcheck source=/dev/null
-if [ -f "${TMUXDIR}/.patatetoy/patatetoy.sh" ]; then
-  export PATATETOY_INSTALL_DIR=$TMUXDIR
-  . "${TMUXDIR}/.patatetoy/patatetoy.sh"
-elif [ -f "${HOME}/.patatetoy/patatetoy.sh" ]; then
-  . "${HOME}/.patatetoy/patatetoy.sh"
+if [[ -r /etc/profile.d/bash_completion.sh ]]; then
+  # shellcheck disable=SC1091
+  source /etc/profile.d/bash_completion.sh
 fi
 
-# shellcheck source=/dev/null
-if [ -f /usr/local/share/chruby/chruby.sh ]; then
-  . /usr/local/share/chruby/chruby.sh
+# https://docs.brew.sh/Shell-Completion
+if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+  export BASH_COMPLETION_COMPAT_DIR="${HOMEBREW_PREFIX}/etc/bash_completion.d"
+  # shellcheck disable=SC1091
+  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+else
+  for completion in "${HOMEBREW_PREFIX}"/etc/bash_completion.d/*; do
+    [[ -r $completion ]] && source "$completion"
+  done
 fi
 
-# shellcheck source=/dev/null
-if [ -f "${HOME}/.aliases" ]; then
-  . "${HOME}/.aliases"
+# Save bash history after each command, depend `shopt -s histappend`
+PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+
+# chruby
+if [[ -f "${HOMEBREW_PREFIX}/share/chruby/chruby.sh" ]]; then
+  # shellcheck disable=SC2034
+  RUBIES=("${HOME}/.rubies/*")
+
+  # shellcheck source=/dev/null
+  source "${HOMEBREW_PREFIX}/share/chruby/chruby.sh"
+  # shellcheck source=/dev/null
+  source "${HOMEBREW_PREFIX}/share/chruby/auto.sh"
 fi
 
-export PATH=/opt/bin:$PATH
+# fvm node manager
+eval "$(fnm env --use-on-cd)"
+
+# Pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash --cmd j)"
+fi
+
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook bash)"
+fi
+
+# fzf
+if [ -f "${HOME}/.fzf.bash" ]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.fzf.bash"
+fi
+
+# Auto attach|start ssh-agent
+#SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
+#
+#if [[ -r $SSH_AGENT ]]; then
+#  eval "$(<"$SSH_AGENT")" >/dev/null
+#fi
+#
+#if [[ -z ${SSH_AGENT_PID} ]] || ! kill -0 "${SSH_AGENT_PID}" &>/dev/null; then
+#  (
+#    umask 066
+#    ssh-agent >"${SSH_AGENT}"
+#  )
+#
+#  eval "$(<"$SSH_AGENT")" >/dev/null
+#fi
+
+if ! ssh-add -l &>/dev/null; then
+  trap '' SIGINT
+  ssh-add -t 8h
+  trap - SIGINT
+fi
+
+# Aliases
+if [[ -f "${HOME}/.aliases" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.aliases"
+fi
+
+# Aliases
+if [[ -f "${HOME}/.aliases.bash" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.aliases.bash"
+fi
+
+# ~/.extra can be used for other settings you don't want to commit.
+if [[ -f "${HOME}/.aliases.local" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.aliases.local"
+fi

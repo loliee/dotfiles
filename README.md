@@ -1,16 +1,14 @@
 # ~/.dotfiles
 
-[![Build Status](https://travis-ci.org/loliee/dotfiles.svg?branch=master)](https://travis-ci.org/loliee/dotfiles)
-
 ## Get this repository
 
-```bash
+```console
 git clone https://github.com/loliee/dotfiles ~/.dotfiles
 ```
 
 Or without git (useful for the first install)
 
-```bash
+```console
 mkdir -p ~/.dotfiles
 curl -L https://github.com/loliee/dotfiles/tarball/master \
 | tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
@@ -18,19 +16,14 @@ curl -L https://github.com/loliee/dotfiles/tarball/master \
 
 ## Install
 
-Install brew, a lot of awesome packages 📦 and super sweet dotfiles ✨
+Install packages 📦 and dotfiles ✨.
 
-```bash
-# Install dotfiles and packages
+```console
+# Install packages and dotfiles
 make install
 
 # Install only dotfiles
 make install-dotfiles
-
-# Or limit packages with the `RUN_LIST`
-# Possible values are `base,dev,messaging,multimedia,privacy`
-RUN_LIST='messaging,multimedia,privacy' \
-  make install
 
 # Need help ?
 make help
@@ -40,27 +33,18 @@ make help
 
 Setup sensible macOS defaults with:
 
-```bash
+```console
 make setup-macos
 make setup-macos-hardening
 ```
 
-## Zsh
+## Fish
 
-Define zsh as your default shell (example bellow is macOS specific):
+Define fish as your default shell (example bellow is macOS specific):
 
-```
-echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells
-chsh -s "$(brew --prefix)/bin/zsh"
-```
-
-## Test
-
-Run linters & specs:
-
-```bash
-make install-dev
-make test
+```console
+echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
+chsh -s "$(brew --prefix)/bin/fish"
 ```
 
 ## Resources

@@ -1,4 +1,4 @@
 --style=numbers,changes
 --wrap never
 --color always
---theme ansi-dark
+--theme ansi

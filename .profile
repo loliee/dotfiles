@@ -1,5 +1,16 @@
 # PATH
-export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}:/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="${HOME}/.homebrew/bin:${HOME}/.homebrew/sbin:${PATH}:/usr/local/bin:/usr/local/sbin:${PATH}"
+
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --no-binaries"
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+
+# XDG_CONFIG_DIR
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+export TERMINAL_MULTIPLEXER=tmux
 
 # You may need to manually set your language environment
 export LANG='en_US.UTF-8'
@@ -9,25 +20,12 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='vim'
 export VISUAL='vim'
 
-if command -v nvim &>/dev/null; then
-  export EDITOR='nvim'
-  export VISUAL='nvim'
-fi
-
 # history
-export HISTFILE=~/.zsh_history
+export HISTFILE=~/.bash_history
 export HISTSIZE=393216
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL='ignoreboth'
 export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
-unsetopt SHARE_HISTORY
-# zsh history
-export HISTORY_IGNORE="(${HISTIGNORE//:/|})"
-
-# Enable persistent REPL history for `node`.
-export NODE_REPL_HISTORY_FILE=~/.node_history;
-# Allow 32³ entries; the default is 1000.
-export NODE_REPL_HISTORY_SIZE='32768';
 
 # pager
 export PAGER='less'
@@ -37,11 +35,8 @@ export PAGER='less'
 # # Remove -X and -F (exit if the content fits on one screen) to enable it.
 export LESS='-F -g -i -M -R -S -w -X -z-4'
 
-# Set the Less input preprocessor.
-# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
-if (( $#commands[(i)lesspipe(|.sh)] )); then
-  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
-fi
+# man
+export MANPATH="$HOME/.homebrew/share/man${MANPATH+:$MANPATH}:"
 
 # Don't clear the screen after quitting a manual page
 export MANPAGER='less -X'
@@ -67,13 +62,6 @@ export GREP_COLORS='30;43'
 # O ms for key sequences
 export KEYTIMEOUT=0
 
-# homebrew
-export HOMEBREW_ROOT=$(brew --prefix)
-export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
-
-# fvm
-eval "$(fnm env --use-on-cd)"
-
 # Bat config
 export BAT_CONFIG_PATH="${HOME}/.batrc"
 
@@ -82,45 +70,15 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
 
-# fzf preview
 export FZF_PREVIEW_COMMAND="bat {} || cat {} || tree -C {}"
 export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
 --color fg:15,bg:-1,hl:4,fg+:15,bg+:-1,hl+:4
 --color info:7,prompt:3,spinner:4,pointer:4,marker:1
---preview '($FZF_PREVIEW_COMMAND) 2> /dev/null' --preview-window=right:50%
+--preview '${FZF_PREVIEW_COMMAND}' --preview-window=right:50%
 --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
-export FZF_CTRL_T_OPTS="--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$LINES'"
-#
-# Switch pure prompt theme to vi mode
-export PATATETOY_VIM_MODE=1
+# export FZF_CTRL_T_OPTS="--preview '(${FZF_PREVIEW_COMMAND}) 2> /dev/null | head -${LINES}'"
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
-
-# direnv
-command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
-
-# chruby
-if [[ -f "$(brew --prefix)/share/chruby/chruby.sh" ]]; then
-  RUBIES=(~/.rubies/*)
-  source "$(brew --prefix)/share/chruby/chruby.sh"
-  source "$(brew --prefix)/share/chruby/auto.sh"
-
-  [[ -f ~/.ruby-version ]] && chruby "$(cat ~/.ruby-version)"
-fi
-
-# Rust
-if [[ -d "${HOME}/.cargo/bin" ]]; then
-  export PATH="${HOME}/.cargo/bin:${PATH}"
-  source $HOME/.cargo/env
-fi
-
-# Autojump
-eval "$(zoxide init zsh --cmd j)"
-
-# K9S
-export K9SCONFIG="${HOME}/.config/k9s"
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH="${PYENV_ROOT}/bin:${PATH}"

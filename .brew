@@ -46,6 +46,7 @@ brew install \
   ansifilter \
   asciinema \
   bash \
+  bash-completion@2 \
   bat \
   bfg \
   chruby \
@@ -60,6 +61,7 @@ brew install \
   entr \
   fd \
   findutils \
+  fish \
   fnm \
   font-iosevka-nerd-font \
   fzf \
@@ -142,9 +144,7 @@ brew install \
   xz \
   yamllint \
   zopfli \
-  zoxide \
-  zsh \
-  zsh-syntax-highlighting
+  zoxide
 
 brew install --appdir /Applications \
   1password \
@@ -251,10 +251,3 @@ else
   rustup-init -y --no-modify-path
   rustup component add rustfmt
 fi
-
-# Zsh missing completions
-for binary_name in docker docker-compose docker-machine; do
-  [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] &&
-    ln -sf "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" \
-      "$(brew --prefix)/share/zsh/site-functions/_${binary_name}"
-done

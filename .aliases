@@ -2,21 +2,19 @@
 # Aliases
 # vim: syntax=sh
 
-export OS
-OS="$(uname)"
+alias vi='vim'
 
 # Misc
 alias ri='ri -f ansi'
-command -v colordiff &>/dev/null && alias diff='colordiff'
-command -v vim &>/dev/null && alias vi='vim'
-command -v nvim &>/dev/null && alias vi='nvim' && alias vim=nvim
 
 # Some aliases to avoid making mistakes
 alias rm='rm -i'
-alias rma='find ~/.ssh -name "${USER}@*" -exec rm "{}" \;'
 alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
+
+# Remove SSH sockets
+alias rma='find ~/.ssh/tmp -name "$USER@*" -exec rm "{}" \;'
 
 # always color grep
 alias grep='grep --color=auto'
@@ -38,261 +36,17 @@ alias reload='exec $SHELL -l'
 alias ls='ls -G'
 alias ll='ls -lah'
 
-# Vim fzf
-alias fvim='vim $(fzf)'
-
 # Display x509 certificate infos
 alias ccert='openssl x509 -text -noout -in'
 
-# Noglob for git, allow HEAD..., HEAD^
-if [[ $SHELL =~ .*/zsh$ ]]; then
-  alias git='noglob git'
-else
-  alias git='git'
-fi
-
-command -v cargo &>/dev/null && alias ca='cargo'
-
-command -v direnv &>/dev/null && alias da='direnv allow'
-
-# docker-compose
-command -v docker-compose &>/dev/null && alias dc='docker-compose' &&
-  command -v compdef &>/dev/null && compdef dc=docker-compose
-
-# Cuz IMADUMMY
-command -v mysql &>/dev/null && alias mysql='mysql --i-am-a-dummy'
-
+alias ca='cargo'
+alias da='direnv allow'
+alias dc='docker-compose'
 # kubernetes
-command -v kubectl &>/dev/null && alias kb='kubectl' &&
-  command -v compdef &>/dev/null && compdef kb=kubectl
-command -v kubectx &>/dev/null && alias kx='kubectx' &&
-  command -v compdef &>/dev/null && compdef kx=kubectx
-command -v kubens &>/dev/null && alias kn='kubens' &&
-  command -v compdef &>/dev/null && compdef kn=kubens
+alias kb='kubectl'
+alias kx='kubectx'
+alias kn='kubens'
 
-command -v rg &>/dev/null && alias rga='rg --hidden --no-ignore'
-
-# tree
-if ! command -v tree &>/dev/null; then
-  alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-fi
-
-if command -v tmuxinator &>/dev/null; then
-  alias mux=tmuxinator
-fi
-
-# Override ls alias from common-aliases plugin
-# Find processus quickly and dont want pgrep
-# shellcheck disable=SC2009
-function pcf() {
-  ps aux | grep --color "[${1:0:1}]${1:1}"
-}
-
-# Update prezto zsh tools
-alias update-prezto='cd $HOME/.zprezto && git pull && git submodule update --init --recursive && cd -'
-
-function colors() {
-  for code in $(seq -w 0 255); do for attr in 0 1; do
-    printf '%s-%03s %b■■■■%b\n' "${attr}" "${code}" "\\e[${attr};38;05;${code}m" '\e[m'
-  done; done | column -c $((COLUMNS * 2))
-}
-
-# update tab name
-function tabname() {
-  echo -en "\\033];$1\\007"
-  if [[ "$(ps -p "$(ps -p $$ -o ppid=)" -o comm=)" == 'tmux' ]]; then
-    tmux rename-window "$(echo "$*" | cut -d . -f 1)"
-  fi
-}
-
-# Automatically Starting tmux on SSH
-function ssht() {
-  for SSH_HOST; do true; done
-  tabname "$SSH_HOST"
-  ssh "$@" -t 'tmux ls && exec tmux a || exec tmux new || exec $SHELL -l'
-}
-
-command -v compdef &>/dev/null && compdef ssht=ssh && compdef sshrc=ssh
-
-# FZF amazing fuzzy finder
-if command -v fzf &>/dev/null; then
-  # fkill - kill process
-  function fkill() {
-    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    if [ "x$pid" != "x" ]; then
-      kill -"${1:-9}" "$pid"
-    fi
-  }
-
-  # git checkout
-  gco() {
-    local branches branch
-    branches=$(git --no-pager branch -vv) &&
-      branch=$(echo "${branches}" | FZF_DEFAULT_OPTS="" fzf +m) &&
-      git checkout "$(echo "$branch" | awk '{print $1}' | sed "s/.* //")"
-  }
-  gcoo() {
-    local branches branch
-    branches=$(git for-each-ref --count=60 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-      branch=$(echo "${branches}" |
-        FZF_DEFAULT_OPTS="" fzf -d $((2 + $(wc -l <<<"${branches}"))) +m) &&
-      git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
-  }
-fi
-
-function zsh_completion_reset() {
-  rm -f ~/.zcompdump
-  compinit
-}
-
-# Remove quickly a huge directory
-function rmf() {
-  question="rmf : remove directory « $1 » ? "
-  answer="n"
-  if [[ ! -d $1 ]]; then
-    print "$1 is not a directory !"
-    return 1
-  fi
-  # zsh read broken on OSX
-  # http://stackoverflow.com/questions/14141933/zsh-read-q-broken-on-osx
-  answer=$(/bin/bash -c "read -p '$question' -r REPLY && echo \"\$REPLY\"")
-  case $answer in
-    [yY])
-      mkdir -p /tmp/empty_dir/
-      [[ -n $1 ]] && [[ $1 != '/' ]] && rsync -a --delete /tmp/empty_dir/ "$1"/ && print "$1 removed"
-      [[ -d $1 ]] && [[ $1 != '.' ]] && rmdir "$1"
-      rmdir /tmp/empty_dir
-      ;;
-    *)
-      print 'cancel...'
-      ;;
-  esac
-}
-
-# Hub aliases
-if command -v hub &>/dev/null; then
-  # Open github issues or pulls request page
-  function hi() {
-    hub browse -- "issues/$*"
-  }
-
-  # Open github pulls request page
-  alias hp='hub browse -- pulls'
-
-  # Make pull request
-  alias hpp='hub pull-request'
-
-  # Open current pull request page
-  alias hpc='hub browse -- "pull/$(git rev-parse --abbrev-ref HEAD)"'
-fi
-
-# Aliases for Linux, Ops.
-if [[ $OS == 'Linux' ]]; then
-  # safety, override
-  alias rm='rm -i --preserve-root'
-  alias chown='chown --preserve-root'
-  alias chmod='chmod --preserve-root'
-  alias chgrp='chgrp --preserve-root'
-
-  # can i haz color
-  alias ls='ls --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
-  alias la='ls -A'
-  alias l='ls -lAh'
-
-  # Find large files and directories
-  alias fat='du -a | sort -n -r | head -n 20'
-
-  # Show open ports
-  alias ports='netstat -tulanp'
-
-  # Memory
-  alias meminfo='free -m -l -t'
-
-  # Get top process eating memory
-  alias psmem='ps auxf | sort -nr -k 4'
-  alias psmem10='ps auxf | sort -nr -k 4 | head -10'
-
-  # Get top process eating cpu
-  alias pscpu='ps auxf | sort -nr -k 3'
-  alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
-
-  # Count all opened files by all process
-  alias count_opened_files='lsof | wc -l'
-
-  # Get maximum open files count allowed
-  alias max_open_files='cat /proc/sys/fs/file-max'
-
-  # Flush swap
-  alias swapoffon='nohup bash -c "swapoff -a; swapon -a" &>/dev/null'
-
-  # Yolo
-  alias dropcache='sync && echo 3 > /proc/sys/vm/drop_caches'
-
-  # iptables
-  alias ipt='iptables'
-  alias iptlist='iptables -L -n -v --line-numbers'
-  alias iptlistin='iptables -L INPUT -n -v --line-numbers'
-  alias iptlistout='iptables -L OUTPUT -n -v --line-numbers'
-  alias iptlistfw='iptables -L FORWARD -n -v --line-numbers'
-  alias firewall='iptlist'
-  alias ban='iptables -I INPUT -j DROP -s'
-  alias unban='iptables -D INPUT -j DROP -s'
-  alias banin='iptables -I INPUT -j DROP -s'
-  alias unbanin='iptables -D INPUT -j DROP -s'
-  alias banout='iptables -I OUTPUT -j DROP -s'
-  alias unbanout='iptables -D OUTPUT -j DROP -s'
-  alias listbans='iptables -L -v -n | grep -e Chain -e DROP'
-
-  # Log
-  if command -v ccze &>/dev/null; then
-    alias syslog='sudo tail -f /var/log/syslog | ccze'
-  else
-    alias syslog='sudo tail -f /var/log/syslog'
-  fi
-
-  alias tf='sudo tail -f'
-
-  # services specific
-  if command -v nginx &>/dev/null; then
-    alias nginxtest='nginx -t'
-    alias nginxreload='nginxtest && /etc/init.d/nginx reload'
-  fi
-
-  if command -v apache2ctl &>/dev/null; then
-    alias apachetest='apache2ctl -t'
-    alias apachereload='apachetest && /etc/init.d/apache2 reload'
-  fi
-
-  if command -v php5-fpm &>/dev/null; then
-    alias php5fpmtest='php5-fpm -t'
-    alias php5fpmreload='php5-fpmtest && /etc/init.d/php5-fpm reload'
-    alias php5fpmstatus='curl 127.0.0.1/status'
-  fi
-
-  # docker aliases for bash
-  command -v _docker_compose &>/dev/null && complete -F _docker_compose dc
-  command -v docker &>/dev/null && command -v sudo &>/dev/null &&
-    alias sd='sudo -E docker' && command -v _docker &>/dev/null &&
-    complete -F _docker sd
-  command -v docker-compose &>/dev/null && command -v sudo &>/dev/null &>/dev/null &&
-    alias sdc='sudo -E docker-compose' && command -v _docker_compose &>/dev/null &&
-    complete -F _docker_compose sdc
-
-  # Get process environment
-  function penv() {
-    xargs --null --max-args=1 <"/proc/$1/environ"
-  }
-fi
-
-# source other aliases files.
-# shellcheck source=/dev/null
-if [[ $OS == 'Darwin' ]] && [[ -f ~/.aliases.macos ]]; then
-  . ~/.aliases.macos
-fi
-
-# shellcheck source=/dev/null
-if [[ -f ~/.aliases.local ]]; then
-  . ~/.aliases.local
-fi
+# Ripgrep
+alias rga='rg --hidden --no-ignore'
+alias rgd='rg --hidden'
