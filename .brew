@@ -143,6 +143,7 @@ brew install \
   wget \
   xz \
   yamllint \
+  zellij \
   zopfli \
   zoxide
 

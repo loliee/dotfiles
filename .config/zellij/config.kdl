@@ -1,0 +1,65 @@
+keybinds {
+    normal {
+        // Unbind fzf mappings
+        unbind "Ctrl p"
+        unbind "Ctrl n"
+        unbind "Ctrl t"
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    pane {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    tab {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    resize {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    scroll {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+        bind "Ctrl u" { PageScrollUp; }
+        bind "Ctrl d" { PageScrollDown; }
+        bind "a" { SwitchToMode "search"; }
+    }
+    session {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    search {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    tmux {
+        bind "u" { SwitchToMode "scroll"; }
+        bind "x" { Quit; }
+        bind "-" { NewPane "Down"; SwitchToMode "normal"; }
+        bind "|" { NewPane "Right"; SwitchToMode "normal"; }
+        bind "c" { NewTab; SwitchToMode "normal"; }
+        bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
+        bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
+        bind "n" { GoToNextTab; SwitchToMode "normal"; }
+        bind "Enter" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+        bind "Left" { MoveFocus "Left"; SwitchToMode "normal"; }
+        bind "Right" { MoveFocus "Right"; SwitchToMode "normal"; }
+        bind "Down" { MoveFocus "Down"; SwitchToMode "normal"; }
+        bind "Up" { MoveFocus "Up"; SwitchToMode "normal"; }
+        bind "h" { MoveFocus "Left"; SwitchToMode "normal"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "normal"; }
+        bind "j" { MoveFocus "Down"; SwitchToMode "normal"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "normal"; }
+        bind "d" { Detach; }
+    }
+}
+
+ui {
+    pane_frames {
+        hide_session_name true
+    }
+}
+
+
+
+simplified_ui true
+copy_command "pbcopy"
+scroll_buffer_size 20000
+pane_frames false
+theme "patatetoy"
+mouse_mode false

@@ -1,0 +1,15 @@
+themes {
+    patatetoy {
+        fg "#C9CAC0"
+        bg "#292B2D"
+        black "#3A3939"
+        red "#F0522A"
+        green "#82C476"
+        yellow "#FEE040"
+        blue "#5EB1DD"
+        magenta "#C4A5C7"
+        cyan "#7EC6EB"
+        white "#C9CAC0"
+        orange "#D08770"
+    }
+}

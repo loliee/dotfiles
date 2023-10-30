@@ -646,16 +646,6 @@ defaults write com.apple.terminal StringEncodings -array 4
 # See: https://security.stackexchange.com/a/47786/8918
 defaults write com.apple.terminal SecureKeyboardEntry -bool true
 
-# Don’t display the annoying prompt when quitting iTerm
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
-# Hide scrollbar
-defaults write com.googlecode.iterm2 HideScrollbar -bool true
-defaults write com.googlecode.iterm2 "Scrollback With Status Bar" -bool false
-
-# Infinite scrollback
-defaults write com.googlecode.iterm2 "Unlimited Scrollback" -bool true
-
 ###############################################################################
 # Time Machine                                                                #
 ###############################################################################
