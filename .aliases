@@ -42,6 +42,8 @@ alias ccert='openssl x509 -text -noout -in'
 alias ca='cargo'
 alias da='direnv allow'
 alias dc='docker-compose'
+alias ncdu='diskonaut'
+
 # kubernetes
 alias kb='kubectl'
 alias kx='kubectx'
