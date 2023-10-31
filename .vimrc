@@ -181,7 +181,7 @@ nmap <leader>se :let g:ale_fix_on_save=1<CR>
 nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
 " Open tig
-nmap <leader>t :execute ":Silent !tig --follow ".GetSmartWd()<CR><CR>
+nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
 
 " Enable/Disable spell checking
 nnoremap <silent> <leader>g :GrammarousCheck<CR>
