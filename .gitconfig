@@ -140,3 +140,6 @@ path = ~/.gitconfig-override
 
 [gpg]
 program = gpg2
+
+[absorb]
+maxStack = 50

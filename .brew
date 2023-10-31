@@ -69,6 +69,7 @@ brew install \
   gawk \
   gifsicle \
   git \
+  git-absorb \
   gnu-sed \
   gnu-tar \
   gnu-time \

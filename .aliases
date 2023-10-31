@@ -39,6 +39,11 @@ alias ll='ls -lah'
 # Display x509 certificate infos
 alias ccert='openssl x509 -text -noout -in'
 
+alias ga='git absorb'
+alias gaf='git absorb --force'
+alias gar='git absorb --and-rebase'
+alias garf='git absorb --and-rebase'
+
 alias ca='cargo'
 alias da='direnv allow'
 alias dc='docker-compose'
