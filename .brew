@@ -134,6 +134,7 @@ brew install \
   xz \
   yamllint \
   zellij \
+  zlib \
   zoxide
 
 brew install --appdir /Applications \
@@ -147,9 +148,7 @@ PYTHONS=(
 )
 
 for python in "${PYTHONS[@]}"; do
-  CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" \
-  LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" \
-    pyenv install -s "${python}"
+  pyenv install -s "${python}"
 done
 
 PIPS=(
