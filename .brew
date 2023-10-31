@@ -34,11 +34,8 @@ brew install \
   docker \
   firefox \
   gpg-suite \
-  homebrew/cask-versions/adoptopenjdk8 \
   istat-menus \
-  the-unarchiver \
-  virtualbox \
-  xquartz
+  the-unarchiver
 
 brew install \
   advancecomp \
@@ -50,7 +47,6 @@ brew install \
   bat \
   bfg \
   chruby \
-  cloc \
   closure-compiler \
   coreutils \
   curl \
@@ -78,7 +74,6 @@ brew install \
   grep \
   gsl \
   hadolint \
-  hub \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
@@ -90,19 +85,16 @@ brew install \
   kubectx \
   kubernetes-cli \
   kubernetes-helm \
-  libxml2 \
   mattermost \
   minio-mc \
   mkcert \
   moreutils \
-  mtr \
   neovim \
   nmap \
   openssh \
   openssl \
   optipng \
   hashicorp/tap/packer \
-  pandoc \
   pgcli \
   pigz \
   pngcrush \
@@ -112,7 +104,6 @@ brew install \
   pyenv \
   pyenv-virtualenv \
   pyenv-virtualenvwrapper \
-  qemu \
   readline \
   reattach-to-user-namespace \
   rg \
@@ -126,10 +117,8 @@ brew install \
   ssh-copy-id \
   starship \
   stow \
-  tag \
   tcpdump \
   tcptraceroute \
-  terminal-notifier \
   hashicorp/tap/terraform \
   tflint \
   tfsec \
@@ -145,14 +134,12 @@ brew install \
   xz \
   yamllint \
   zellij \
-  zopfli \
   zoxide
 
 brew install --appdir /Applications \
   1password \
   little-snitch \
-  micro-snitch \
-  tunnelblick
+  micro-snitch
 
 # Python
 PYTHONS=(
