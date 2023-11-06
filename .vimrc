@@ -171,6 +171,11 @@ nmap <leader>s :ALEFix<CR>
 nmap <leader>se :let g:ale_fix_on_save=1<CR>
 nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
+" Languagetool
+nmap <leader>& :let g:ale_languagetool_options = '-l FR -m FR -d APOS_INCORRECT'<CR>
+nmap <leader>é :let g:ale_languagetool_options = '-l EN -m FR -d APOS_INCORRECT'<CR>
+let g:ale_languagetool_options = '-adl -m FR -d APOS_INCORRECT'
+
 " Open tig
 nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
 

@@ -85,6 +85,7 @@ brew install \
   kubectx \
   kubernetes-cli \
   kubernetes-helm \
+  languagetool \
   mattermost \
   minio-mc \
   mkcert \
@@ -239,3 +240,6 @@ else
   rustup-init -y --no-modify-path
   rustup component add rustfmt
 fi
+
+# Start languagetool
+brew services start languagetool
