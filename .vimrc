@@ -28,7 +28,6 @@ Plug 'mv/mv-vim-nginx'
 Plug 'othree/html5.vim'
 Plug 'pearofducks/ansible-vim'
 Plug 'previm/previm'
-Plug 'rhysd/vim-grammarous'
 Plug 'rust-lang/rust.vim'
 Plug 'stephpy/vim-yaml'
 Plug 'tommcdo/vim-exchange'
@@ -119,14 +118,6 @@ set updatetime=250
 " Goyo
 " ------------------------------------------------------------
 let g:goyo_width = 120
-
-" ------------------------------------------------------------
-" Configure grammarous
-" ------------------------------------------------------------
-
-let g:grammarous#default_comments_only_filetypes = {
-\  '*' : 1, 'help' : 0, 'markdown' : 0,
-\}
 
 " ------------------------------------------------------------
 " Configure ale
