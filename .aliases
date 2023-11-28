@@ -14,7 +14,7 @@ alias mv='mv -i'
 alias ln='ln -i'
 
 # Remove SSH sockets
-alias rma='find ~/.ssh/tmp -name "$USER@*" -exec rm "{}" \;'
+alias rma='find ~/.ssh -name "$USER@*" -exec rm "{}" \;'
 
 # always color grep
 alias grep='grep --color=auto'
