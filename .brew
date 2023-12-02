@@ -132,6 +132,7 @@ brew install \
   watch \
   webkit2png \
   wget \
+  wireguard-tools \
   xz \
   yamllint \
   zellij \
