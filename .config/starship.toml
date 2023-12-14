@@ -48,3 +48,6 @@ style = "yellow"
 [python]
 format = "[$virtualenv]($style) "
 style = "bright-black"
+
+[git_metrics]
+disabled = false
