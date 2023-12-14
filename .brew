@@ -141,6 +141,7 @@ brew install \
 
 brew install --appdir /Applications \
   1password \
+  1password-cli \
   little-snitch \
   micro-snitch
 
