@@ -147,7 +147,7 @@ brew install --appdir /Applications \
 
 # Python
 PYTHONS=(
-  3.11.6
+  3.11.7
 )
 
 for python in "${PYTHONS[@]}"; do
