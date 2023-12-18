@@ -174,10 +174,11 @@ rm -f ~/.python-version
 echo "${PYTHONS[@]: -1}" >~/.python-version
 
 "${HOME}/.pyenv/shims/pip" install --upgrade pip
+INSTALLED_PIPS="$("${HOME}/.pyenv/shims/pip" list -l)"
 
 for pip in "${PIPS[@]}"; do
-  "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null ||
-    "${HOME}/.pyenv/shims/pip" install "$pip"
+  grep "${pip}" <<<"${INSTALLED_PIPS}" &>/dev/null ||
+    "${HOME}/.pyenv/shims/pip" install "${pip}"
 done
 
 eval "$(pyenv init -)"
