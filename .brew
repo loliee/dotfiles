@@ -205,9 +205,12 @@ GEMS=(
   tmuxinator
 )
 
+# Enable this option for chruby.sh script
+set +o nounset
 # shellcheck source=/dev/null
 source "$(brew --prefix)/share/chruby/chruby.sh"
 chruby "$(cat ~/.ruby-version)"
+set -o nounset
 
 for gem in "${GEMS[@]}"; do
   gem list -i "${gem}" &>/dev/null || gem install "${gem}"

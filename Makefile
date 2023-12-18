@@ -1,5 +1,3 @@
-MAKEFLAGS += --no-builtin-rules
-MAKEFLAGS += --warn-undefined-variables
 DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 SHELL := /usr/bin/env bash
