@@ -16,7 +16,7 @@ help:
 install: install-brew install-dotfiles ## Full install
 
 install-brew: # Install brew and packages
-	bash -x ./.brew
+	./.brew
 
 install-dotfiles: stow setup-vim install-tpm ## Install my dotfiles
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
