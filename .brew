@@ -27,47 +27,45 @@ echo '--> Upgrade any already-installed formulae'
 brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
-brew tap homebrew/services
+brew tap homebrew/cask-fonts
+brew tap hashicorp/tap
 
 brew install \
   docker \
   firefox \
   gpg-suite \
-  homebrew/cask-versions/adoptopenjdk8 \
   istat-menus \
-  iterm2 \
-  keepassx \
-  the-unarchiver \
-  tunnelblick \
-  vagrant \
-  virtualbox \
-  xquartz
+  the-unarchiver
 
 brew install \
   advancecomp \
+  alacritty \
   ansifilter \
   asciinema \
   bash \
+  bash-completion@2 \
   bat \
   bfg \
-  chruby \
-  cloc \
+  chruby-fish \
   closure-compiler \
   coreutils \
   curl \
   diff-so-fancy \
   direnv \
+  diskonaut \
   dive \
   dust \
   entr \
   fd \
   findutils \
+  fish \
   fnm \
   font-iosevka-nerd-font \
   fzf \
   gawk \
   gifsicle \
   git \
+  git-absorb \
   gnu-sed \
   gnu-tar \
   gnu-time \
@@ -76,7 +74,6 @@ brew install \
   grep \
   gsl \
   hadolint \
-  hub \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
@@ -88,21 +85,17 @@ brew install \
   kubectx \
   kubernetes-cli \
   kubernetes-helm \
-  libxml2 \
+  languagetool \
   mattermost \
   minio-mc \
   mkcert \
   moreutils \
-  mtr \
-  ncdu \
   neovim \
   nmap \
   openssh \
   openssl \
   optipng \
-  packer \
-  pandoc \
-  parallel \
+  hashicorp/tap/packer \
   pgcli \
   pigz \
   pngcrush \
@@ -112,7 +105,6 @@ brew install \
   pyenv \
   pyenv-virtualenv \
   pyenv-virtualenvwrapper \
-  qemu \
   readline \
   reattach-to-user-namespace \
   rg \
@@ -124,13 +116,11 @@ brew install \
   skopeo \
   slack \
   ssh-copy-id \
+  starship \
   stow \
-  tag \
   tcpdump \
   tcptraceroute \
-  terminal-notifier \
-  terraform \
-  terraform-inventory \
+  hashicorp/tap/terraform \
   tflint \
   tfsec \
   tig \
@@ -142,30 +132,26 @@ brew install \
   watch \
   webkit2png \
   wget \
+  wireguard-tools \
   xz \
   yamllint \
-  zopfli \
-  zoxide \
-  zsh \
-  zsh-syntax-highlighting
-
-# Force link because already installed by moreutils formula
-brew install --force parallel
+  zellij \
+  zlib \
+  zoxide
 
 brew install --appdir /Applications \
   1password \
+  1password-cli \
   little-snitch \
   micro-snitch
 
 # Python
 PYTHONS=(
-  3.11.6
+  3.11.7
 )
 
 for python in "${PYTHONS[@]}"; do
-  CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include" \
-  LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib" \
-    pyenv install -s "${python}"
+  pyenv install -s "${python}"
 done
 
 PIPS=(
@@ -188,17 +174,18 @@ rm -f ~/.python-version
 echo "${PYTHONS[@]: -1}" >~/.python-version
 
 "${HOME}/.pyenv/shims/pip" install --upgrade pip
+INSTALLED_PIPS="$("${HOME}/.pyenv/shims/pip" list -l)"
 
 for pip in "${PIPS[@]}"; do
-  "${HOME}/.pyenv/shims/pip" list -l | grep "$pip" &>/dev/null ||
-    "${HOME}/.pyenv/shims/pip" install "$pip"
+  grep "${pip}" <<<"${INSTALLED_PIPS}" &>/dev/null ||
+    "${HOME}/.pyenv/shims/pip" install "${pip}"
 done
 
 eval "$(pyenv init -)"
 
 # Guess python version from program name
 [[ -d "${HOME}/.pyenv/plugins/pyenv-implict" ]] ||
-  git clone git://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
+  git clone https://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
 
 # Ruby
 mkdir -p ~/.rubies
@@ -219,9 +206,12 @@ GEMS=(
   tmuxinator
 )
 
+# Enable this option for chruby.sh script
+set +o nounset
 # shellcheck source=/dev/null
 source "$(brew --prefix)/share/chruby/chruby.sh"
 chruby "$(cat ~/.ruby-version)"
+set -o nounset
 
 for gem in "${GEMS[@]}"; do
   gem list -i "${gem}" &>/dev/null || gem install "${gem}"
@@ -254,12 +244,10 @@ if command -v rustup &>/dev/null; then
   rustup update
 else
   rustup-init -y --no-modify-path
+  # shellcheck source=/dev/null
+  source "${HOME}/.cargo/env"
   rustup component add rustfmt
 fi
 
-# Zsh missing completions
-for binary_name in docker docker-compose docker-machine; do
-  [[ -f "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" ]] &&
-    ln -sf "/Applications/Docker.app/Contents/Resources/etc/${binary_name}.zsh-completion" \
-      "$(brew --prefix)/share/zsh/site-functions/_${binary_name}"
-done
+# Start languagetool
+brew services start languagetool

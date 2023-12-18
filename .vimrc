@@ -28,7 +28,6 @@ Plug 'mv/mv-vim-nginx'
 Plug 'othree/html5.vim'
 Plug 'pearofducks/ansible-vim'
 Plug 'previm/previm'
-Plug 'rhysd/vim-grammarous'
 Plug 'rust-lang/rust.vim'
 Plug 'stephpy/vim-yaml'
 Plug 'tommcdo/vim-exchange'
@@ -121,14 +120,6 @@ set updatetime=250
 let g:goyo_width = 120
 
 " ------------------------------------------------------------
-" Configure grammarous
-" ------------------------------------------------------------
-
-let g:grammarous#default_comments_only_filetypes = {
-\  '*' : 1, 'help' : 0, 'markdown' : 0,
-\}
-
-" ------------------------------------------------------------
 " Configure ale
 " ------------------------------------------------------------
 
@@ -180,8 +171,13 @@ nmap <leader>s :ALEFix<CR>
 nmap <leader>se :let g:ale_fix_on_save=1<CR>
 nmap <leader>sd :let g:ale_fix_on_save=0<CR>
 
+" Languagetool
+nmap <leader>& :let g:ale_languagetool_options = '-l FR -m FR -d APOS_INCORRECT'<CR>
+nmap <leader>é :let g:ale_languagetool_options = '-l EN -m FR -d APOS_INCORRECT'<CR>
+let g:ale_languagetool_options = '-adl -m FR -d APOS_INCORRECT'
+
 " Open tig
-nmap <leader>t :execute ":Silent !tig --follow ".GetSmartWd()<CR><CR>
+nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
 
 " Enable/Disable spell checking
 nnoremap <silent> <leader>g :GrammarousCheck<CR>

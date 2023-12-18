@@ -39,6 +39,9 @@ renames = copies
 # Use `hexdump` to diff binary files
 textconv = hexdump -v -C
 
+[init]
+defaultBranch = main
+
 [pager]
 diff = diff-so-fancy | less --tabs=4 -RFX
 show = diff-so-fancy | less --tabs=4 -RFX
@@ -118,6 +121,9 @@ remotes = remote -v
 [gc]
 auto = 1
 
+[log]
+follow = true
+
 [pull]
 rebase = true
 
@@ -137,3 +143,6 @@ path = ~/.gitconfig-override
 
 [gpg]
 program = gpg2
+
+[absorb]
+maxStack = 50

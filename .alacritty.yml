@@ -1,0 +1,86 @@
+---
+# Patatetoy colors
+colors:
+  primary:
+    background: "#292b2d"
+    foreground: "#c9cac0"
+    bright_foreground: "#ffffff"
+  cursor:
+    text: CellBackground
+    cursor: CellForeground
+  vi_mode_cursor:
+    text: CellBackground
+    cursor: CellForeground
+  line_indicator:
+    foreground: None
+    background: None
+  selection:
+    text: CellForeground
+    background: "#6c6d6c"
+  normal:
+    black: "#3a3939"
+    red: "#f0522a"
+    green: "#82c476"
+    yellow: "#fee040"
+    blue: "#5eb1dd"
+    magenta: "#c4a5c7"
+    cyan: "#7ec6eb"
+    white: "#c9cac0"
+  bright:
+    black: "#6c6d6c"
+    red: "#fe6743"
+    green: "#88d07e"
+    yellow: "#fae959"
+    blue: "#73b8dc"
+    magenta: "#d5b7d4"
+    cyan: "#91cce9"
+    white: "#e6e4da"
+
+font:
+  size: 14
+  normal:
+    family: Iosevka Nerd Font
+    style: Regular
+  bold:
+    family: Iosevka Nerd Font
+    style: Bold
+  italic:
+    family: Iosevka Nerd Font
+    style: Italic
+
+key_bindings:
+  # Global
+  - { key: Return, mods: Command, action: ToggleFullscreen }
+  # Fast escape cmd-J
+  - { key: J, mods: Command, chars: "\x1B" }
+  # ←  ↑  ↓  →
+  - { key: H, mods: Control, chars: "\x1b[D" }
+  - { key: J, mods: Control, chars: "\x1b[B" }
+  - { key: K, mods: Control, chars: "\x1b[A" }
+  - { key: L, mods: Control, chars: "\x1b[C" }
+  # Tmux
+  # - { key: 46, mods: Control, action: "Ctrl" }
+  # Vim mode beginning/end of line
+  - { key: H, mods: Alt, chars: "\x5E" }
+  - { key: L, mods: Alt, chars: "\x24" }
+  # Vim special bindings (code key 10 = @, 18 = &)
+  - { key: P, mods: Command, chars: "\x02\x70" }
+  - { key: N, mods: Command, chars: "\x02\x6E" }
+  - { key: S, mods: Command, chars: "\x02\x73" }
+  - { key: U, mods: Command, chars: "\x02\x75" }
+  - { key: 10, mods: Command, chars: "\x02\x40" }
+  - { key: 18, mods: Command, chars: "\x02\x26" }
+
+live_config_reload: true
+
+selection:
+  save_to_clipboard: true
+
+window:
+  startup_mode: Maximized
+  decorations: buttonless
+  dynamic_padding: true
+  option_as_alt: None
+  padding:
+    x: 5
+    y: 5
