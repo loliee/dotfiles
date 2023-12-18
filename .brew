@@ -243,6 +243,8 @@ if command -v rustup &>/dev/null; then
   rustup update
 else
   rustup-init -y --no-modify-path
+  # shellcheck source=/dev/null
+  source "${HOME}/.cargo/env"
   rustup component add rustfmt
 fi
 
