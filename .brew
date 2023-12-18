@@ -46,7 +46,7 @@ brew install \
   bash-completion@2 \
   bat \
   bfg \
-  chruby \
+  chruby-fish \
   closure-compiler \
   coreutils \
   curl \
