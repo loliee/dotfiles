@@ -13,6 +13,8 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
+alias sshz='ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+
 # Remove SSH sockets
 alias rma='find ~/.ssh -name "$USER@*" -exec rm "{}" \;'
 
