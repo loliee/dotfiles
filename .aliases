@@ -13,6 +13,8 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
+alias sshz='ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+
 # Remove SSH sockets
 alias rma='find ~/.ssh -name "$USER@*" -exec rm "{}" \;'
 
@@ -57,3 +59,6 @@ alias kn='kubens'
 # Ripgrep
 alias rga='rg --hidden --no-ignore'
 alias rgd='rg --hidden'
+
+# AWS S3
+alias aws3="aws s3api --endpoint-url=$AWS_S3_URL"
