@@ -61,4 +61,4 @@ alias rga='rg --hidden --no-ignore'
 alias rgd='rg --hidden'
 
 # AWS S3
-alias aws3="aws s3api --endpoint-url=$AWS_S3_URL"
+alias aws3="aws s3api"
