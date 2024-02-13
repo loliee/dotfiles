@@ -20,6 +20,7 @@ install-brew: # Install brew and packages
 
 install-dotfiles: stow setup-vim install-tpm ## Install my dotfiles
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
+	[[ -f $(HOME)/.ssh/config ]] || cp $(DOTFILES_DIR)/.ssh/config $(HOME)/.ssh/
 
 stow: ## Stow dotfiles
 	$(info --> Install dotfiles)
@@ -34,6 +35,7 @@ stow: ## Stow dotfiles
 		--ignore='.macos' \
 		--ignore='.macos_hardening' \
 		--ignore='.pre-commit-config.yaml' \
+		--ignore='.ssh' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
 		--ignore='README.md'
