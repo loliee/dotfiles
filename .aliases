@@ -13,11 +13,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
-alias sshz='ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
-
-# Remove SSH sockets
-alias rma='find ~/.ssh -name "$USER@*" -exec rm "{}" \;'
-
 # always color grep
 alias grep='grep --color=auto'
 
@@ -25,40 +20,14 @@ alias grep='grep --color=auto'
 alias c='clear'
 alias q='exit'
 alias h='history'
-alias k='k9s'
 
 # Time
 alias now='date +"%T"'
 alias nowtime='now'
 alias nowdate='date +"%d-%m-%Y"'
 
-# Reload the shell (i.e. invoke as a login shell)
-alias reload='exec $SHELL -l'
-
 alias ls='ls -G'
 alias ll='ls -lah'
 
-# Display x509 certificate infos
-alias ccert='openssl x509 -text -noout -in'
-
-alias ga='git absorb'
-alias gaf='git absorb --force'
-alias gar='git absorb --and-rebase'
-alias garf='git absorb --and-rebase'
-
-alias ca='cargo'
-alias da='direnv allow'
-alias dc='docker-compose'
-alias ncdu='diskonaut'
-
-# kubernetes
-alias kb='kubectl'
-alias kx='kubectx'
-alias kn='kubens'
-
-# Ripgrep
-alias rga='rg --hidden --no-ignore'
-alias rgd='rg --hidden'
-
-# AWS S3
-alias aws3="aws s3api --endpoint-url=$AWS_S3_URL"
+# Reload the shell (i.e. invoke as a login shell)
+alias reload='exec $SHELL -l'

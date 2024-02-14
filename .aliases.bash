@@ -9,18 +9,25 @@ if command -v nvim &>/dev/null; then
   alias vim='nvim'
 fi
 
+alias sshz='ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+
 command -v cargo &>/dev/null && alias ca='cargo'
 command -v direnv &>/dev/null && alias da='direnv allow'
+command -v diskonaut &>/dev/null && alias ncdu='diskonaut'
 
 # docker-compose
 command -v docker-compose &>/dev/null && alias dc='docker-compose'
 
 # kubernetes
+command -v k &>/dev/null && alias k='k9s'
 command -v kubectl &>/dev/null && alias kb='kubectl'
 command -v kubectx &>/dev/null && alias kx='kubectx'
 command -v kubens &>/dev/null && alias kn='kubens'
 
-command -v rg &>/dev/null && alias rga='rg --hidden --no-ignore'
+command -v rg &>/dev/null && alias rga='rg --hidden --no-ignore' && alias rgd='rg --hidden'
+
+# AWS S3
+command -v aws &>/dev/null && alias aws3="aws s3api"
 
 colors() {
   for code in $(seq -w 0 255); do for attr in 0 1; do

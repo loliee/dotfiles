@@ -1,0 +1,14 @@
+---
+k9s:
+  liveViewAutoRefresh: false
+  refreshRate: 2
+  maxConnRetry: 5
+  readOnly: false
+  ui:
+    enableMouse: false
+    headless: false
+    logoless: true
+    crumbsless: false
+    noIcons: false
+    reactive: false
+    skin: patatetoy

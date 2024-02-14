@@ -10,6 +10,7 @@
 .config/kube/
 .config/openstack
 .config/pandoo
+.config/wireshark
 .sshrc.d/patatetoy.sh
 .sshrc.d/patatetoy_common.sh
 .vim/.netrwhist

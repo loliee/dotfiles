@@ -2,7 +2,7 @@
 # patatetoy.yml
 # Styles...
 foreground: &foreground "#c9cac0"
-background: &background "#292a2d"
+background: &background "#292b2d"
 backgroundOpaque: &backgroundOpaque "#333333"
 current_line: &current_line "#6c6d6c"
 grey: &grey "#6c6d6c"

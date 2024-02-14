@@ -1,0 +1,147 @@
+live_config_reload = true
+
+# Patatetoy colors
+[colors.bright]
+black = "#6c6d6c"
+blue = "#73b8dc"
+cyan = "#91cce9"
+green = "#88d07e"
+magenta = "#d5b7d4"
+red = "#fe6743"
+white = "#e6e4da"
+yellow = "#fae959"
+
+[colors.cursor]
+cursor = "CellForeground"
+text = "CellBackground"
+
+[colors.line_indicator]
+background = "None"
+foreground = "None"
+
+[colors.normal]
+black = "#3a3939"
+blue = "#5eb1dd"
+cyan = "#7ec6eb"
+green = "#82c476"
+magenta = "#c4a5c7"
+red = "#f0522a"
+white = "#c9cac0"
+yellow = "#fee040"
+
+[colors.primary]
+background = "#292b2d"
+bright_foreground = "#ffffff"
+foreground = "#c9cac0"
+
+[colors.selection]
+background = "#6c6d6c"
+text = "CellForeground"
+
+[colors.vi_mode_cursor]
+cursor = "CellForeground"
+text = "CellBackground"
+
+[font]
+size = 14
+
+[font.bold]
+family = "Iosevka Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "Iosevka Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "Iosevka Nerd Font"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "Return"
+mods = "Command"
+
+# Fast escape cmd-J
+[[keyboard.bindings]]
+chars = "\u001B"
+key = "J"
+mods = "Command"
+
+  # ←  ↑  ↓  →
+[[keyboard.bindings]]
+chars = "\u001B[D"
+key = "H"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[B"
+key = "J"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[A"
+key = "K"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[C"
+key = "L"
+mods = "Control"
+
+  # Vim mode beginning/end of line
+[[keyboard.bindings]]
+chars = "^"
+key = "H"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "$"
+key = "L"
+mods = "Alt"
+
+  # Vim special bindings
+[[keyboard.bindings]]
+chars = "\u0002p"
+key = "P"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002n"
+key = "N"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002s"
+key = "S"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002u"
+key = "U"
+mods = "Command"
+
+# code key 10 = @
+[[keyboard.bindings]]
+chars = "\u0002@"
+key = 10
+mods = "Command"
+
+# code key 18 = &)
+[[keyboard.bindings]]
+chars = "\u0002&"
+key = 18
+mods = "Command"
+
+[selection]
+save_to_clipboard = true
+
+[window]
+decorations = "buttonless"
+dynamic_padding = true
+option_as_alt = "None"
+startup_mode = "Maximized"
+
+[window.padding]
+x = 5
+y = 5
