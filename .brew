@@ -83,6 +83,7 @@ brew install \
   jpegoptim \
   jq \
   k9s \
+  krew \
   kubectx \
   kubernetes-cli \
   kubernetes-helm \

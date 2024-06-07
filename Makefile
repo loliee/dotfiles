@@ -18,7 +18,7 @@ install: install-brew install-dotfiles ## Full install
 install-brew: # Install brew and packages
 	./.brew
 
-install-dotfiles: stow setup-vim install-tpm ## Install my dotfiles
+install-dotfiles: stow setup-vim install-krew install-tpm ## Install my dotfiles
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	[[ -f $(HOME)/.ssh/config ]] || cp $(DOTFILES_DIR)/.ssh/config $(HOME)/.ssh/
 
@@ -32,6 +32,7 @@ stow: ## Stow dotfiles
 		--ignore='.git' \
 		--ignore='.gnupg' \
 		--ignore='.gemrc' \
+		--ignore='.krew' \
 		--ignore='.macos' \
 		--ignore='.macos_hardening' \
 		--ignore='.pre-commit-config.yaml' \
@@ -40,6 +41,9 @@ stow: ## Stow dotfiles
 		--ignore='Makefile' \
 		--ignore='README.md'
 
+install-krew: ## Install krew plugins, the kubectl plugin manager
+	$(info --> Install krew)
+	kubectl krew install < .krew
 
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
