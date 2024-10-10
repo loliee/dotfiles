@@ -194,7 +194,7 @@ eval "$(pyenv init -)"
 # Ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  3.2.2
+  3.3.5
 )
 
 for ruby in "${RUBIES[@]}"; do
