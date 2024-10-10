@@ -41,6 +41,7 @@ brew install \
   advancecomp \
   alacritty \
   ansifilter \
+  asdf \
   asciinema \
   argc \
   awscli \
