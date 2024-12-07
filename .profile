@@ -82,3 +82,6 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bin
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
+
+TESSDATA_PREFIX="$(brew --prefix)/share/tessdata"
+export TESSDATA_PREFIX
