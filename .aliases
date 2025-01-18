@@ -2,7 +2,8 @@
 # Aliases
 # vim: syntax=sh
 
-alias vi='vim'
+alias vi='nvim'
+alias vim='nvim'
 
 # Misc
 alias ri='ri -f ansi'
