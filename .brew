@@ -132,6 +132,7 @@ brew install \
   tmux \
   transmission \
   tree \
+  vale \
   vlc \
   watch \
   webkit2png \
