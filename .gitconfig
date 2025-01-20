@@ -148,4 +148,4 @@ path = ~/.gitconfig-override
 program = gpg2
 
 [absorb]
-maxStack = 50
+maxStack = 70
