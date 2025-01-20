@@ -149,3 +149,4 @@ program = gpg2
 
 [absorb]
 maxStack = 70
+oneFixupPerCommit = true
