@@ -92,6 +92,7 @@ brew install \
   kubernetes-helm \
   languagetool \
   luacheck \
+  luarocks \
   mattermost \
   minio-mc \
   mkcert \
@@ -211,6 +212,11 @@ GEMS=(
   mdl
   tmuxinator
 )
+
+# Lua
+# Requires for my snippets
+luarocks install --server=https://luarocks.org/dev lua-fmt
+luarocks path --bin >~/.lua.env
 
 # Enable this option for chruby.sh script
 set +o nounset

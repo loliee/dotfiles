@@ -79,6 +79,9 @@ export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
 # export FZF_CTRL_T_OPTS="--preview '(${FZF_PREVIEW_COMMAND}) 2> /dev/null | head -${LINES}'"
 
+# lua
+export PATH="$HOME/.luarocks/bin:$PATH"
+
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
