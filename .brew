@@ -91,6 +91,7 @@ brew install \
   kubernetes-cli \
   kubernetes-helm \
   languagetool \
+  luacheck \
   mattermost \
   minio-mc \
   mkcert \
