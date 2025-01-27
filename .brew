@@ -166,6 +166,7 @@ PIPS=(
   autopep8
   bandit
   black
+  codespell
   docutils
   fabric
   flake8
