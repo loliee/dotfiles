@@ -148,9 +148,13 @@ brew install \
 
 brew install --appdir /Applications \
   1password \
-  1password-cli \
-  little-snitch \
-  micro-snitch
+  1password-cli
+
+if ! littlesnitch -v &>/dev/null; then
+  brew install --appdir /Applications \
+    little-snitch \
+    micro-snitch
+fi
 
 # Python
 PYTHONS=(
