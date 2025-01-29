@@ -5,7 +5,7 @@ set fish_greeting
 
 # Load local functions
 if test -d $XDG_CONFIG_HOME/fish/functions_local
-  set fish_function_path $fish_function_path $XDG_CONFIG_HOME/fish/functions_local
+    set fish_function_path $fish_function_path $XDG_CONFIG_HOME/fish/functions_local
 end
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -44,10 +44,10 @@ command -v kubectx &>/dev/null; and abbr --add kx kubectx
 
 # Git absorb
 if command -v git-absorb &>/dev/null
-  abbr --add ga git absorb
-  abbr --add gaf git absorb --force
-  abbr --add gar git absorb --and-rebase
-  abbr --add garf git absorb --and-rebase
+    abbr --add ga git absorb
+    abbr --add gaf git absorb --force
+    abbr --add gar git absorb --and-rebase
+    abbr --add garf git absorb --and-rebase
 end
 
 abbr fe --set-cursor=! "find . -name '*' -exec ! '{}' \;"
