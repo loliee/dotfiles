@@ -58,6 +58,7 @@ brew install \
   dive \
   dust \
   entr \
+  fasttext \
   fd \
   findutils \
   fish \
@@ -266,5 +267,13 @@ else
   rustup component add rustfmt
 fi
 
-# Start languagetool
+# Configure languagetool
+mkdir -p "${XDG_DATA_HOME}/fasttext"
+curl https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin -o "${XDG_DATA_HOME}/fasttext/lid.176.bin"
+cat <<EOT >"$(brew --prefix)/etc/languagetool/server.properties"
+[content]
+fasttextModel=${XDG_DATA_HOME}/fasttext/lid.176.bin
+fasttextBinary=$(command -v fasttext)
+EOT
+
 brew services start languagetool
