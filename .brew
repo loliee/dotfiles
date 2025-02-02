@@ -43,6 +43,7 @@ brew install \
   argc \
   asciinema \
   asdf \
+  ast-grep \
   awscli \
   bash \
   bash-completion@2 \
