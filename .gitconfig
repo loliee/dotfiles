@@ -10,11 +10,37 @@
 	interactive = auto
 	status = auto
 
-[color "diff-highlight"]
+[color "diff"]
+	context = white
+	meta = blue
+	frag = yellow
+	old = 209
+	new = green
+	commit = 209
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
+[color "branch"]
+	current	=	green bold
+	local = white
+	remote = 209
+	upstream = 209
+
+[color "decorate"]
+  head	=	blue
+
+[color "show"]
+	branch =	yellow
+	date =	blue
+	commit = bold cyan
+
+[color "grep"]
+  filename	=	blue
+  linenumber	=	green
+  match =	yellow
+  separator	= 209
 
 [core]
 	editor = nvim
