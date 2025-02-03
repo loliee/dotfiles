@@ -1,154 +1,152 @@
 [user]
-name = Maxime Loliée
-email = maxime@siliadev.com
-signingkey = 1B5A0D7E
+	name = Maxime Loliée
+	email = maxime@siliadev.com
+	signingkey = 1B5A0D7E
 
 [color]
-ui = true
-branch = auto
-diff = auto
-interactive = auto
-status = auto
+	ui = true
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
 
 [color "diff-highlight"]
-oldNormal = red bold
-oldHighlight = red bold 52
-newNormal = green bold
-newHighlight = green bold 22
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [core]
-editor = nvim
-excludesfile = ~/.gitignore-global
-whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-commitGraph = true
-
-# Make `git rebase` safer on OS X
-# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-trustctime = false
-
-# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-precomposeunicode = false
-commentchar =  "'"
+	editor = nvim
+	excludesfile = ~/.gitignore-global
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	commitGraph = true
+	# Make `git rebase` safer on OS X
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+	commentchar =  "'"
 
 [diff]
-# Detect copies as well as renames
-renames = copies
+	# Detect copies as well as renames
+	renames = copies
 
 [diff "bin"]
-# Use `hexdump` to diff binary files
-textconv = hexdump -v -C
+	# Use `hexdump` to diff binary files
+	textconv = hexdump -v -C
 
 [init]
-defaultBranch = main
+	defaultBranch = main
 
 [pager]
-diff = diff-so-fancy | less --tabs=4 -RFX
-show = diff-so-fancy | less --tabs=4 -RFX
+	diff = diff-so-fancy | less --tabs=4 -RFX
+	show = diff-so-fancy | less --tabs=4 -RFX
 
 [apply]
-whitespace = fix
+	whitespace = fix
 
 [merge]
-tool = vimdiff
+	tool = vimdiff
 
 [rebase]
-autosquash = true
+	autosquash = true
 
 [fetch]
-prune = true
+	prune = true
 
 [commit]
-gpgsign = true
-template = ~/.gitmessage
+	gpgsign = true
+	template = ~/.gitmessage
 
 [alias]
-a = add -p
-b = branch --list -a
-bd = branch -D
-bm = branch -m
-c = "!f() { GIT_EDITOR='nvim +startinsert' git commit -v; }; f"
-cn = commit -v -n
-ca = commit --amend
-can = commit --amend -n
-cf = commit --fixup
-cfn = commit -n --fixup
-cm = commit -m
-co = checkout
-cob = checkout -b
-cop = checkout -p
-cp = cherry-pick
-cpa = cherry-pick --abort
-cpc = cherry-pick --continue
-cps = cherry-pick --skip
-cs = commit --squash
-d = diff
-dc = diff --cached
-dfm = diff master...
-lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s \
-green(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
-lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
-ma = merge --abort
-mc = merge --continue
-p = push
-pf = push -f
-po = push origin
-pod = push --delete origin
-pof = push --force-with-lease origin
-pt = push --follow-tags
-pu = pull
-r = reset
-ra = rebase --abort
-rc = rebase --continue
-rh = reset --hard
-ri = rebase -i
-rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
-rmbo = "!f() { git branch -r --merged master | grep -v master | sed s,origin/,, | xargs -n 1 git pod; }; f"
-rr = reset HEAD^
-rs = rebase --skip
-rso = remote set-url origin
-ru = remote update
-sa = submodule add
-si = submodule init --recursive
-sr = submodule dinit
-st = status -bs
-su = submodule foreach git pull
+	a = add -p
+	b = branch --list -a
+	bd = branch -D
+	bm = branch -m
+	c =  commit -v
+	cn = commit -v -n
+	ca = commit --amend
+	can = commit --amend -n
+	cf = commit --fixup
+	cfn = commit -n --fixup
+	cm = commit -m
+	co = checkout
+	cob = checkout -b
+	cop = checkout -p
+	cp = cherry-pick
+	cpa = cherry-pick --abort
+	cpc = cherry-pick --continue
+	cps = cherry-pick --skip
+	cs = commit --squash
+	d = diff
+	dc = diff --cached
+	dfm = diff master...
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset%s \
+	green(%cr) %C(bold blue)<%an>%Creset ' --abbrev-commit
+	lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
+	ma = merge --abort
+	mc = merge --continue
+	p = push
+	pf = push -f
+	po = push origin
+	pod = push --delete origin
+	pof = push --force-with-lease origin
+	pt = push --follow-tags
+	pu = pull
+	r = reset
+	ra = rebase --abort
+	rc = rebase --continue
+	rh = reset --hard
+	ri = rebase -i
+	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
+	rmbo = "!f() { git branch -r --merged master | grep -v master | sed s,origin/,, | xargs -n 1 git pod; }; f"
+	rr = reset HEAD^
+	rs = rebase --skip
+	rso = remote set-url origin
+	ru = remote update
+	sa = submodule add
+	si = submodule init --recursive
+	sr = submodule dinit
+	st = status -bs
+	su = submodule foreach git pull
 
-# Show verbose output about tags, branches or remotes
-tags = tag -l
-branches = branch -a
-remotes = remote -v
+	# Show verbose output about tags, branches or remotes
+	tags = tag -l
+	branches = branch -a
+	remotes = remote -v
 
 [checkout]
-defaultRemote = origin
+	defaultRemote = origin
 
 [gc]
-auto = 1
+	auto = 1
 
 [log]
-follow = true
+	follow = true
 
 [pull]
-rebase = true
+	rebase = true
 
 [push]
-default = current
-# Make `git push` push relevant annotated tags when pushing branches out.
-followTags = true
+	default = current
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
 
 [rerere]
-enabled = true
+	enabled = true
 
 [fetch]
-writeCommitGraph = true
+	writeCommitGraph = true
 
 [include]
-path = ~/.gitconfig-override
+	path = ~/.gitconfig-override
 
 [gpg]
-program = gpg2
+	program = gpg2
 
 [absorb]
-maxStack = 70
-oneFixupPerCommit = true
-autoStageIfNothingStaged = true
+	maxStack = 70
+	oneFixupPerCommit = true
+	autoStageIfNothingStaged = true
