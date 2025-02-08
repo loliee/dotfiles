@@ -53,6 +53,7 @@ brew install \
   closure-compiler \
   coreutils \
   curl \
+  deno \
   diff-so-fancy \
   direnv \
   diskonaut \
