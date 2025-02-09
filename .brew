@@ -240,7 +240,7 @@ done
 
 # Node
 NODEJS=(
-  20.9.0
+  23.7.0
 )
 
 eval "$(fnm env --multi)"
