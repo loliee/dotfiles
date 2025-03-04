@@ -82,6 +82,7 @@ brew install \
   hadolint \
   hashicorp/tap/packer \
   hashicorp/tap/terraform \
+  hugo \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
