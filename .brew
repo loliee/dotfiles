@@ -120,6 +120,7 @@ brew install \
   rg \
   ruby-build \
   rustup \
+  sass/sass/sass \
   shellcheck \
   shfmt \
   signal \
