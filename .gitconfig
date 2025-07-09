@@ -126,8 +126,8 @@
 	rc = rebase --continue
 	rh = reset --hard
 	ri = rebase -i
-	rmb = "!f() { git branch --merged master | grep -v master | xargs -n 1 git branch -d; }; f"
-	rmbo = "!f() { git branch -r --merged master | grep -v master | sed s,origin/,, | xargs -n 1 git pod; }; f"
+	rmb = "!f() { git branch --merged main | grep -v main | xargs -n 1 git branch -d; }; f"
+	rmbo = "!f() { git branch -r --merged main | grep -v main | sed s,origin/,, | xargs -n 1 git pod; }; f"
 	rr = reset HEAD^
 	rs = rebase --skip
 	rso = remote set-url origin
