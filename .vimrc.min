@@ -133,22 +133,22 @@ let g:netrw_silent         = 1
 let g:netrw_special_syntax = 1
 
 " -----------------------------------------------------------
-" Bindings, command key send <Char-0x02> value
+" Bindings, command key send <Char-0x0254> value
 " -----------------------------------------------------------
 
 " Define , as leader key
 let mapleader = ","
 
 " Save with Cmd-s
-nnoremap <Char-0x02>s :w<CR>
-inoremap <Char-0x02>s <ESC>:w<CR>l
-cnoremap <Char-0x02>s <C-c>:w<CR>l
-vnoremap <Char-0x02>s <ESC>:w<CR>l
+nnoremap <Char-0x0254>s :w<CR>
+inoremap <Char-0x0254>s <ESC>:w<CR>l
+cnoremap <Char-0x0254>s <C-c>:w<CR>l
+vnoremap <Char-0x0254>s <ESC>:w<CR>l
 
 " Undo
-nnoremap <Char-0x02>u u
-inoremap <Char-0x02>u <ESC>u
-vnoremap <Char-0x02>u <ESC>u
+nnoremap <Char-0x0254>u u
+inoremap <Char-0x0254>u <ESC>u
+vnoremap <Char-0x0254>u <ESC>u
 
 " Do things right, use hjkl instead of arrows
 nnoremap j gj
@@ -177,31 +177,31 @@ nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
 " Open on new window
-nnoremap <Char-0x02>& <C-w>v<C-w>l
-inoremap <Char-0x02>& <Esc><C-w>v<C-w>l
-cnoremap <Char-0x02>& <Esc><C-w>v<C-w>l
-vnoremap <Char-0x02>& <Esc><C-w>v<C-w>l
+nnoremap <Char-0x0254>& <C-w>v<C-w>l
+inoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
+cnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
+vnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
 
 " Tab managment
-nnoremap <Char-0x02>@ :tabnew<CR>
-inoremap <Char-0x02>@ <Esc>:tabnew<CR>
-vnoremap <Char-0x02>@ <Esc>:tabnew<CR>
-cnoremap <Char-0x02>@ <Esc>:tabnew<CR>
-nnoremap <Char-0x02>n :tabnext<CR>
-inoremap <Char-0x02>n <Esc>:tabnext<CR>
-vnoremap <Char-0x02>n <Esc>:tabnext<CR>
-cnoremap <Char-0x02>n <Esc>:tabnext<CR>
-nnoremap <Char-0x02>p :tabprevious<CR>
-inoremap <Char-0x02>p <Esc>:tabprevious<CR>
-vnoremap <Char-0x02>p <Esc>:tabprevious<CR>
-nnoremap <Char-0x02>p <Esc>:tabprevious<CR>
+nnoremap <Char-0x0254>@ :tabnew<CR>
+inoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+vnoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+cnoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+nnoremap <Char-0x0254>n :tabnext<CR>
+inoremap <Char-0x0254>n <Esc>:tabnext<CR>
+vnoremap <Char-0x0254>n <Esc>:tabnext<CR>
+cnoremap <Char-0x0254>n <Esc>:tabnext<CR>
+nnoremap <Char-0x0254>p :tabprevious<CR>
+inoremap <Char-0x0254>p <Esc>:tabprevious<CR>
+vnoremap <Char-0x0254>p <Esc>:tabprevious<CR>
+nnoremap <Char-0x0254>p <Esc>:tabprevious<CR>
 
 " Close vim
 nnoremap <leader>q :wq!<CR>
 
 " Exit with ! and close tab and buffer
-nnoremap <Char-0x02>q :bd!<CR>
-inoremap <Char-0x02>q <Esc>:bd!<CR>
+nnoremap <Char-0x0254>q :bd!<CR>
+inoremap <Char-0x0254>q <Esc>:bd!<CR>
 
 " Remap window moves
 nnoremap <left> <C-w>h

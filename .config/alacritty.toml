@@ -101,36 +101,37 @@ chars = "$"
 key = "L"
 mods = "Alt"
 
-  # Vim special bindings
+# Vim special bindings
+# Use ASCII code 254 (þ letter) to remap some CMD commands
 [[keyboard.bindings]]
-chars = "\u0002p"
+chars = "\u0254p"
 key = "P"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002n"
+chars = "\u0254n"
 key = "N"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002s"
+chars = "\u0254s"
 key = "S"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002u"
+chars = "\u0254u"
 key = "U"
 mods = "Command"
 
 # code key 10 = @
 [[keyboard.bindings]]
-chars = "\u0002@"
+chars = "\u0254@"
 key = 10
 mods = "Command"
 
 # code key 18 = &)
 [[keyboard.bindings]]
-chars = "\u0002&"
+chars = "\u0254&"
 key = 18
 mods = "Command"
 
