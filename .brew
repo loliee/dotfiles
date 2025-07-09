@@ -41,9 +41,9 @@ brew install \
   advancecomp \
   alacritty \
   ansifilter \
-  asdf \
-  asciinema \
   argc \
+  asciinema \
+  asdf \
   awscli \
   bash \
   bash-completion@2 \
@@ -77,6 +77,8 @@ brew install \
   grep \
   gsl \
   hadolint \
+  hashicorp/tap/packer \
+  hashicorp/tap/terraform \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
@@ -99,7 +101,6 @@ brew install \
   openssh \
   openssl \
   optipng \
-  hashicorp/tap/packer \
   pgcli \
   pigz \
   pngcrush \
@@ -124,7 +125,6 @@ brew install \
   stow \
   tcpdump \
   tcptraceroute \
-  hashicorp/tap/terraform \
   tflint \
   tfsec \
   tig \
