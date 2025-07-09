@@ -24,7 +24,7 @@ zoxide init fish --cmd j | source
 source (pyenv init - | psub)
 
 # -----------------------------------------------------------------------------------------------------------------
-# Abreviations
+# Abbreviations
 # cf. https://fishshell.com/docs/current/cmds/abbr.html
 # -----------------------------------------------------------------------------------------------------------------
 abbr --add rms shred --remove
