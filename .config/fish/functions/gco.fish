@@ -1,6 +1,6 @@
 # Git checkout with FZF
 function gco
-  set branches (git --no-pager branch | string split0)
+  set branches (git --no-pager branch --sort=-committerdate | string split0)
   set branch (echo "$branches" | FZF_DEFAULT_OPTS="" fzf +m | string trim)
   if string match -r '^\+\s+(?<worktree_branch>.*)' $branch &>/dev/null
     set worktrees (git worktree list --porcelain)
