@@ -17,7 +17,7 @@ newNormal = green bold
 newHighlight = green bold 22
 
 [core]
-editor = vim
+editor = nvim
 excludesfile = ~/.gitignore-global
 whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 commitGraph = true
@@ -66,7 +66,7 @@ template = ~/.gitmessage
 a = add -p
 b = branch --list -a
 bm = branch -m
-c = "!f() { GIT_EDITOR='vim +startinsert' git commit -v; }; f"
+c = "!f() { GIT_EDITOR='nvim +startinsert' git commit -v; }; f"
 cn = commit -v -n
 ca = commit --amend
 can = commit --amend -n
