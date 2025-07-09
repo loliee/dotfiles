@@ -34,7 +34,7 @@ command -v rg &>/dev/null; and abbr --add rga rg --hidden --no-ignore
 
 # Docker
 command -v docker &>/dev/null; and abbr --add d docker
-command -v docker-compose &>/dev/null; and abbr --add dc docker-compose
+command -v docker-compose &>/dev/null; and abbr --add dc docker compose
 
 # Kubernetes
 command -v k9s &>/dev/null; and abbr --add k k9s
