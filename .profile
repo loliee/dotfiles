@@ -85,3 +85,5 @@ export PATH="${PYENV_ROOT}/bin:${PATH}"
 
 TESSDATA_PREFIX="$(brew --prefix)/share/tessdata"
 export TESSDATA_PREFIX
+
+export VALE_STYLES_PATH="${XDG_DATA_HOME}/vale/styles"
