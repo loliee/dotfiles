@@ -135,6 +135,9 @@ chars = "\u0254&"
 key = 18
 mods = "Command"
 
+[cursor]
+style = { shape = "Block", blinking = "Never" }
+
 [selection]
 save_to_clipboard = true
 
