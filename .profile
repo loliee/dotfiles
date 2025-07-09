@@ -17,8 +17,8 @@ export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
 # default editor
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # history
 export HISTFILE=~/.bash_history
