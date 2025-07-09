@@ -43,7 +43,7 @@ command -v kubens &>/dev/null; and abbr --add kn kubens
 command -v kubectx &>/dev/null; and abbr --add kx kubectx
 
 # Git absorb
-if git absorb --version &>/dev/null
+if command -v git-absorb &>/dev/null
   abbr --add ga git absorb
   abbr --add gaf git absorb --force
   abbr --add gar git absorb --and-rebase
