@@ -157,8 +157,6 @@
 
 [push]
 	default = current
-	# Make `git push` push relevant annotated tags when pushing branches out.
-	followTags = true
 
 [rerere]
 	enabled = true
