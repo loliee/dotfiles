@@ -65,6 +65,7 @@ template = ~/.gitmessage
 [alias]
 a = add -p
 b = branch --list -a
+bd = branch -D
 bm = branch -m
 c = "!f() { GIT_EDITOR='nvim +startinsert' git commit -v; }; f"
 cn = commit -v -n
