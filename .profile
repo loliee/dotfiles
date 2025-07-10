@@ -17,8 +17,8 @@ export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
 
 # default editor
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # history
 export HISTFILE=~/.bash_history
@@ -79,6 +79,17 @@ export FZF_DEFAULT_OPTS="--history=.fzf_history --history-size=10000
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden --bind ?:toggle-preview"
 # export FZF_CTRL_T_OPTS="--preview '(${FZF_PREVIEW_COMMAND}) 2> /dev/null | head -${LINES}'"
 
+# cargo
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# lua
+export PATH="$HOME/.luarocks/bin:$PATH"
+
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
+
+TESSDATA_PREFIX="$(brew --prefix)/share/tessdata"
+export TESSDATA_PREFIX
+
+export VALE_STYLES_PATH="${XDG_DATA_HOME}/vale/styles"

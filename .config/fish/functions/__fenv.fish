@@ -20,17 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 function __fenv -d "Run bash scripts and import variables modified by them"
-  if count $argv >/dev/null
-    if string trim -- $argv | string length -q
-      __fenv.main $argv
-      return $status
+    if count $argv >/dev/null
+        if string trim -- $argv | string length -q
+            __fenv.main $argv
+            return $status
+        end
+        return 0
+    else
+        echo (set_color red)'error:' (set_color normal)'parameter missing'
+        echo (set_color cyan)'usage:' (set_color normal)'fenv <bash command>'
+        return 23 # EINVAL
     end
-  return 0
-  else
-    echo (set_color red)'error:' (set_color normal)'parameter missing'
-    echo (set_color cyan)'usage:' (set_color normal)'fenv <bash command>'
-    return 23  # EINVAL
-  end
 end

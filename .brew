@@ -27,7 +27,6 @@ echo '--> Upgrade any already-installed formulae'
 brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
-brew tap homebrew/cask-fonts
 brew tap hashicorp/tap
 
 brew install \
@@ -41,7 +40,10 @@ brew install \
   advancecomp \
   alacritty \
   ansifilter \
+  argc \
   asciinema \
+  asdf \
+  ast-grep \
   awscli \
   bash \
   bash-completion@2 \
@@ -51,12 +53,15 @@ brew install \
   closure-compiler \
   coreutils \
   curl \
+  deno \
   diff-so-fancy \
   direnv \
   diskonaut \
   dive \
   dust \
+  dprint \
   entr \
+  fasttext \
   fd \
   findutils \
   fish \
@@ -75,6 +80,9 @@ brew install \
   grep \
   gsl \
   hadolint \
+  hashicorp/tap/packer \
+  hashicorp/tap/terraform \
+  hugo \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
@@ -88,6 +96,8 @@ brew install \
   kubernetes-cli \
   kubernetes-helm \
   languagetool \
+  luacheck \
+  luarocks \
   mattermost \
   minio-mc \
   mkcert \
@@ -97,7 +107,6 @@ brew install \
   openssh \
   openssl \
   optipng \
-  hashicorp/tap/packer \
   pgcli \
   pigz \
   pngcrush \
@@ -112,6 +121,7 @@ brew install \
   rg \
   ruby-build \
   rustup \
+  sass/sass/sass \
   shellcheck \
   shfmt \
   signal \
@@ -120,9 +130,9 @@ brew install \
   ssh-copy-id \
   starship \
   stow \
+  stylua \
   tcpdump \
   tcptraceroute \
-  hashicorp/tap/terraform \
   tflint \
   tfsec \
   tig \
@@ -130,6 +140,7 @@ brew install \
   tmux \
   transmission \
   tree \
+  vale \
   vlc \
   watch \
   webkit2png \
@@ -143,9 +154,13 @@ brew install \
 
 brew install --appdir /Applications \
   1password \
-  1password-cli \
-  little-snitch \
-  micro-snitch
+  1password-cli
+
+if ! littlesnitch -v &>/dev/null; then
+  brew install --appdir /Applications \
+    little-snitch \
+    micro-snitch
+fi
 
 # Python
 PYTHONS=(
@@ -161,6 +176,7 @@ PIPS=(
   autopep8
   bandit
   black
+  codespell
   docutils
   fabric
   flake8
@@ -192,7 +208,7 @@ eval "$(pyenv init -)"
 # Ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  3.2.2
+  3.3.5
 )
 
 for ruby in "${RUBIES[@]}"; do
@@ -208,6 +224,11 @@ GEMS=(
   tmuxinator
 )
 
+# Lua
+# Requires for my snippets
+luarocks install --server=https://luarocks.org/dev lua-fmt
+luarocks path --bin >~/.lua.env
+
 # Enable this option for chruby.sh script
 set +o nounset
 # shellcheck source=/dev/null
@@ -221,7 +242,7 @@ done
 
 # Node
 NODEJS=(
-  20.9.0
+  23.7.0
 )
 
 eval "$(fnm env --multi)"
@@ -251,5 +272,13 @@ else
   rustup component add rustfmt
 fi
 
-# Start languagetool
+# Configure languagetool
+mkdir -p "${XDG_DATA_HOME}/fasttext"
+curl https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin -o "${XDG_DATA_HOME}/fasttext/lid.176.bin"
+cat <<EOT >"$(brew --prefix)/etc/languagetool/server.properties"
+[content]
+fasttextModel=${XDG_DATA_HOME}/fasttext/lid.176.bin
+fasttextBinary=$(command -v fasttext)
+EOT
+
 brew services start languagetool

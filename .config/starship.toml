@@ -24,8 +24,8 @@ format = "[$branch]($style)"
 style = "bright-black"
 
 [git_status]
-format = "[[(✗$conflicted$untracked$modified$staged$renamed$deleted)](bright-black bold) ($ahead_behind$stashed)]($style bold)"
-style = "yellow"
+format = "[[(✗$conflicted$untracked$modified$staged$renamed$deleted)](bright-black bold)( $ahead_behind )( $stashed)]($style bold)"
+style = "#ff875f"
 ahead = "↑"
 behind = "↓"
 diverged = "⇅"

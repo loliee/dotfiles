@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 
 # Patatetoy colors
@@ -6,7 +7,7 @@ black = "#6c6d6c"
 blue = "#73b8dc"
 cyan = "#91cce9"
 green = "#88d07e"
-magenta = "#d5b7d4"
+magenta = "#ff875f"
 red = "#fe6743"
 white = "#e6e4da"
 yellow = "#fae959"
@@ -24,7 +25,7 @@ black = "#3a3939"
 blue = "#5eb1dd"
 cyan = "#7ec6eb"
 green = "#82c476"
-magenta = "#c4a5c7"
+magenta = "#ff875f"
 red = "#f0522a"
 white = "#c9cac0"
 yellow = "#fee040"
@@ -100,38 +101,42 @@ chars = "$"
 key = "L"
 mods = "Alt"
 
-  # Vim special bindings
+# Vim special bindings
+# Use ASCII code 254 (þ letter) to remap some CMD commands
 [[keyboard.bindings]]
-chars = "\u0002p"
+chars = "\u0254p"
 key = "P"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002n"
+chars = "\u0254n"
 key = "N"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002s"
+chars = "\u0254s"
 key = "S"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u0002u"
+chars = "\u0254u"
 key = "U"
 mods = "Command"
 
 # code key 10 = @
 [[keyboard.bindings]]
-chars = "\u0002@"
+chars = "\u0254@"
 key = 10
 mods = "Command"
 
 # code key 18 = &)
 [[keyboard.bindings]]
-chars = "\u0002&"
+chars = "\u0254&"
 key = 18
 mods = "Command"
+
+[cursor]
+style = { shape = "Block", blinking = "Never" }
 
 [selection]
 save_to_clipboard = true

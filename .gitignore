@@ -3,6 +3,7 @@
 .config/fish/functions_local
 .config/fish/vendor
 .config/github-copilot
+.config/glab-cli
 .config/k9s/config.yml
 .config/nvim/pack
 .config/op/

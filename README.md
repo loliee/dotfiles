@@ -2,13 +2,13 @@
 
 ## Get this repository
 
-```console
+```bash
 git clone https://github.com/loliee/dotfiles ~/.dotfiles
 ```
 
 Or without git (useful for the first install)
 
-```console
+```bash
 mkdir -p ~/.dotfiles
 curl -L https://github.com/loliee/dotfiles/tarball/master \
 | tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
@@ -18,7 +18,7 @@ curl -L https://github.com/loliee/dotfiles/tarball/master \
 
 Install packages 📦 and dotfiles ✨.
 
-```console
+```bash
 # Install packages and dotfiles
 make install
 
@@ -33,7 +33,7 @@ make help
 
 Setup sensible macOS defaults with:
 
-```console
+```bash
 make setup-macos
 make setup-macos-hardening
 ```
@@ -42,7 +42,7 @@ make setup-macos-hardening
 
 Define fish as your default shell (example bellow is macOS specific):
 
-```console
+```bash
 echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
 chsh -s "$(brew --prefix)/bin/fish"
 ```

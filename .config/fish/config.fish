@@ -3,9 +3,14 @@ status is-interactive; or exit 0
 # No welcome msg
 set fish_greeting
 
+# Cursor shape
+set fish_cursor_default block
+set fish_cursor_insert block
+set fish_cursor_external line
+
 # Load local functions
 if test -d $XDG_CONFIG_HOME/fish/functions_local
-  set fish_function_path $fish_function_path $XDG_CONFIG_HOME/fish/functions_local
+    set fish_function_path $fish_function_path $XDG_CONFIG_HOME/fish/functions_local
 end
 
 # -----------------------------------------------------------------------------------------------------------------
@@ -19,7 +24,7 @@ zoxide init fish --cmd j | source
 source (pyenv init - | psub)
 
 # -----------------------------------------------------------------------------------------------------------------
-# Abreviations
+# Abbreviations
 # cf. https://fishshell.com/docs/current/cmds/abbr.html
 # -----------------------------------------------------------------------------------------------------------------
 abbr --add rms shred --remove
@@ -34,7 +39,7 @@ command -v rg &>/dev/null; and abbr --add rga rg --hidden --no-ignore
 
 # Docker
 command -v docker &>/dev/null; and abbr --add d docker
-command -v docker-compose &>/dev/null; and abbr --add dc docker-compose
+command -v docker-compose &>/dev/null; and abbr --add dc docker compose
 
 # Kubernetes
 command -v k9s &>/dev/null; and abbr --add k k9s
@@ -43,11 +48,11 @@ command -v kubens &>/dev/null; and abbr --add kn kubens
 command -v kubectx &>/dev/null; and abbr --add kx kubectx
 
 # Git absorb
-if git absorb --version &>/dev/null
-  abbr --add ga git absorb
-  abbr --add gaf git absorb --force
-  abbr --add gar git absorb --and-rebase
-  abbr --add garf git absorb --and-rebase
+if command -v git-absorb &>/dev/null
+    abbr --add ga git absorb
+    abbr --add gaf git absorb --force
+    abbr --add gar git absorb --and-rebase
+    abbr --add garf git absorb --and-rebase
 end
 
 abbr fe --set-cursor=! "find . -name '*' -exec ! '{}' \;"

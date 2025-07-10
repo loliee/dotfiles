@@ -41,8 +41,10 @@ bind generic YI @sh -c "printf '%s' %(commit) | pbcopy"
 bind generic YM @sh -c "git rev-list --format=%B --max-count=1 %(commit) | sed '1d' | pbcopy"
 
 # Colors
-color cursor         white  black   bold
-color id             yellow default bold
-color author         green  default bold
-color title-blur     white  black
-color title-focus    white  black   bold
+# https://jonas.github.io/tig/doc/tigrc.5.html#_ui_colors
+color cursor         white    black     bold
+color id             209      default   bold
+color author         blue     default   bold
+color date           243      default
+color title-blur     white    black
+color title-focus    white    black   bold
