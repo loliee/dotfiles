@@ -60,4 +60,3 @@ abbr fed --set-cursor=! "find . -name '*' -type d -exec ! '{}' \;"
 
 abbr --add sshz ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"
 abbr --add rma 'ls ~/.ssh/* | rg $USER@ | xargs -I % rm -f %'
-

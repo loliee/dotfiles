@@ -20,4 +20,3 @@ if hash luarocks &>/dev/null
     set -gx LUA_PATH (luarocks path --lr-path)
     set -gx LUA_CPATH (luarocks path --lr-cpath)
 end
-

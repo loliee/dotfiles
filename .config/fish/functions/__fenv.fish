@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 function __fenv -d "Run bash scripts and import variables modified by them"
     if count $argv >/dev/null
         if string trim -- $argv | string length -q

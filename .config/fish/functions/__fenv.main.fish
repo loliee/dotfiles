@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 function __fenv.main
     bash -c "$argv && env -0 >&31" 31>| while read -l -z env_var
         set -l kv (string split -m 1 = $env_var); or continue
