@@ -57,19 +57,19 @@ local M = function(h, c)
     fg = c.blue_bright,
   }
   h.DiagnosticUnderlineError = {
-    sp = "#db4b4b",
+    sp = c.red,
     undercurl = true,
   }
   h.DiagnosticUnderlineHint = {
-    sp = "#1abc9c",
+    sp = c.blue,
     undercurl = true,
   }
   h.DiagnosticUnderlineInfo = {
-    sp = "#0db9d7",
+    sp = c.white,
     undercurl = true,
   }
   h.DiagnosticUnderlineWarn = {
-    sp = "#e0af68",
+    fg = c.yellow,
     undercurl = true,
   }
   h.DiagnosticUnnecessary = {
