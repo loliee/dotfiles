@@ -1,3 +1,7 @@
+-- Cf. https://github.com/folke/tokyonight.nvim/tree/main/lua/tokyonight/groups
+-- https://www.w3schools.com/colors/colors_picker.asp
+-- :Telescope highlights
+
 local M = function(h, c)
   h.Visual = { bg = c.comment, fg = c.yellow }
   h.ErrorMsg = {
