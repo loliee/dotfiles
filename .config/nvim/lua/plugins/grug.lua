@@ -7,4 +7,10 @@ return {
       },
     } })
   end,
+  vim.keymap.set("n", "<leader>g", function()
+    require("grug-far").open({ engine = "ripgrep" })
+  end, { desc = "Open grug-far with ripgrep" }),
+  vim.keymap.set("n", "<leader>ga", function()
+    require("grug-far").open({ engine = "ripgrep" })
+  end, { desc = "Open grug-far with ripgrep" }),
 }
