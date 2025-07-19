@@ -265,30 +265,30 @@ local M = function(h, c)
   h.GrugFarHelpHeader = {
     fg = c.comment,
   }
+  h.GrugFarResultsAddIndicator = {
+    fg = c.green,
+  }
+  h.GrugFarResultsRemoveIndicator = {
+    fg = c.magenta,
+  }
   h.GrugFarHelpHeaderKey = {
     fg = c.blue_bright,
   }
   h.GrugFarInputLabel = {
-    fg = c.green,
+    fg = c.blue,
   }
   h.GrugFarInputPlaceholder = {
     fg = c.comment,
   }
-  h.GrugFarResultsChangeIndicator = {
-    fg = "#6183bb",
+  h.GrugFarMatch = {
+    fg = c.yellow,
+    bg = c.comment,
   }
   h.GrugFarResultsHeader = {
-    fg = c.blue,
+    fg = c.yellow,
   }
   h.GrugFarResultsLineColumn = {
     fg = c.yellow,
-  }
-  h.GrugFarResultsLineNo = {
-    fg = "#545c7e",
-  }
-  h.GrugFarResultsMatch = {
-    bg = c.pink,
-    fg = "#15161e",
   }
   h.GrugFarResultsStats = {
     fg = c.blue,
