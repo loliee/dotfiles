@@ -1,5 +1,4 @@
 ---
-
 # Allow unpined packages for auto-rebuild purposes
 ignored:
   - DL3008
