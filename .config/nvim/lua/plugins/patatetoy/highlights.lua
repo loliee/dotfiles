@@ -29,6 +29,9 @@ local M = function(h, c)
   h.String = {
     fg = c.green_bright,
   }
+  h.Debug = {
+    fg = c.yellow,
+  }
   h["@comment.error"] = {
     fg = c.red,
   }
