@@ -48,7 +48,6 @@ brew install \
   bash \
   bash-completion@2 \
   bat \
-  bfg \
   chruby-fish \
   closure-compiler \
   coreutils \
@@ -72,6 +71,7 @@ brew install \
   gifsicle \
   git \
   git-absorb \
+  git-filter-repo \
   gnu-sed \
   gnu-tar \
   gnu-time \
