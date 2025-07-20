@@ -125,6 +125,7 @@ return {
       fish_lsp = {},
       jinja_lsp = {},
       gitlab_ci_ls = {},
+      jsonls = {},
       helm_ls = {},
       lua_ls = {
         -- cmd = { ... },
