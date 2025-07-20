@@ -107,7 +107,6 @@ brew install \
   openssl \
   pgcli \
   pigz \
-  pngcrush \
   pngquant \
   pv \
   pwgen \
