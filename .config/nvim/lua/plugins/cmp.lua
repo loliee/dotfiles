@@ -55,8 +55,8 @@ return { -- Autocompletion
       },
 
       mapping = cmp.mapping.preset.insert({
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-u>"] = cmp.mapping.scroll_docs(4),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-f>"] = cmp.mapping.confirm({ select = true }),
         ["<C-e>"] = cmp.mapping(function()
           if luasnip.choice_active() then
