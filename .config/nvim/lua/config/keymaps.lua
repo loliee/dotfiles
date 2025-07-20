@@ -34,13 +34,18 @@ vim.keymap.set("v", "È", ":m '<-2<CR>gv=gv", { desc = "Move down visual selecti
 -- Special Keybinds based on terminal remap and ASCII code 254 (þ letter)
 --
 --  Save with Cmd-s
-vim.keymap.set("n", "<Char-0x254>s", "<cmd>:w<CR>", { desc = "Save with Cmd-s.", noremap = true, silent = true })
-vim.keymap.set(
-  { "i", "c", "v" },
-  "<Char-0x254>s",
-  "<Esc><cmd>:w<CR>l",
-  { desc = "Save with Cmd-s.", noremap = true, silent = true }
-)
+vim.keymap.set("n", "<Char-0x254>s", function()
+  if vim.bo.buftype == "" then
+    vim.cmd("w")
+  end
+end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
+
+vim.keymap.set({ "i", "c", "v" }, "<Char-0x254>s", function()
+  if vim.bo.buftype == "" then
+    vim.cmd("stopinsert")
+    vim.cmd("w")
+  end
+end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
 
 -- Undo with Cmd-u
 vim.keymap.set(
