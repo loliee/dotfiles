@@ -87,8 +87,6 @@ brew install \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
-  jpeg \
-  jpegoptim \
   jq \
   k9s \
   krew \
@@ -101,6 +99,7 @@ brew install \
   mattermost \
   minio-mc \
   mkcert \
+  mozjpeg \
   moreutils \
   neovim \
   nmap \
