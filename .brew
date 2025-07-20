@@ -85,7 +85,6 @@ brew install \
   hashicorp/tap/terraform \
   hugo \
   ikuwow/ikuwow-sshrc/sshrc \
-  imageoptim \
   ipcalc \
   jq \
   k9s \
@@ -110,9 +109,6 @@ brew install \
   pngquant \
   pv \
   pwgen \
-  pyenv \
-  pyenv-virtualenv \
-  pyenv-virtualenvwrapper \
   readline \
   reattach-to-user-namespace \
   rg \
