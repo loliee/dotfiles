@@ -18,6 +18,13 @@ vim.filetype.add({
 })
 
 vim.filetype.add({
+  pattern = {
+    [".*justfile"] = "just",
+    [".*Justfile"] = "just",
+  },
+})
+
+vim.filetype.add({
   extension = {
     gotmpl = "gotmpl",
   },
