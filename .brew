@@ -136,14 +136,12 @@ brew install \
   tflint \
   tfsec \
   tig \
-  tldr \
   tmux \
   transmission \
   tree \
   vale \
   vlc \
   watch \
-  webkit2png \
   wget \
   wireguard-tools \
   xz \
