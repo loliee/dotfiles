@@ -148,7 +148,6 @@ brew install \
   wireguard-tools \
   xz \
   yamllint \
-  zellij \
   zlib \
   zoxide
 
