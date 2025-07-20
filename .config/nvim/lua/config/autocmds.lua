@@ -6,8 +6,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 vim.filetype.add({
   pattern = {
-    [".*/ansible/.*%.yaml"] = "yaml.ansible",
-    [".*/ansible/.*%.yml"] = "yaml.ansible",
+    [".*/ansible/.*%.ya?ml"] = "yaml.ansible",
   },
 })
 
