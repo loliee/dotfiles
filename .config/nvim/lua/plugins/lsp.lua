@@ -126,6 +126,7 @@ return {
       jinja_lsp = {},
       gitlab_ci_ls = {},
       jsonls = {},
+      just = {},
       helm_ls = {},
       lua_ls = {
         -- cmd = { ... },
