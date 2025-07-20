@@ -20,6 +20,7 @@ return { -- Highlight, edit, and navigate code
       "gitcommit",
       "gitignore",
       "go",
+      "gotmpl",
       "gpg",
       "hcl",
       "helm",
