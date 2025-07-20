@@ -124,6 +124,9 @@ return {
       },
       fish_lsp = {},
       jinja_lsp = {},
+      gitlab_ci_ls = {},
+      jsonls = {},
+      just = {},
       helm_ls = {},
       lua_ls = {
         -- cmd = { ... },
@@ -133,10 +136,11 @@ return {
           Lua = {},
         },
       },
-      pyright = {},
+      ruff = {},
       rust_analyzer = {},
       -- harper_ls = {},
       ["terraform-ls"] = {},
+      yamlls = {},
     }
 
     local ensure_installed = vim.tbl_keys(servers or {})

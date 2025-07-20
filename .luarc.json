@@ -1,9 +1,5 @@
 {
-  "Lua.diagnostics.globals": [
-    "vim"
-  ],
-  "Lua.workspace.library": [
-    "$XDG_DATA_HOME/nvim"
-  ],
+  "Lua.diagnostics.globals": ["vim"],
+  "Lua.workspace.library": ["$XDG_DATA_HOME/nvim"],
   "Lua.telemetry.enable": false
 }
