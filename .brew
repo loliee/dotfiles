@@ -60,6 +60,7 @@ brew install \
   dust \
   dprint \
   entr \
+  exiftool \
   fasttext \
   fd \
   findutils \
@@ -86,7 +87,6 @@ brew install \
   ikuwow/ikuwow-sshrc/sshrc \
   imageoptim \
   ipcalc \
-  jhead \
   jpeg \
   jpegoptim \
   jq \
