@@ -115,6 +115,13 @@ return {
       },
       bashls = {},
       dockerls = {},
+      docker_compose_language_service = {
+        settings = {
+          telemetry = {
+            telemetryLevel = "off",
+          },
+        },
+      },
       fish_lsp = {},
       jinja_lsp = {},
       helm_ls = {},
