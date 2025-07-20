@@ -40,7 +40,7 @@ make setup-macos-hardening
 
 ## Fish
 
-Define fish as your default shell (example bellow is macOS specific):
+Define fish as your default shell (example below is macOS specific):
 
 ```bash
 echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
