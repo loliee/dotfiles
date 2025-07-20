@@ -115,6 +115,7 @@ return {
       },
       bashls = {},
       dockerls = {},
+      fish_lsp = {},
       jinja_lsp = {},
       helm_ls = {},
       lua_ls = {
