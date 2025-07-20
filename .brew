@@ -105,7 +105,6 @@ brew install \
   nmap \
   openssh \
   openssl \
-  optipng \
   pgcli \
   pigz \
   pngcrush \
