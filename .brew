@@ -95,7 +95,6 @@ brew install \
   languagetool \
   luacheck \
   luarocks \
-  mattermost \
   minio-mc \
   mkcert \
   mozjpeg \
