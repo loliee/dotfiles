@@ -134,7 +134,7 @@ return {
           Lua = {},
         },
       },
-      pyright = {},
+      ruff = {},
       rust_analyzer = {},
       -- harper_ls = {},
       ["terraform-ls"] = {},
