@@ -21,7 +21,6 @@ direnv hook fish | source
 fnm env --use-on-cd | source
 starship init fish | source
 zoxide init fish --cmd j | source
-source (pyenv init - | psub)
 
 # -----------------------------------------------------------------------------------------------------------------
 # Abbreviations
@@ -53,6 +52,10 @@ if command -v git-absorb &>/dev/null
     abbr --add gaf git absorb --force
     abbr --add gar git absorb --and-rebase
     abbr --add garf git absorb --and-rebase
+end
+
+if command -v uv &>/dev/null
+    abbr --add pip uv pip
 end
 
 abbr fe --set-cursor=! "find . -name '*' -exec ! '{}' \;"

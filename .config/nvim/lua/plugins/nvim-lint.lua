@@ -9,7 +9,7 @@ return { --
       fish = { "fish" },
       lua = { "luacheck" },
       -- markdown = { "codespell" },
-      python = { "flake8", "bandit" },
+      python = { "ruff", "bandit" },
       javascript = { "eslint" },
       sh = { "shellcheck" },
       yaml = { "yamllint" },
