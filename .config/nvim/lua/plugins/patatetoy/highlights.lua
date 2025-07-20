@@ -14,6 +14,15 @@ local M = function(h, c)
   h.Constant = {
     fg = c.magenta,
   }
+  h.Title = {
+    fg = c.blue,
+  }
+  h.WarningMsg = {
+    fg = c.yellow,
+  }
+  h.Question = {
+    fg = c.blue_bright,
+  }
   h["@constructor"] = {
     fg = c.yellow,
   }
