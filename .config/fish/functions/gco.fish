@@ -22,4 +22,3 @@ function gco
         git checkout (echo "$branch" | awk '{print $1}' | sed "s/.* //")
     end
 end
-
