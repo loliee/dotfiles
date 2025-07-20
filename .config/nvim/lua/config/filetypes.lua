@@ -6,6 +6,12 @@ vim.filetype.add({
 })
 
 vim.filetype.add({
+  pattern = {
+    [".*docker%-compose.*.ya?ml"] = "yaml.docker-compose",
+  },
+})
+
+vim.filetype.add({
   extension = {
     gotmpl = "gotmpl",
   },
