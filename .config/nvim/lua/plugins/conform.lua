@@ -35,7 +35,7 @@ return { -- Autoformat
       fish = { "fish_indent" },
       javascript = { "prettier" },
       lua = { "stylua" },
-      python = { "isort", "black" },
+      python = { "ruff" },
       sh = { "shfmt" },
       yaml = { "prettier" },
       go = { "goimports", "gofmt" },

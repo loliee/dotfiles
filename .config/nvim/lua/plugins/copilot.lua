@@ -52,9 +52,8 @@ return {
         })
         local success = pcall(vim.cmd, "Copilot enable")
         if success then
-          vim.cmd("CodeCompanion<CR>")
-          vim.cmd("CodeCompanionChat")
-          print("Copilot enabled & CodeCompanionChat started!")
+          vim.cmd("CopilotChat")
+          print("Copilot enabled & CopilotChat started!")
         else
           print("Failed to enable Copilot. Try restarting Neovim.")
         end

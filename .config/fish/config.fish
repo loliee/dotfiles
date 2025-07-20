@@ -21,7 +21,6 @@ direnv hook fish | source
 fnm env --use-on-cd | source
 starship init fish | source
 zoxide init fish --cmd j | source
-source (pyenv init - | psub)
 
 # -----------------------------------------------------------------------------------------------------------------
 # Abbreviations
@@ -32,27 +31,31 @@ abbr --add rms shred --remove
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
 
-command -v aws &>/dev/null; and abbr --add aws3 aws s3api
-command -v direnv &>/dev/null; and abbr --add da direnv allow
+command -q aws &>/dev/null; and abbr --add aws3 aws s3api
+command -q direnv &>/dev/null; and abbr --add da direnv allow
 
-command -v rg &>/dev/null; and abbr --add rga rg --hidden --no-ignore
+command -q rg &>/dev/null; and abbr --add rga rg --hidden --no-ignore
 
 # Docker
-command -v docker &>/dev/null; and abbr --add d docker
-command -v docker-compose &>/dev/null; and abbr --add dc docker compose
+command -q docker &>/dev/null; and abbr --add d docker
+command -q docker-compose &>/dev/null; and abbr --add dc docker compose
 
-# Kubernetes
-command -v k9s &>/dev/null; and abbr --add k k9s
-command -v kubectl &>/dev/null; and abbr --add kb kubectl
-command -v kubens &>/dev/null; and abbr --add kn kubens
-command -v kubectx &>/dev/null; and abbr --add kx kubectx
+# Kubernerntes
+command -q k9s &>/dev/null; and abbr --add k k9s
+command -q kubectl &>/dev/null; and abbr --add kb kubectl
+command -q kubens &>/dev/null; and abbr --add kn kubens
+command -q kubectx &>/dev/null; and abbr --add kx kubectx
 
 # Git absorb
-if command -v git-absorb &>/dev/null
+if command -q git-absorb &>/dev/null
     abbr --add ga git absorb
     abbr --add gaf git absorb --force
     abbr --add gar git absorb --and-rebase
     abbr --add garf git absorb --and-rebase
+end
+
+if command -q uv &>/dev/null
+    abbr --add pip uv pip
 end
 
 abbr fe --set-cursor=! "find . -name '*' -exec ! '{}' \;"

@@ -2,7 +2,7 @@
 function gco
     set branches (git --no-pager branch --sort=-committerdate | string split0)
     set branch (echo "$branches" | FZF_DEFAULT_OPTS="" fzf +m | string trim)
-    if string match -r '^\+\s+(?<worktree_branch>.*)' $branch &>/dev/null
+    if string match -rq '^\+\s+(?<worktree_branch>.*)' $branch
         set worktrees (git worktree list --porcelain)
         if echo $worktrees | string match -r "worktree\s+(?<wdir>[\S]+) HEAD [a-f0-9]+ branch refs/heads/$worktree_branch" &>/dev/null
             set_color blue
@@ -22,4 +22,3 @@ function gco
         git checkout (echo "$branch" | awk '{print $1}' | sed "s/.* //")
     end
 end
-

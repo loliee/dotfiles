@@ -5,7 +5,7 @@ return {
   opts = {},
   keys = {
     {
-      "<Leader>o",
+      "<Leader>m",
       function()
         require("peek").open()
       end,

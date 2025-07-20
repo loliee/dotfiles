@@ -48,7 +48,6 @@ brew install \
   bash \
   bash-completion@2 \
   bat \
-  bfg \
   chruby-fish \
   closure-compiler \
   coreutils \
@@ -61,6 +60,7 @@ brew install \
   dust \
   dprint \
   entr \
+  exiftool \
   fasttext \
   fd \
   findutils \
@@ -72,6 +72,7 @@ brew install \
   gifsicle \
   git \
   git-absorb \
+  git-filter-repo \
   gnu-sed \
   gnu-tar \
   gnu-time \
@@ -84,11 +85,7 @@ brew install \
   hashicorp/tap/terraform \
   hugo \
   ikuwow/ikuwow-sshrc/sshrc \
-  imageoptim \
   ipcalc \
-  jhead \
-  jpeg \
-  jpegoptim \
   jq \
   k9s \
   krew \
@@ -98,28 +95,24 @@ brew install \
   languagetool \
   luacheck \
   luarocks \
-  mattermost \
   minio-mc \
   mkcert \
+  mozjpeg \
   moreutils \
   neovim \
   nmap \
   openssh \
   openssl \
-  optipng \
   pgcli \
   pigz \
-  pngcrush \
   pngquant \
   pv \
   pwgen \
-  pyenv \
-  pyenv-virtualenv \
-  pyenv-virtualenvwrapper \
   readline \
   reattach-to-user-namespace \
   rg \
   ruby-build \
+  ruff \
   rustup \
   sass/sass/sass \
   shellcheck \
@@ -136,19 +129,16 @@ brew install \
   tflint \
   tfsec \
   tig \
-  tldr \
   tmux \
   transmission \
   tree \
+  uv \
   vale \
   vlc \
   watch \
-  webkit2png \
   wget \
   wireguard-tools \
   xz \
-  yamllint \
-  zellij \
   zlib \
   zoxide
 
@@ -162,53 +152,18 @@ if ! littlesnitch -v &>/dev/null; then
     micro-snitch
 fi
 
-# Python
-PYTHONS=(
-  3.11.7
-)
-
-for python in "${PYTHONS[@]}"; do
-  pyenv install -s "${python}"
-done
-
-PIPS=(
-  ansible-lint
-  autopep8
-  bandit
-  black
-  codespell
-  docutils
-  fabric
-  flake8
-  ipython
-  isort
-  pre-commit
-  pylint
-  pynvim
-  virtualenv
-)
-
-rm -f ~/.python-version
-echo "${PYTHONS[@]: -1}" >~/.python-version
-
-"${HOME}/.pyenv/shims/pip" install --upgrade pip
-INSTALLED_PIPS="$("${HOME}/.pyenv/shims/pip" list -l)"
-
-for pip in "${PIPS[@]}"; do
-  grep "${pip}" <<<"${INSTALLED_PIPS}" &>/dev/null ||
-    "${HOME}/.pyenv/shims/pip" install "${pip}"
-done
-
-eval "$(pyenv init -)"
-
-# Guess python version from program name
-[[ -d "${HOME}/.pyenv/plugins/pyenv-implict" ]] ||
-  git clone https://github.com/concordusapps/pyenv-implict.git "${HOME}/.pyenv/plugins/pyenv-implict"
+# Tooling based on Python
+brew install \
+  ansible-lint \
+  bandit \
+  codespell \
+  pre-commit \
+  yamllint
 
 # Ruby
 mkdir -p ~/.rubies
 RUBIES=(
-  3.3.5
+  3.4.5
 )
 
 for ruby in "${RUBIES[@]}"; do
@@ -242,7 +197,7 @@ done
 
 # Node
 NODEJS=(
-  23.7.0
+  24.4.1
 )
 
 eval "$(fnm env --multi)"

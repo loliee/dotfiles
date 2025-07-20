@@ -1,3 +1,7 @@
+-- Cf. https://github.com/folke/tokyonight.nvim/tree/main/lua/tokyonight/groups
+-- https://www.w3schools.com/colors/colors_picker.asp
+-- :Telescope highlights
+
 local M = function(h, c)
   h.Visual = { bg = c.comment, fg = c.yellow }
   h.ErrorMsg = {
@@ -9,6 +13,15 @@ local M = function(h, c)
   }
   h.Constant = {
     fg = c.magenta,
+  }
+  h.Title = {
+    fg = c.blue,
+  }
+  h.WarningMsg = {
+    fg = c.yellow,
+  }
+  h.Question = {
+    fg = c.blue_bright,
   }
   h["@constructor"] = {
     fg = c.yellow,
@@ -24,6 +37,9 @@ local M = function(h, c)
   }
   h.String = {
     fg = c.green_bright,
+  }
+  h.Debug = {
+    fg = c.yellow,
   }
   h["@comment.error"] = {
     fg = c.red,
@@ -50,19 +66,19 @@ local M = function(h, c)
     fg = c.blue_bright,
   }
   h.DiagnosticUnderlineError = {
-    sp = "#db4b4b",
+    sp = c.red,
     undercurl = true,
   }
   h.DiagnosticUnderlineHint = {
-    sp = "#1abc9c",
+    sp = c.blue,
     undercurl = true,
   }
   h.DiagnosticUnderlineInfo = {
-    sp = "#0db9d7",
+    sp = c.white,
     undercurl = true,
   }
   h.DiagnosticUnderlineWarn = {
-    sp = "#e0af68",
+    fg = c.yellow,
     undercurl = true,
   }
   h.DiagnosticUnnecessary = {
@@ -261,30 +277,30 @@ local M = function(h, c)
   h.GrugFarHelpHeader = {
     fg = c.comment,
   }
+  h.GrugFarResultsAddIndicator = {
+    fg = c.green,
+  }
+  h.GrugFarResultsRemoveIndicator = {
+    fg = c.magenta,
+  }
   h.GrugFarHelpHeaderKey = {
     fg = c.blue_bright,
   }
   h.GrugFarInputLabel = {
-    fg = c.green,
+    fg = c.blue,
   }
   h.GrugFarInputPlaceholder = {
     fg = c.comment,
   }
-  h.GrugFarResultsChangeIndicator = {
-    fg = "#6183bb",
+  h.GrugFarMatch = {
+    fg = c.yellow,
+    bg = c.comment,
   }
   h.GrugFarResultsHeader = {
-    fg = c.blue,
+    fg = c.yellow,
   }
   h.GrugFarResultsLineColumn = {
     fg = c.yellow,
-  }
-  h.GrugFarResultsLineNo = {
-    fg = "#545c7e",
-  }
-  h.GrugFarResultsMatch = {
-    bg = c.pink,
-    fg = "#15161e",
   }
   h.GrugFarResultsStats = {
     fg = c.blue,

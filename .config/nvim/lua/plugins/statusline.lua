@@ -22,7 +22,8 @@ return {
 
           if package.loaded["copilot"] then
             local client = vim.lsp.get_clients({ name = "copilot", bufnr = vim.api.nvim_get_current_buf() })
-            if #client > 0 then
+            local ft = vim.bo.filetype
+            if #client > 0 or ft == "copilot-chat" then
               copilot_hl = "MiniStatusLineCopilotEnabled"
             end
           end

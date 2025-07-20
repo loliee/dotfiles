@@ -4,13 +4,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "startinsert",
 })
 
-vim.filetype.add({
-  pattern = {
-    [".*/ansible/.*%.yaml"] = "yaml.ansible",
-    [".*/ansible/.*%.yml"] = "yaml.ansible",
-  },
-})
-
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",

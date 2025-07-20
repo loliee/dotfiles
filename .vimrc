@@ -45,7 +45,7 @@ call plug#end()
 
 filetype plugin indent on    " required
 
-" Set patatetoy theme, inspired from tommorow
+" Set patatetoy theme, inspired from tomorrow
 try
   let g:patatetoy_custom_term_colors=1
   colorscheme patatetoy
@@ -240,7 +240,7 @@ command! -bang -nargs=* Rg
   \                         : fzf#vim#with_preview('right:50%', '?'),
   \                   <bang>0)
 
-" Search in all files, temporarly modify FZF_DEFAULT_COMMAND
+" Search in all files, temporary modify FZF_DEFAULT_COMMAND
 command! -nargs=0 FZFA
   \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_COMMAND'
   \ | execute ':let $FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --no-ignore --exclude .git"'
