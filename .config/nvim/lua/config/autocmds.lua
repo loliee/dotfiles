@@ -4,24 +4,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "startinsert",
 })
 
-vim.filetype.add({
-  pattern = {
-    [".*/ansible/.*%.ya?ml"] = "yaml.ansible",
-  },
-})
-
-vim.filetype.add({
-  extension = {
-    gotmpl = "gotmpl",
-  },
-  pattern = {
-    [".*goss.*"] = "gotmpl",
-    [".*/templates/.*%.tpl"] = "helm",
-    [".*/templates/.*%.ya?ml"] = "helm",
-    ["helmfile.*%.ya?ml"] = "helm",
-  },
-})
-
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
