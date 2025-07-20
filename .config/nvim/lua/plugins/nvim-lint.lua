@@ -8,7 +8,7 @@ return { --
     linters_by_ft = {
       fish = { "fish" },
       lua = { "luacheck" },
-      -- markdown = { "codespell" },
+      markdown = { "mdl" },
       python = { "ruff", "bandit" },
       javascript = { "eslint" },
       sh = { "shellcheck" },
@@ -23,10 +23,34 @@ return { --
       -- ['_'] = { 'fallback linter' },
       -- ["*"] = { "typos" },
     },
-    -- LazyVim extension to easily override linter options
     -- or add custom linters.
     ---@type table<string,table>
     linters = {
+      mdl = {
+        cmd = "mdl",
+        stdin = false,
+        args = {},
+        stream = "stdout",
+        ignore_exitcode = true,
+        parser = function(output)
+          local diagnostics = {}
+          for line in vim.gsplit(output, "\n") do
+            local f, lnum, msg = string.match(line, "^([^:]+):(%d+):%s(.+)")
+            if f and lnum and msg then
+              table.insert(diagnostics, {
+                lnum = tonumber(lnum) - 1,
+                col = 0,
+                end_lnum = tonumber(lnum),
+                end_col = 0,
+                source = "mdl",
+                message = msg,
+                severity = vim.diagnostic.severity.ERR,
+              })
+            end
+          end
+          return diagnostics
+        end,
+      },
       languagetool = {
         cmd = "languagetool-code",
         args = {},
