@@ -31,8 +31,8 @@ vim.filetype.add({
   },
   pattern = {
     [".*goss.*"] = "gotmpl",
-    [".*/templates/.*%.tpl"] = "helm",
-    [".*/templates/.*%.ya?ml"] = "helm",
+    [".*helm%-charts.*/templates/.*%.tpl"] = "helm",
+    [".*helm%-charts.*/templates/.*%.ya?ml"] = "helm",
     ["helmfile.*%.ya?ml"] = "helm",
   },
 })
