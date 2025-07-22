@@ -42,6 +42,7 @@ return { -- Autoformat
       json = { "jq", "prettier" },
       just = { "just" },
       rust = { "rustfmt", lsp_format = "fallback" },
+      terraform = { "terraform_fmt" },
     },
     -- Customize formatters
     formatters = {
