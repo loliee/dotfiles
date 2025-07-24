@@ -9,6 +9,7 @@ return {
     { "williamboman/mason.nvim", opts = {} },
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    "b0o/schemastore.nvim",
 
     -- Useful status updates for LSP.
     {
@@ -27,7 +28,7 @@ return {
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+      group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
       callback = function(event)
         local map = function(keys, func, desc, mode)
           mode = mode or "n"
@@ -124,8 +125,12 @@ return {
       },
       fish_lsp = {},
       jinja_lsp = {},
-      gitlab_ci_ls = {},
-      jsonls = {},
+      jsonls = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
       just = {},
       helm_ls = {},
       lua_ls = {
@@ -140,7 +145,20 @@ return {
       rust_analyzer = {},
       -- harper_ls = {},
       ["terraform-ls"] = {},
-      yamlls = {},
+      yamlls = {
+        settings = {
+          yaml = {
+            schemaStore = {
+              enable = false,
+              url = "",
+            },
+            schemas = require("schemastore").yaml.schemas(),
+            customTags = {
+              "!reference sequence",
+            },
+          },
+        },
+      },
     }
 
     local ensure_installed = vim.tbl_keys(servers or {})
@@ -150,6 +168,12 @@ return {
       "jinja_lsp",
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+    for server_name, config in pairs(servers) do
+      vim.lsp.config(server_name, {
+        settings = config.settings or {},
+      })
+    end
 
     ---@diagnostic disable-next-line
     require("mason-lspconfig").setup({

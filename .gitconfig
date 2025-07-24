@@ -164,6 +164,9 @@
 [fetch]
 	writeCommitGraph = true
 
+# To setup committer infos for a specific repo:
+# git config user.name "Maxime Loliée"
+# git config user.email "maxime@siliadev.com"
 [include]
 	path = ~/.gitconfig-override
 
