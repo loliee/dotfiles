@@ -140,7 +140,15 @@ return {
       rust_analyzer = {},
       -- harper_ls = {},
       ["terraform-ls"] = {},
-      yamlls = {},
+      yamlls = {
+        settings = {
+          yaml = {
+            customTags = {
+              "!reference sequence",
+            },
+          },
+        },
+      },
     }
 
     local ensure_installed = vim.tbl_keys(servers or {})
