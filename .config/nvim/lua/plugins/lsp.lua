@@ -125,7 +125,6 @@ return {
       },
       fish_lsp = {},
       jinja_lsp = {},
-      gitlab_ci_ls = {},
       jsonls = {
         json = {
           schemas = require("schemastore").json.schemas(),
