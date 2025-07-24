@@ -125,7 +125,6 @@ return {
       },
       fish_lsp = {},
       jinja_lsp = {},
-      gitlab_ci_ls = {},
       jsonls = {
         json = {
           schemas = require("schemastore").json.schemas(),
@@ -149,14 +148,26 @@ return {
       yamlls = {
         settings = {
           yaml = {
-            schemaStore = {
-              enable = false,
-              url = "",
-            },
-            schemas = require("schemastore").yaml.schemas(),
             customTags = {
               "!reference sequence",
             },
+            schemaStore = {
+              -- You must disable built-in schemaStore support if you want to use
+              -- this plugin and its advanced options like `ignore`.
+              enable = false,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = "",
+            },
+            schemas = require("schemastore").yaml.schemas({
+              extra = {
+                {
+                  description = "GitLab override",
+                  fileMatch = { "**/gitlab-ci/**/*.yml", "**/gitlab-components/**/*.yml" },
+                  name = "gitlab.yml",
+                  url = "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json",
+                },
+              },
+            }),
           },
         },
       },
