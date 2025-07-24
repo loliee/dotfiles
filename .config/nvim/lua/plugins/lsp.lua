@@ -9,6 +9,7 @@ return {
     { "williamboman/mason.nvim", opts = {} },
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
+    "b0o/schemastore.nvim",
 
     -- Useful status updates for LSP.
     {
@@ -125,7 +126,12 @@ return {
       fish_lsp = {},
       jinja_lsp = {},
       gitlab_ci_ls = {},
-      jsonls = {},
+      jsonls = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
       just = {},
       helm_ls = {},
       lua_ls = {
@@ -143,6 +149,11 @@ return {
       yamlls = {
         settings = {
           yaml = {
+            schemaStore = {
+              enable = false,
+              url = "",
+            },
+            schemas = require("schemastore").yaml.schemas(),
             customTags = {
               "!reference sequence",
             },
