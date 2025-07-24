@@ -159,6 +159,12 @@ return {
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+    for server_name, config in pairs(servers) do
+      vim.lsp.config(server_name, {
+        settings = config.settings or {},
+      })
+    end
+
     ---@diagnostic disable-next-line
     require("mason-lspconfig").setup({
       handlers = {
