@@ -1,4 +1,4 @@
-return { --
+return {
   -- Cf. https://www.lazyvim.org/plugins/linting
   "mfussenegger/nvim-lint",
   event = { "VeryLazy" },
@@ -21,9 +21,8 @@ return { --
       ["*"] = { "codespell" },
       -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
       -- ['_'] = { 'fallback linter' },
-      -- ["*"] = { "typos" },
     },
-    -- or add custom linters.
+    -- Add custom linters.
     ---@type table<string,table>
     linters = {
       mdl = {
