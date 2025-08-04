@@ -25,6 +25,9 @@ return {
     -- Add custom linters.
     ---@type table<string,table>
     linters = {
+      tflint = {
+        prepend_args = { "--max-workers=" .. math.max(1, math.floor(#vim.loop.cpu_info() / 2)) },
+      },
       mdl = {
         cmd = "mdl",
         stdin = false,
