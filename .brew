@@ -139,6 +139,7 @@ brew install \
   wget \
   wireguard-tools \
   xz \
+  ytt \
   zlib \
   zoxide
 
