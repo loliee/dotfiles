@@ -7,6 +7,7 @@ rules:
     max-spaces-inside: 1
   comments-indentation: disable
   comments:
+    require-starting-space: false
     min-spaces-from-content: 1
   indentation:
     spaces: 2
