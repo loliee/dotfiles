@@ -35,6 +35,7 @@ return { -- Autoformat
       fish = { "fish_indent" },
       javascript = { "prettier" },
       lua = { "stylua" },
+      markdown = { "prettier" },
       python = { "ruff_format" },
       sh = { "shfmt" },
       yaml = { "prettier" },
@@ -42,6 +43,7 @@ return { -- Autoformat
       json = { "jq", "prettier" },
       just = { "just" },
       rust = { "rustfmt", lsp_format = "fallback" },
+      terraform = { "terraform_fmt" },
     },
     -- Customize formatters
     formatters = {

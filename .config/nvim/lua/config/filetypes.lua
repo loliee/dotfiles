@@ -14,6 +14,7 @@ vim.filetype.add({
 vim.filetype.add({
   pattern = {
     ["%.gitlab%-ci%.ya?ml"] = "yaml.gitlab",
+    [".*gitlab%-ci/.*.ya?ml"] = "yaml.gitlab",
   },
 })
 
@@ -30,8 +31,8 @@ vim.filetype.add({
   },
   pattern = {
     [".*goss.*"] = "gotmpl",
-    [".*/templates/.*%.tpl"] = "helm",
-    [".*/templates/.*%.ya?ml"] = "helm",
+    [".*helm%-charts.*/templates/.*%.tpl"] = "helm",
+    [".*helm%-charts.*/templates/.*%.ya?ml"] = "helm",
     ["helmfile.*%.ya?ml"] = "helm",
   },
 })
