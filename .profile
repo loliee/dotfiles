@@ -1,5 +1,5 @@
 # PATH
-export PATH="${HOME}/.krew/bin:${HOME}/.homebrew/bin:${HOME}/.homebrew_x86_64/bin:${HOME}/.homebrew/sbin:${HOME}/.homebrew_x86_64/sbin:${HOME}/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
+export PATH="${HOME}/.krew/bin:${XDG_DATA_HOME}/../bin:${HOME}/.homebrew/bin:${HOME}/.homebrew_x86_64/bin:${HOME}/.homebrew/sbin:${HOME}/.homebrew_x86_64/sbin:${HOME}/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 
 export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --no-binaries"
 export HOMEBREW_NO_ANALYTICS=1
