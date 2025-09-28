@@ -56,6 +56,24 @@ local M = function(h, c)
   h["@comment.warning"] = {
     fg = c.comment,
   }
+  h.BlinkCmpMenu = {
+    bg = c.bg_dark2,
+  }
+  h.BlinkCmpMenuBorder = {
+    bg = c.bg_dark2,
+    fg = c.dark3,
+  }
+  h.BlinkCmpDocBorder = {
+    bg = c.bg_dark2,
+    fg = c.dark3,
+  }
+  h.BlinkCmpDocSeparator = {
+    bg = c.bg_dark2,
+    fg = c.dark3,
+  }
+  h.BlinkCmpDoc = {
+    bg = c.bg_dark2,
+  }
   h.DiagnosticError = {
     fg = c.red,
   }

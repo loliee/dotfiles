@@ -72,12 +72,4 @@ return {
       desc = "Disable copilot",
     },
   },
-  dependencies = {
-    {
-      "zbirenbaum/copilot-cmp",
-      config = function()
-        require("copilot_cmp").setup()
-      end,
-    },
-  },
 }

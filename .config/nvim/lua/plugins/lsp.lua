@@ -24,7 +24,7 @@ return {
     },
 
     -- Allows extra capabilities provided by nvim-cmp
-    "hrsh7th/cmp-nvim-lsp",
+    "saghen/blink.cmp",
   },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -102,8 +102,7 @@ return {
       end)
     end
 
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     -- Enable the following language servers
     local servers = {
