@@ -70,3 +70,8 @@ vim.opt.undodir = XDG_DATA_HOME .. "/nvim/undo//"
 vim.g.have_nerd_font = true
 vim.g.copilot_icon = ""
 vim.g.copilot_disable = os.getenv("COPILOT_DISABLE") or false
+
+-- For fish-lsp
+vim.env.CC = "clang"
+vim.env.CXX = "clang++"
+vim.env.CXXFLAGS = "-std=c++20"
