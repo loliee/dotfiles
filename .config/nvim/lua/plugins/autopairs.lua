@@ -4,6 +4,6 @@ return {
   config = true,
   opts = {
     fast_wrap = {},
-    disable_filetype = { "TelescopePrompt", "vim" },
+    disable_filetype = { "vim" },
   },
 }

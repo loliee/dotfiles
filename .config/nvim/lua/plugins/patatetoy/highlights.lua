@@ -241,6 +241,52 @@ local M = function(h, c)
   h.GitSignsBlameColor = {
     fg = c.magenta,
   }
+  h.SnacksPickerSelected = {
+    fg = c.magenta,
+  }
+  h.SnacksPickerNormal = {
+    bg = c.bg_dark,
+  }
+  h.SnacksPickerPreview = {
+    bg = c.bg_dark,
+  }
+  h.SnacksPickerBorder = {
+    bg = c.bg_dark,
+    fg = c.dark3,
+  }
+  h.SnacksPickerSelection = {
+    bg = c.bg_dark,
+  }
+  h.SnacksPickerPrompt = {
+    bg = c.bg_dark,
+    fg = c.blue,
+  }
+  h.SnacksPickerTitle = {
+    bg = c.bg_dark,
+    fg = c.green,
+  }
+  h.SnacksPickerDir = {
+    fg = c.fg,
+  }
+  h.SnacksPicker = {
+    bg = c.bg_dark,
+    fg = c.fg,
+  }
+  h.SnacksPickerBoxTitle = {
+    bg = c.bg_dark,
+    fg = c.green,
+  }
+  h.SnacksPickerInput = {
+    bg = c.bg_dark,
+  }
+  h.SnacksPickerInputTitle = {
+    bg = c.bg_dark,
+    fg = c.yellow,
+  }
+  h.SnacksPickerInputBorder = {
+    bg = c.bg_dark,
+    fg = c.yellow,
+  }
   h.TelescopeNormal = {
     bg = c.bg_dark,
     fg = c.fg_dark,
