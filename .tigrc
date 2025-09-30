@@ -48,4 +48,4 @@ color id             209      default   bold
 color author         blue     default   bold
 color date           243      default
 color title-blur     white    black
-color title-focus    white    black   bold
+color title-focus    white    black     bold
