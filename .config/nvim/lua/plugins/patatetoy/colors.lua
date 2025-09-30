@@ -7,6 +7,7 @@ local M = function(c)
   c.bg = "#292b2d"
   c.bg_dark = "#292b2d"
   c.bg_dark1 = "#292b2d"
+  c.bg_dark2 = "#252626"
   c.bg_popup = "#292b2d"
   c.bg_search = "#292b2d"
   c.bg_sidebar = "#292b2d"

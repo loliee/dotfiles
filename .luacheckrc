@@ -1,6 +1,6 @@
 globals = {
-    "vim",
-    "globals",
-    "cmp.setup",
-    "mason-lspconfig",
+  "vim",
+  "globals",
+  "Snacks.picker",
+  "mason-lspconfig",
 }

@@ -4,8 +4,6 @@
 SHELL=$(command -v bash)
 TMUXDIR=/tmp/.mloliee.tmux.nkCx
 TMUXSERVER="$TMUXDIR/tmuxserver"
-# shellcheck disable=SC2089
-VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 # shellcheck disable=SC2090
 export SHELL TMUXDIR TMUXSERVER VIMINIT
 export PATH=$PATH:$SSHHOME/.sshrc.d/.bin
@@ -31,7 +29,7 @@ tmuxrc() {
 if [[ -d /etc/profile.d ]]; then
   for i in /etc/profile.d/*.sh; do
     # shellcheck source=/dev/null
-    [[ -r "$i" ]] && source "$i"
+    [[ -r $i ]] && source "$i"
   done
   unset i
 fi
@@ -55,7 +53,7 @@ if [[ -d "$SSHHOME/.sshrc.d/" ]]; then
 fi
 
 # Tmux on startup
-if [[ -r "$TMUXSERVER" ]]; then
+if [[ -r $TMUXSERVER ]]; then
   if [[ -z $TMUX ]]; then
     if tmuxrc ls &>/dev/null; then
       echo "$SSHHOME"

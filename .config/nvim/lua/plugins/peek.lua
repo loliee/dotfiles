@@ -13,7 +13,7 @@ return {
       noremap = true,
     },
     {
-      "<Leader>oc",
+      "<Leader>mc",
       function()
         require("peek").close()
       end,

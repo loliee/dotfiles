@@ -139,6 +139,7 @@ brew install \
   wget \
   wireguard-tools \
   xz \
+  ytt \
   zlib \
   zoxide
 
@@ -197,7 +198,7 @@ done
 
 # Node
 NODEJS=(
-  24.4.1
+  24.9.0
 )
 
 eval "$(fnm env --multi)"
