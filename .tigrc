@@ -41,7 +41,7 @@ bind generic YI @sh -c "printf '%s' %(commit) | pbcopy"
 bind generic YM @sh -c "git rev-list --format=%B --max-count=1 %(commit) | sed '1d' | pbcopy"
 
 # Colors
-# https://jonas.github.io/tig/doc/tigrc.5.html#_ui_colors
+# https://man.archlinux.org/man/tigrc.5.en#UI_colors
 color cursor         yellow    black
 color cursor-blur    black    yellow    bold
 color id             209      default   bold
