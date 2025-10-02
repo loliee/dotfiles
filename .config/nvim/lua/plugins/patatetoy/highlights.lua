@@ -56,6 +56,9 @@ local M = function(h, c)
   h["@comment.warning"] = {
     fg = c.comment,
   }
+  h.MatchParen = {
+    fg = c.red,
+  }
   h.BlinkCmpMenu = {
     bg = c.bg_dark2,
   }
