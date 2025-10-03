@@ -2,263 +2,265 @@
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
+filetype plugin indent on     " required
+
+" -----------------------------------------------------------
+" Global
+" -----------------------------------------------------------
+
+set autowrite                     " Automatically :write before running commands
+set clipboard=unnamed             " For OSX clipboard
+set encoding=utf-8                " UTF-8 is the encoding you want for your files
+set hidden                        " Handle multiple buffers better.
+set history=1000                  " Store lots of :cmdline history
+set hlsearch                      " Highlight search results
+set incsearch                     " Makes search act like in modern browsers
+set lazyredraw                    " Redraw only when we need to.
+set laststatus=2                  " Always display the status line
+set novisualbell                  "
+set noerrorbells                  " No error bells
+set showmode                      " Show mode -- INSERT --
+set showcmd                       " Show commands
+set showmatch                     " Highlight matching [{()}]
+set ttimeout                      " Fast VIM
+set ttimeoutlen=100
+set ttyfast
+set undofile                      " Persistent undo
+set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
+set wildmode=list:longest         " Complete files like a shell.
+set wildmenu                      " Enhanced command line completion.
+set spelllang=en                  " Check all regions of English.
+syntax enable
+
+" Disable modelines for security reasons
 set modelines=0
+set nomodeline
 
-" -----------------------------------------------------------
-" Plug init
-" -----------------------------------------------------------
-" Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
-
-Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'StanAngeloff/php.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'hashivim/vim-hashicorp-tools'
-Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'loliee/vim-patatetoy'
-Plug 'markcornick/vim-bats'
-Plug 'mv/mv-vim-nginx'
-Plug 'othree/html5.vim'
-Plug 'pearofducks/ansible-vim'
-Plug 'previm/previm'
-Plug 'rust-lang/rust.vim'
-Plug 'stephpy/vim-yaml'
-Plug 'tommcdo/vim-exchange'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-liquid'
-Plug 'tpope/vim-markdown'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'vim-ruby/vim-ruby'
-Plug 'w0rp/ale'
-
-" Initialize plugin system
-call plug#end()
-
-filetype plugin indent on    " required
-
-" Set patatetoy theme, inspired from tomorrow
-try
-  let g:patatetoy_custom_term_colors=1
-  colorscheme patatetoy
-catch /^Vim\%((\a\+)\)\=:E185/
-  " Should fail only at the first plugin install execution
-endtry
-
-" -----------------------------------------------------------
-" Load .vimrc.min
-" -----------------------------------------------------------
-
-if filereadable($HOME . "/.vimrc.min")
-  source ~/.vimrc.min
-endif
+" Store swap files in fixed location, not current directory.
+"
+" The '//' at the end ensure the swap file name will be built from the complete
+" path to the file with all path separators substituted to percent '%' signs.
+"
+" This will ensure file name uniqueness in the preserve directory.
+set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 
 " -----------------------------------------------------------
 " Style
 " -----------------------------------------------------------
-set cursorline                    " Highlight current line
-set guifont=iosevka:h14           " Define hack as font, powerline
 
-" Plugins
-" =======
+set background=dark               " Dark bg
+:hi cursorline cterm=none         " Do not Highlight current line
+set ruler                         " Display ruler
+set relativenumber                " Set relative number for fast dd/yy
+set number                        " Display line number for current line
 
-" -----------------------------------------------------------
-" Ansible vim
-" -----------------------------------------------------------
-
-" Reset indent after two new lines
-let g:ansible_unindent_after_newline = 1
-" Ensure compatibility with stephpy/vim-yaml
-let g:ansible_yamlKeyName = 'yamlKey'
-
-" -----------------------------------------------------------
-" Fugitive
-" -----------------------------------------------------------
-
-" Ensure that this plugin works well with Tim Pope's fugitive
-let g:EditorConfig_exclude_patterns = ['fugitive://.\*']
-
-" -----------------------------------------------------------
-" Fzf
-" -----------------------------------------------------------
-let g:fzf_layout = {'window': {'width': 1, 'height': 1}}
-
-" -----------------------------------------------------------
-" Lightline
-" -----------------------------------------------------------
-let g:lightline = {
-\  'colorscheme': 'patatetoy',
-\  'active': {
-\    'left': [ [ 'mode', 'paste' ],
-\              [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-\  },
-\  'component_function': {
-\    'gitbranch': 'fugitive#head'
-\  },
-\  }
-
-" Git gutter
-highlight GitGutterAdd ctermfg=02
-highlight GitGutterChange ctermfg=03
-highlight GitGutterDelete ctermfg=09
-highlight GitGutterChangeDelete ctermfg=208
-
-" Update sign column every quarter second
-set updatetime=250
-
-" ------------------------------------------------------------
-" Goyo
-" ------------------------------------------------------------
-let g:goyo_width = 120
-
-" ------------------------------------------------------------
-" Configure ale
-" ------------------------------------------------------------
-
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
-highlight ALEWarningSign ctermfg=03
-
-let g:ale_fix_on_save = 1
-let b:ale_warn_about_trailing_whitespace = 1
-let g:ale_fixers = {
-\  '*': ['remove_trailing_lines', 'trim_whitespace']
-\}
-
-" Previm
-let g:previm_open_cmd = 'open -a Firefox'
-nnoremap <silent> <leader><CR> :PrevimOpen<CR>
-
-" Python mode
-let g:pymode_python = 'python3'
-
-" -----------------------------------------------------------
-" Rg config
-" -----------------------------------------------------------
-let g:rg_command_args = '--column --line-number --no-heading --color=always --smart-case'
-
-" -----------------------------------------------------------
-" UtilSnips config
-" -----------------------------------------------------------
-
-let g:snips_author = "Maxime Loliée"
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<Down>"
-let g:UltiSnipsJumpBackwardTrigger="<Up>"
-
-" -----------------------------------------------------------
-" Bindings, command key send <NUL> value
-" -----------------------------------------------------------
-
-" Fzf
-nnoremap <silent> <leader>f :FZF<CR>
-nnoremap <silent> <leader>a :FZFA<CR>
-nnoremap <silent> <leader>h :History<CR>
-nnoremap <silent> <leader>c :FZFHC<CR>
-nnoremap <leader>r :Rg<Space>
-
-" Ale fix
-nmap <leader>s :ALEFix<CR>
-nmap <leader>se :let g:ale_fix_on_save=1<CR>
-nmap <leader>sd :let g:ale_fix_on_save=0<CR>
-
-" Languagetool
-nmap <leader>& :let g:ale_languagetool_options = '-l FR -m FR -d APOS_INCORRECT'<CR>
-nmap <leader>é :let g:ale_languagetool_options = '-l EN -m FR -d APOS_INCORRECT'<CR>
-let g:ale_languagetool_options = '-adl -m FR -d APOS_INCORRECT'
-
-" Open tig
-nmap <leader>t :execute ":Silent !tig ".GetSmartWd()<CR><CR>
-
-" Enable/Disable spell checking
-nnoremap <silent> <leader>g :GrammarousCheck<CR>
-
-" Goyo
-nmap <leader>z :Goyo<CR>
-
-" Exchange
-let g:exchange_no_mappings=1
-nmap cx <Plug>(Exchange)
-vmap X <Plug>(Exchange)
-nmap cxc <Plug>(ExchangeClear)
-nmap cxx <Plug>(ExchangeLine)
-
-" ----------------------------------------------------------------------------
-" <leader>S | Search it
-" ----------------------------------------------------------------------------
-function! s:duckduck(pat)
-  let q = ''.substitute(a:pat, '["\n]', ' ', 'g')
-  let q = substitute(q, '[[:punct:] ]',
-       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
-  call system(printf('open "https://www.duckduckgo.com/%s"', q))
-endfunction
-
-nnoremap <leader>S :call <SID>duckduck(expand("<cWORD>"))<cr>
-xnoremap <leader>S "gy:call <SID>duckduck(@g)<cr>gv
-
-" -----------------------------------------------------------
-" COMMANDS
-" -----------------------------------------------------------
-
-" Git commands
-:command! Ga execute ":Silent !git a ".GetSmartWd()
-:command! Gc execute ":Silent !git c"
-:command! Gca execute ":Silent !git ca"
-:command! Gcop execute ":Silent !git cop ".GetSmartWd()
-:command! -nargs=1 Gcf execute ":Silent !git cf "<f-args>
-:command! Gd execute ":!clear && git d"
-:command! Gdc execute ":!clear && git dc"
-:command! Glg execute ":Silent !git lg"
-:command! Gp execute ":Silent !git p"
-:command! Gpf execute ":Silent !git pf"
-:command! -nargs=1 Gs execute ":!clear && git show "<f-args>
-:command! Gst execute ":!clear && git st"
-:command! Gr execute ":Silent !git r ".GetSmartWd()
-:command! -nargs=1 Gri execute ":!clear && git ri "<f-args>
-:command! Gru execute ":Silent !git ru"
-
-" Git Hub commands
-:command! Hi execute ":Silent !hub browse -- issues"
-:command! Hp execute ":Silent !hub browse -- pulls"
-:command! Hpc execute ":Silent !hub browse -- \"pull/$(git rev-parse --abbrev-ref HEAD)\""
-:command! Hpp execute ":!clear && hub pull-request"
-
-" Rg  search with fzf and a small preview window
-" Rg! search with fzf in fullscreen mode
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep('rg '. g:rg_command_args .' '. <q-args>, 1,
-  \                   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%', '?'),
-  \                   <bang>0)
-
-" Search in all files, temporary modify FZF_DEFAULT_COMMAND
-command! -nargs=0 FZFA
-  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_COMMAND'
-  \ | execute ':let $FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --no-ignore --exclude .git"'
-  \ | execute ':FZF' | execute ':let $FZF_DEFAULT_COMMAND=$FZF_DEFAULT_BK'
-
-" Commande history without preview or default options
-command! -nargs=0 FZFHC
-  \  execute ':let $FZF_DEFAULT_BK=$FZF_DEFAULT_OPTS'
-  \ | execute ':let $FZF_DEFAULT_OPTS=""'
-  \ | execute ':History:' | execute ':let $FZF_DEFAULT_OPTS=$FZF_DEFAULT_BK'
-
-" -----------------------------------------------------------
-" Local config
-" -----------------------------------------------------------
-
-if filereadable($HOME . "/.vimrc.local")
-  source ~/.vimrc.local
+" Set basic colorscheme
+if ! exists("patatetoy_custom_term_colors")
+  colorscheme delek
 endif
 
-" Setup vim-repeat plugin
-silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+" Set the terminal's title
+if &term == 'screen'
+  set t_ts=k
+  set t_fs=\
+elseif &term == 'screen' || &term == 'xterm'
+  set title
+endif
+
+" -----------------------------------------------------------
+" Indent - Tabs/Spaces
+" -----------------------------------------------------------
+
+set nowrap                        " don't wrap lines
+set tabstop=2 shiftwidth=2        " a tab is two spaces (or set this to 4)
+set expandtab                     " use spaces, not tabs (optional)
+set smarttab
+set backspace=indent,eol,start    " backspace through everything in insert mode
+set autoindent                    " match indentation of previous line
+set listchars=tab:▸\ ,eol:¬,trail:·,extends:>,precedes:<
+
+" -----------------------------------------------------------
+" Auto Commands
+" -----------------------------------------------------------
+
+augroup vimrcEx
+  autocmd!
+
+  autocmd BufRead *.aliases* setlocal ft=sh
+  autocmd BufRead *Jenkinsfile setlocal ft=groovy
+  autocmd BufRead ~/.dnsmasq.d/* setlocal ft=dnsmasq
+  autocmd BufRead *nginx/*.conf setlocal ft=nginx
+  autocmd BufRead *httpd/*.conf setlocal ft=apache
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it for commit messages, when the position is invalid, or when
+  " inside an event handler (happens when dropping a file on gvim).
+  " https://github.com/thoughtbot/dotfiles/blob/master/vimrc#L34-L40
+  autocmd BufReadPost *
+    \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  " Crontab http://calebthompson.io/crontab-and-vim-sitting-in-a-tree/
+  autocmd filetype crontab setlocal nobackup nowritebackup
+
+  " Let's tell Vim to automatically use absolute line numbers when we're in
+  " insert mode and relative numbers when we're in normal mode
+  autocmd InsertEnter * :set number
+  autocmd InsertLeave * :set relativenumber
+
+  " https://vim.fandom.com/wiki/Highlight_unwanted_spaces
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+  autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+  autocmd BufWinLeave * call clearmatches()
+augroup END
+
+" -----------------------------------------------------------
+" Configure Explorer
+" -----------------------------------------------------------
+
+let g:netrw_banner         = 0
+let g:netrw_winsize        = 15
+let g:netrw_preview        = 1
+let g:netrw_altv           = 1
+let g:netrw_fastbrowse     = 2
+let g:netrw_keepdir        = 0
+let g:netrw_retmap         = 1
+let g:netrw_silent         = 1
+let g:netrw_special_syntax = 1
+
+" -----------------------------------------------------------
+" Bindings, command key send <Char-0x0254> value
+" -----------------------------------------------------------
+
+" Define , as leader key
+let mapleader = ","
+
+" Save with Cmd-s
+nnoremap <Char-0x0254>s :w<CR>
+inoremap <Char-0x0254>s <ESC>:w<CR>l
+cnoremap <Char-0x0254>s <C-c>:w<CR>l
+vnoremap <Char-0x0254>s <ESC>:w<CR>l
+
+" Undo
+nnoremap <Char-0x0254>u u
+inoremap <Char-0x0254>u <ESC>u
+vnoremap <Char-0x0254>u <ESC>u
+
+" Do things right, use hjkl instead of arrows
+nnoremap j gj
+nnoremap k gk
+
+" Command mode nav
+cnoremap <C-e> <End>
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+
+" Fast visual 2 search
+vnoremap // y/\V<C-R>"<CR>
+
+" delete without yanking
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" replace currently selected text with default register without yanking it
+vnoremap <leader>p "_dP
+
+" Remove help
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+
+" Open on new window
+nnoremap <Char-0x0254>& <C-w>v<C-w>l
+inoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
+cnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
+vnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
+
+" Tab managment
+nnoremap <Char-0x0254>@ :tabnew<CR>
+inoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+vnoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+cnoremap <Char-0x0254>@ <Esc>:tabnew<CR>
+nnoremap <Char-0x0254>n :tabnext<CR>
+inoremap <Char-0x0254>n <Esc>:tabnext<CR>
+vnoremap <Char-0x0254>n <Esc>:tabnext<CR>
+cnoremap <Char-0x0254>n <Esc>:tabnext<CR>
+nnoremap <Char-0x0254>p :tabprevious<CR>
+inoremap <Char-0x0254>p <Esc>:tabprevious<CR>
+vnoremap <Char-0x0254>p <Esc>:tabprevious<CR>
+nnoremap <Char-0x0254>p <Esc>:tabprevious<CR>
+
+" Close vim
+nnoremap <leader>q :wq!<CR>
+
+" Exit with ! and close tab and buffer
+nnoremap <Char-0x0254>q :bd!<CR>
+inoremap <Char-0x0254>q <Esc>:bd!<CR>
+
+" Remap window moves
+nnoremap <left> <C-w>h
+nnoremap <down> <C-w>j
+nnoremap <up> <C-w>k
+nnoremap <right> <C-w>l
+
+" Indent line
+nmap <S-Tab> <<
+nmap <Tab> >>
+vmap <S-Tab> <gv
+vmap <Tab> >gv
+
+" Move visual selection with Alt-j / Alt-k
+vnoremap Ï :m '>+1<CR>gv=gv
+vnoremap È :m '<-2<CR>gv=gv
+
+" Insert new empty lines with Alt-o / Alt-O
+nmap œ o<Esc>k
+nmap Œ O<Esc>j
+
+" Force sudo write
+cmap w!! w !sudo tee > /dev/null %
+
+" Yank all lines
+nmap <leader>ya :%y+<CR>
+
+" Paste toggle
+set pastetoggle=<leader>°
+
+" Display invisible chars
+nmap <leader>l :set list!<CR>
+
+" Turn off search highlight and previous matches
+nnoremap <leader><space> :nohlsearch<CR>:call clearmatches()<CR>
+
+" Enable/Disable spell checking
+nnoremap <silent> <leader>gs :set spell!<CR>
+
+" Center window vertically on next/previous search match
+noremap n nzz
+noremap N Nzz
+
+" -----------------------------------------------------------
+" Functions
+" -----------------------------------------------------------
+
+" Command alias, redraw window
+command! -nargs=1 Silent
+\ execute ':silent !clear'
+\ | execute ':silent '.<q-args>
+\ | execute ':redraw!'
+
+" Return curent filename or current directory
+function! GetSmartWd()
+  let dir = expand('%:p')
+  if dir != ""
+     return dir
+  else
+     return expand('%:p:h')
+  endif
+endfunction
