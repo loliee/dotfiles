@@ -15,9 +15,7 @@ return {
       version = "v2.*",
       build = "make install_jsregexp",
       config = function()
-        local luasnip = require("luasnip")
-        luasnip.config.set_config({ history = true })
-        require("luasnip.loaders.from_lua").load({ "~/.config/nvim/snippets/lua" })
+        require("luasnip.loaders.from_lua").lazy_load({ paths = { "~/.config/nvim/snippets/lua" } })
       end,
     },
     "giuxtaposition/blink-cmp-copilot",
