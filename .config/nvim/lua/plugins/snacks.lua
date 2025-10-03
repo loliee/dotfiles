@@ -143,5 +143,12 @@ return {
       end,
       desc = "List highlights",
     },
+    {
+      "<leader>fk",
+      function()
+        Snacks.picker.keymaps()
+      end,
+      desc = "List keymaps",
+    },
   },
 }
