@@ -136,5 +136,12 @@ return {
       end,
       desc = "Current Buffer",
     },
+    {
+      "<leader>fc",
+      function()
+        Snacks.picker.highlights()
+      end,
+      desc = "List highlights",
+    },
   },
 }
