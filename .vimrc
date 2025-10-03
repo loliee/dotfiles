@@ -182,7 +182,7 @@ inoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
 cnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
 vnoremap <Char-0x0254>& <Esc><C-w>v<C-w>l
 
-" Tab managment
+" Tab management
 nnoremap <Char-0x0254>@ :tabnew<CR>
 inoremap <Char-0x0254>@ <Esc>:tabnew<CR>
 vnoremap <Char-0x0254>@ <Esc>:tabnew<CR>
@@ -255,7 +255,7 @@ command! -nargs=1 Silent
 \ | execute ':silent '.<q-args>
 \ | execute ':redraw!'
 
-" Return curent filename or current directory
+" Return current filename or current directory
 function! GetSmartWd()
   let dir = expand('%:p')
   if dir != ""
