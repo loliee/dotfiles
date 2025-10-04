@@ -56,7 +56,7 @@ set number                        " Display line number for current line
 
 " Set basic colorscheme
 if ! exists("patatetoy_custom_term_colors")
-  colorscheme delek
+  colorscheme habamax
 endif
 
 " Set the terminal's title
