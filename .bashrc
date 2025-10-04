@@ -67,11 +67,15 @@ if [[ -f "${HOMEBREW_PREFIX}/share/chruby/chruby.sh" ]]; then
 fi
 
 # fvm node manager
-eval "$(fnm env --use-on-cd)"
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env --use-on-cd)"
+fi
 
 # Pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if command -v pyenv &>/dev/null; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd j)"
