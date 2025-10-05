@@ -92,26 +92,26 @@ if [ -f "${HOME}/.fzf.bash" ]; then
 fi
 
 # Auto attach|start ssh-agent
-#SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
+# SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
 #
-#if [[ -r $SSH_AGENT ]]; then
-#  eval "$(<"$SSH_AGENT")" >/dev/null
-#fi
+# if [[ -r $SSH_AGENT ]]; then
+#   eval "$(<"$SSH_AGENT")" >/dev/null
+# fi
 #
-#if [[ -z ${SSH_AGENT_PID} ]] || ! kill -0 "${SSH_AGENT_PID}" &>/dev/null; then
-#  (
-#    umask 066
-#    ssh-agent >"${SSH_AGENT}"
-#  )
+# if [[ -z ${SSH_AGENT_PID} ]] || ! kill -0 "${SSH_AGENT_PID}" &>/dev/null; then
+#   (
+#     umask 066
+#     ssh-agent >"${SSH_AGENT}"
+#   )
 #
-#  eval "$(<"$SSH_AGENT")" >/dev/null
-#fi
+#   eval "$(<"$SSH_AGENT")" >/dev/null
+# fi
 
-if ! ssh-add -l &>/dev/null; then
-  trap '' SIGINT
-  ssh-add -t 8h
-  trap - SIGINT
-fi
+# if ! ssh-add -l &>/dev/null; then
+#   trap '' SIGINT
+#   ssh-add -t 8h
+#   trap - SIGINT
+# fi
 
 # Aliases
 if [[ -f "${HOME}/.aliases" ]]; then
