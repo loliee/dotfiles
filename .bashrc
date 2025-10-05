@@ -25,9 +25,12 @@ shopt -s extglob
 # pathname expansion will be treated as case-insensitive
 shopt -s nocaseglob
 
-# starship
+# Prompt
 if command -v starship &>/dev/null; then
   eval "$(starship init bash)"
+elif [[ -f "${HOME}/.patatetoy/patatetoy.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.patatetoy/patatetoy.sh"
 fi
 
 # bash completions
