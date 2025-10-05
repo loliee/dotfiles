@@ -133,3 +133,8 @@ if [[ -f "${HOME}/.aliases.local" ]]; then
   # shellcheck source=/dev/null
   source "${HOME}/.aliases.local"
 fi
+
+if [[ -f "${HOME}/.env.local" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.env.local"
+fi
