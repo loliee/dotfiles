@@ -84,7 +84,6 @@ brew install \
   hashicorp/tap/packer \
   hashicorp/tap/terraform \
   hugo \
-  ikuwow/ikuwow-sshrc/sshrc \
   ipcalc \
   jq \
   k9s \
