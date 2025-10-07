@@ -50,6 +50,8 @@ export RUBY_BUILD_CACHE_PATH=~/.rubies/cache
 # Allow bundler to use all the cores for parallel installation
 export BUNDLE_JOBS=4
 
+export SSHRC_USER=loliee
+
 # MySQL prompt
 export MYSQL_PS1='(\D) \u@\h [\d] > '
 
