@@ -38,7 +38,7 @@ command -q rg &>/dev/null; and abbr --add rga rg --hidden --no-ignore
 
 # Docker
 command -q docker &>/dev/null; and abbr --add d docker
-command -q docker-compose &>/dev/null; and abbr --add dc docker compose
+command -q docker compose &>/dev/null; and abbr --add dc docker compose
 
 # Kubernerntes
 command -q k9s &>/dev/null; and abbr --add k k9s
