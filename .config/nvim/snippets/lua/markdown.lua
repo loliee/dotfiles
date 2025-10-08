@@ -7,7 +7,6 @@ local d = ls.dynamic_node
 local i = ls.insert_node
 local s = ls.snippet
 local c = ls.choice_node
-local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
@@ -18,10 +17,9 @@ return {
         ```<>
         <>
         ```
-
         ]],
       {
-        c(1, { sn(nil, { t("console"), i(1) }), sn(nil, { t("yaml") }), sn(nil, { t("json") }) }),
+        c(1, { t("bash"), t("yaml"), t("json"), i(nil, "[custom type]") }),
         d(2, visual_insert),
       }
     )
