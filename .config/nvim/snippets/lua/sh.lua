@@ -76,7 +76,11 @@ return {
         EOT
 
       ]],
-      { c(1, { sn(nil, { t(">"), i(1) }), sn(nil, { t(">>") }) }), i(2, { "[file]" }), i(3, { "[content]" }) },
+      {
+        c(1, { t(">"), t(">>") }),
+        i(2, { "[file]" }),
+        i(3, { "[content]" }),
+      },
       { delimiters = "{}" }
     )
   ),
