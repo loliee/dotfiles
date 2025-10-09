@@ -72,4 +72,28 @@ return {
       }
     )
   ),
+
+  s( -- Collapsible section
+    {
+      trig = "collapsible",
+      desc = "Create a collapsible section.",
+    },
+    fmta(
+      [[
+      <details>
+        <summary>{}</summary>
+        <pre>
+          <code>
+          {}
+          </code>
+        </pre>
+      </details>
+    ]],
+      {
+        i(1, { "Click here to expand" }),
+        i(2, { "Describe how to test changes" }),
+      },
+      { delimiters = "{}" }
+    )
+  ),
 }
