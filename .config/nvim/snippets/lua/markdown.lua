@@ -50,4 +50,26 @@ return {
     },
     fmta([[![](<>)]], { d(1, visual_insert) })
   ),
+
+  s( -- Merge request template
+    {
+      trig = "mr",
+      desc = "Merge Request template.",
+    },
+    fmta(
+      [[
+      ## Description
+
+      <>
+
+      ## Tests
+
+      <>
+    ]],
+      {
+        i(1, { "Give some context" }),
+        i(2, { "Describe how to test changes" }),
+      }
+    )
+  ),
 }
