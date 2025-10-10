@@ -363,6 +363,14 @@ local M = function(h, c)
   h.GrugFarInputLabel = {
     fg = c.blue,
   }
+  h.GrugFarResultsMatchAdded = {
+    bg = c.dark,
+    fg = c.green,
+  }
+  h.GrugFarResultsMatchRemoved = {
+    bg = c.dark,
+    fg = c.red,
+  }
   h.GrugFarInputPlaceholder = {
     fg = c.comment,
   }
