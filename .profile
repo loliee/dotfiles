@@ -20,6 +20,9 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# Colorize my fish functions
+export CLICOLOR=1
+
 # history
 export HISTFILE=~/.bash_history
 export HISTSIZE=393216
