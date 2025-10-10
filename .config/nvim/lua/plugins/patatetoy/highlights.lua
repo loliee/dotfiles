@@ -4,6 +4,7 @@
 
 local M = function(h, c)
   h.Visual = { bg = c.comment, fg = c.yellow }
+  h.CursorLine = { bg = c.bg_cursor_line }
   h.ErrorMsg = {
     bg = c.bg_dark,
     fg = c.red,

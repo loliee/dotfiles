@@ -19,6 +19,7 @@ local M = function(c)
   c.fg_float = "#6c6d6c"
   c.fg_gutter = "#6c6d6c"
   c.fg_sidebar = "#6c6d6c"
+  c.bg_cursor_line = "#3a3939"
   c.blue = "#5eb1dd"
   c.blue_bright = "#73b8dc"
   c.black = "#3a3939"
