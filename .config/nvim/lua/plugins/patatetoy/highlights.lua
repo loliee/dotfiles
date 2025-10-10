@@ -227,6 +227,9 @@ local M = function(h, c)
   h.GitGutterChangeLineNr = {
     fg = c.yellow,
   }
+  h.GitSignsStagedChange = {
+    fg = c.yellow,
+  }
   h.GitGutterDelete = {
     fg = c.magenta,
   }
@@ -244,6 +247,9 @@ local M = function(h, c)
   }
   h.GitSignsBlameColor = {
     fg = c.magenta,
+  }
+  h.GitSignsStagedChange = {
+    fg = c.yellow,
   }
   h.SnacksPickerSelected = {
     fg = c.magenta,
