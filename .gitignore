@@ -1,6 +1,7 @@
 .aliases.local
 .config/fish/conf.d/*local.fish
 .config/fish/functions_local
+.config/fish/fish_variables
 .config/fish/vendor
 .config/github-copilot
 .config/glab-cli
