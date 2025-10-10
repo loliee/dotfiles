@@ -31,16 +31,16 @@ vim.keymap.set("v", "<leader>p", '"_c<Esc>p', { desc = "Paste without register."
 vim.keymap.set("v", "Ï", ":m '>+1<CR>gv=gv", { desc = "Move up visual selection.", noremap = true, silent = true })
 vim.keymap.set("v", "È", ":m '<-2<CR>gv=gv", { desc = "Move down visual selection.", noremap = true, silent = true })
 
--- Special Keybinds based on terminal remap and ASCII code 254 (þ letter)
+-- Special Keybinds prefixed by "ɔ"
 --
 --  Save with Cmd-s
-vim.keymap.set("n", "<Char-0x254>s", function()
+vim.keymap.set("n", "ɔs", function()
   if vim.bo.buftype == "" then
     vim.cmd("w")
   end
 end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
 
-vim.keymap.set({ "i", "c", "v" }, "<Char-0x254>s", function()
+vim.keymap.set({ "i", "c", "v" }, "ɔs", function()
   if vim.bo.buftype == "" then
     vim.cmd("stopinsert")
     vim.cmd("w")
@@ -48,17 +48,12 @@ vim.keymap.set({ "i", "c", "v" }, "<Char-0x254>s", function()
 end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
 
 -- Undo with Cmd-u
-vim.keymap.set(
-  { "n", "i", "c" },
-  "<Char-0x254>u",
-  "<Esc>u",
-  { desc = "Undo with Cmd-u.", noremap = true, silent = true }
-)
+vim.keymap.set({ "n", "i", "c" }, "ɔu", "<Esc>u", { desc = "Undo with Cmd-u.", noremap = true, silent = true })
 
 -- Split window
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "<Char-0x254>&",
+  "ɔ&",
   "<Esc><C-w>v<C-w>l",
   { desc = "Move to next tab.", noremap = true, silent = true }
 )
@@ -66,19 +61,19 @@ vim.keymap.set(
 -- Tabs management
 vim.keymap.set(
   { "n", "i", "c", "v" },
-  "<Char-0x254>@",
+  "ɔ@",
   "<Esc><cmd>tabnew<CR>",
   { desc = "Open new tab.", noremap = true, silent = true }
 )
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "<Char-0x254>n",
+  "ɔn",
   "<Esc><cmd>:tabnext<CR>",
   { desc = "Move to next tab.", noremap = true, silent = true }
 )
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "<Char-0x254>p",
+  "ɔp",
   "<Esc><cmd>:tabprevious<CR>",
   { desc = "Move to previous tab.", noremap = true, silent = true }
 )

@@ -38,7 +38,6 @@ brew install \
 
 brew install \
   advancecomp \
-  alacritty \
   ansifilter \
   argc \
   asciinema \
@@ -73,6 +72,7 @@ brew install \
   git \
   git-absorb \
   git-filter-repo \
+  ghostty \
   gnu-sed \
   gnu-tar \
   gnu-time \
