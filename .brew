@@ -238,3 +238,7 @@ fasttextBinary=$(command -v fasttext)
 EOT
 
 brew services start languagetool
+
+if [[ ! -f "/etc/sudoers.d/$USER" ]]; then
+  echo "$USER ALL=(ALL) NOPASSWD: $HOME/.config/fish/scripts/opx-clean.fish" | sudo tee "/etc/sudoers.d/$USER" >/dev/null
+fi
