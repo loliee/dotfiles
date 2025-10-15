@@ -86,6 +86,7 @@ brew install \
   hugo \
   ipcalc \
   jq \
+  jwt-cli \
   k9s \
   krew \
   kubectx \
