@@ -393,6 +393,12 @@ local M = function(h, c)
   h.GrugFarResultsStats = {
     fg = c.blue,
   }
+  h.LazyNormal = {
+    fg = c.white,
+  }
+  h.LazyBorder = {
+    fg = c.comment,
+  }
 end
 
 return M
