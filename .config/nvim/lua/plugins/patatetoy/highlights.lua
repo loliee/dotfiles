@@ -39,6 +39,12 @@ local M = function(h, c)
   h.String = {
     fg = c.green_bright,
   }
+  h.DiffAdd = {
+    fg = c.green,
+  }
+  h.DiffDelete = {
+    fg = c.red,
+  }
   h.Debug = {
     fg = c.yellow,
   }
