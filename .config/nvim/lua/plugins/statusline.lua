@@ -20,10 +20,9 @@ return {
           local search = statusline.section_searchcount({ trunc_width = 75 })
           local copilot_hl = "MiniStatusLineCopilotDisabled"
 
-          if package.loaded["copilot"] then
-            local client = vim.lsp.get_clients({ name = "copilot", bufnr = vim.api.nvim_get_current_buf() })
-            local ft = vim.bo.filetype
-            if #client > 0 or ft == "copilot-chat" then
+          if package.loaded["copilot"] or package.loaded["codecompanion"] then
+            local copilot_client = vim.lsp.get_clients({ name = "copilot", bufnr = vim.api.nvim_get_current_buf() })
+            if #copilot_client > 0 or package.loaded["codecompanion"] then
               copilot_hl = "MiniStatusLineCopilotEnabled"
             end
           end
