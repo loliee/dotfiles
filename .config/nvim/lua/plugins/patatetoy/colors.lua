@@ -12,6 +12,7 @@ local M = function(c)
   c.bg_search = "#292b2d"
   c.bg_sidebar = "#292b2d"
   c.bg_statusline = "#080808"
+  c.bg_visual = "#525151"
   c.dark3 = "#6c6d6c"
   c.dark4 = "#f0522b"
   c.fg = "#c9cac0"

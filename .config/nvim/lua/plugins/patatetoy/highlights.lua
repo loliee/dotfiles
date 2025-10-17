@@ -3,7 +3,7 @@
 -- :Telescope highlights
 
 local M = function(h, c)
-  h.Visual = { bg = c.comment, fg = c.yellow }
+  h.Visual = { bg = c.bg_visual, bold = true }
   h.CursorLine = { bg = c.bg_cursor_line }
   h.ErrorMsg = {
     bg = c.bg_dark,
