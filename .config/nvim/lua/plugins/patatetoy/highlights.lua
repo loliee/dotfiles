@@ -33,6 +33,14 @@ local M = function(h, c)
   h.Function = {
     fg = c.blue_bright,
   }
+  h.FloatBorder = {
+    bg = c.bg_dark,
+    fg = c.blue,
+  }
+  h.FloatTitle = {
+    bg = c.bg_dark,
+    fg = c.blue,
+  }
   h.Italic = {
     fg = c.blue,
   }
@@ -65,6 +73,10 @@ local M = function(h, c)
   }
   h.MatchParen = {
     fg = c.red,
+  }
+  h.NormalFloat = {
+    bg = c.bg_dark,
+    fg = c.fg,
   }
   h.BlinkCmpMenu = {
     bg = c.bg_dark2,
