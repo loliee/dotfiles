@@ -1,3 +1,32 @@
+local layout_fullscreen = {
+  preset = "horizontal",
+  layout = {
+    box = "horizontal",
+    backdrop = false,
+    width = 0.999,
+    height = 0.999,
+    border = "none",
+    {
+      box = "vertical",
+      { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+      {
+        win = "input",
+        height = 1,
+        border = "rounded",
+        title = "{title} {live} {flags}",
+        title_pos = "center",
+      },
+    },
+    {
+      win = "preview",
+      title = "{preview:Preview}",
+      width = 0.55,
+      border = "rounded",
+      title_pos = "center",
+    },
+  },
+}
+
 return {
   "folke/snacks.nvim",
   dependencies = {
@@ -30,28 +59,6 @@ return {
           },
         },
       },
-      layout = {
-        preset = "horizontal",
-        layout = {
-          box = "horizontal",
-          backdrop = false,
-          width = 0.999,
-          height = 0.999,
-          border = "none",
-          {
-            box = "vertical",
-            { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
-            { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
-          },
-          {
-            win = "preview",
-            title = "{preview:Preview}",
-            width = 0.55,
-            border = "rounded",
-            title_pos = "center",
-          },
-        },
-      },
       icons = {
         files = {
           enabled = true,
@@ -69,7 +76,7 @@ return {
     {
       "<leader>,",
       function()
-        Snacks.picker.buffers()
+        Snacks.picker.buffers({ layout = layout_fullscreen })
       end,
       desc = "Buffers",
     },
@@ -77,6 +84,7 @@ return {
       "<leader>f",
       function()
         Snacks.picker.files({
+          layout = layout_fullscreen,
           hidden = true,
         })
       end,
@@ -86,6 +94,7 @@ return {
       "<leader>fa",
       function()
         Snacks.picker.files({
+          layout = layout_fullscreen,
           hidden = true,
           ignored = true,
         })
@@ -95,37 +104,35 @@ return {
     {
       "<leader>fg",
       function()
-        Snacks.picker.git_files()
+        Snacks.picker.git_files({ layout = layout_fullscreen })
       end,
       desc = "Git File Explorer",
     },
     {
       "<leader>fr",
       function()
-        Snacks.picker.recent()
+        Snacks.picker.recent({ layout = layout_fullscreen })
       end,
       desc = "Recent File Explorer",
     },
     {
       "<leader>r",
       function()
-        Snacks.picker.grep({ hidden = true })
+        Snacks.picker.grep({ layout = layout_fullscreen, hidden = true })
       end,
       desc = "Grep / Hidden",
     },
     {
       "<leader>ra",
       function()
-        Snacks.picker.grep({ hidden = true, ignored = true })
+        Snacks.picker.grep({ layout = layout_fullscreen, hidden = true, ignored = true })
       end,
       desc = "Grep / Hidden & Ignored",
     },
     {
       "<leader>fh",
       function()
-        Snacks.picker.command_history({
-          layout = "select",
-        })
+        Snacks.picker.command_history()
       end,
       desc = "History",
     },
@@ -146,14 +153,14 @@ return {
     {
       "<leader>fc",
       function()
-        Snacks.picker.highlights()
+        Snacks.picker.highlights({ layout = layout_fullscreen })
       end,
       desc = "List highlights",
     },
     {
       "<leader>fk",
       function()
-        Snacks.picker.keymaps()
+        Snacks.picker.keymaps({ layout = layout_fullscreen })
       end,
       desc = "List keymaps",
     },
