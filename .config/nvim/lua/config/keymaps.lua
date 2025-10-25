@@ -91,9 +91,11 @@ vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Indent visual selection left", n
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent visual selection right", noremap = true, silent = true })
 
 -- Open tig
-vim.keymap.set(
-  "n",
-  "<leader>t",
-  ":terminal tig %<CR>",
-  { desc = "Open tig on current file", noremap = true, silent = true }
-)
+vim.keymap.set("n", "<leader>t", function()
+  local filename = vim.api.nvim_buf_get_name(0)
+  if filename ~= "" then
+    vim.cmd("terminal tig " .. vim.fn.fnameescape(filename))
+  else
+    vim.cmd("terminal tig")
+  end
+end, { desc = "Open tig on current file (or repo)", noremap = true, silent = true })
