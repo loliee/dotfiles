@@ -100,8 +100,27 @@ return {
       nerd_font_variant = "mono",
     },
     cmdline = {
-      keymap = { preset = "inherit" },
-      completion = { menu = { auto_show = true } },
+      keymap = {
+        preset = "inherit",
+        ["<Tab>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              return cmp.select_next()
+            end
+          end,
+          "show",
+        },
+        ["<S-Tab>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              return cmp.select_prev()
+            end
+          end,
+          "fallback",
+        },
+        ["<C-space>"] = { "show" },
+      },
+      completion = { menu = { auto_show = false } },
     },
     completion = {
       menu = {
