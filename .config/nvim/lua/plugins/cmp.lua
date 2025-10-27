@@ -52,12 +52,12 @@ return {
   opts = {
     keymap = {
       preset = "default",
-      ["<C-f>"] = { "accept" },
-      ["<C-u>"] = { "scroll_documentation_up" },
-      ["<C-d>"] = { "scroll_documentation_down" },
-      ["<C-n>"] = { "snippet_forward" },
-      ["<C-p>"] = { "snippet_backward" },
-      ["<C-space>"] = { "show" },
+      ["<C-f>"] = { "accept", "fallback" },
+      ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+      ["<C-n>"] = { "snippet_forward", "fallback" },
+      ["<C-p>"] = { "snippet_backward", "fallback" },
+      ["<C-space>"] = { "show", "fallback" },
       ["<Tab>"] = {
         function(cmp)
           if cmp.is_visible() then
