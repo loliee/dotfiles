@@ -51,6 +51,8 @@ return {
       end)
     end
 
+    local gitlab_schema_url =
+      "https://gitlab.com/gitlab-org/gitlab/-/raw/main/app/assets/javascripts/editor/schema/ci.json"
     local servers = {
       ansiblels = {},
       ast_grep = {
@@ -93,7 +95,7 @@ return {
                   description = "GitLab override",
                   fileMatch = { "**/gitlab-ci/**/*.yml", "**/gitlab-components/**/*.yml" },
                   name = "gitlab.yml",
-                  url = "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json",
+                  url = gitlab_schema_url,
                 },
               },
             }),
