@@ -58,6 +58,15 @@ vim.keymap.set(
   { desc = "Move to next tab.", noremap = true, silent = true }
 )
 
+-- Resize right window
+vim.keymap.set({ "n", "i", "v", "c" }, "<leader>w", function()
+  local original_win = vim.api.nvim_get_current_win()
+  vim.cmd("wincmd l")
+  local target_cols = math.floor(vim.o.columns * 0.45)
+  vim.cmd("vertical resize " .. target_cols)
+  vim.api.nvim_set_current_win(original_win)
+end, { desc = "Go to right window, resize to 45% width, then return.", noremap = true, silent = true })
+
 -- Tabs management
 vim.keymap.set(
   { "n", "i", "c", "v" },
