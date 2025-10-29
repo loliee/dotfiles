@@ -33,7 +33,7 @@ stow: ## Stow dotfiles
 		--ignore='.gnupg' \
 		--ignore='.gemrc' \
 		--ignore='.krew' \
-		--ignore='.macos' \
+		--ignore='^\.macos$$' \
 		--ignore='.macos_hardening' \
 		--ignore='.pre-commit-config.yaml' \
 		--ignore='.ssh' \
