@@ -13,7 +13,10 @@ repos:
       - id: detect-private-key
       - id: requirements-txt-fixer
       - id: trailing-whitespace
-
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.29.0
+    hooks:
+      - id: yamllint
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.12.0-2
     hooks:
