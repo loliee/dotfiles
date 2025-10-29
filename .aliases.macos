@@ -14,21 +14,11 @@ command -v ggrep &>/dev/null && alias grep='ggrep --color'
 # Stopwatch
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; update-prezto'
-
 # IP addresses
 alias localip="ipconfig getifaddr en0"
 
-# Flush Directory Service cache
-alias flush='dscacheutil -flushcache && killall -HUP mDNSResponder'
-
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
 alias lscleanup='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder'
-
-# Empty the Trash on all mounted volumes and the main HDD
-# Also, clear Apple’s System Logs to improve shell startup speed
-alias emptytrash='sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl'
 
 # Show/hide hidden files in Finder
 alias show='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
@@ -46,51 +36,11 @@ alias unmute="osascript -e 'set volume output muted false'"
 # (useful when executing time-consuming commands)
 alias badge='tput bel'
 
-# Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
-alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
 # Defaults
-alias 'defaults.list=rc="\n" && defaults domains | sed s/,/"$rc"/g'
+alias defaults-list='defaults domains | sed s/,/"\n"/g'
 
 # Lock the screen (when going AFK)
-alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+alias afk='osascript -e "tell application \"System Events\" to keystroke \"q\" using {control down, command down}"'
 
 # which resolver I use
-alias net-dns-resolver='scutil --dns | head'
-
-# update blacklist domains
-function net-dns-update-blacklist() {
-  dest='/etc/dnscrypt-proxy-blacklist.txt'
-  source='https://download.dnscrypt.info/blacklists/domains/mybase.txt'
-  echo "Update ${dest} from ${source}"
-  sudo curl -Ls -o "${dest}" "${source}"
-}
-
-# shellcheck disable=SC2016
-function net-dns-local-enable() {
-  net-update-interfaces 'sudo networksetup -setdnsservers "$interface" "127.0.0.1"'
-}
-
-# shellcheck disable=SC2016
-function net-dns-local-disable() {
-  net-update-interfaces 'sudo networksetup -setdnsservers "$interface" "Empty"'
-}
-
-# Update interfaces config, usefull to set Proxies, DNS etc ...
-function net-update-interfaces() {
-  networksetup -listallnetworkservices | while read -r interface; do
-    if [[ "$interface" =~ LAN || "$interface" == Wi-Fi ]]; then
-      eval "$1" && print "${1//\$interface/$interface}"
-    fi
-  done
-}
-
-function net-recreate-automatic() {
-  sudo networksetup -createlocation 'tmp' populate &>/dev/null
-  sudo networksetup -switchtolocation 'tmp'
-  # Automatic
-  sudo networksetup -deletelocation 'Automatic' || true
-  sudo networksetup -createlocation 'Automatic' populate
-  sudo networksetup -switchtolocation 'Automatic'
-}
+alias dns-resolver='scutil --dns | head'
