@@ -1,0 +1,8 @@
+[[rule]]
+
+[rule.formatting]
+align_entries = false
+reorder_keys = false
+align_comments = true
+array_auto_expand = false
+inline_table_expand = false

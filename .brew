@@ -126,6 +126,7 @@ brew install \
   stylua \
   tcpdump \
   tcptraceroute \
+  taplo \
   tflint \
   tfsec \
   tig \

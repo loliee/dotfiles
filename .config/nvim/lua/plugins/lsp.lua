@@ -84,6 +84,7 @@ return {
       ruff = {},
       rust_analyzer = {},
       terraformls = {},
+      taplo = {},
       yamlls = {
         settings = {
           yaml = {

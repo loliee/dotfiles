@@ -31,3 +31,17 @@ repos:
         types: [lua]
         pass_filenames: true
         description: Custom hook to lint Lua files using luacheck
+      - id: taplo-lint
+        name: Run taplo lint
+        entry: taplo lint
+        language: system
+        types: [toml]
+        pass_filenames: true
+        description: Custom hook to lint TOML files using taplo
+      - id: taplo-format
+        name: Run taplo format --check
+        entry: taplo format --check
+        language: system
+        types: [toml]
+        pass_filenames: true
+        description: Custom hook to check TOML formatting using taplo
