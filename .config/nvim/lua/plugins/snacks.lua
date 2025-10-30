@@ -137,6 +137,13 @@ return {
       desc = "Current Buffer",
     },
     {
+      "<leader>fq",
+      function()
+        Snacks.picker.qflist({ layout = layout_fullscreen })
+      end,
+      desc = "Quickfix List",
+    },
+    {
       "<leader>fc",
       function()
         Snacks.picker.highlights()
