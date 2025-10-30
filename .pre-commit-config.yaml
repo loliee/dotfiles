@@ -48,3 +48,10 @@ repos:
         types: [toml]
         pass_filenames: true
         description: Custom hook to check TOML formatting using taplo
+      - id: markdownlint
+        name: Run markdownlint
+        entry: mdl
+        language: system
+        types: [markdown]
+        pass_filenames: true
+        description: Custom hook to run markdownlint
