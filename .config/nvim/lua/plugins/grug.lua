@@ -7,7 +7,7 @@ return {
       },
     } })
   end,
-  vim.keymap.set("n", "<leader>g", function()
+  vim.keymap.set({ "n", "v" }, "<leader>g", function()
     require("grug-far").open({
       engine = "ripgrep",
       prefills = {
@@ -16,7 +16,7 @@ return {
       },
     })
   end, { desc = "Open grug-far with ripgrep" }),
-  vim.keymap.set("n", "<leader>ga", function()
+  vim.keymap.set({ "n", "v" }, "<leader>ga", function()
     require("grug-far").open({
       engine = "ripgrep",
       prefills = {
