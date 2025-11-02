@@ -1,5 +1,9 @@
 # Tmux
 
+if ! status --is-login
+    exit 0
+end
+
 if test $TERMINAL_MULTIPLEXER = tmux
     if ! tmux has-session -t=ml &>/dev/null
         TMUX='' tmux new-session -d -s ml

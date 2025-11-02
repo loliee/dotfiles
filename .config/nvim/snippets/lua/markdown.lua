@@ -7,7 +7,6 @@ local d = ls.dynamic_node
 local i = ls.insert_node
 local s = ls.snippet
 local c = ls.choice_node
-local sn = ls.snippet_node
 local t = ls.text_node
 
 return {
@@ -18,10 +17,9 @@ return {
         ```<>
         <>
         ```
-
         ]],
       {
-        c(1, { sn(nil, { t("console"), i(1) }), sn(nil, { t("yaml") }), sn(nil, { t("json") }) }),
+        c(1, { t("bash"), t("yaml"), t("json"), i(nil, "[custom type]") }),
         d(2, visual_insert),
       }
     )
@@ -51,5 +49,51 @@ return {
       desc = "Create markdown image link, supports i,v modes.",
     },
     fmta([[![](<>)]], { d(1, visual_insert) })
+  ),
+
+  s( -- Merge request template
+    {
+      trig = "mr",
+      desc = "Merge Request template.",
+    },
+    fmta(
+      [[
+      ## Description
+
+      <>
+
+      ## Tests
+
+      <>
+    ]],
+      {
+        i(1, { "Give some context" }),
+        i(2, { "Describe how to test changes" }),
+      }
+    )
+  ),
+
+  s( -- Collapsible section
+    {
+      trig = "collapsible",
+      desc = "Create a collapsible section.",
+    },
+    fmta(
+      [[
+      <details>
+        <summary>{}</summary>
+        <pre>
+          <code>
+          {}
+          </code>
+        </pre>
+      </details>
+    ]],
+      {
+        i(1, { "Click here to expand" }),
+        i(2, { "Describe how to test changes" }),
+      },
+      { delimiters = "{}" }
+    )
   ),
 }

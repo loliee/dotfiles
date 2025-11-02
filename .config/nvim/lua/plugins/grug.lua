@@ -7,10 +7,22 @@ return {
       },
     } })
   end,
-  vim.keymap.set("n", "<leader>g", function()
-    require("grug-far").open({ engine = "ripgrep" })
+  vim.keymap.set({ "n", "v" }, "<leader>g", function()
+    require("grug-far").open({
+      engine = "ripgrep",
+      prefills = {
+        filesFilter = "!.git/",
+        flags = "--hidden",
+      },
+    })
   end, { desc = "Open grug-far with ripgrep" }),
-  vim.keymap.set("n", "<leader>ga", function()
-    require("grug-far").open({ engine = "ripgrep" })
+  vim.keymap.set({ "n", "v" }, "<leader>ga", function()
+    require("grug-far").open({
+      engine = "ripgrep",
+      prefills = {
+        filesFilter = "!.git/",
+        flags = "--hidden --no-ignore",
+      },
+    })
   end, { desc = "Open grug-far with ripgrep" }),
 }

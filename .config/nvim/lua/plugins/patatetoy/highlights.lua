@@ -3,7 +3,8 @@
 -- :Telescope highlights
 
 local M = function(h, c)
-  h.Visual = { bg = c.comment, fg = c.yellow }
+  h.Visual = { bg = c.bg_visual, bold = true }
+  h.CursorLine = { bg = c.bg_cursor_line }
   h.ErrorMsg = {
     bg = c.bg_dark,
     fg = c.red,
@@ -32,11 +33,25 @@ local M = function(h, c)
   h.Function = {
     fg = c.blue_bright,
   }
+  h.FloatBorder = {
+    bg = c.bg_dark,
+    fg = c.blue,
+  }
+  h.FloatTitle = {
+    bg = c.bg_dark,
+    fg = c.blue,
+  }
   h.Italic = {
     fg = c.blue,
   }
   h.String = {
     fg = c.green_bright,
+  }
+  h.DiffAdd = {
+    fg = c.green,
+  }
+  h.DiffDelete = {
+    fg = c.red,
   }
   h.Debug = {
     fg = c.yellow,
@@ -55,6 +70,13 @@ local M = function(h, c)
   }
   h["@comment.warning"] = {
     fg = c.comment,
+  }
+  h.MatchParen = {
+    fg = c.red,
+  }
+  h.NormalFloat = {
+    bg = c.bg_dark,
+    fg = c.fg,
   }
   h.BlinkCmpMenu = {
     bg = c.bg_dark2,
@@ -223,6 +245,9 @@ local M = function(h, c)
   h.GitGutterChangeLineNr = {
     fg = c.yellow,
   }
+  h.GitSignsStagedChange = {
+    fg = c.yellow,
+  }
   h.GitGutterDelete = {
     fg = c.magenta,
   }
@@ -240,6 +265,9 @@ local M = function(h, c)
   }
   h.GitSignsBlameColor = {
     fg = c.magenta,
+  }
+  h.GitSignsStagedChange = {
+    fg = c.yellow,
   }
   h.SnacksPickerSelected = {
     fg = c.magenta,
@@ -353,6 +381,14 @@ local M = function(h, c)
   h.GrugFarInputLabel = {
     fg = c.blue,
   }
+  h.GrugFarResultsMatchAdded = {
+    bg = c.dark,
+    fg = c.green,
+  }
+  h.GrugFarResultsMatchRemoved = {
+    bg = c.dark,
+    fg = c.red,
+  }
   h.GrugFarInputPlaceholder = {
     fg = c.comment,
   }
@@ -368,6 +404,12 @@ local M = function(h, c)
   }
   h.GrugFarResultsStats = {
     fg = c.blue,
+  }
+  h.LazyNormal = {
+    fg = c.white,
+  }
+  h.LazyBorder = {
+    fg = c.comment,
   }
 end
 

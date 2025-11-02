@@ -1,0 +1,35 @@
+theme = patatetoy
+
+font-family = "Iosevka Nerd Font"
+font-size = 14
+window-padding-x = 5
+window-padding-y = 5
+
+copy-on-select = clipboard
+
+# ─────────────────────────────
+# Keyboard Bindings
+# ─────────────────────────────
+
+keybind = ctrl+enter=reload_config
+
+# Fast escape
+keybind = cmd+j=text:\x1B
+
+# ← ↓ ↑ →
+keybind = ctrl+h=csi:D
+keybind = ctrl+j=csi:B
+keybind = ctrl+k=csi:A
+keybind = ctrl+l=csi:C
+
+# Vim
+keybind = cmd+p=text:ɔp
+keybind = cmd+n=text:ɔn
+keybind = cmd+s=text:ɔs
+keybind = cmd+u=text:ɔu
+keybind = cmd+@=text:ɔ@
+keybind = cmd+&=text:ɔ&
+
+# Beginning / end of line
+keybind = alt+h=text:^
+keybind = alt+l=text:$

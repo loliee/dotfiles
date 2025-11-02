@@ -22,6 +22,13 @@ return {
           mode = mode or "n"
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
+        -- Rename the variable under your cursor.
+        --  Most Language Servers support renaming across files, etc.
+        map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
+
+        -- Execute a code action, usually your cursor needs to be on top of an error
+        -- or a suggestion from your LSP for this to activate.
+        map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
       end,
     })
 
@@ -44,6 +51,8 @@ return {
       end)
     end
 
+    local gitlab_schema_url =
+      "https://gitlab.com/gitlab-org/gitlab/-/raw/main/app/assets/javascripts/editor/schema/ci.json"
     local servers = {
       ansiblels = {},
       ast_grep = {
@@ -75,6 +84,7 @@ return {
       ruff = {},
       rust_analyzer = {},
       terraformls = {},
+      taplo = {},
       yamlls = {
         settings = {
           yaml = {
@@ -86,7 +96,7 @@ return {
                   description = "GitLab override",
                   fileMatch = { "**/gitlab-ci/**/*.yml", "**/gitlab-components/**/*.yml" },
                   name = "gitlab.yml",
-                  url = "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json",
+                  url = gitlab_schema_url,
                 },
               },
             }),

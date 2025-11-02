@@ -1,0 +1,100 @@
+---
+name: Lint
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+"on":
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Run yamllint
+        run: yamllint .
+
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ruby
+        run: sudo apt-get update && sudo apt-get install -y ruby-full
+      - name: Install markdownlint
+        run: sudo gem install mdl
+      - name: Run markdownlint
+        run: mdl .
+
+  shfmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shfmt
+        run: sudo apt-get update && sudo apt-get install -y shfmt
+      - name: Run shfmt
+        run: shfmt -d .
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Run shellcheck
+        run: |
+          shellcheck $(
+            find . -type f -not -path '*/.git/*' -exec file --mime-type {} + \
+              | awk -F ': ' '/shellscript/ && !/fish/ {print $1}'
+          )
+
+  luacheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install luarocks
+        run: sudo apt-get update && sudo apt-get install -y luarocks
+      - name: Install luacheck via luarocks
+        run: sudo luarocks install luacheck
+      - name: Run luacheck
+        run: luacheck .
+
+  taplo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install taplo
+        run: |
+          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
+            | gzip -d - | install -m 755 /dev/stdin /usr/local/bin/taplo
+      - name: Run taplo lint
+        run: taplo lint .
+      - name: Run taplo format check
+        run: taplo format --check .
+
+  fish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install fish
+        run: sudo apt-get update && sudo apt-get install -y fish
+      - name: Run fish --no-execute
+        run: |
+          fish -N -c '
+            for f in (find . -type f -not -path "*/.git/*" -name "*.fish");
+              fish --no-execute $f 2>stderr.txt
+              if test $status != 0
+                set stderr_output (cat stderr.txt | string collect)
+                rm -f stderr.txt
+                echo >&2 "$f:" (set_color red)ko
+                printf "%s\n" $stderr_output >&2
+                set_color normal
+              else
+                echo "$f:" (set_color green)ok(set_color normal)
+              end
+            end'

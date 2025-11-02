@@ -1,3 +1,4 @@
+# mloliee
 # shellcheck shell=bash
 # shellcheck disable=SC1090
 
@@ -25,9 +26,12 @@ shopt -s extglob
 # pathname expansion will be treated as case-insensitive
 shopt -s nocaseglob
 
-# starship
+# Prompt
 if command -v starship &>/dev/null; then
   eval "$(starship init bash)"
+elif [[ -f "${HOME}/.patatetoy/patatetoy.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.patatetoy/patatetoy.sh"
 fi
 
 # bash completions
@@ -67,11 +71,15 @@ if [[ -f "${HOMEBREW_PREFIX}/share/chruby/chruby.sh" ]]; then
 fi
 
 # fvm node manager
-eval "$(fnm env --use-on-cd)"
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env --use-on-cd)"
+fi
 
 # Pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if command -v pyenv &>/dev/null; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd j)"
@@ -88,26 +96,26 @@ if [ -f "${HOME}/.fzf.bash" ]; then
 fi
 
 # Auto attach|start ssh-agent
-#SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
+# SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
 #
-#if [[ -r $SSH_AGENT ]]; then
-#  eval "$(<"$SSH_AGENT")" >/dev/null
-#fi
+# if [[ -r $SSH_AGENT ]]; then
+#   eval "$(<"$SSH_AGENT")" >/dev/null
+# fi
 #
-#if [[ -z ${SSH_AGENT_PID} ]] || ! kill -0 "${SSH_AGENT_PID}" &>/dev/null; then
-#  (
-#    umask 066
-#    ssh-agent >"${SSH_AGENT}"
-#  )
+# if [[ -z ${SSH_AGENT_PID} ]] || ! kill -0 "${SSH_AGENT_PID}" &>/dev/null; then
+#   (
+#     umask 066
+#     ssh-agent >"${SSH_AGENT}"
+#   )
 #
-#  eval "$(<"$SSH_AGENT")" >/dev/null
-#fi
+#   eval "$(<"$SSH_AGENT")" >/dev/null
+# fi
 
-if ! ssh-add -l &>/dev/null; then
-  trap '' SIGINT
-  ssh-add -t 8h
-  trap - SIGINT
-fi
+# if ! ssh-add -l &>/dev/null; then
+#   trap '' SIGINT
+#   ssh-add -t 8h
+#   trap - SIGINT
+# fi
 
 # Aliases
 if [[ -f "${HOME}/.aliases" ]]; then
@@ -125,4 +133,9 @@ fi
 if [[ -f "${HOME}/.aliases.local" ]]; then
   # shellcheck source=/dev/null
   source "${HOME}/.aliases.local"
+fi
+
+if [[ -f "${HOME}/.env.local" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.env.local"
 fi

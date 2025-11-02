@@ -1,13 +1,10 @@
 -- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md
 local ls = require("luasnip")
 local s = ls.snippet
-local sn = ls.snippet_node
 local t = ls.text_node
 local i = ls.insert_node
 local c = ls.choice_node
-local d = ls.dynamic_node
 local fmta = require("luasnip.extras.fmt").fmta
-local visual_insert = require("plugins.extras.sniputils").visual_insert
 
 return {
   s({ -- Shebang
@@ -76,62 +73,12 @@ return {
         EOT
 
       ]],
-      { c(1, { sn(nil, { t(">"), i(1) }), sn(nil, { t(">>") }) }), i(2, { "[file]" }), i(3, { "[content]" }) },
+      {
+        c(1, { t(">"), t(">>") }),
+        i(2, { "[file]" }),
+        i(3, { "[content]" }),
+      },
       { delimiters = "{}" }
     )
-  ),
-
-  s( -- if
-    {
-      trig = "if",
-      desc = "Add if statement.",
-    },
-    fmta(
-      [[
-        if <>; then
-            <>
-        fi
-
-      ]],
-      {
-        c(1, { sn(nil, { t("[[ "), i(1), t(" ]]") }), sn(nil, { t("") }) }),
-        i(2, { "[name]" }),
-      }
-    )
-  ),
-
-  s( -- Add variable
-    {
-      trig = "$",
-      desc = "Add variable.",
-    },
-    fmta([[${<><>}]], {
-      i(1, { "[name]" }),
-      c(2, { sn(nil, { t("-"), i(1) }), sn(nil, { t("") }) }),
-    })
-  ),
-
-  s( -- Snippet that uppercase a var
-    {
-      trig = "uppercase",
-      desc = "Uppercase a variable.",
-    },
-    fmta([[<>^^]], { d(1, visual_insert) })
-  ),
-
-  s( -- Lowercase variable
-    {
-      trig = "lowercase",
-      desc = "Lowercase a variable.",
-    },
-    fmta([[<>,,]], { d(1, visual_insert) })
-  ),
-
-  s( -- Slug variable
-    {
-      trig = "slug",
-      desc = "Slugify a variable.",
-    },
-    fmta([[<>//_/-]], { d(1, visual_insert) })
   ),
 }

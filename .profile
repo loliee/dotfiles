@@ -20,6 +20,9 @@ export LC_ALL='en_US.UTF-8'
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# Colorize my fish functions
+export CLICOLOR=1
+
 # history
 export HISTFILE=~/.bash_history
 export HISTSIZE=393216
@@ -49,6 +52,8 @@ export RUBY_BUILD_CACHE_PATH=~/.rubies/cache
 
 # Allow bundler to use all the cores for parallel installation
 export BUNDLE_JOBS=4
+
+export SSHRC_USER=loliee
 
 # MySQL prompt
 export MYSQL_PS1='(\D) \u@\h [\d] > '

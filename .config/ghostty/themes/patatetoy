@@ -1,0 +1,44 @@
+# Patatetoy
+
+# | Number | Name           | Hex                  |
+# | ------ | -------------- | -------------------- |
+# | 0      | Black          | #3a3939              |
+# | 1      | Red            | #f0522a              |
+# | 2      | Green          | #82c476              |
+# | 3      | Yellow         | #fee040              |
+# | 4      | Blue           | #5eb1dd              |
+# | 5      | Magenta        | #AA00AA              |
+# | 6      | Cyan           | #ff875f              |
+# | 7      | White          | #7ec6eb              |
+# | 8      | Bright         | Black (Gray) #6c6d6c |
+# | 9      | Bright Red     | #fe6743              |
+# | 10     | Bright Green   | #88d07e              |
+# | 11     | Bright Yellow  | #fae959              |
+# | 12     | Bright Blue    | #73b8dc              |
+# | 13     | Bright Magenta | #ff875f              |
+# | 14     | Bright Cyan    | #91cce9              |
+# | 15     | Bright White   | #e6e4da              |
+
+palette = 0=#3a3939
+palette = 1=#f0522a
+palette = 2=#82c476
+palette = 3=#fee040
+palette = 4=#5eb1dd
+palette = 5=#ff875f
+palette = 6=#7ec6eb
+palette = 7=#c9cac0
+palette = 8=#6c6d6c
+palette = 9=#fe6743
+palette = 10=#88d07e
+palette = 11=#fae959
+palette = 12=#73b8dc
+palette = 13=#ff875f
+palette = 14=#91cce9
+palette = 15=#e6e4da
+
+background = #292b2d
+foreground = #c9cac0
+cursor-color = #c9cac0
+cursor-text = #292b2d
+selection-background = #6c6d6c
+selection-foreground = #c9cac0

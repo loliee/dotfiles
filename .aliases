@@ -32,3 +32,5 @@ alias ll='ls -lah'
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload='exec $SHELL -l'
+
+alias reboot-required='[ -f /var/run/reboot-required ] || [ -f /run/reboot-required ] && echo "Reboot required" || echo "No reboot needed"'

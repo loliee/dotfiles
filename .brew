@@ -38,7 +38,6 @@ brew install \
 
 brew install \
   advancecomp \
-  alacritty \
   ansifilter \
   argc \
   asciinema \
@@ -73,6 +72,7 @@ brew install \
   git \
   git-absorb \
   git-filter-repo \
+  ghostty \
   gnu-sed \
   gnu-tar \
   gnu-time \
@@ -84,9 +84,9 @@ brew install \
   hashicorp/tap/packer \
   hashicorp/tap/terraform \
   hugo \
-  ikuwow/ikuwow-sshrc/sshrc \
   ipcalc \
   jq \
+  jwt-cli \
   k9s \
   krew \
   kubectx \
@@ -126,6 +126,7 @@ brew install \
   stylua \
   tcpdump \
   tcptraceroute \
+  taplo \
   tflint \
   tfsec \
   tig \
@@ -238,3 +239,7 @@ fasttextBinary=$(command -v fasttext)
 EOT
 
 brew services start languagetool
+
+if [[ ! -f "/etc/sudoers.d/$USER" ]]; then
+  echo "$USER ALL=(ALL) NOPASSWD: $HOME/.config/fish/scripts/opx-clean.fish" | sudo tee "/etc/sudoers.d/$USER" >/dev/null
+fi

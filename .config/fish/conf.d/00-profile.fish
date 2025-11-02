@@ -2,6 +2,7 @@
 
 __fenv "source ~/.profile"
 source ~/.aliases
+source ~/.aliases.macos
 
 if test -f ~/.lua.env
     __fenv "source ~/.lua.env"

@@ -1,1 +1,1 @@
-../.vimrc.min
+../.vimrc
