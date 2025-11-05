@@ -273,17 +273,14 @@ function! s:osc52_send(text) abort
   else
     let l:b64 = system('base64 | tr -d "\r\n"', a:text)
   endif
-  " Build OSC52; wrap for tmux if nested
-  if exists('$TMUX')
-    let l:seq = printf("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", l:b64)
-  else
-    let l:seq = printf("\x1b]52;c;%s\x07", l:b64)
-  endif
+  let l:seq = printf("\x1b]52;c;%s\x07", l:b64)
   " Write directly to the terminal for this pane
   call system('cat >/dev/tty', l:seq)
 endfunction
 
-augroup Osc52Yank
-  autocmd!
-  autocmd TextYankPost * call s:osc52_send(join(v:event.regcontents, "\n"))
-augroup END
+if has('unix') && !has('mac') && !has('macunix')
+  augroup Osc52Yank
+    autocmd!
+    autocmd TextYankPost * call s:osc52_send(join(v:event.regcontents, "\n"))
+  augroup END
+endif
