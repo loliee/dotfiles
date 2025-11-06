@@ -55,10 +55,55 @@ set ruler                         " Display ruler
 set relativenumber                " Set relative number for fast dd/yy
 set number                        " Display line number for current line
 
-" Set basic colorscheme
-if ! exists("patatetoy_custom_term_colors")
-  colorscheme slate
-endif
+" Set default colorscheme
+colorscheme slate
+
+" Patatetoy colors
+let s:comment = "#6c6d6c"
+let s:bg = "#292b2d"
+let s:fg = "#c9cac0"
+let s:bg_visual = "#525151"
+let s:bg_cursor_line = "#3a3939"
+let s:blue = "#5eb1dd"
+let s:blue_bright = "#73b8dc"
+let s:black = "#3a3939"
+let s:purple = "#a3adfc"
+let s:orange = "#fac159"
+let s:cyan = "#7ec6eb"
+let s:green = "#82c476"
+let s:magenta = "#ff875f"
+let s:red = "#f0522a"
+let s:white = "#c9cac0"
+let s:yellow = "#fbce4d"
+" Global
+execute 'highlight Normal guibg=' . s:bg . ' guifg=' . s:fg
+execute 'highlight Comment guifg=' . s:comment
+execute 'highlight Visual guibg=' . s:bg_visual . ' guifg=' . s:yellow . ' gui=bold'
+execute 'highlight CursorLineNr guifg=' . s:yellow . ' gui=bold'
+execute 'highlight Added guifg=' . s:green
+execute 'highlight Error guifg=' . s:red
+execute 'highlight Removed guifg=' . s:red
+execute 'highlight ExtraWhitespace guibg=' . s:red
+execute 'highlight ErrorMsg guifg=' . s:red
+execute 'highlight Debug guifg=' . s:yellow
+execute 'highlight WarningMsg guifg=' . s:yellow
+execute 'highlight Title guifg=' . s:blue
+execute 'highlight Search guibg=' . s:yellow . ' guifg=' . s:bg
+execute 'highlight IncSearch guibg=' . s:yellow . ' guifg=' . s:bg
+" Status
+execute 'highlight StatusLine guifg=' . s:fg . ' guibg=' . s:bg
+execute 'highlight StatusLineNC guifg=' . s:fg . ' guibg=' . s:bg
+" Code
+execute 'highlight Constant guifg=' . s:magenta
+execute 'highlight String guifg=' . s:green
+execute 'highlight Character guifg=' . s:green
+execute 'highlight Number guifg=' . s:magenta
+execute 'highlight Identifier guifg=' . s:yellow
+execute 'highlight Function guifg=' . s:blue
+execute 'highlight PreProc guifg=' . s:blue
+execute 'highlight Statement guifg=' . s:magenta
+execute 'highlight Special guifg=' . s:blue
+execute 'highlight Type guifg=' . s:blue
 
 " Set the terminal's title
 if &term == 'screen'
