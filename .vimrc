@@ -48,6 +48,7 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 " Style
 " -----------------------------------------------------------
 
+set termguicolors                 " True color support
 set background=dark               " Dark bg
 :hi cursorline cterm=none         " Do not Highlight current line
 set ruler                         " Display ruler
