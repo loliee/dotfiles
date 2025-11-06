@@ -210,6 +210,9 @@ cnoremap <C-l> <Right>
 " Fast visual 2 search
 vnoremap // y/\V<C-R>"<CR>
 
+" like nvim buffer lines search
+noremap <leader>i /
+
 " delete without yanking
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
