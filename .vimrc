@@ -50,7 +50,7 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 
 set termguicolors                 " True color support
 set background=dark               " Dark bg
-:hi cursorline cterm=none         " Do not Highlight current line
+set cursorline                    " Highlight current line
 set ruler                         " Display ruler
 set relativenumber                " Set relative number for fast dd/yy
 set number                        " Display line number for current line
