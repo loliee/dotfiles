@@ -89,12 +89,6 @@ if command -v direnv &>/dev/null; then
   eval "$(direnv hook bash)"
 fi
 
-# fzf
-if [ -f "${HOME}/.fzf.bash" ]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.fzf.bash"
-fi
-
 # Auto attach|start ssh-agent
 # SSH_AGENT=${SSH_AGENT:-"${HOME}/.ssh-agent"}
 #
@@ -117,30 +111,17 @@ fi
 #   trap - SIGINT
 # fi
 
-# Aliases
-if [[ -f "${HOME}/.aliases" ]]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.aliases"
-fi
+# Load other files
+_FILES=(
+  ".aliases"
+  ".aliases.bash"
+  ".aliases.local"
+  ".bashrc.remote"
+  ".env.local"
+  ".fzf.bash"
+)
 
-# Aliases
-if [[ -f "${HOME}/.aliases.bash" ]]; then
+for f in "${_FILES[@]}"; do
   # shellcheck source=/dev/null
-  source "${HOME}/.aliases.bash"
-fi
-
-# ~/.extra can be used for other settings you don't want to commit.
-if [[ -f "${HOME}/.aliases.local" ]]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.aliases.local"
-fi
-
-if [[ -f "${HOME}/.bashrc.remote" ]]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.bashrc.remote"
-fi
-
-if [[ -f "${HOME}/.env.local" ]]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.env.local"
-fi
+  [[ -f $f ]] && source "${HOME}/$f"
+done
