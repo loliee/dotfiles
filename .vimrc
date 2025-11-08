@@ -26,6 +26,8 @@ set ttimeout                      " Fast VIM
 set ttimeoutlen=100
 set ttyfast
 set undofile                      " Persistent undo
+set undolevels=1000               " Increase undo levels
+set undoreload=1000               " Maximum number of lines to save for undo on buffer reload
 set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
 set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
@@ -48,16 +50,62 @@ set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 " Style
 " -----------------------------------------------------------
 
+set termguicolors                 " True color support
 set background=dark               " Dark bg
-:hi cursorline cterm=none         " Do not Highlight current line
+set cursorline                    " Highlight current line
 set ruler                         " Display ruler
 set relativenumber                " Set relative number for fast dd/yy
 set number                        " Display line number for current line
 
-" Set basic colorscheme
-if ! exists("patatetoy_custom_term_colors")
-  colorscheme habamax
-endif
+" Set default colorscheme
+colorscheme slate
+
+" Patatetoy colors
+let s:comment = "#6c6d6c"
+let s:bg = "#292b2d"
+let s:fg = "#c9cac0"
+let s:bg_visual = "#525151"
+let s:bg_cursor_line = "#3a3939"
+let s:blue = "#5eb1dd"
+let s:blue_bright = "#73b8dc"
+let s:black = "#3a3939"
+let s:purple = "#a3adfc"
+let s:orange = "#fac159"
+let s:cyan = "#7ec6eb"
+let s:green = "#82c476"
+let s:magenta = "#ff875f"
+let s:red = "#f0522a"
+let s:white = "#c9cac0"
+let s:yellow = "#fbce4d"
+" Global
+execute 'highlight Normal guibg=' . s:bg . ' guifg=' . s:fg
+execute 'highlight Comment guifg=' . s:comment
+execute 'highlight Visual guibg=' . s:bg_visual . ' guifg=' . s:yellow . ' gui=bold'
+execute 'highlight CursorLineNr guifg=' . s:yellow . ' gui=bold'
+execute 'highlight Added guifg=' . s:green
+execute 'highlight Error guifg=' . s:red
+execute 'highlight Removed guifg=' . s:red
+execute 'highlight ExtraWhitespace guibg=' . s:red
+execute 'highlight ErrorMsg guifg=' . s:red
+execute 'highlight Debug guifg=' . s:yellow
+execute 'highlight WarningMsg guifg=' . s:yellow
+execute 'highlight Title guifg=' . s:blue
+execute 'highlight Search guibg=' . s:yellow . ' guifg=' . s:bg
+execute 'highlight IncSearch guibg=' . s:yellow . ' guifg=' . s:bg
+" Status
+execute 'highlight StatusLine guifg=' . s:fg . ' guibg=' . s:bg
+execute 'highlight StatusLineNC guifg=' . s:fg . ' guibg=' . s:bg
+" Code
+execute 'highlight Constant guifg=' . s:magenta
+execute 'highlight String guifg=' . s:green
+execute 'highlight Character guifg=' . s:green
+execute 'highlight Number guifg=' . s:magenta
+execute 'highlight Identifier guifg=' . s:yellow
+execute 'highlight Function guifg=' . s:blue
+execute 'highlight PreProc guifg=' . s:blue
+execute 'highlight Statement guifg=' . s:magenta
+execute 'highlight Special guifg=' . s:blue
+execute 'highlight Type guifg=' . s:blue
 
 " Set the terminal's title
 if &term == 'screen'
@@ -164,6 +212,9 @@ cnoremap <C-l> <Right>
 " Fast visual 2 search
 vnoremap // y/\V<C-R>"<CR>
 
+" like nvim buffer lines search
+noremap <leader>i /
+
 " delete without yanking
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
@@ -246,6 +297,14 @@ noremap n nzz
 noremap N Nzz
 
 " -----------------------------------------------------------
+" Ensure directories exists
+" -----------------------------------------------------------
+
+if !isdirectory(&undodir)
+  call mkdir(expand(&undodir), 'p', '0700')
+endif
+
+" -----------------------------------------------------------
 " Functions
 " -----------------------------------------------------------
 
@@ -265,6 +324,17 @@ function! GetSmartWd()
   endif
 endfunction
 
+" Highlight when yanking (copying) text
+augroup highlight-yank
+  autocmd!
+  autocmd TextYankPost * call s:HighlightYank()
+augroup END
+
+function! s:HighlightYank()
+  let l:match_id = matchadd('IncSearch', '\%'.line("'[").'l\%'.col("'[").'c\_.*\%'.line("']").'l\%'.col("']").'c')
+  call timer_start(150, {-> matchdelete(l:match_id)})
+endfunction
+
 " OSC52 Yank
 function! s:osc52_send(text) abort
   " Base64-encode without newlines
@@ -273,17 +343,14 @@ function! s:osc52_send(text) abort
   else
     let l:b64 = system('base64 | tr -d "\r\n"', a:text)
   endif
-  " Build OSC52; wrap for tmux if nested
-  if exists('$TMUX')
-    let l:seq = printf("\x1bPtmux;\x1b\x1b]52;c;%s\x07\x1b\\", l:b64)
-  else
-    let l:seq = printf("\x1b]52;c;%s\x07", l:b64)
-  endif
+  let l:seq = printf("\x1b]52;c;%s\x07", l:b64)
   " Write directly to the terminal for this pane
   call system('cat >/dev/tty', l:seq)
 endfunction
 
-augroup Osc52Yank
-  autocmd!
-  autocmd TextYankPost * call s:osc52_send(join(v:event.regcontents, "\n"))
-augroup END
+if has('unix') && !has('mac') && !has('macunix')
+  augroup Osc52Yank
+    autocmd!
+    autocmd TextYankPost * call s:osc52_send(join(v:event.regcontents, "\n"))
+  augroup END
+endif

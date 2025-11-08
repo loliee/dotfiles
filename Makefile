@@ -18,7 +18,7 @@ install: install-brew install-dotfiles ## Full install
 install-brew: # Install brew and packages
 	./.brew
 
-install-dotfiles: stow setup-vim install-krew install-tpm ## Install my dotfiles
+install-dotfiles: stow install-krew install-tpm ## Install my dotfiles
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	[[ -f $(HOME)/.ssh/config ]] || cp $(DOTFILES_DIR)/.ssh/config $(HOME)/.ssh/
 
@@ -50,21 +50,6 @@ install-tpm: ## Install tpm, the tmux plugin manager
 	mkdir -p $(HOME)/.tmux/plugins
 	[[ -d $(HOME)/.tmux/plugins/tpm ]] \
 		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
-
-setup-vim:  ## Setup vim/neovim
-	$(info --> Install Plug)
-	[[ -f $(HOME)/.vim/autoload/plug.vim ]] || \
-		curl -fLo $(HOME)/.vim/autoload/plug.vim --create-dirs \
-			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	vim +:PlugInstall +qall
-	vim +GoInstallBinaries +qall
-	mkdir -p $(HOME)/.vim/undofiles
-	[[ -f $(HOME)/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim ]] \
-		|| cp -f $(HOME)/.vim/plugged/vim-patatetoy/lightline/patatetoy.vim \
-			$(HOME)/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/patatetoy.vim
-	[[ -d $(HOME)/.config/nvim/pack/github/start/copilot.vim ]] \
-		|| git clone https://github.com/github/copilot.vim \
-			 $(HOME)/.config/nvim/pack/github/start/copilot.vim
 
 setup-macos: ## Run macos script
 	@bash -x ./.macos

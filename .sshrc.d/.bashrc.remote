@@ -5,16 +5,16 @@ export VISUAL=vim
 
 case "$(hostname)" in
   *-int-*|int-*|*-int)
-    THEME_COLOR=green
+    THEME_COLOR=yellow
     ;;
   *-tst-*|tst-*|*-tst)
-    THEME_COLOR=blue
+    THEME_COLOR=yellow
     ;;
   *-stg-*|stg-*|*-stg)
     THEME_COLOR=yellow
     ;;
   *)
-    THEME_COLOR=red
+    THEME_COLOR=magenta
     ;;
 esac
 
