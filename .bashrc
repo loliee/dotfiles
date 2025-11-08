@@ -135,6 +135,11 @@ if [[ -f "${HOME}/.aliases.local" ]]; then
   source "${HOME}/.aliases.local"
 fi
 
+if [[ -f "${HOME}/.bashrc.remote" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.bashrc.remote"
+fi
+
 if [[ -f "${HOME}/.env.local" ]]; then
   # shellcheck source=/dev/null
   source "${HOME}/.env.local"
