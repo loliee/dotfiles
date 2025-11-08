@@ -324,6 +324,17 @@ function! GetSmartWd()
   endif
 endfunction
 
+" Highlight when yanking (copying) text
+augroup highlight-yank
+  autocmd!
+  autocmd TextYankPost * call s:HighlightYank()
+augroup END
+
+function! s:HighlightYank()
+  let l:match_id = matchadd('IncSearch', '\%'.line("'[").'l\%'.col("'[").'c\_.*\%'.line("']").'l\%'.col("']").'c')
+  call timer_start(150, {-> matchdelete(l:match_id)})
+endfunction
+
 " OSC52 Yank
 function! s:osc52_send(text) abort
   " Base64-encode without newlines
