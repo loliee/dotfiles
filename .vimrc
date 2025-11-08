@@ -26,6 +26,8 @@ set ttimeout                      " Fast VIM
 set ttimeoutlen=100
 set ttyfast
 set undofile                      " Persistent undo
+set undolevels=1000               " Increase undo levels
+set undoreload=1000               " Maximum number of lines to save for undo on buffer reload
 set undodir=~/.vim/undofiles      " Do not add ~un files everywhere I go
 set wildmode=list:longest         " Complete files like a shell.
 set wildmenu                      " Enhanced command line completion.
