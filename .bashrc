@@ -75,12 +75,6 @@ if command -v fnm &>/dev/null; then
   eval "$(fnm env --use-on-cd)"
 fi
 
-# Pyenv
-if command -v pyenv &>/dev/null; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd j)"
 fi
