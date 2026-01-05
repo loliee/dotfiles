@@ -138,7 +138,11 @@ end
 function __opx_append_env --argument-names file key val
     set file (__opx_expand_str $file)
     test -e $file; or touch $file
-    printf "export %s=%s\n" $key (string escape -- $val) >>$file
+    if test (path extension $file) = ".fish"
+        printf "set -x %s %s\n" $key (string escape -- $val) >>$file
+    else
+        printf "export %s=%s\n" $key (string escape -- $val) >>$file
+    end
     chmod 600 $file
 end
 
@@ -197,7 +201,7 @@ function __opx_fetch_one_secret --argument-names idx config
             print-warn "✔ [$idx] Secret file exists \"$dest\", skipping…"
         end
     else if test "$env_key" != null
-        if not test -f $dest; or not grep -q -E "^export $env_key=" $dest
+        if not test -f $dest; or not grep -q -E "^(export|set -x) $env_key(=|\s+)" $dest
             set value (op read "$reference")
             if test $status -eq 0 -a -n "$value"
                 __opx_append_env $dest $env_key $value
