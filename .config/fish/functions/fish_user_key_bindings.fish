@@ -6,4 +6,5 @@ function fish_user_key_bindings
 
     # Bind "e" key in vi normal mode to open Neovim
     bind -M default e edit_command_buffer
+    set --erase --universal fish_key_bindings
 end
