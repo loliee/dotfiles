@@ -234,7 +234,7 @@ function __opx-exec --argument-names entry
         dscacheutil \
         "killall -HUP mDNSResponder" \
         echo \
-        __fenv \
+        source \
         brew\\s+service \
         set-dns-servers \
         set-search-domains \

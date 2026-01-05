@@ -4,6 +4,34 @@
 # -----------------------------------------------------------------------------------------------------------------
 status is-interactive; or exit 0
 
+abbr --add vi nvim
+abbr --add vim nvim
+
+# Misc
+abbr --add ri ri -f ansi
+
+# Some aliases to avoid making mistakes
+abbr --add rm rm -i
+abbr --add cp cp -i
+abbr --add mv mv -i
+abbr --add ln ln -i
+
+# shortcuts
+abbr --add c clear
+abbr --add q exit
+abbr --add h history
+
+# Time
+abbr --add now date +"%T"
+abbr --add nowtime now
+abbr --add nowdate date +"%d-%m-%Y"
+
+abbr --add ls ls -G
+abbr --add ll ls -lah
+
+# Reload the shell (i.e. invoke as a login shell)
+abbr --add reload 'exec $SHELL -l'
+
 abbr --add rms shred --remove
 
 abbr --add G --position anywhere --set-cursor "| rg %"

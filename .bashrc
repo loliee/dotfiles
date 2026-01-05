@@ -26,6 +26,52 @@ shopt -s extglob
 # pathname expansion will be treated as case-insensitive
 shopt -s nocaseglob
 
+OS=$(uname)
+
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+
+# default editor
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# XDG_CONFIG_DIR
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+
+# pager
+export PAGER='less'
+
+# Set the default Less options.
+# # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# # Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+# history
+export HISTFILE=~/.bash_history
+export HISTSIZE=393216
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL='ignoreboth'
+export HISTIGNORE='ls:cd:cd -:pwd:exit:date:* --help:vault*:sshm*'
+
+# Define grep color
+export GREP_COLORS='30;43'
+
+# O ms for key sequences
+export KEYTIMEOUT=0
+
+# Don't clear the screen after quitting a manual page
+export MANPAGER='less -X'
+
+# macOS specific
+if [[ $OS == "Darwin" ]]; then
+  export PATH="${HOME}/.krew/bin:${XDG_DATA_HOME}/../bin:${HOME}/.homebrew/bin:${HOME}/.homebrew_x86_64/bin:${HOME}/.homebrew/sbin:${HOME}/.homebrew_x86_64/sbin:${HOME}/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
+  export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --no-binaries"
+  export HOMEBREW_NO_ANALYTICS=1
+  export HOMEBREW_NO_INSECURE_REDIRECT=1
+  export MANPATH="$HOME/.homebrew/share/man${MANPATH+:$MANPATH}:"
+fi
+
 # Prompt
 if command -v starship &>/dev/null; then
   eval "$(starship init bash)"
