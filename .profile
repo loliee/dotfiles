@@ -90,10 +90,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # lua
 export PATH="$HOME/.luarocks/bin:$PATH"
 
-# pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH="${PYENV_ROOT}/bin:${PATH}"
-
 TESSDATA_PREFIX="$(brew --prefix)/share/tessdata"
 export TESSDATA_PREFIX
 
