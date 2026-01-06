@@ -1,5 +1,6 @@
 theme = patatetoy
 title = " "
+bell-features = no-title
 
 font-family = "Iosevka Nerd Font"
 font-size = 14
