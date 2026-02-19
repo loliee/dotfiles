@@ -28,6 +28,7 @@ brew upgrade
 
 echo '--> Tap extras Homebrew repositories'
 brew tap hashicorp/tap
+brew tap carvel-dev/carvel
 
 brew install \
   docker \
@@ -114,6 +115,7 @@ brew install \
   ruby-build \
   ruff \
   rustup \
+  s5cmd \
   sass/sass/sass \
   shellcheck \
   shfmt \
@@ -122,6 +124,7 @@ brew install \
   slack \
   ssh-copy-id \
   starship \
+  step \
   stow \
   stylua \
   tcpdump \
@@ -143,6 +146,14 @@ brew install \
   ytt \
   zlib \
   zoxide
+
+# Carvel packages
+brew install \
+  imgpkg \
+  kapp \
+  kbld \
+  vendir \
+  ytt
 
 brew install --appdir /Applications \
   1password \

@@ -76,6 +76,7 @@ reference:
   reference: str()
   dest: str()
   as_file: bool(required=False)
+  base64_decode: bool(required=False)
   env_key: str(required=False)
   symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
@@ -138,7 +139,11 @@ end
 function __opx_append_env --argument-names file key val
     set file (__opx_expand_str $file)
     test -e $file; or touch $file
-    printf "export %s=%s\n" $key (string escape -- $val) >>$file
+    if test (path extension $file) = ".fish"
+        printf "set -x %s %s\n" $key (string escape -- $val) >>$file
+    else
+        printf "export %s=%s\n" $key (string escape -- $val) >>$file
+    end
     chmod 600 $file
 end
 
@@ -148,6 +153,7 @@ function __opx_fetch_one_secret --argument-names idx config
     set dest (__opx_expand_str $dest_raw)
     set env_key (yq -r ".secrets[$idx].env_key" $config)
     set as_file (yq -r ".secrets[$idx].as_file" $config)
+    set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
     set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
 
     for vname in reference dest
@@ -187,7 +193,11 @@ function __opx_fetch_one_secret --argument-names idx config
         if not test -f $dest
             set value (op read "$reference"| string collect)
             if test $status -eq 0 -a -n "$value"
-                echo $value >$dest
+                if test "$base64_decode" != null; and test $base64_decode = true
+                    echo $value | base64 -d >$dest
+                else
+                    echo $value >$dest
+                end
                 echo "✔ [$idx] $reference as file →  ($dest)"
             else
                 print-err "[opx] cannot get 1password secret \"$reference\""
@@ -197,7 +207,7 @@ function __opx_fetch_one_secret --argument-names idx config
             print-warn "✔ [$idx] Secret file exists \"$dest\", skipping…"
         end
     else if test "$env_key" != null
-        if not test -f $dest; or not grep -q -E "^export $env_key=" $dest
+        if not test -f $dest; or not grep -q -E "^(export|set -x) $env_key(=|\s+)" $dest
             set value (op read "$reference")
             if test $status -eq 0 -a -n "$value"
                 __opx_append_env $dest $env_key $value
@@ -230,7 +240,7 @@ function __opx-exec --argument-names entry
         dscacheutil \
         "killall -HUP mDNSResponder" \
         echo \
-        __fenv \
+        source \
         brew\\s+service \
         set-dns-servers \
         set-search-domains \

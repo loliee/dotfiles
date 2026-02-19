@@ -74,7 +74,6 @@ return {
           },
         },
       },
-      just = {},
       helm_ls = {},
       lua_ls = {
         settings = {

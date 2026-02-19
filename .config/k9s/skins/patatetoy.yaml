@@ -2,11 +2,9 @@
 # patatetoy.yml
 # Styles...
 foreground: &foreground "#c9cac0"
-background: &background "#292b2d"
-backgroundOpaque: &backgroundOpaque "#333333"
-current_line: &current_line "#6c6d6c"
+background: &background default
+currentLine: &currentLine "#3a3939"
 grey: &grey "#6c6d6c"
-darkGrey: &darkGrey "#4c4c4c"
 red: &red "#f0522a"
 yellow: &yellow "#fee040"
 lightBlue: &lightBlue "#91cce9"
@@ -14,6 +12,7 @@ blue: &blue "#73b8dc"
 darkBlue: &darkBlue "#5eb1dd"
 green: &green "#82c476"
 purple: &purple "#c4a5c7"
+magenta: &magenta "#ff875f"
 
 # Skin...
 k9s:
@@ -27,10 +26,16 @@ k9s:
     fgColor: *foreground
     bgColor: *background
     suggestColor: *yellow
+  help:
+    fgColor: *foreground
+    bgColor: *background
+    sectionColor: *yellow
+    keyColor: *blue
+    numKeyColor: *magenta
   # ClusterInfoView styles.
   info:
     fgColor: *blue
-    sectionColor: *lightBlue
+    sectionColor: *foreground
   # Dialog styles.
   dialog:
     fgColor: *foreground
@@ -45,17 +50,16 @@ k9s:
     # Borders styles.
     border:
       fgColor: *grey
-      focusColor: *current_line
+      focusColor: *currentLine
     menu:
       fgColor: *foreground
-      keyColor: *green
-      # Used for favorite namespaces
+      keyColor: *magenta
       numKeyColor: *green
     # CrumbView attributes for history navigation.
     crumbs:
       fgColor: *foreground
-      bgColor: *current_line
-      activeColor: *current_line
+      bgColor: *currentLine
+      activeColor: *currentLine
     # Resource status and update styles
     status:
       newColor: *foreground
@@ -111,9 +115,9 @@ k9s:
       markColor: *red
       # Header row styles.
       header:
-        fgColor: *yellow
-        bgColor: *darkGrey
-        sorterColor: *darkBlue
+        fgColor: *foreground
+        bgColor: *currentLine
+        sorterColor: *yellow
     # Xray view attributes.
     xray:
       fgColor: *foreground
@@ -123,7 +127,7 @@ k9s:
       graphicColor: *blue
     # YAML info styles.
     yaml:
-      keyColor: *yellow
+      keyColor: *green
       colonColor: *yellow
       valueColor: *foreground
     # Logs styles.
@@ -131,5 +135,7 @@ k9s:
       fgColor: *foreground
       bgColor: *background
       indicator:
-        fgColor: *background
-        bgColor: *yellow
+        fgColor: *foreground
+        bgColor: *currentLine
+        toggleOnColor: *green
+        toggleOffColor: *foreground
