@@ -122,6 +122,7 @@ brew install \
   slack \
   ssh-copy-id \
   starship \
+  step \
   stow \
   stylua \
   tcpdump \
