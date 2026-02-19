@@ -76,6 +76,7 @@ reference:
   reference: str()
   dest: str()
   as_file: bool(required=False)
+  base64_decode: bool(required=False)
   env_key: str(required=False)
   symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
@@ -152,6 +153,7 @@ function __opx_fetch_one_secret --argument-names idx config
     set dest (__opx_expand_str $dest_raw)
     set env_key (yq -r ".secrets[$idx].env_key" $config)
     set as_file (yq -r ".secrets[$idx].as_file" $config)
+    set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
     set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
 
     for vname in reference dest
@@ -191,7 +193,11 @@ function __opx_fetch_one_secret --argument-names idx config
         if not test -f $dest
             set value (op read "$reference"| string collect)
             if test $status -eq 0 -a -n "$value"
-                echo $value >$dest
+                if test "$base64_decode" != null; and test $base64_decode = true
+                    echo $value | base64 -d >$dest
+                else
+                    echo $value >$dest
+                end
                 echo "✔ [$idx] $reference as file →  ($dest)"
             else
                 print-err "[opx] cannot get 1password secret \"$reference\""
