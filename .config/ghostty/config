@@ -15,6 +15,7 @@ copy-on-select = clipboard
 
 keybind = ctrl+enter=reload_config
 keybind = super+d=unbind
+keybind = super+t=unbind
 
 # Fast escape
 keybind = cmd+j=text:\x1B
