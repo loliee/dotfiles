@@ -61,7 +61,7 @@ if command -q git-absorb
 end
 
 command -q helm; and abbr --add hsv helm search repo --versions
-
+command -q s5cmd; and abbr --add s s5cmd
 command -q uv; and abbr --add pip uv pip
 
 abbr fe --set-cursor=! "find . -name '*' -exec ! '{}' \;"
