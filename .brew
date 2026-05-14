@@ -155,6 +155,8 @@ brew install \
   vendir \
   ytt
 
+brew install --cask ovh/tap/ovhcloud-cli
+
 brew install --appdir /Applications \
   1password \
   1password-cli
