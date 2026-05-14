@@ -10,8 +10,6 @@ function set-dns-servers -d "Configure DNS servers for all interfaces (macOS onl
         set fargv $argv
     end
 
-    echo $fatgs
-
     for interface in (sudo networksetup -listallnetworkservices)
         if ! string match -r "^An asterisk.*" $interface &>/dev/null
             echo "Set DNS servers $fargv for $interface"
