@@ -10,7 +10,7 @@
 ' Subject:
 '   - use the imperative present tense: "change" not "changed",
 '   - capitalize first letter, no (.) at the end.
-'   - 50 chars max
+'   - 72 chars max
 ' Body: like <subject> but 72 chars max
 ' Footer: place for breaking changes, github issues...
 '

@@ -38,11 +38,8 @@ brew install \
   the-unarchiver
 
 brew install \
-  advancecomp \
   ansifilter \
   argc \
-  asciinema \
-  asdf \
   ast-grep \
   awscli \
   bash \
@@ -55,9 +52,7 @@ brew install \
   deno \
   diff-so-fancy \
   direnv \
-  diskonaut \
   dive \
-  dust \
   dprint \
   entr \
   exiftool \
@@ -69,7 +64,6 @@ brew install \
   font-iosevka-nerd-font \
   fzf \
   gawk \
-  gifsicle \
   git \
   git-absorb \
   git-filter-repo \
@@ -96,7 +90,6 @@ brew install \
   languagetool \
   luacheck \
   luarocks \
-  minio-mc \
   mkcert \
   mozjpeg \
   moreutils \
@@ -104,9 +97,6 @@ brew install \
   nmap \
   openssh \
   openssl \
-  pgcli \
-  pigz \
-  pngquant \
   pv \
   pwgen \
   readline \
@@ -137,7 +127,6 @@ brew install \
   transmission \
   tree \
   uv \
-  vale \
   vlc \
   watch \
   wget \
@@ -154,6 +143,8 @@ brew install \
   kbld \
   vendir \
   ytt
+
+brew install --cask ovh/tap/ovhcloud-cli
 
 brew install --appdir /Applications \
   1password \

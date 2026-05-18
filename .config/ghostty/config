@@ -2,6 +2,8 @@ theme = patatetoy
 title = " "
 bell-features = no-title
 
+fullscreen = non-native-padded-notch
+
 font-family = "Iosevka Nerd Font"
 font-size = 14
 window-padding-x = 5
@@ -15,6 +17,7 @@ copy-on-select = clipboard
 
 keybind = ctrl+enter=reload_config
 keybind = super+d=unbind
+keybind = super+t=unbind
 
 # Fast escape
 keybind = cmd+j=text:\x1B
