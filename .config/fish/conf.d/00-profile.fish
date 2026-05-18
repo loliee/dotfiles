@@ -81,8 +81,6 @@ set -x PATH $HOME/.cargo/bin $PATH
 
 set -x TESSDATA_PREFIX $HOME/.homebrew/share/tessdata
 
-set -x VALE_STYLES_PATH "$XDG_DATA_HOME/vale/styles"
-
 # lua
 set -x PATH $HOME/.luarocks/bin $PATH
 
