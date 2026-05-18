@@ -96,7 +96,6 @@ brew install \
   languagetool \
   luacheck \
   luarocks \
-  minio-mc \
   mkcert \
   mozjpeg \
   moreutils \
