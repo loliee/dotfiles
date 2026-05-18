@@ -100,7 +100,6 @@ brew install \
   nmap \
   openssh \
   openssl \
-  pgcli \
   pigz \
   pngquant \
   pv \
