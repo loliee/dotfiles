@@ -52,7 +52,6 @@ brew install \
   deno \
   diff-so-fancy \
   direnv \
-  diskonaut \
   dive \
   dprint \
   entr \
