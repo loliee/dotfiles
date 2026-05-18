@@ -97,6 +97,7 @@ brew install \
   nmap \
   openssh \
   openssl \
+  prek \
   pv \
   pwgen \
   readline \
