@@ -67,7 +67,6 @@ brew install \
   font-iosevka-nerd-font \
   fzf \
   gawk \
-  gifsicle \
   git \
   git-absorb \
   git-filter-repo \
