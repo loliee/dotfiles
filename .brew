@@ -98,7 +98,6 @@ brew install \
   nmap \
   openssh \
   openssl \
-  pngquant \
   pv \
   pwgen \
   readline \
