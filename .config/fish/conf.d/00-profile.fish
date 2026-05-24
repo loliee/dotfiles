@@ -4,6 +4,7 @@ set -x PATH $HOME/.krew/bin $XDG_DATA_HOME/../bin $HOME/.homebrew/bin $HOME/.hom
 set -x HOMEBREW_CASK_OPTS "--appdir=$HOME/Applications --fontdir=$HOME/Library/Fonts --no-binaries"
 set -x HOMEBREW_NO_ANALYTICS 1
 set -x HOMEBREW_NO_INSECURE_REDIRECT 1
+set -x HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK 1
 
 # XDG_CONFIG_DIR
 set -x XDG_CONFIG_HOME (set -q XDG_CONFIG_HOME; and echo $XDG_CONFIG_HOME; or echo $HOME/.config)
