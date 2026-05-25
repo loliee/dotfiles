@@ -148,6 +148,9 @@ brew install \
   vendir \
   ytt
 
+# Claude
+brew install --cask claude-code claude
+
 brew install --cask ovh/tap/ovhcloud-cli
 
 brew install --appdir /Applications \
