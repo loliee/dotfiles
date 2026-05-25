@@ -1,4 +1,6 @@
 .aliases.local
+.claude/backups
+.claude/sessions
 .config/fish/conf.d/*local.fish
 .config/fish/functions_local
 .config/fish/fish_variables
