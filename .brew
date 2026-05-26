@@ -37,6 +37,8 @@ brew install \
   istat-menus \
   the-unarchiver
 
+brew install llvm --force-bottle
+
 brew install \
   ansifilter \
   argc \
