@@ -68,6 +68,7 @@ brew install \
   gawk \
   git \
   git-absorb \
+  git-cliff \
   git-filter-repo \
   ghostty \
   gnu-sed \
