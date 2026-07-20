@@ -5,9 +5,11 @@
 .config/fish/functions_local
 .config/fish/fish_variables
 .config/fish/vendor
+.config/gh
 .config/github-copilot
 .config/glab-cli
 .config/goose
+.config/homebrew
 .config/k9s/config.yml
 .config/nvim/pack
 .config/op/
@@ -16,6 +18,7 @@
 .config/openstack
 .config/pandoo
 .config/wireshark
+.config/zed
 .sshrc.d/patatetoy.sh
 .sshrc.d/patatetoy_common.sh
 .vim/.netrwhist
