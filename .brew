@@ -70,6 +70,7 @@ brew install \
   git-absorb \
   git-cliff \
   git-filter-repo \
+  git-lfs \
   ghostty \
   gnu-sed \
   gnu-tar \
