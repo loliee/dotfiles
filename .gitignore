@@ -16,7 +16,6 @@
 .config/helm/
 .config/kube/
 .config/openstack
-.config/pandoo
 .config/wireshark
 .config/zed
 .sshrc.d/patatetoy.sh
