@@ -18,3 +18,5 @@ gems.tags
 id_rsa
 npm-debug.log
 tags
+CLAUDE.md
+.claude

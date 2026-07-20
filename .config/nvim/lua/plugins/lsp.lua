@@ -82,7 +82,12 @@ return {
       },
       ruff = {},
       rust_analyzer = {},
-      terraformls = {},
+      terraformls = {
+        on_attach = function(client, _)
+          -- semantic tokens on files with many errors = huge payload = freeze
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
+      },
       taplo = {},
       yamlls = {
         settings = {

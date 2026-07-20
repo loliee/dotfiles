@@ -37,6 +37,8 @@ brew install \
   istat-menus \
   the-unarchiver
 
+brew install llvm --force-bottle
+
 brew install \
   ansifilter \
   argc \
@@ -66,7 +68,9 @@ brew install \
   gawk \
   git \
   git-absorb \
+  git-cliff \
   git-filter-repo \
+  git-lfs \
   ghostty \
   gnu-sed \
   gnu-tar \
@@ -97,6 +101,7 @@ brew install \
   nmap \
   openssh \
   openssl \
+  prek \
   pv \
   pwgen \
   readline \
@@ -131,6 +136,7 @@ brew install \
   watch \
   wget \
   wireguard-tools \
+  xan \
   xz \
   ytt \
   zlib \
@@ -143,6 +149,9 @@ brew install \
   kbld \
   vendir \
   ytt
+
+# Claude
+brew install --cask claude-code claude
 
 brew install --cask ovh/tap/ovhcloud-cli
 
