@@ -112,7 +112,6 @@ brew install \
   ruff \
   rustup \
   s5cmd \
-  sass/sass/sass \
   shellcheck \
   shfmt \
   signal \
