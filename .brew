@@ -131,6 +131,8 @@ brew install \
   tmux \
   transmission \
   tree \
+  tree-sitter \
+  tree-sitter-cli \
   uv \
   vlc \
   watch \
