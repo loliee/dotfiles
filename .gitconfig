@@ -125,7 +125,13 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	rh = reset --hard
-	ri = rebase -i
+	ri = "!f() { \
+	if git rev-parse --verify -q \"$1^\" >/dev/null; then \
+			git rebase -i \"$1^\"; \
+	else \
+			git rebase -i --root; \
+	fi; \
+	}; f"
 	rmb = "!f() { git branch --merged main | grep -v main | xargs -n 1 git branch -d; }; f"
 	rmbo = "!f() { git branch -r --merged main | grep -v main | sed s,origin/,, | xargs -n 1 git pod; }; f"
 	rr = reset HEAD^
