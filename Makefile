@@ -30,11 +30,14 @@ stow: ## Stow dotfiles
 		--ignore='.brew' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
+		--ignore='.github' \
 		--ignore='.gnupg' \
 		--ignore='.gemrc' \
 		--ignore='.krew' \
 		--ignore='^\.macos$$' \
 		--ignore='.macos_hardening' \
+		--ignore='.mdlrc' \
+		--ignore='.mdl_style.rb' \
 		--ignore='.pre-commit-config.yaml' \
 		--ignore='.ssh' \
 		--ignore='LICENCE' \

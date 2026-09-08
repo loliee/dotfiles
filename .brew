@@ -77,6 +77,7 @@ brew install \
   gnu-time \
   gnu-which \
   go \
+  go-task/tap/go-task \
   grep \
   gsl \
   hadolint \
@@ -111,7 +112,6 @@ brew install \
   ruff \
   rustup \
   s5cmd \
-  sass/sass/sass \
   shellcheck \
   shfmt \
   signal \
@@ -131,6 +131,8 @@ brew install \
   tmux \
   transmission \
   tree \
+  tree-sitter \
+  tree-sitter-cli \
   uv \
   vlc \
   watch \

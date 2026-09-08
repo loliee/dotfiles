@@ -82,6 +82,11 @@ set -x PATH $HOME/.cargo/bin $PATH
 
 set -x TESSDATA_PREFIX $HOME/.homebrew/share/tessdata
 
+# go
+if type -q go
+    fish_add_path (go env GOPATH)/bin
+end
+
 # lua
 set -x PATH $HOME/.luarocks/bin $PATH
 
