@@ -151,7 +151,8 @@ brew install \
   ytt
 
 # Claude
-brew install --cask claude-code claude
+HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications" brew install --cask claude-code
+brew install --cask claude
 
 brew install --cask ovh/tap/ovhcloud-cli
 
