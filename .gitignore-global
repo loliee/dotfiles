@@ -124,3 +124,5 @@ CLAUDE.local.md
 *.tmp
 *.pid
 .cache/
+
+**/.claude/.cc-writes/
