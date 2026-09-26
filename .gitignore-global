@@ -105,9 +105,11 @@ charts/*.tgz
 
 # --- IA ---
 CLAUDE.local.md
+.claude/review-checklist.md
 .claude/settings.local.json
 .claude/team/runs/
 .claude/worktrees/
+.work
 
 # --- Misc ---
 *.log
@@ -117,3 +119,5 @@ CLAUDE.local.md
 *.tmp
 *.pid
 .cache/
+
+**/.claude/.cc-writes/
