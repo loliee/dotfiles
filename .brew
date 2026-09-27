@@ -131,6 +131,7 @@ brew install \
   tmux \
   transmission \
   tree \
+  trivy \
   uv \
   vlc \
   watch \
