@@ -11,6 +11,7 @@
 .config/k9s/config.yml
 .config/nvim/pack
 .config/op/
+.config/packer/
 .config/helm/
 .config/kube/
 .config/openstack
