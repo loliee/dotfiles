@@ -29,6 +29,7 @@ brew upgrade
 echo '--> Tap extras Homebrew repositories'
 brew tap hashicorp/tap
 brew tap carvel-dev/carvel
+brew tap kyverno/chainsaw https://github.com/kyverno/chainsaw
 
 brew install \
   docker \
@@ -83,6 +84,7 @@ brew install \
   hashicorp/tap/packer \
   hashicorp/tap/terraform \
   hugo \
+  kyverno/chainsaw/chainsaw \
   ipcalc \
   jq \
   jwt-cli \
