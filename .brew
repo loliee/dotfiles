@@ -96,6 +96,7 @@ brew install \
   languagetool \
   luacheck \
   luarocks \
+  mistral-vibe \
   mkcert \
   mozjpeg \
   moreutils \
