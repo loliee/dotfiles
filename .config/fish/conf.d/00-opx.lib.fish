@@ -198,6 +198,7 @@ function __opx_fetch_one_secret --argument-names idx config
                 else
                     echo $value >$dest
                 end
+                chmod 600 $dest
                 echo "✔ [$idx] $reference as file →  ($dest)"
             else
                 print-err "[opx] cannot get 1password secret \"$reference\""
