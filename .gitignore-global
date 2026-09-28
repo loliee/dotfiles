@@ -116,6 +116,7 @@ CLAUDE.local.md
 .claude/settings.local.json
 .claude/team/runs/
 .claude/worktrees/
+.work
 
 # --- Misc ---
 *.log

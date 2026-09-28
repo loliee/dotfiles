@@ -56,6 +56,7 @@ brew install \
   diff-so-fancy \
   direnv \
   dive \
+  dyff \
   dprint \
   entr \
   exiftool \

@@ -82,6 +82,10 @@ set -x PATH $HOME/.cargo/bin $PATH
 
 set -x TESSDATA_PREFIX $HOME/.homebrew/share/tessdata
 
+if type -q dyff
+    set -x KUBECTL_EXTERNAL_DIFF "dyff between --omit-header --set-exit-code"
+end
+
 # lua
 set -x PATH $HOME/.luarocks/bin $PATH
 
