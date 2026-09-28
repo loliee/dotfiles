@@ -112,6 +112,7 @@ charts/*.tgz
 
 # --- IA ---
 CLAUDE.local.md
+.claude/review-checklist.md
 .claude/settings.local.json
 .claude/team/runs/
 .claude/worktrees/
