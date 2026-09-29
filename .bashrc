@@ -72,36 +72,6 @@ if [[ $OS == "Darwin" ]]; then
   export MANPATH="$HOME/.homebrew/share/man${MANPATH+:$MANPATH}:"
 fi
 
-# Prompt
-if command -v starship &>/dev/null; then
-  eval "$(starship init bash)"
-elif [[ -f "${HOME}/.patatetoy/patatetoy.sh" ]]; then
-  # shellcheck source=/dev/null
-  source "${HOME}/.patatetoy/patatetoy.sh"
-fi
-
-# bash completions
-if [[ -r /etc/bash_completion ]]; then
-  # shellcheck disable=SC1091
-  source /etc/bash_completion
-fi
-
-if [[ -r /etc/profile.d/bash_completion.sh ]]; then
-  # shellcheck disable=SC1091
-  source /etc/profile.d/bash_completion.sh
-fi
-
-# https://docs.brew.sh/Shell-Completion
-if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-  export BASH_COMPLETION_COMPAT_DIR="${HOMEBREW_PREFIX}/etc/bash_completion.d"
-  # shellcheck disable=SC1091
-  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-else
-  for completion in "${HOMEBREW_PREFIX}"/etc/bash_completion.d/*; do
-    [[ -r $completion ]] && source "$completion"
-  done
-fi
-
 # Save bash history after each command, depend `shopt -s histappend`
 PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
@@ -114,19 +84,12 @@ if [[ -f "${HOMEBREW_PREFIX}/share/chruby/chruby.sh" ]]; then
   source "${HOMEBREW_PREFIX}/share/chruby/chruby.sh"
   # shellcheck source=/dev/null
   source "${HOMEBREW_PREFIX}/share/chruby/auto.sh"
+  chruby_auto
 fi
 
 # fvm node manager
 if command -v fnm &>/dev/null; then
-  eval "$(fnm env --use-on-cd)"
-fi
-
-if command -v zoxide &>/dev/null; then
-  eval "$(zoxide init bash --cmd j)"
-fi
-
-if command -v direnv &>/dev/null; then
-  eval "$(direnv hook bash)"
+  eval "$(fnm env --use-on-cd --shell bash)"
 fi
 
 # Auto attach|start ssh-agent
@@ -165,3 +128,46 @@ for f in "${_FILES[@]}"; do
   # shellcheck source=/dev/null
   [[ -f $f ]] && source "${HOME}/$f"
 done
+
+# Claude
+if [[ -n ${CLAUDECODE:-} ]]; then
+  return
+fi
+
+# Prompt
+if command -v starship &>/dev/null; then
+  eval "$(starship init bash)"
+elif [[ -f "${HOME}/.patatetoy/patatetoy.sh" ]]; then
+  # shellcheck source=/dev/null
+  source "${HOME}/.patatetoy/patatetoy.sh"
+fi
+
+# bash completions
+if [[ -r /etc/bash_completion ]]; then
+  # shellcheck disable=SC1091
+  source /etc/bash_completion
+fi
+
+if [[ -r /etc/profile.d/bash_completion.sh ]]; then
+  # shellcheck disable=SC1091
+  source /etc/profile.d/bash_completion.sh
+fi
+
+# https://docs.brew.sh/Shell-Completion
+if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+  export BASH_COMPLETION_COMPAT_DIR="${HOMEBREW_PREFIX}/etc/bash_completion.d"
+  # shellcheck disable=SC1091
+  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+else
+  for completion in "${HOMEBREW_PREFIX}"/etc/bash_completion.d/*; do
+    [[ -r $completion ]] && source "$completion"
+  done
+fi
+
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash --cmd j)"
+fi
+
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook bash)"
+fi
