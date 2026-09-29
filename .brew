@@ -85,6 +85,7 @@ brew install \
   hashicorp/tap/packer \
   hashicorp/tap/terraform \
   hugo \
+  kubeconform \
   kyverno/chainsaw/chainsaw \
   ipcalc \
   jq \
