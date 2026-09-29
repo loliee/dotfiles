@@ -96,6 +96,10 @@ if type -q luarocks; and test -z "$LUA_PATH"
     set -Ux LUA_CPATH (luarocks path --lr-cpath)
 end
 
+if type -q ollama
+    set -x OLLAMA_CONTEXT_LENGTH 32768
+end
+
 if test -f ~/.env.local.fish
     source ~/.env.local.fish
 end
