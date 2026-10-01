@@ -48,6 +48,7 @@ brew install \
   bash \
   bash-completion@2 \
   bat \
+  bats-core \
   chruby-fish \
   closure-compiler \
   coreutils \
