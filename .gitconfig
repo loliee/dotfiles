@@ -14,13 +14,14 @@
 	context = white
 	meta = blue
 	frag = yellow
-	old = 209
-	new = green
-	commit = 209
+	old = magenta bold
+	new = green bold
+	commit = 209 bold
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+	whitespace = red reverse
 
 [color "branch"]
 	current	=	green bold
