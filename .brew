@@ -32,10 +32,17 @@ brew tap carvel-dev/carvel
 
 brew install \
   docker \
+  docker-buildx \
+  docker-compose \
+  colima \
+  lima \
   firefox \
   gpg-suite \
   istat-menus \
   the-unarchiver
+
+mkdir -p ~/.docker/cli-plugins
+ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" ~/.docker/cli-plugins/docker-compose
 
 brew install llvm --force-bottle
 

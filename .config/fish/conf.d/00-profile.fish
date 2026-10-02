@@ -87,6 +87,10 @@ if type -q go
     fish_add_path (go env GOPATH)/bin
 end
 
+if type -q colima
+    set -x COLIMA_SAVE_CONFIG 0
+end
+
 # lua
 set -x PATH $HOME/.luarocks/bin $PATH
 

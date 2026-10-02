@@ -1,0 +1,32 @@
+---
+# Docker development VM
+
+cpu: 8
+memory: 8
+disk: 100
+
+# Apple Virtualization Framework
+vmType: vz
+
+# Fast filesystem sharing on macOS
+mountType: virtiofs
+
+# Docker Engine
+runtime: docker
+
+# Keep the Docker context active when Colima starts.
+autoActivate: true
+
+# Native architecture of the Mac.
+arch: host
+
+# Enable BuildKit in Docker.
+docker:
+  features:
+    buildkit: true
+
+mounts:
+  - location: ~/Dev
+    writable: true
+  - location: /Volumes/OPXRamDisk
+    writable: false
