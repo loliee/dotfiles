@@ -5,17 +5,29 @@ set -o pipefail
 set -o nounset
 
 # HOMEBREW options
-export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=/Library/Fonts --no-binaries"
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --require-sha"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export PATH="${HOME}/.homebrew/bin:${PATH}"
+export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=1
+# Homebrew installs gh unchecked, as gh is what checks the others (Library/Homebrew/attestation.rb)
+export HOMEBREW_VERIFY_ATTESTATIONS=1
+: "${HOMEBREW_GITHUB_API_TOKEN:?export a read-only GitHub token first, see README.md}"
+export PATH="/opt/homebrew/bin:${PATH}"
 
-if [[ ! -f ~/.homebrew/bin/brew ]]; then
+# Homebrew and git need the Command Line Tools; their installer runs on its own, outside this script
+if ! xcode-select -p &>/dev/null; then
+  echo '--> Installing the Command Line Tools: run this script again once they are installed'
+  xcode-select --install
+  exit 1
+fi
+
+# Not under ~: bottles only relocate to a prefix no longer than /opt/homebrew
+if [[ ! -f /opt/homebrew/bin/brew ]]; then
   echo '--> Installing homebrew...'
-  mkdir -p ~/.homebrew &&
-    chmod 0700 ~/.homebrew &&
-    curl -L https://github.com/Homebrew/brew/tarball/master |
-    tar xz --strip 1 -C ~/.homebrew
+  sudo mkdir -p /opt/homebrew &&
+    sudo chown "${USER}:admin" /opt/homebrew &&
+    chmod 0700 /opt/homebrew &&
+    git clone https://github.com/Homebrew/brew /opt/homebrew
 fi
 
 trap 'brew cleanup' INT TERM HUP EXIT
@@ -26,239 +38,107 @@ brew update
 echo '--> Upgrade any already-installed formulae'
 brew upgrade
 
-echo '--> Tap extras Homebrew repositories'
-brew tap hashicorp/tap
-brew tap carvel-dev/carvel
-
-brew install \
-  docker \
-  docker-buildx \
-  docker-compose \
-  colima \
-  lima \
-  firefox \
-  gpg-suite \
-  istat-menus \
-  the-unarchiver
-
-mkdir -p ~/.docker/cli-plugins
-ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" ~/.docker/cli-plugins/docker-compose
-
-brew install llvm --force-bottle
-
-brew install \
+# Arguments such as --force go to brew install; ${1+"$@"} because macOS's bash 3.2 fails nounset on an empty "$@"
+brew install ${1+"$@"} \
   ansifilter \
-  argc \
-  ast-grep \
   awscli \
   bash \
   bash-completion@2 \
   bat \
-  chruby-fish \
+  claude \
+  claude-code \
   closure-compiler \
+  colima \
   coreutils \
   curl \
-  deno \
   diff-so-fancy \
   direnv \
   dive \
-  dprint \
-  entr \
-  exiftool \
-  fasttext \
+  docker \
+  docker-buildx \
+  docker-compose \
   fd \
   findutils \
+  firefox \
   fish \
-  fnm \
   font-iosevka-nerd-font \
   fzf \
   gawk \
+  gh \
+  ghostty \
   git \
   git-absorb \
-  git-cliff \
   git-filter-repo \
   git-lfs \
-  ghostty \
+  glab \
   gnu-sed \
   gnu-tar \
   gnu-time \
   gnu-which \
-  go \
-  go-task/tap/go-task \
+  gpg-suite \
   grep \
-  gsl \
-  hadolint \
-  hashicorp/tap/packer \
-  hashicorp/tap/terraform \
-  hugo \
   ipcalc \
-  jq \
-  jwt-cli \
   k9s \
-  krew \
   kubectx \
-  kubernetes-cli \
-  kubernetes-helm \
   languagetool \
+  lima \
   luacheck \
   luarocks \
+  mise \
   mistral-vibe \
   mkcert \
-  mozjpeg \
   moreutils \
+  mozjpeg \
   neovim \
-  nmap \
   openssh \
   openssl \
-  prek \
   pv \
   pwgen \
-  readline \
   reattach-to-user-namespace \
   rg \
-  ruby-build \
-  ruff \
-  rustup \
   s5cmd \
-  shellcheck \
-  shfmt \
   signal \
   skopeo \
   slack \
-  ssh-copy-id \
   starship \
-  step \
   stow \
-  stylua \
-  tcpdump \
-  tcptraceroute \
-  taplo \
-  tflint \
-  tfsec \
+  the-unarchiver \
   tig \
   tmux \
+  tor-browser \
   transmission \
   tree \
   tree-sitter \
   tree-sitter-cli \
-  uv \
   vlc \
   watch \
   wget \
   wireguard-tools \
-  xan \
   xz \
-  ytt \
-  zlib \
   zoxide
 
-# Carvel packages
-brew install \
-  imgpkg \
-  kapp \
-  kbld \
-  vendir \
-  ytt
+mkdir -p ~/.docker/cli-plugins
+ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" ~/.docker/cli-plugins/docker-compose
+ln -sfn "$(brew --prefix)/opt/docker-buildx/bin/docker-buildx" ~/.docker/cli-plugins/docker-buildx
 
-# Claude
-brew install --cask claude-code claude
-
-brew install --cask ovh/tap/ovhcloud-cli
-
-brew install --appdir /Applications \
-  1password \
-  1password-cli
-
+# brew install fails on a Little Snitch installed outside Homebrew
 if ! littlesnitch -v &>/dev/null; then
-  brew install --appdir /Applications \
+  brew install ${1+"$@"} --appdir /Applications \
     little-snitch \
     micro-snitch
 fi
 
-# Tooling based on Python
-brew install \
-  ansible-lint \
-  bandit \
-  codespell \
-  pre-commit \
-  yamllint
-
-# Ruby
-mkdir -p ~/.rubies
-RUBIES=(
-  3.4.5
-)
-
-for ruby in "${RUBIES[@]}"; do
-  "${HOME}/.homebrew/bin/ruby-build" "$ruby" "${HOME}/.rubies/ruby-${ruby}"
-done
-
-rm -f ~/.ruby-version
-echo "${RUBIES[@]: -1}" >~/.ruby-version
-
-GEMS=(
-  bundler
-  mdl
-  tmuxinator
-)
+brew install ${1+"$@"} --appdir /Applications \
+  1password \
+  1password-cli \
+  ollama-app
 
 # Lua
 # Requires for my snippets
 luarocks install --server=https://luarocks.org/dev lua-fmt
 luarocks path --bin >~/.lua.env
 
-# Enable this option for chruby.sh script
-set +o nounset
-# shellcheck source=/dev/null
-source "$(brew --prefix)/share/chruby/chruby.sh"
-chruby "$(cat ~/.ruby-version)"
-set -o nounset
-
-for gem in "${GEMS[@]}"; do
-  gem list -i "${gem}" &>/dev/null || gem install "${gem}"
-done
-
-# Node
-NODEJS=(
-  24.9.0
-)
-
-eval "$(fnm env --multi)"
-for node in "${NODEJS[@]}"; do
-  fnm install "${node}"
-done
-
-fnm default "${NODEJS[-1]}"
-fnm use "${NODEJS[-1]}"
-
-NPM=(
-  eslint@8
-  prettier@3
-)
-
-for npm in "${NPM[@]}"; do
-  npm install -g "$npm"
-done
-
-# Rust
-if command -v rustup &>/dev/null; then
-  rustup update
-else
-  rustup-init -y --no-modify-path
-  # shellcheck source=/dev/null
-  source "${HOME}/.cargo/env"
-  rustup component add rustfmt
-fi
-
 # Configure languagetool
-mkdir -p "${XDG_DATA_HOME}/fasttext"
-curl https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin -o "${XDG_DATA_HOME}/fasttext/lid.176.bin"
-cat <<EOT >"$(brew --prefix)/etc/languagetool/server.properties"
-[content]
-fasttextModel=${XDG_DATA_HOME}/fasttext/lid.176.bin
-fasttextBinary=$(command -v fasttext)
-EOT
-
 brew services start languagetool
 
 if [[ ! -f "/etc/sudoers.d/$USER" ]]; then
