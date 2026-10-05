@@ -1,9 +1,10 @@
 # PATH
-set -x PATH $HOME/.krew/bin $XDG_DATA_HOME/../bin $HOME/.homebrew/bin $HOME/.homebrew_x86_64/bin $HOME/.homebrew/sbin $HOME/.homebrew_x86_64/sbin $HOME/bin /usr/local/bin /usr/local/sbin $PATH
+set -x PATH $HOME/.local/share/mise/shims $HOME/.krew/bin $HOME/.local/bin /opt/homebrew/bin $HOME/.homebrew_x86_64/bin /opt/homebrew/sbin $HOME/.homebrew_x86_64/sbin $HOME/bin /usr/local/bin /usr/local/sbin $PATH
 
-set -x HOMEBREW_CASK_OPTS "--appdir=$HOME/Applications --fontdir=$HOME/Library/Fonts --no-binaries"
+set -x HOMEBREW_CASK_OPTS "--appdir=$HOME/Applications --fontdir=$HOME/Library/Fonts --require-sha"
 set -x HOMEBREW_NO_ANALYTICS 1
 set -x HOMEBREW_NO_INSECURE_REDIRECT 1
+set -x HOMEBREW_VERIFY_ATTESTATIONS 1
 set -x HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK 1
 
 # XDG_CONFIG_DIR
@@ -33,7 +34,7 @@ set -x PAGER less
 set -x LESS '-F -g -i -M -R -S -w -X -z-4'
 
 # man
-set -x MANPATH "$HOME/.homebrew/share/man"(test -n "$MANPATH"; and echo :$MANPATH; or echo :)
+set -x MANPATH "/opt/homebrew/share/man"(test -n "$MANPATH"; and echo :$MANPATH; or echo :)
 
 # Don't clear the screen after quitting a manual page
 set -x MANPAGER 'less -X'
@@ -78,9 +79,8 @@ set -x FZF_DEFAULT_OPTS "--history=.fzf_history --history-size=10000
 set -x FZF_CTRL_T_OPTS "--preview '($FZF_PREVIEW_COMMAND) 2> /dev/null | head -$LINES'"
 
 # cargo
-set -x PATH $HOME/.cargo/bin $PATH
-
-set -x TESSDATA_PREFIX $HOME/.homebrew/share/tessdata
+# Last: rustup's cargo and rustc must not shadow the Rust that mise pins
+set -x PATH $PATH $HOME/.cargo/bin
 
 # go
 if type -q go

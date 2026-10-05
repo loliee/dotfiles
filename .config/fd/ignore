@@ -32,7 +32,6 @@
 .cache
 .cargo
 .gem
-.homebrew
 .krew
 .local
 .localized
