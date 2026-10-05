@@ -91,6 +91,10 @@ if type -q colima
     set -x COLIMA_SAVE_CONFIG 0
 end
 
+if type -q dyff
+    set -x KUBECTL_EXTERNAL_DIFF "dyff between --omit-header --set-exit-code"
+end
+
 # lua
 set -x PATH $HOME/.luarocks/bin $PATH
 
