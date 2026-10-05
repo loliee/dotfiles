@@ -1,7 +1,7 @@
 DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 SHELL := /usr/bin/env bash
-PATH := $(HOME)/.homebrew/bin/:$(PATH)
+PATH := $(HOME)/.local/share/mise/shims:/opt/homebrew/bin/:$(PATH)
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
@@ -18,7 +18,7 @@ install: install-brew install-dotfiles ## Full install
 install-brew: # Install brew and packages
 	./.brew
 
-install-dotfiles: stow install-krew install-tpm ## Install my dotfiles
+install-dotfiles: stow install-mise install-krew install-tpm ## Install my dotfiles
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	[[ -f $(HOME)/.ssh/config ]] || cp $(DOTFILES_DIR)/.ssh/config $(HOME)/.ssh/
 
@@ -44,9 +44,13 @@ stow: ## Stow dotfiles
 		--ignore='Makefile' \
 		--ignore='README.md'
 
+install-mise: ## Install the tools pinned in mise's global config
+	$(info --> Install mise tools)
+	mise install
+
 install-krew: ## Install krew plugins, the kubectl plugin manager
 	$(info --> Install krew)
-	kubectl krew install < .krew
+	krew install < .krew
 
 install-tpm: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)

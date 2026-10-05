@@ -70,12 +70,14 @@ export MANPAGER='less -X'
 
 # macOS specific
 if [[ $OS == "Darwin" ]]; then
-  export HOMEBREW_PREFIX="${HOME}/.homebrew"
-  export PATH="${HOME}/.krew/bin:${XDG_DATA_HOME}/../bin:${HOME}/.homebrew/bin:${HOME}/.homebrew_x86_64/bin:${HOME}/.homebrew/sbin:${HOME}/.homebrew_x86_64/sbin:${HOME}/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
-  export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --no-binaries"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export PATH="${HOME}/.local/share/mise/shims:${HOME}/.krew/bin:${XDG_DATA_HOME}/../bin:/opt/homebrew/bin:${HOME}/.homebrew_x86_64/bin:/opt/homebrew/sbin:${HOME}/.homebrew_x86_64/sbin:${HOME}/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
+  export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications --fontdir=${HOME}/Library/Fonts --require-sha"
   export HOMEBREW_NO_ANALYTICS=1
   export HOMEBREW_NO_INSECURE_REDIRECT=1
-  export MANPATH="$HOME/.homebrew/share/man${MANPATH+:$MANPATH}:"
+  export HOMEBREW_VERIFY_ATTESTATIONS=1
+  export HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK=1
+  export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
 fi
 
 # Prompt
@@ -110,22 +112,6 @@ fi
 
 # Save bash history after each command, depend `shopt -s histappend`
 PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
-
-# chruby
-if [[ -f "${HOMEBREW_PREFIX}/share/chruby/chruby.sh" ]]; then
-  # shellcheck disable=SC2034
-  RUBIES=("${HOME}/.rubies/*")
-
-  # shellcheck source=/dev/null
-  source "${HOMEBREW_PREFIX}/share/chruby/chruby.sh"
-  # shellcheck source=/dev/null
-  source "${HOMEBREW_PREFIX}/share/chruby/auto.sh"
-fi
-
-# fvm node manager
-if command -v fnm &>/dev/null; then
-  eval "$(fnm env --use-on-cd)"
-fi
 
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd j)"
