@@ -46,6 +46,14 @@ repos:
         types: [yaml]
         pass_filenames: true
         description: Custom hook to lint GitHub workflows using actionlint
+      - id: zizmor
+        name: Run zizmor
+        entry: zizmor --offline
+        language: system
+        files: ^\.github/workflows/
+        types: [yaml]
+        pass_filenames: true
+        description: Custom hook to audit GitHub workflows security using zizmor
       - id: shfmt
         name: Run shfmt
         entry: shfmt --write
