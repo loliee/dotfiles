@@ -76,6 +76,13 @@ repos:
         types: [fish]
         pass_filenames: true
         description: Custom hook to format fish files using fish_indent
+      - id: stylua
+        name: Run stylua
+        entry: stylua
+        language: system
+        types: [lua]
+        pass_filenames: true
+        description: Custom hook to format Lua files using stylua
       - id: luacheck
         name: Run luacheck
         entry: luacheck
