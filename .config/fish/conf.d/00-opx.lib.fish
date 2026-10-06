@@ -234,6 +234,8 @@ function __opx_fetch_one_secret --argument-names idx config
     if test "$symlinks" != null; and test -n "$symlinks"
         for l in $symlinks
             set flink (__opx_expand_str $l)
+            set ldir (dirname $flink)
+            test -d $ldir; or mkdir -p -m 700 $ldir
             if ln -sf $dest $flink
                 echo "✔ [$idx] symlink $dest > $flink"
             else
