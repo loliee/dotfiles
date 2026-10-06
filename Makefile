@@ -38,6 +38,7 @@ stow: ## Stow dotfiles
 		--ignore='.macos_hardening' \
 		--ignore='.mdlrc' \
 		--ignore='.mdl_style.rb' \
+		--ignore='^\.opx-net-down$$' \
 		--ignore='.pre-commit-config.yaml' \
 		--ignore='.ssh' \
 		--ignore='LICENCE' \

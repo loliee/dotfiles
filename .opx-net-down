@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# Stop every wg-quick tunnel and reset DNS for opx-clean, through a NOPASSWD sudoers rule installed by .brew.
+
+# /bin/bash and a system PATH, not env: sudo keeps the caller's PATH, and Homebrew's bash belongs to the user
+set -euo pipefail
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+readonly RUN_DIR=/var/run/wireguard
+
+# What wg-quick down does on macOS: without its socket wireguard-go exits, and wg-quick's route monitor restores
+# routes and DNS
+wg_down() {
+  local name_file iface
+  for name_file in "${RUN_DIR}"/*.name; do
+    [[ -f "${name_file}" ]] || continue
+    iface="$(<"${name_file}")"
+    if [[ "${iface}" =~ ^utun[0-9]+$ ]]; then
+      rm -f "${RUN_DIR}/${iface}.sock"
+      while ifconfig "${iface}" &>/dev/null; do
+        sleep 0.1
+      done
+    fi
+    rm -f "${name_file}"
+  done
+  # The route monitors restore their DNS as they exit: dns_reset must come after them, 5 s at most
+  local _
+  for _ in {1..50}; do
+    pgrep -f 'wg-quick up' >/dev/null || break
+    sleep 0.1
+  done
+}
+
+dns_reset() {
+  local service rc=0
+  # Not a pipe into while: rc must outlive the loop, and one failing service must not stop the others
+  while IFS= read -r service; do
+    service="${service#\*}"
+    networksetup -setdnsservers "${service}" Empty || rc=1
+    networksetup -setsearchdomains "${service}" Empty || rc=1
+  done < <(networksetup -listallnetworkservices | tail -n +2)
+  dscacheutil -flushcache
+  killall -HUP mDNSResponder
+  return "${rc}"
+}
+
+main() {
+  wg_down
+  dns_reset
+}
+
+main "$@"
