@@ -17,16 +17,31 @@ repos:
     rev: v1.29.0
     hooks:
       - id: yamllint
-  - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.12.0-2
-    hooks:
-      - id: shfmt
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
-    hooks:
-      - id: shellcheck
   - repo: local
     hooks:
+      - id: shfmt
+        name: Run shfmt
+        entry: shfmt --write
+        language: system
+        types: [shell]
+        exclude_types: [csh, tcsh, zsh]
+        pass_filenames: true
+        description: Custom hook to format shell scripts using shfmt
+      - id: shellcheck
+        name: Run shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]
+        pass_filenames: true
+        description: Custom hook to lint shell scripts using shellcheck
+      - id: fish-syntax
+        name: Run fish --no-execute
+        # fish -n only checks its first file, hence the loop
+        entry: fish -N -c 'set -l rc 0; for f in $argv; fish --no-execute $f; or set rc 1; end; exit $rc'
+        language: system
+        types: [fish]
+        pass_filenames: true
+        description: Custom hook to check fish syntax
       - id: luacheck
         name: Run luacheck
         entry: luacheck

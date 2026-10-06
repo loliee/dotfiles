@@ -13,7 +13,7 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: install-brew install-dotfiles ## Full install
+install: install-brew install-dotfiles git-hooks-install ## Full install
 
 install-brew: # Install brew and packages
 	./.brew
@@ -42,10 +42,23 @@ stow: ## Stow dotfiles
 		--ignore='.ssh' \
 		--ignore='LICENCE' \
 		--ignore='Makefile' \
+		--ignore='mise.toml' \
+		--ignore='^mise\.lock$$' \
 		--ignore='README.md'
 
-mise-install: ## Install the tools pinned in mise's global config
-	$(info --> Install mise tools)
+mise-install: mise-install-home mise-install-repo ## Install the tools pinned by mise, home and repo
+
+mise-install-home: ## Install the tools pinned in mise's global config
+	$(info --> Install mise home tools)
+	mise -C $(HOME) install
+
+# The repo targets read mise.toml only, as CI does
+mise-install-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
+mise-install-repo: ## Install the tools pinned in this repo's mise.toml
+	$(info --> Install mise repo tools)
+# In this repo mise also reads .config/mise/config.toml as a project config, and paranoid mode wants it trusted
+	mise trust $(DOTFILES_DIR)/.config/mise/config.toml
+	mise trust $(DOTFILES_DIR)/mise.toml
 	mise install
 
 install-krew: ## Install krew plugins, the kubectl plugin manager
@@ -57,6 +70,9 @@ install-tpm: ## Install tpm, the tmux plugin manager
 	mkdir -p $(HOME)/.tmux/plugins
 	[[ -d $(HOME)/.tmux/plugins/tpm ]] \
 		|| git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
+
+git-hooks-install: ## Install git hooks
+	prek install -f
 
 setup-macos: ## Run macos script
 	@bash -x ./.macos
