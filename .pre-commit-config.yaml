@@ -38,6 +38,14 @@ repos:
         language: system
         pass_filenames: true
         description: Custom hook to detect secrets using betterleaks
+      - id: actionlint
+        name: Run actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/
+        types: [yaml]
+        pass_filenames: true
+        description: Custom hook to lint GitHub workflows using actionlint
       - id: shfmt
         name: Run shfmt
         entry: shfmt --write

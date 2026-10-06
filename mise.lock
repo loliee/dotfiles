@@ -41,6 +41,23 @@ version = "0.18.1"
 backend = "gem:mdl"
 specifiers = ["0.18.1"]
 
+[[tools.pinact]]
+version = "5.0.0"
+backend = "aqua:suzuki-shunsuke/pinact"
+specifiers = ["5.0.0"]
+
+[tools.pinact."platforms.linux-x64"]
+checksum = "sha256:d005bbb85da80dacdc07816f24a5da723a9f6d1e9f3d3e7e73df33f9caa1358f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638065"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.macos-arm64"]
+checksum = "sha256:3437ebfc9db720e431e86fd03ed19173b88dcb80b0f177d11a892126108661b5"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v5.0.0/pinact_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/558638064"
+provenance = "github-attestations"
+
 [[tools.prek]]
 version = "0.5.5"
 backend = "aqua:j178/prek"
