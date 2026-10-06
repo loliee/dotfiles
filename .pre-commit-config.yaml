@@ -69,6 +69,13 @@ repos:
         types: [fish]
         pass_filenames: true
         description: Custom hook to check fish syntax
+      - id: fish-indent
+        name: Run fish_indent
+        entry: fish_indent --write
+        language: system
+        types: [fish]
+        pass_filenames: true
+        description: Custom hook to format fish files using fish_indent
       - id: luacheck
         name: Run luacheck
         entry: luacheck
