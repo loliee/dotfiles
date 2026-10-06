@@ -10,91 +10,28 @@ concurrency:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
-  yamllint:
+  prek:
     runs-on: ubuntu-latest
+    env:
+      # The repo's mise.toml only: .config/mise/config.toml is the home config, not CI's
+      MISE_OVERRIDE_CONFIG_FILENAMES: mise.toml
+      MISE_LOCKED: "1"
     steps:
-      - uses: actions/checkout@v6
-      - name: Install yamllint
-        run: pip install yamllint
-      - name: Run yamllint
-        run: yamllint .
-
-  markdownlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install ruby
-        run: sudo apt-get update && sudo apt-get install -y ruby-full
-      - name: Install markdownlint
-        run: sudo gem install mdl
-      - name: Run markdownlint
-        run: mdl .
-
-  shfmt:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install shfmt
-        run: sudo apt-get update && sudo apt-get install -y shfmt
-      - name: Run shfmt
-        run: shfmt -d .
-
-  shellcheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install shellcheck
-        run: sudo apt-get update && sudo apt-get install -y shellcheck
-      - name: Run shellcheck
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      # Not in the mise registry; Ubuntu's own fish is 3.x, fish_indent must match the local 4.x
+      - name: Install fish and luacheck
         run: |
-          shellcheck $(
-            find . -type f -not -path '*/.git/*' -exec file --mime-type {} + \
-              | awk -F ': ' '/shellscript/ && !/fish/ {print $1}'
-          )
-
-  luacheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install luarocks
-        run: sudo apt-get update && sudo apt-get install -y luarocks
-      - name: Install luacheck via luarocks
-        run: sudo luarocks install luacheck
-      - name: Run luacheck
-        run: luacheck .
-
-  taplo:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install taplo
-        run: |
-          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
-            | gzip -d - | install -m 755 /dev/stdin /usr/local/bin/taplo
-      - name: Run taplo lint
-        run: taplo lint .
-      - name: Run taplo format check
-        run: taplo format --check .
-
-  fish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Install fish
-        run: sudo apt-get update && sudo apt-get install -y fish
-      - name: Run fish --no-execute
-        run: |
-          fish -N -c '
-            for f in (find . -type f -not -path "*/.git/*" -name "*.fish");
-              fish --no-execute $f 2>stderr.txt
-              if test $status != 0
-                set stderr_output (cat stderr.txt | string collect)
-                rm -f stderr.txt
-                echo >&2 "$f:" (set_color red)ko
-                printf "%s\n" $stderr_output >&2
-                set_color normal
-              else
-                echo "$f:" (set_color green)ok(set_color normal)
-              end
-            end'
+          sudo add-apt-repository -y ppa:fish-shell/release-4
+          sudo apt-get update && sudo apt-get install -y fish luarocks
+          sudo luarocks install luacheck 1.2.0-1
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          version: 2026.10.3
+      - name: Run prek
+        run: prek run --all-files --show-diff-on-failure
