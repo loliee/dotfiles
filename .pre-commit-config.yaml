@@ -32,6 +32,12 @@ repos:
         args: [--ignore-words-list=enew]
   - repo: local
     hooks:
+      - id: betterleaks
+        name: Run betterleaks
+        entry: betterleaks dir --no-banner --redact
+        language: system
+        pass_filenames: true
+        description: Custom hook to detect secrets using betterleaks
       - id: shfmt
         name: Run shfmt
         entry: shfmt --write
