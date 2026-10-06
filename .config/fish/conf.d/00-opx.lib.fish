@@ -98,6 +98,15 @@ function __opx_ramdisk
     end
 end
 
+function __opx_signin
+    op whoami &>/dev/null; and return 0
+    echo "[opx] 1Password CLI is not signed in, signing in…"
+    if not op signin
+        print-err "[opx] cannot sign in: 1Password must be running, unlocked, with Settings > Developer > Integrate with 1Password CLI"
+        return 1
+    end
+end
+
 function __opx_expand_str --argument-names str
     if test -z "$str"
         print-err '[opx] cannot expand empty variable'
@@ -286,6 +295,7 @@ function opx-fetch -d "Fetch 1password secrets"
         return 0
     end
 
+    __opx_signin; or return 1
     __opx_ramdisk
     __opx_configure; or return 1
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1
