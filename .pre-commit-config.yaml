@@ -13,6 +13,9 @@ repos:
       - id: check-symlinks
       - id: debug-statements
       - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
