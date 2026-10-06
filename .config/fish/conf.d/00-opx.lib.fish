@@ -238,14 +238,19 @@ end
 function __opx-exec --argument-names entry
     set available_commands \
         clear \
-        dscacheutil \
-        "killall -HUP mDNSResponder" \
         echo \
         source \
         brew\\s+service \
-        set-dns-servers \
-        set-search-domains \
-        wg
+        /usr/local/bin/opx-net-down
+    # opx-clean runs from tmux, without root or a tty: sudo can only run the NOPASSWD opx-net-down
+    if not string match -q '*_clean_cmds' $entry
+        set -a available_commands \
+            dscacheutil \
+            "killall -HUP mDNSResponder" \
+            set-dns-servers \
+            set-search-domains \
+            wg
+    end
 
     set commands_regexp (string join "|" $available_commands)
     set commands (yq eval "$entry  | .[]" $OPX_CONFIG_PATH)

@@ -49,6 +49,7 @@ brew install ${1+"$@"} \
   claude-code \
   closure-compiler \
   colima \
+  coredns \
   coreutils \
   curl \
   diff-so-fancy \
@@ -141,6 +142,19 @@ luarocks path --bin >~/.lua.env
 # Configure languagetool
 brew services start languagetool
 
-if [[ ! -f "/etc/sudoers.d/$USER" ]]; then
-  echo "$USER ALL=(ALL) NOPASSWD: $HOME/.config/fish/scripts/opx-clean.fish" | sudo tee "/etc/sudoers.d/$USER" >/dev/null
+# Without a password root runs only root-owned code: /opt/homebrew and ~/.config belong to the user
+echo "--> Setup opx-net-down, requires root permission!"
+sudo install -d -o root -g wheel -m 0755 /usr/local/bin
+sudo install -o root -g wheel -m 0755 "$(dirname "${BASH_SOURCE[0]}")/.opx-net-down" /usr/local/bin/opx-net-down
+sudoers_rule="${USER} ALL=(root) NOPASSWD: /usr/local/bin/opx-net-down \"\""
+if ! echo "${sudoers_rule}" | sudo cmp -s - "/etc/sudoers.d/${USER}"; then
+  if sudo test -e "/etc/sudoers.d/${USER}"; then
+    echo "--> Replacing /etc/sudoers.d/${USER}, which held:"
+    sudo cat "/etc/sudoers.d/${USER}"
+  fi
+  # sudo skips sudoers.d files with a dot in their name, so the rule goes live only once visudo accepts it
+  echo "${sudoers_rule}" | sudo tee "/etc/sudoers.d/${USER}.new" >/dev/null
+  sudo chmod 0440 "/etc/sudoers.d/${USER}.new"
+  sudo visudo -cqf "/etc/sudoers.d/${USER}.new"
+  sudo mv "/etc/sudoers.d/${USER}.new" "/etc/sudoers.d/${USER}"
 fi
