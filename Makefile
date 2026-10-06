@@ -44,6 +44,7 @@ stow: ## Stow dotfiles
 		--ignore='Makefile' \
 		--ignore='mise.toml' \
 		--ignore='^mise\.lock$$' \
+		--ignore='^\.claude$$' \
 		--ignore='README.md'
 
 mise-install: mise-install-home mise-install-repo ## Install the tools pinned by mise, home and repo
