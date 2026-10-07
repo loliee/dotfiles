@@ -42,14 +42,12 @@ return {
         hgcommit = false,
         svn = false,
         cvs = false,
-        sh = function()
-          if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^%.env.*") then
-            return false
-          end
-          return true
-        end,
         ["."] = false,
       },
+      should_attach = function(bufnr, bufname)
+        return not require("security").secret(bufname)
+          and require("copilot.config.should_attach").default(bufnr, bufname)
+      end,
     })
   end,
 }
