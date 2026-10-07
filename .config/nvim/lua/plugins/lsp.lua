@@ -2,9 +2,6 @@ return {
   "neovim/nvim-lspconfig",
   lazy = false,
   dependencies = {
-    { "williamboman/mason.nvim", opts = {} },
-    { "williamboman/mason-lspconfig.nvim", opts = {} },
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "b0o/schemastore.nvim",
     {
       "j-hui/fidget.nvim",
@@ -115,12 +112,7 @@ return {
       vim.lsp.config(name, merged)
     end
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, { "stylua" })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-    require("mason-lspconfig").setup({
-      ensure_installed = ensure_installed,
-    })
+    -- The servers come from mise (~/.config/mise/config.toml), pinned and locked
+    vim.lsp.enable(vim.tbl_keys(servers))
   end,
 }
