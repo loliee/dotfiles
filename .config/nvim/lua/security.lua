@@ -24,4 +24,51 @@ function M.trusted(source)
   return decided[root]
 end
 
+-- Files that hold secrets, as autocmd patterns; the temporary folders hold the copies sudo -e edits
+M.secret_paths = {
+  "/Volumes/OPXRamDisk/*",
+  "*/.env",
+  "*/.env.*",
+  "*.env",
+  "*/.envrc*",
+  "*/.ssh/*",
+  "*/.aws/*",
+  "*/.kube/*",
+  "*/.gnupg/*",
+  "*/.docker/*",
+  "*/.config/containers/auth.json",
+  "*/.config/gh/*",
+  "*/.config/glab-cli/*",
+  "*/.config/op/*",
+  "*/.netrc",
+  "*kubeconfig*",
+  "*.tfvars",
+  "*.tfstate",
+  "*.tfstate.backup",
+  "*.pem",
+  "*.key",
+  "*.p12",
+  "*/secrets.yaml",
+  "*/secrets.yml",
+  "/tmp/*",
+  "/private/tmp/*",
+  "/private/var/folders/*",
+}
+
+--- Whether a file holds secrets, by its name or, for an opx link into the ramdisk, by its target
+---@param name string file path
+---@return boolean
+function M.secret(name)
+  local paths = { name, vim.uv.fs_realpath(name) }
+  for _, pattern in ipairs(M.secret_paths) do
+    local regex = vim.fn.glob2regpat(pattern)
+    for _, path in ipairs(paths) do
+      if vim.fn.match(path, regex) ~= -1 then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 return M
