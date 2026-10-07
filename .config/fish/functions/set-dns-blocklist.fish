@@ -4,10 +4,10 @@ function set-dns-blocklist -d "Download DNS blocklist for CoreDNS"
         return 1
     end
 
-    # CoreDNS hosts wants "IP name" lines: wildcard patterns such as ad.* have no hosts form and are dropped
+    # A hosts list that names each subdomain, as CoreDNS hosts matches exact names; only 0.0.0.0 lines: it never redirects
     curl --fail --silent --show-error --proto =https --tlsv1.2 \
-        https://download.dnscrypt.info/blacklists/domains/mybase.txt \
-        | sed -nE 's/^([[:alnum:]._-]+)$/0.0.0.0 \1/p' >/opt/homebrew/etc/coredns/blocklist.hosts
+        https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts \
+        | awk '$1 == "0.0.0.0" && $2 != "0.0.0.0" { print "0.0.0.0", $2 }' | sudo tee /etc/coredns/blocklist.hosts >/dev/null
     # fish has no pipefail: a failed step must not pass for success
     not string match -qv 0 $pipestatus
 end
