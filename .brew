@@ -152,3 +152,29 @@ if ! echo "${sudoers_rule}" | sudo cmp -s - "/etc/sudoers.d/${USER}"; then
   sudo visudo -cqf "/etc/sudoers.d/${USER}.new"
   sudo mv "/etc/sudoers.d/${USER}.new" "/etc/sudoers.d/${USER}"
 fi
+
+# CoreDNS needs root for port 53, so root runs root-owned copies of its binary, Corefile and blocklist
+echo "--> Setup CoreDNS on port 53, requires root permission!"
+sudo install -d -o root -g wheel -m 0755 /usr/local/libexec /etc/coredns
+sudo install -o root -g wheel -m 0755 "$(brew --prefix coredns)/bin/coredns" /usr/local/libexec/coredns
+# A hosts list that names each subdomain, as CoreDNS hosts matches exact names; only 0.0.0.0 lines: it never redirects
+curl --fail --silent --show-error --proto =https --tlsv1.2 \
+  https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts |
+  awk '$1 == "0.0.0.0" && $2 != "0.0.0.0" { print "0.0.0.0", $2 }' | sudo tee /etc/coredns/blocklist.hosts >/dev/null
+sudo install -o root -g wheel -m 0644 "$(dirname "${BASH_SOURCE[0]}")/.coredns.plist" \
+  /Library/LaunchDaemons/local.coredns.plist
+if ! sudo test -e /etc/coredns/Corefile && [[ -f /opt/homebrew/etc/coredns/Corefile ]]; then
+  sudo install -o root -g wheel -m 0644 /opt/homebrew/etc/coredns/Corefile /etc/coredns/Corefile
+fi
+if sudo test -e /etc/coredns/Corefile; then
+  # bootstrap refuses a job already loaded, and bootout can return before launchd has removed it
+  if sudo launchctl print system/local.coredns &>/dev/null; then
+    sudo launchctl bootout system/local.coredns
+    while sudo launchctl print system/local.coredns &>/dev/null; do
+      sleep 0.1
+    done
+  fi
+  sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
+else
+  echo "--> No Corefile: write /etc/coredns/Corefile with sudo -e, then run .brew again"
+fi
