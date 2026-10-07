@@ -7,6 +7,9 @@ set -x HOMEBREW_NO_INSECURE_REDIRECT 1
 set -x HOMEBREW_VERIFY_ATTESTATIONS 1
 set -x HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK 1
 
+# macOS starts shells at 256 open files: parallel installs (mise, aube) and language servers run out
+test (ulimit -S -n) -lt 10240 2>/dev/null; and ulimit -S -n 10240
+
 # XDG_CONFIG_DIR
 set -x XDG_CONFIG_HOME (set -q XDG_CONFIG_HOME; and echo $XDG_CONFIG_HOME; or echo $HOME/.config)
 set -x XDG_DATA_HOME (set -q XDG_DATA_HOME; and echo $XDG_DATA_HOME; or echo $HOME/.local/share)
