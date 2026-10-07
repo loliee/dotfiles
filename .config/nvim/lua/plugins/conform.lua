@@ -47,6 +47,12 @@ return { -- Autoformat
     },
     -- Customize formatters
     formatters = {
+      -- Loads the project's prettier.config.js and plugins
+      prettier = {
+        condition = function(_, ctx)
+          return require("security").trusted(ctx.filename)
+        end,
+      },
       shfmt = {
         prepend_args = { "-i", "2", "-ci", "-s" },
       },
