@@ -2,6 +2,8 @@ DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
 SHELL := /usr/bin/env bash
 PATH := $(HOME)/.local/share/mise/shims:/opt/homebrew/bin/:$(PATH)
+# macOS starts shells at 256 open files, too few for parallel mise installs; the macOS make 3.81 runs each line in its own shell
+RAISE_NOFILE := ulimit -S -n 10240 &&
 
 .DEFAULT_GOAL := help
 .DELETE_ON_ERROR:
@@ -52,7 +54,7 @@ mise-install: mise-install-home mise-install-repo ## Install the tools pinned by
 
 mise-install-home: ## Install the tools pinned in mise's global config
 	$(info --> Install mise home tools)
-	mise -C $(HOME) install
+	$(RAISE_NOFILE) mise -C $(HOME) install
 
 # The repo targets read mise.toml only, as CI does
 mise-install-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
@@ -61,7 +63,7 @@ mise-install-repo: ## Install the tools pinned in this repo's mise.toml
 # In this repo mise also reads .config/mise/config.toml as a project config, and paranoid mode wants it trusted
 	mise trust $(DOTFILES_DIR)/.config/mise/config.toml
 	mise trust $(DOTFILES_DIR)/mise.toml
-	mise install
+	$(RAISE_NOFILE) mise install
 
 install-krew: ## Install krew plugins, the kubectl plugin manager
 	$(info --> Install krew)
@@ -75,6 +77,39 @@ install-tpm: ## Install tpm, the tmux plugin manager
 
 git-hooks-install: ## Install git hooks
 	prek install -f
+
+mise-outdated: mise-outdated-home mise-outdated-repo ## Show the newer releases of the mise tools, home and repo
+
+mise-outdated-home: ## Show the newer releases of the home mise tools
+	mise -C $(HOME) outdated --bump
+
+mise-outdated-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
+mise-outdated-repo: ## Show the newer releases of this repo's mise tools
+	mise outdated --bump --local
+
+mise-upgrade: mise-upgrade-home mise-upgrade-repo ## Bump every mise tool, home and repo
+
+mise-upgrade-home: ## Bump the home mise tools, or only TOOLS="a b", to releases older than 7 days
+	$(RAISE_NOFILE) mise -C $(HOME) upgrade --bump --minimum-release-age 7d $(TOOLS)
+	mise -C $(HOME) lock --global
+
+mise-upgrade-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
+mise-upgrade-repo: ## Bump this repo's mise tools, or only TOOLS="a b", to releases older than 7 days
+	$(RAISE_NOFILE) mise upgrade --bump --local --minimum-release-age 7d $(TOOLS)
+	mise lock
+
+mise-lock: mise-lock-home mise-lock-repo ## Lock the mise tools, home and repo
+
+# From $(HOME): inside this repo, mise leaves the tools mise.toml also declares out of the global lock
+mise-lock-home: ## Lock the home mise tools
+	mise -C $(HOME) lock --global
+
+mise-lock-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
+mise-lock-repo: ## Lock this repo's mise tools, for macOS and the Linux CI
+	mise lock
+
+actions-upgrade: ## Bump the GitHub Actions pinned by SHA to releases older than 7 days
+	pinact run --update --min-age 7
 
 setup-macos: ## Run macos script
 	@bash -x ./.macos
