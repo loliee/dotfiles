@@ -17,7 +17,7 @@ Alternatively, download as a tarball:
 
 ```bash
 mkdir -p ~/.dotfiles
-curl -L https://github.com/loliee/dotfiles/tarball/master \
+curl -L https://github.com/loliee/dotfiles/tarball/main \
   | tar -xzv -C ~/.dotfiles --strip-components 1 --exclude={README.md}
 ```
 
