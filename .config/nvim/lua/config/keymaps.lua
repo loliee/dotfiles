@@ -102,9 +102,7 @@ vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent visual selection right", no
 -- Open tig
 vim.keymap.set("n", "<leader>t", function()
   local filename = vim.api.nvim_buf_get_name(0)
-  if filename ~= "" then
-    vim.cmd("terminal tig " .. vim.fn.fnameescape(filename))
-  else
-    vim.cmd("terminal tig")
-  end
+  vim.cmd.enew()
+  -- An argument list, not :terminal, which hands the line to a shell: a file name stays a file name
+  vim.fn.jobstart(filename ~= "" and { "tig", filename } or { "tig" }, { term = true })
 end, { desc = "Open tig on current file (or repo)", noremap = true, silent = true })
