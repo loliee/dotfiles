@@ -84,7 +84,6 @@ brew install ${1+"$@"} \
   languagetool \
   lima \
   luacheck \
-  luarocks \
   mise \
   mistral-vibe \
   mkcert \
@@ -133,11 +132,6 @@ brew install ${1+"$@"} --appdir /Applications \
   1password \
   1password-cli \
   ollama-app
-
-# Lua
-# Requires for my snippets
-luarocks install --server=https://luarocks.org/dev lua-fmt
-luarocks path --bin >~/.lua.env
 
 # Configure languagetool
 brew services start languagetool
