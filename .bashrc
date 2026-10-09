@@ -2,6 +2,11 @@
 # shellcheck shell=bash
 # shellcheck disable=SC1090
 
+# Claude Code's Bash tool gets nothing from here
+if [[ -n ${CLAUDECODE:-} ]]; then
+  return
+fi
+
 # vi mode
 set -o vi
 
