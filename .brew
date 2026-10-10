@@ -76,7 +76,7 @@ brew install ${1+"$@"} \
   gnu-tar \
   gnu-time \
   gnu-which \
-  gpg-suite \
+  gnupg \
   grep \
   ipcalc \
   k9s \

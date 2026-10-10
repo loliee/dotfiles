@@ -1,7 +1,7 @@
 [user]
 	name = Maxime Loliée
 	email = maxime@siliadev.com
-	signingkey = 1B5A0D7E
+	signingkey = 3B05E29108F575D45022E3EBAE95106F1B5A0D7E # betterleaks:allow public GPG fingerprint
 
 [color]
 	ui = true
@@ -185,7 +185,7 @@
 	path = ~/.gitconfig-override
 
 [gpg]
-	program = gpg2
+	program = /opt/homebrew/bin/gpg
 
 [absorb]
 	maxStack = 70

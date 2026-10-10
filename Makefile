@@ -23,6 +23,7 @@ install-brew: # Install brew and packages
 install-dotfiles: stow install-mise install-krew install-tpm ## Install my dotfiles
 	mkdir -p -m 700 $(HOME)/.gnupg $(HOME)/.ssh
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
+	ln -sf $(PWD)/.gnupg/gpg-agent.conf $(HOME)/.gnupg/gpg-agent.conf
 	[[ -f $(HOME)/.ssh/config ]] || cp $(DOTFILES_DIR)/.ssh/config $(HOME)/.ssh/
 
 stow: ## Stow dotfiles
