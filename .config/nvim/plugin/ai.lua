@@ -229,24 +229,16 @@ local function ask(cli)
     if not instruction or instruction == "" then
       return
     end
-    local tick = vim.api.nvim_buf_get_changedtick(bufnr)
-    local lines = vim.api.nvim_buf_get_lines(bufnr, first - 1, last, true)
-    local prompt = build_prompt(instruction, vim.bo[bufnr].filetype, lines)
-
-    vim.notify("ai: waiting for " .. cli)
-    vim.system(
-      command(cli, prompt),
-      { text = true },
-      vim.schedule_wrap(function(result)
-        if result.code ~= 0 then
-          return vim.notify("ai: " .. cli .. " failed: " .. result.stderr, vim.log.levels.ERROR)
-        end
-        if vim.api.nvim_buf_get_changedtick(bufnr) ~= tick then
-          return vim.notify("ai: the buffer changed, answer dropped", vim.log.levels.WARN)
-        end
-        preview(bufnr, first, last, tick, vim.split((result.stdout:gsub("\n+$", "")), "\n"))
-      end)
-    )
+    send({
+      cli = cli,
+      bufnr = bufnr,
+      first = first,
+      last = last,
+      tick = vim.api.nvim_buf_get_changedtick(bufnr),
+      filetype = vim.bo[bufnr].filetype,
+      lines = vim.api.nvim_buf_get_lines(bufnr, first - 1, last, true),
+      turns = { { instruction = instruction } },
+    })
   end)
 end
 
