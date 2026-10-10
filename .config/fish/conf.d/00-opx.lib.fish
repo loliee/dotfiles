@@ -257,6 +257,7 @@ function __opx-exec --argument-names entry
     if not string match -q '*_clean_cmds' $entry
         set -a available_commands \
             dscacheutil \
+            gpg-lock \
             "killall -HUP mDNSResponder" \
             set-dns-servers \
             set-search-domains \
