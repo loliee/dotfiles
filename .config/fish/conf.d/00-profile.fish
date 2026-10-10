@@ -7,6 +7,9 @@ set -x HOMEBREW_NO_INSECURE_REDIRECT 1
 set -x HOMEBREW_VERIFY_ATTESTATIONS 1
 set -x HOMEBREW_NO_BOTTLE_SOURCE_FALLBACK 1
 
+# Copilot CLI updates itself past the version mise pins; only this variable stops it (github/copilot-cli#4534)
+set -x COPILOT_AUTO_UPDATE false
+
 # macOS starts shells at 256 open files: parallel installs (mise, aube) and language servers run out
 test (ulimit -S -n) -lt 10240 2>/dev/null; and ulimit -S -n 10240
 

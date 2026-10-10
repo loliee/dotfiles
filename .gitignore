@@ -2,6 +2,7 @@
 .config/colima/*
 !.config/colima/docker/
 !.config/colima/docker/colima.yml
+.config/fish/completions/copilot.fish
 .config/fish/conf.d/*local.fish
 .config/fish/functions_local
 .config/fish/fish_variables

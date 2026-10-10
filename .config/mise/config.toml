@@ -17,6 +17,7 @@ minimum_release_age = "7d"
 use_versions_host_track = false
 
 [tools]
+"aqua:github/copilot-cli" = "1.0.91"
 "aqua:kyverno/chainsaw" = "0.2.15"
 "gem:mdl" = "0.18.1"
 "github:uros-5/jinja-lsp" = "0.2.3"

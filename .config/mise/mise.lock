@@ -13,6 +13,16 @@ url = "https://github.com/FiloSottile/age/releases/download/v1.3.2/age-v1.3.2-da
 url_api = "https://api.github.com/repos/FiloSottile/age/releases/assets/535541897"
 provenance = "github-attestations"
 
+[[tools."aqua:github/copilot-cli"]]
+version = "1.0.91"
+backend = "aqua:github/copilot-cli"
+specifiers = ["1.0.91"]
+
+[tools."aqua:github/copilot-cli"."platforms.macos-arm64"]
+checksum = "sha256:b29e3a9e4176f2e6417504916714328d030f04ac934ff1a2a6ddcad9235c847b"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.91/copilot-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/603757338"
+
 [[tools."aqua:kyverno/chainsaw"]]
 version = "0.2.15"
 backend = "aqua:kyverno/chainsaw"
