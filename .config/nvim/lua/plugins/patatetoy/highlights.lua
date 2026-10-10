@@ -200,12 +200,6 @@ local M = function(h, c)
     fg = c.fg,
     bold = true,
   }
-  h.MiniStatusLineCopilotEnabled = {
-    fg = c.red,
-  }
-  h.MiniStatusLineCopilotDisabled = {
-    fg = c.comment,
-  }
   h.TabLineFill = {
     bg = c.bg_dark,
   }
@@ -362,9 +356,6 @@ local M = function(h, c)
   }
   h.TelescopeResultsComment = {
     fg = "#545c7e",
-  }
-  h.CodeCompanionChatSeparator = {
-    fg = c.green,
   }
   h.GrugFarHelpHeader = {
     fg = c.comment,
