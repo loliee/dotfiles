@@ -77,5 +77,3 @@ vim.g.loaded_ruby_provider = 0
 
 -- Fancy
 vim.g.have_nerd_font = true
-vim.g.copilot_icon = ""
-vim.g.copilot_disable = os.getenv("COPILOT_DISABLE") or false

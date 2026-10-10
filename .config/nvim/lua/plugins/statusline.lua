@@ -18,19 +18,10 @@ return {
           local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
           local location = statusline.section_location({ trunc_width = 75 })
           local search = statusline.section_searchcount({ trunc_width = 75 })
-          local copilot_hl = "MiniStatusLineCopilotDisabled"
-
-          if package.loaded["copilot"] or package.loaded["codecompanion"] then
-            local copilot_client = vim.lsp.get_clients({ name = "copilot", bufnr = vim.api.nvim_get_current_buf() })
-            if #copilot_client > 0 or package.loaded["codecompanion"] then
-              copilot_hl = "MiniStatusLineCopilotEnabled"
-            end
-          end
 
           return statusline.combine_groups({
             { hl = mode_hl, strings = { mode } },
             { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
-            { hl = copilot_hl, strings = { vim.g.copilot_icon } },
             "%<", -- Mark general truncate point
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=", -- End left alignment
