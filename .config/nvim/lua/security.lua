@@ -71,4 +71,18 @@ function M.secret(name)
   return false
 end
 
+--- Whether a text holds a secret, as betterleaks finds it; a failed scan counts as one
+---@param text string
+---@param on_result fun(leaks: boolean)
+function M.leaks(text, on_result)
+  -- From the state folder: a project's .gitleaks.toml or .gitleaksignore could turn rules off
+  vim.system(
+    { "betterleaks", "stdin", "--no-banner", "--log-level", "error" },
+    { stdin = text, cwd = vim.fn.stdpath("state") },
+    vim.schedule_wrap(function(result)
+      on_result(result.code ~= 0)
+    end)
+  )
+end
+
 return M

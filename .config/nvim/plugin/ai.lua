@@ -107,20 +107,25 @@ local function ask(cli)
     local lines = vim.api.nvim_buf_get_lines(bufnr, first - 1, last, true)
     local prompt = build_prompt(instruction, vim.bo[bufnr].filetype, lines)
 
-    vim.notify("ai: waiting for " .. cli)
-    vim.system(
-      command(cli, prompt),
-      { text = true },
-      vim.schedule_wrap(function(result)
-        if result.code ~= 0 then
-          return vim.notify("ai: " .. cli .. " failed: " .. result.stderr, vim.log.levels.ERROR)
-        end
-        if vim.api.nvim_buf_get_changedtick(bufnr) ~= tick then
-          return vim.notify("ai: the buffer changed, answer dropped", vim.log.levels.WARN)
-        end
-        preview(bufnr, first, last, tick, vim.split((result.stdout:gsub("\n+$", "")), "\n"))
-      end)
-    )
+    require("security").leaks(prompt, function(leaks)
+      if leaks then
+        return vim.notify("ai: the prompt holds a secret, nothing sent", vim.log.levels.WARN)
+      end
+      vim.notify("ai: waiting for " .. cli)
+      vim.system(
+        command(cli, prompt),
+        { text = true },
+        vim.schedule_wrap(function(result)
+          if result.code ~= 0 then
+            return vim.notify("ai: " .. cli .. " failed: " .. result.stderr, vim.log.levels.ERROR)
+          end
+          if vim.api.nvim_buf_get_changedtick(bufnr) ~= tick then
+            return vim.notify("ai: the buffer changed, answer dropped", vim.log.levels.WARN)
+          end
+          preview(bufnr, first, last, tick, vim.split((result.stdout:gsub("\n+$", "")), "\n"))
+        end)
+      )
+    end)
   end)
 end
 
