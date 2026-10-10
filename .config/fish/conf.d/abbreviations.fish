@@ -71,3 +71,12 @@ abbr --add sshz ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHost
 abbr --add rma 'ls ~/.ssh/* | rg $USER@ | xargs -I % rm -f %'
 
 abbr --add dns-flushcache "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+
+if test -f /Library/LaunchDaemons/local.coredns.plist
+    abbr --add coredns-status "sudo launchctl print system/local.coredns | rg -e 'state =' -e 'pid =' -e 'runs =' -e 'last exit code'"
+    abbr --add coredns-restart sudo launchctl kickstart -k system/local.coredns
+    abbr --add coredns-stop sudo launchctl bootout system/local.coredns
+    abbr --add coredns-start sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
+    abbr --add coredns-edit "sudo -e /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
+    abbr --add coredns-logs tail -f /var/log/coredns.log
+end

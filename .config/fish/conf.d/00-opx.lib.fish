@@ -98,6 +98,15 @@ function __opx_ramdisk
     end
 end
 
+function __opx_signin
+    op whoami &>/dev/null; and return 0
+    echo "[opx] 1Password CLI is not signed in, signing in…"
+    if not op signin
+        print-err "[opx] cannot sign in: 1Password must be running, unlocked, with Settings > Developer > Integrate with 1Password CLI"
+        return 1
+    end
+end
+
 function __opx_expand_str --argument-names str
     if test -z "$str"
         print-err '[opx] cannot expand empty variable'
@@ -198,6 +207,7 @@ function __opx_fetch_one_secret --argument-names idx config
                 else
                     echo $value >$dest
                 end
+                chmod 600 $dest
                 echo "✔ [$idx] $reference as file →  ($dest)"
             else
                 print-err "[opx] cannot get 1password secret \"$reference\""
@@ -224,6 +234,8 @@ function __opx_fetch_one_secret --argument-names idx config
     if test "$symlinks" != null; and test -n "$symlinks"
         for l in $symlinks
             set flink (__opx_expand_str $l)
+            set ldir (dirname $flink)
+            test -d $ldir; or mkdir -p -m 700 $ldir
             if ln -sf $dest $flink
                 echo "✔ [$idx] symlink $dest > $flink"
             else
@@ -237,14 +249,19 @@ end
 function __opx-exec --argument-names entry
     set available_commands \
         clear \
-        dscacheutil \
-        "killall -HUP mDNSResponder" \
         echo \
         source \
         brew\\s+service \
-        set-dns-servers \
-        set-search-domains \
-        wg
+        /usr/local/bin/opx-net-down
+    # opx-clean runs from tmux, without root or a tty: sudo can only run the NOPASSWD opx-net-down
+    if not string match -q '*_clean_cmds' $entry
+        set -a available_commands \
+            dscacheutil \
+            "killall -HUP mDNSResponder" \
+            set-dns-servers \
+            set-search-domains \
+            wg
+    end
 
     set commands_regexp (string join "|" $available_commands)
     set commands (yq eval "$entry  | .[]" $OPX_CONFIG_PATH)
@@ -280,6 +297,7 @@ function opx-fetch -d "Fetch 1password secrets"
         return 0
     end
 
+    __opx_signin; or return 1
     __opx_ramdisk
     __opx_configure; or return 1
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1

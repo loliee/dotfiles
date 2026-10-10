@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "enabledManagers": ["github-actions", "mise", "pre-commit"],
+  "minimumReleaseAge": "7 days",
+  "packageRules": [
+    {
+      "description": "The home config: make upgrade-mise-global bumps it and locks it from $HOME",
+      "matchFileNames": [".config/mise/**"],
+      "enabled": false
+    }
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
+}

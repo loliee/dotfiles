@@ -69,12 +69,11 @@ vim.opt.directory = XDG_DATA_HOME .. "/nvim/swap//"
 vim.opt.backupdir = XDG_DATA_HOME .. "/nvim/backup//"
 vim.opt.undodir = XDG_DATA_HOME .. "/nvim/undo//"
 
+-- No plugin is a remote plugin: Neovim never looks for an interpreter, which a project's PATH could supply
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+
 -- Fancy
 vim.g.have_nerd_font = true
-vim.g.copilot_icon = ""
-vim.g.copilot_disable = os.getenv("COPILOT_DISABLE") or false
-
--- For fish-lsp
-vim.env.CC = "clang"
-vim.env.CXX = "clang++"
-vim.env.CXXFLAGS = "-std=c++20"
