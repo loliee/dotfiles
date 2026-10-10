@@ -13,3 +13,33 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
     end
   end,
 })
+
+-- The undo file keeps what was deleted too, so a secret pasted then removed outlives the file's own content
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
+  group = vim.api.nvim_create_augroup("secrets-out-of-undo", { clear = true }),
+  callback = function(args)
+    if not vim.bo[args.buf].undofile then
+      return
+    end
+    local path = vim.fn.undofile(vim.api.nvim_buf_get_name(args.buf))
+    local file = io.open(path, "rb")
+    if not file then
+      return
+    end
+    local content = file:read("*a")
+    file:close()
+    security.leaks(content, function(leaks)
+      if not leaks then
+        return
+      end
+      os.remove(path)
+      if vim.api.nvim_buf_is_valid(args.buf) then
+        vim.bo[args.buf].undofile = false
+      end
+      vim.notify(
+        "security: undo file with a secret deleted for " .. vim.fn.fnamemodify(args.match, ":~"),
+        vim.log.levels.WARN
+      )
+    end)
+  end,
+})
