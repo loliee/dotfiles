@@ -53,9 +53,6 @@ return { -- Autoformat
           return require("security").trusted(ctx.filename)
         end,
       },
-      shfmt = {
-        prepend_args = { "-i", "2", "-ci", "-s" },
-      },
     },
   },
 }
