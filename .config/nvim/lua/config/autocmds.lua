@@ -41,10 +41,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Disable conform (file formatter)
+-- Toggle conform's format on save
 vim.keymap.set("n", "<leader>sd", function()
-  require("conform").setup({ enabled = false })
-  print("Conform disabled")
+  vim.g.disable_autoformat = not vim.g.disable_autoformat
+  print("Format on save " .. (vim.g.disable_autoformat and "disabled" or "enabled"))
 end)
 
 -- Git templates
