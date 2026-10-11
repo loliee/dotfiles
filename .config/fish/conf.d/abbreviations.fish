@@ -23,7 +23,6 @@ abbr --add h history
 
 # Time
 abbr --add now date +"%T"
-abbr --add nowtime now
 abbr --add nowdate date +"%d-%m-%Y"
 
 abbr --add ls ls -G
