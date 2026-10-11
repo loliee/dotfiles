@@ -34,6 +34,8 @@ abbr --add reload 'exec $SHELL -l'
 
 abbr --add rms shred --remove
 
+abbr --add B --position anywhere --set-cursor "| base64 %"
+abbr --add D --position anywhere --set-cursor "| base64 -d %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
 
