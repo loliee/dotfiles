@@ -38,6 +38,7 @@ abbr --add B --position anywhere --set-cursor "| base64 %"
 abbr --add D --position anywhere --set-cursor "| base64 -d %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
+abbr --add P --position anywhere --set-cursor "| pbcopy %"
 
 command -q aws; and abbr --add aws3 aws s3api
 command -q direnv; and abbr --add da direnv allow
