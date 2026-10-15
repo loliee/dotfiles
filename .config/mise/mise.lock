@@ -88,6 +88,16 @@ version = "0.18.1"
 backend = "gem:mdl"
 specifiers = ["0.18.1"]
 
+[[tools.git-cliff]]
+version = "2.14.2"
+backend = "aqua:orhun/git-cliff"
+specifiers = ["2.14.2"]
+
+[tools.git-cliff."platforms.macos-arm64"]
+checksum = "sha256:a0be97e237d440d34c5e508ec21d070b2c85cbb8be48a46a56f9a4e8bd247f05"
+url = "https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/orhun/git-cliff/releases/assets/573487203"
+
 [[tools."github:uros-5/jinja-lsp"]]
 version = "0.2.3"
 backend = "github:uros-5/jinja-lsp"
