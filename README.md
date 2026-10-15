@@ -28,7 +28,7 @@ Dotfiles and packages are managed using `make` and `stow`.
 ### Common Commands
 
 - **make install**: Installs all required packages and dotfiles. On a new Mac, see [First install](#first-install).
-- **make install-dotfiles**: Installs only the dotfiles, skipping packages.
+- **make dotfiles-install**: Installs only the dotfiles, skipping packages.
 - **make help**: Lists all available `make` commands with descriptions.
 
 ### First install
@@ -80,8 +80,8 @@ I keep the token in 1Password, and `opx` exports both variables at login from it
 My macOS setup scripts apply personal preferences and security tweaks:
 
 ```bash
-make setup-macos
-make setup-macos-hardening
+make macos-setup
+make macos-setup-hardening
 ```
 
 ## Fish Shell
