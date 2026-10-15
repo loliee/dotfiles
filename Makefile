@@ -15,12 +15,12 @@ help:
 	@grep -E '^[a-zA-Z1-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
-install: install-brew install-dotfiles git-hooks-install ## Full install
+install: brew-install dotfiles-install git-hooks-install ## Full install
 
-install-brew: # Install brew and packages
+brew-install: # Install brew and packages
 	./.brew
 
-install-dotfiles: stow mise-install install-krew install-tpm ## Install my dotfiles
+dotfiles-install: stow mise-install krew-install tpm-install ## Install my dotfiles
 	mkdir -p -m 700 $(HOME)/.gnupg $(HOME)/.ssh
 	ln -sf $(PWD)/.gnupg/gpg.conf $(HOME)/.gnupg/gpg.conf
 	ln -sf $(PWD)/.gnupg/gpg-agent.conf $(HOME)/.gnupg/gpg-agent.conf
@@ -69,11 +69,11 @@ mise-install-repo: ## Install the tools pinned in this repo's mise.toml
 	mise trust $(DOTFILES_DIR)/mise.toml
 	$(RAISE_NOFILE) mise install
 
-install-krew: ## Install krew plugins, the kubectl plugin manager
+krew-install: ## Install krew plugins, the kubectl plugin manager
 	$(info --> Install krew)
 	krew install < .krew
 
-install-tpm: ## Install tpm, the tmux plugin manager
+tpm-install: ## Install tpm, the tmux plugin manager
 	$(info --> Install tpm)
 	mkdir -p $(HOME)/.tmux/plugins
 	[[ -d $(HOME)/.tmux/plugins/tpm ]] \
@@ -115,8 +115,8 @@ mise-lock-repo: ## Lock this repo's mise tools, for macOS and the Linux CI
 actions-upgrade: ## Bump the GitHub Actions pinned by SHA to releases older than 7 days
 	pinact run --update --min-age 7
 
-setup-macos: ## Run macos script
+macos-setup: ## Run macos script
 	@bash -x ./.macos
 
-setup-macos-hardening: ## Run macos_hardening script
+macos-setup-hardening: ## Run macos_hardening script
 	@bash -x ./.macos_hardening
