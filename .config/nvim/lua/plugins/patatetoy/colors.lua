@@ -37,6 +37,12 @@ local M = function(c)
   c.white = "#c9cac0"
   c.white_bright = "#e6e4da"
   c.yellow = "#fbce4d"
+  c.diff = {
+    add = "#223927",
+    change = "#36383b",
+    delete = "#4b281f",
+    text = "#4c5054",
+  }
   c.terminal_black = "#292b2d"
   c.terminal = {
     black = "#3a3939",
