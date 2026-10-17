@@ -22,5 +22,7 @@ indent_style = tab
 [*.{py,php}]
 indent_size = 4
 
-[*.{sh,bash,bats}]
+# shfmt-only section: every file shfmt detects as shell, extensionless scripts included
+[[shell]]
 simplify = true
+switch_case_indent = true

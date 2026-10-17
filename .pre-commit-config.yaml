@@ -1,32 +1,96 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
       - id: check-executables-have-shebangs
+      - id: check-json
       - id: check-merge-conflict
+      - id: check-toml
       - id: check-yaml
       - id: check-symlinks
       - id: debug-statements
       - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.29.0
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: v1.38.0
     hooks:
       - id: yamllint
-  - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.12.0-2
+  - repo: https://github.com/codespell-project/codespell
+    rev: 57b21406f092110c18776e39b0bda50d37c945c8  # frozen: v2.4.3
     hooks:
-      - id: shfmt
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
-    hooks:
-      - id: shellcheck
+      - id: codespell
+        # Generated lockfiles: base64 integrity hashes read as misspellings
+        exclude: ^\.config/mise/locks/
+        # Vim's :enew, not a typo of "new"
+        args: [--ignore-words-list=enew]
   - repo: local
     hooks:
+      - id: betterleaks
+        name: Run betterleaks
+        entry: betterleaks dir --no-banner --redact
+        language: system
+        pass_filenames: true
+        description: Custom hook to detect secrets using betterleaks
+      - id: actionlint
+        name: Run actionlint
+        entry: actionlint
+        language: system
+        files: ^\.github/workflows/
+        types: [yaml]
+        pass_filenames: true
+        description: Custom hook to lint GitHub workflows using actionlint
+      - id: zizmor
+        name: Run zizmor
+        entry: zizmor --offline
+        language: system
+        files: ^\.github/workflows/
+        types: [yaml]
+        pass_filenames: true
+        description: Custom hook to audit GitHub workflows security using zizmor
+      - id: shfmt
+        name: Run shfmt
+        entry: shfmt --write
+        language: system
+        types: [shell]
+        exclude_types: [csh, tcsh, zsh]
+        pass_filenames: true
+        description: Custom hook to format shell scripts using shfmt
+      - id: shellcheck
+        name: Run shellcheck
+        entry: shellcheck
+        language: system
+        types: [shell]
+        pass_filenames: true
+        description: Custom hook to lint shell scripts using shellcheck
+      - id: fish-syntax
+        name: Run fish --no-execute
+        # fish -n only checks its first file, hence the loop
+        entry: fish -N -c 'set -l rc 0; for f in $argv; fish --no-execute $f; or set rc 1; end; exit $rc'
+        language: system
+        types: [fish]
+        pass_filenames: true
+        description: Custom hook to check fish syntax
+      - id: fish-indent
+        name: Run fish_indent
+        entry: fish_indent --write
+        language: system
+        types: [fish]
+        pass_filenames: true
+        description: Custom hook to format fish files using fish_indent
+      - id: stylua
+        name: Run stylua
+        entry: stylua
+        language: system
+        types: [lua]
+        pass_filenames: true
+        description: Custom hook to format Lua files using stylua
       - id: luacheck
         name: Run luacheck
         entry: luacheck

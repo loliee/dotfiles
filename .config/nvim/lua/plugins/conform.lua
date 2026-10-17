@@ -16,6 +16,9 @@ return { -- Autoformat
   opts = {
     notify_on_error = true,
     format_on_save = function(bufnr)
+      if vim.g.disable_autoformat then
+        return
+      end
       -- Disable "format_on_save lsp_fallback" for languages that don't
       -- have a well standardized coding style. You can add additional
       -- languages here or re-enable it for the disabled ones.
@@ -47,8 +50,11 @@ return { -- Autoformat
     },
     -- Customize formatters
     formatters = {
-      shfmt = {
-        prepend_args = { "-i", "2", "-ci", "-s" },
+      -- Loads the project's prettier.config.js and plugins
+      prettier = {
+        condition = function(_, ctx)
+          return require("security").trusted(ctx.filename)
+        end,
       },
     },
   },

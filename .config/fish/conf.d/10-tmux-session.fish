@@ -1,6 +1,11 @@
 # Tmux
 
-if ! status --is-login
+if ! status --is-login; or ! status --is-interactive; or ! isatty stdin
+    exit 0
+end
+
+# never from Claude Code / Cowork shells
+if set -q CLAUDECODE; or test "$TERM_PROGRAM" != ghostty
     exit 0
 end
 

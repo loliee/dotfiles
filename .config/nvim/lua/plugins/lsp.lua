@@ -2,9 +2,6 @@ return {
   "neovim/nvim-lspconfig",
   lazy = false,
   dependencies = {
-    { "williamboman/mason.nvim", opts = {} },
-    { "williamboman/mason-lspconfig.nvim", opts = {} },
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
     "b0o/schemastore.nvim",
     {
       "j-hui/fidget.nvim",
@@ -115,12 +112,34 @@ return {
       vim.lsp.config(name, merged)
     end
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, { "stylua" })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+    -- These run the project's code: build.rs, proc-macros, .luarc.json plugins, ansible-lint rules, providers
+    local security = require("security")
+    for _, name in ipairs({ "ansiblels", "lua_ls", "rust_analyzer", "terraformls" }) do
+      local config = vim.lsp.config[name]
+      vim.lsp.config(name, {
+        root_dir = function(bufnr, on_dir)
+          if not security.trusted(bufnr) then
+            return
+          end
+          -- The server's root too: a marker such as .luarc.json can put it above the file's project
+          local function on_trusted_dir(dir)
+            -- Scheduled: rust_analyzer answers from a vim.system callback, where the trust prompt cannot open
+            vim.schedule(function()
+              if not dir or security.trusted(dir) then
+                on_dir(dir)
+              end
+            end)
+          end
+          if type(config.root_dir) == "function" then
+            config.root_dir(bufnr, on_trusted_dir)
+          else
+            on_trusted_dir(config.root_markers and vim.fs.root(bufnr, config.root_markers))
+          end
+        end,
+      })
+    end
 
-    require("mason-lspconfig").setup({
-      ensure_installed = ensure_installed,
-    })
+    -- The servers come from mise (~/.config/mise/config.toml), pinned and locked
+    vim.lsp.enable(vim.tbl_keys(servers))
   end,
 }

@@ -22,8 +22,8 @@ bind main e edit
 bind diff e edit
 
 # Rebase
-bind main R !git ri %(commit)^
-bind diff R !git ri %(commit)^
+bind main R !git ri %(commit)
+bind diff R !git ri %(commit)
 
 # Fixup
 bind main F !git cf %(commit)

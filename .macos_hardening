@@ -185,7 +185,7 @@ sudo networksetup -deletelocation 'Public Network' || true
 sudo networksetup -createlocation 'Public Network' populate
 sudo networksetup -switchtolocation 'Public Network'
 networksetup -listallnetworkservices | while read -r interface; do
-  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
     sudo networksetup -setdnsservers "$interface" 127.0.0.1
     sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
     sudo networksetup -setsocksfirewallproxy "$interface" 127.0.0.1 9050
@@ -201,7 +201,7 @@ sudo networksetup -deletelocation 'Office' || true
 sudo networksetup -createlocation 'Office' populate
 sudo networksetup -switchtolocation 'Office'
 networksetup -listallnetworkservices | while read -r interface; do
-  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
     sudo networksetup -setdnsservers "$interface" 127.0.0.1
     sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
     sudo networksetup -setsocksfirewallproxystate "$interface" off
@@ -216,7 +216,7 @@ sudo networksetup -deletelocation 'Home' || true
 sudo networksetup -createlocation 'Home' populate
 sudo networksetup -switchtolocation 'Home'
 networksetup -listallnetworkservices | while read -r interface; do
-  if [[ "$interface" =~ LAN ]] || [[ "$interface" == Wi-Fi ]]; then
+  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
     sudo networksetup -setdnsservers "$interface" 127.0.0.1
     sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
     sudo networksetup -setsocksfirewallproxy "$interface" Empty

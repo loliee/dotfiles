@@ -23,7 +23,6 @@ abbr --add h history
 
 # Time
 abbr --add now date +"%T"
-abbr --add nowtime now
 abbr --add nowdate date +"%d-%m-%Y"
 
 abbr --add ls ls -G
@@ -34,8 +33,13 @@ abbr --add reload 'exec $SHELL -l'
 
 abbr --add rms shred --remove
 
+command -q op; and abbr --add o op run --
+
+abbr --add B --position anywhere --set-cursor "| base64 %"
+abbr --add D --position anywhere --set-cursor "| base64 -d %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
+abbr --add P --position anywhere --set-cursor "| pbcopy %"
 
 command -q aws; and abbr --add aws3 aws s3api
 command -q direnv; and abbr --add da direnv allow
@@ -71,3 +75,12 @@ abbr --add sshz ssh -F /dev/null -o "StrictHostKeyChecking=no" -o "UserKnownHost
 abbr --add rma 'ls ~/.ssh/* | rg $USER@ | xargs -I % rm -f %'
 
 abbr --add dns-flushcache "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+
+if test -f /Library/LaunchDaemons/local.coredns.plist
+    abbr --add coredns-status "sudo launchctl print system/local.coredns | rg -e 'state =' -e 'pid =' -e 'runs =' -e 'last exit code'"
+    abbr --add coredns-restart sudo launchctl kickstart -k system/local.coredns
+    abbr --add coredns-stop sudo launchctl bootout system/local.coredns
+    abbr --add coredns-start sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
+    abbr --add coredns-edit "sudo -e /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
+    abbr --add coredns-logs tail -f /var/log/coredns.log
+end

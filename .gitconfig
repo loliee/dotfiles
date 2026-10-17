@@ -1,7 +1,7 @@
 [user]
 	name = Maxime Loliée
 	email = maxime@siliadev.com
-	signingkey = 1B5A0D7E
+	signingkey = 3B05E29108F575D45022E3EBAE95106F1B5A0D7E # betterleaks:allow public GPG fingerprint
 
 [color]
 	ui = true
@@ -14,13 +14,14 @@
 	context = white
 	meta = blue
 	frag = yellow
-	old = 209
-	new = green
-	commit = 209
+	old = magenta bold
+	new = green bold
+	commit = 209 bold
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+	whitespace = red reverse
 
 [color "branch"]
 	current	=	green bold
@@ -45,6 +46,7 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore-global
+	attributesFile = ~/.gitattributes-global
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 	commitGraph = true
 	# Make `git rebase` safer on OS X
@@ -125,7 +127,18 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	rh = reset --hard
-	ri = rebase -i
+	ri = "!f() { \
+	if [ $# -eq 0 ]; then \
+			git rebase -i; \
+	elif git rev-parse --verify -q \"$1^\" >/dev/null; then \
+			git rebase -i \"$1^\"; \
+	elif git rev-parse --verify -q \"$1^{commit}\" >/dev/null; then \
+			git rebase -i --root; \
+	else \
+			echo >&2 \"git ri: not a commit: $1\"; \
+			return 1; \
+	fi; \
+	}; f"
 	rmb = "!f() { git branch --merged main | grep -v main | xargs -n 1 git branch -d; }; f"
 	rmbo = "!f() { git branch -r --merged main | grep -v main | sed s,origin/,, | xargs -n 1 git pod; }; f"
 	rr = reset HEAD^
@@ -172,7 +185,7 @@
 	path = ~/.gitconfig-override
 
 [gpg]
-	program = gpg2
+	program = /opt/homebrew/bin/gpg
 
 [absorb]
 	maxStack = 70
