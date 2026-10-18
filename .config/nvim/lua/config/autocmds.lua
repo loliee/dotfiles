@@ -58,6 +58,16 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
   end,
 })
 
+-- Share a new terminal size between the windows of every tab, such as after a tmux zoom
+vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("equalize-on-resize", { clear = true }),
+  callback = function()
+    local tab = vim.api.nvim_get_current_tabpage()
+    vim.cmd("tabdo wincmd =")
+    vim.api.nvim_set_current_tabpage(tab)
+  end,
+})
+
 -- Toggle conform's format on save
 vim.keymap.set("n", "<leader>sd", function()
   vim.g.disable_autoformat = not vim.g.disable_autoformat
