@@ -76,7 +76,11 @@
 	whitespace = fix
 
 [merge]
-	tool = vimdiff
+	tool = nvimdiff
+	conflictStyle = zdiff3
+
+[mergetool "nvimdiff"]
+	layout = "LOCAL,MERGED,REMOTE + BASE,LOCAL + BASE,REMOTE"
 
 [rebase]
 	autosquash = true
