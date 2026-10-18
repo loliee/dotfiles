@@ -1,3 +1,9 @@
+-- Only in trusted projects: the file's own, and the cwd where the linter finds node_modules/.bin and its config
+local function trusted(ctx)
+  local security = require("security")
+  return security.trusted(ctx.filename) and security.trusted(vim.fn.getcwd())
+end
+
 return {
   -- Cf. https://www.lazyvim.org/plugins/linting
   "mfussenegger/nvim-lint",
@@ -16,7 +22,7 @@ return {
       dockerfile = { "hadolint" },
       go = { "golangcilint" },
       json = { "jq" },
-      terraform = { "tflint", "tfsec" },
+      terraform = { "tflint", "trivy" },
       -- Use the "*" filetype to run linters on all filetypes.
       ["*"] = { "codespell" },
       -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
@@ -26,9 +32,19 @@ return {
     ---@type table<string,table>
     linters = {
       tflint = {
+        -- Runs the plugins .tflint.hcl names, from ./.tflint.d/plugins
+        condition = trusted,
         prepend_args = { "--max-workers=" .. math.max(1, math.floor(#vim.loop.cpu_info() / 2)) },
       },
+      -- .luacheckrc is Lua, run with the global environment
+      luacheck = { condition = trusted },
+      -- eslint.config.js is JavaScript
+      eslint = { condition = trusted },
+      -- .golangci.yml can load Go plugins
+      golangcilint = { condition = trusted },
       mdl = {
+        -- .mdlrc can point to a style file, which is Ruby
+        condition = trusted,
         cmd = "mdl",
         stdin = false,
         args = {},

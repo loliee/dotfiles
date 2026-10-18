@@ -41,10 +41,37 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Disable conform (file formatter)
+-- Conflict markers break every linter and server: hide the buffer's diagnostics until a write leaves none
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
+  group = vim.api.nvim_create_augroup("conflict-diagnostics", { clear = true }),
+  callback = function(args)
+    local conflicted = vim.api.nvim_buf_call(args.buf, function()
+      return vim.fn.search([[^\(<<<<<<<\|>>>>>>>\) ]], "nw") > 0
+    end)
+    if conflicted then
+      vim.b[args.buf].conflict_diagnostics_off = true
+      vim.diagnostic.enable(false, { bufnr = args.buf })
+    elseif vim.b[args.buf].conflict_diagnostics_off then
+      vim.b[args.buf].conflict_diagnostics_off = nil
+      vim.diagnostic.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
+-- Share a new terminal size between the windows of every tab, such as after a tmux zoom
+vim.api.nvim_create_autocmd("VimResized", {
+  group = vim.api.nvim_create_augroup("equalize-on-resize", { clear = true }),
+  callback = function()
+    local tab = vim.api.nvim_get_current_tabpage()
+    vim.cmd("tabdo wincmd =")
+    vim.api.nvim_set_current_tabpage(tab)
+  end,
+})
+
+-- Toggle conform's format on save
 vim.keymap.set("n", "<leader>sd", function()
-  require("conform").setup({ enabled = false })
-  print("Conform disabled")
+  vim.g.disable_autoformat = not vim.g.disable_autoformat
+  print("Format on save " .. (vim.g.disable_autoformat and "disabled" or "enabled"))
 end)
 
 -- Git templates
@@ -59,13 +86,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
           highlight link gitComment Comment
           setlocal spell
         ]])
-    vim.cmd("highlight Identifier guifg=#ff875f guibg=NONE")
-    vim.cmd("highlight String guifg=#c9cac0 guibg=NONE")
-    vim.cmd("highlight DiffAdd guifg=#82c476 guibg=NONE")
-    vim.cmd("syntax match DiffAdd '^+.*$'")
-    vim.cmd("highlight DiffRemove guifg=#f0522a guibg=NONE")
-    vim.cmd("syntax match DiffRemove '^-.*$'")
-    vim.cmd("highlight DiffChange guifg=#c9cac0 guibg=NONE")
-    vim.cmd("syntax match DiffChange '^ .*'")
+    -- Groups of their own: highlight is global, so redefining DiffAdd or DiffChange here changes every diff
+    vim.cmd("highlight gitMessageAdded guifg=#82c476 guibg=NONE")
+    vim.cmd("syntax match gitMessageAdded '^+.*$'")
+    vim.cmd("highlight gitMessageRemoved guifg=#f0522a guibg=NONE")
+    vim.cmd("syntax match gitMessageRemoved '^-.*$'")
+    vim.cmd("highlight gitMessageContext guifg=#c9cac0 guibg=NONE")
+    vim.cmd("syntax match gitMessageContext '^ .*'")
   end,
 })

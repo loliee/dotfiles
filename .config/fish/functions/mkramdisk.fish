@@ -18,12 +18,13 @@ function mkramdisk -a name size_mb -d "Create a secure RAM disk with a random ke
     end
 
     set blocks (math "$size_mb * 2048")
-    set device (hdiutil attach -nomount ram://$blocks | string trim)
+    set device (diskutil image attach --noMount ram://$blocks | string match -rg '(disk[0-9]+)')[1]
     if test -n "$device"
         echo "Creating encrypted RAM disk $name ($size_mb MB) on $device"
         set container (diskutil apfs create $device $name | awk '/Disk from APFS operation: / {last=$NF} END {print last}')
-        if test $status != 0
+        if test $pipestatus[1] != 0; or test -z "$container"
             print-err "Failed to create APFS volume $name on $device"
+            diskutil eject $device
             return 1
         end
     else
@@ -31,16 +32,16 @@ function mkramdisk -a name size_mb -d "Create a secure RAM disk with a random ke
         return 1
     end
 
-    if test -n "$container"
-        pwgen 120 | diskutil apfs encryptVolume $container -user disk -stdinpassphrase
-        if test $status != 0
-            print-err "Failed to encrypt APFS volume: $container"
-            return 1
-        end
+    pwgen 120 | diskutil apfs encryptVolume $container -user disk -stdinpassphrase
+    if test $status != 0
+        print-err "Failed to encrypt APFS volume: $container"
+        diskutil eject $device
+        return 1
     end
 
     if not chown $USER:staff /Volumes/$name; or not chmod 700 /Volumes/$name
         print-err "Failed to set owner & permission on /Volumes/$name"
+        diskutil eject $device
         return 1
     end
 end

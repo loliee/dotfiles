@@ -1,7 +1,5 @@
 local source_priority = {
   snippets = 40,
-  copilot = 34,
-  codecompanion = 32,
   lsp = 30,
   path = 20,
   buffer = 10,
@@ -47,7 +45,6 @@ return {
         end, { silent = true })
       end,
     },
-    "giuxtaposition/blink-cmp-copilot",
   },
   opts = {
     keymap = {
@@ -79,22 +76,7 @@ return {
       preset = "luasnip",
     },
     sources = {
-      default = { "snippets", "lsp", "path", "buffer", "copilot", "codecompanion" },
-      providers = {
-        copilot = {
-          name = "copilot",
-          module = "blink-cmp-copilot",
-          score_offset = 100,
-          async = true,
-        },
-        codecompanion = {
-          name = "codecompanion",
-          module = "codecompanion.providers.completion.blink",
-          enabled = function()
-            return package.loaded["codecompanion"] ~= nil
-          end,
-        },
-      },
+      default = { "snippets", "lsp", "path", "buffer" },
     },
     appearance = {
       nerd_font_variant = "mono",

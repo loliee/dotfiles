@@ -1,4 +1,8 @@
 .aliases.local
+.config/colima/*
+!.config/colima/docker/
+!.config/colima/docker/colima.yml
+.config/fish/completions/copilot.fish
 .config/fish/conf.d/*local.fish
 .config/fish/functions_local
 .config/fish/fish_variables
@@ -11,6 +15,7 @@
 .config/k9s/config.yml
 .config/nvim/pack
 .config/op/
+.config/packer/
 .config/helm/
 .config/kube/
 .config/openstack

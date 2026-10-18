@@ -5,6 +5,7 @@
 local M = function(h, c)
   h.Visual = { bg = c.bg_visual, bold = true }
   h.CursorLine = { bg = c.bg_cursor_line }
+  h.Folded = { fg = c.comment, bg = c.bg_dark2 }
   h.ErrorMsg = {
     bg = c.bg_dark,
     fg = c.red,
@@ -47,11 +48,39 @@ local M = function(h, c)
   h.String = {
     fg = c.green_bright,
   }
-  h.DiffAdd = {
+  h.DiffDelete = {
+    bg = c.diff.delete,
+    fg = "#7a3324",
+  }
+  h.DiffTextAdd = {
+    bg = "#1e6534",
+  }
+  -- Not built in: plugin/ai.lua shows the original side of its diff with these
+  h.DiffAddAsDelete = {
+    bg = c.diff.delete,
+  }
+  h.DiffTextDelete = {
+    bg = "#922f15",
+  }
+  -- Not built in: plugin/ai.lua shows comments with it, as Comment's grey is too dark on the diff backgrounds
+  h.DiffComment = {
+    fg = "#8e8f8e",
+  }
+  -- Treesitter links these to DiffAdd and DiffDelete, which now carry a background
+  h["@diff.plus"] = {
     fg = c.green,
   }
-  h.DiffDelete = {
+  h["@diff.minus"] = {
     fg = c.red,
+  }
+  h.Added = {
+    fg = c.green,
+  }
+  h.Removed = {
+    fg = c.red,
+  }
+  h.Changed = {
+    fg = c.yellow,
   }
   h.Debug = {
     fg = c.yellow,
@@ -200,12 +229,6 @@ local M = function(h, c)
     fg = c.fg,
     bold = true,
   }
-  h.MiniStatusLineCopilotEnabled = {
-    fg = c.red,
-  }
-  h.MiniStatusLineCopilotDisabled = {
-    fg = c.comment,
-  }
   h.TabLineFill = {
     bg = c.bg_dark,
   }
@@ -262,6 +285,13 @@ local M = function(h, c)
   }
   h.GitSignsDelete = {
     fg = c.red,
+  }
+  -- Linked to DiffDelete by default, whose red fg is hard to read on its own background
+  h.GitSignsDeletePreview = {
+    bg = c.diff.delete,
+  }
+  h.GitSignsDeleteVirtLn = {
+    bg = c.diff.delete,
   }
   h.GitSignsBlameColor = {
     fg = c.magenta,
@@ -362,9 +392,6 @@ local M = function(h, c)
   }
   h.TelescopeResultsComment = {
     fg = "#545c7e",
-  }
-  h.CodeCompanionChatSeparator = {
-    fg = c.green,
   }
   h.GrugFarHelpHeader = {
     fg = c.comment,
