@@ -41,6 +41,23 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
+-- Conflict markers break every linter and server: hide the buffer's diagnostics until a write leaves none
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
+  group = vim.api.nvim_create_augroup("conflict-diagnostics", { clear = true }),
+  callback = function(args)
+    local conflicted = vim.api.nvim_buf_call(args.buf, function()
+      return vim.fn.search([[^\(<<<<<<<\|>>>>>>>\) ]], "nw") > 0
+    end)
+    if conflicted then
+      vim.b[args.buf].conflict_diagnostics_off = true
+      vim.diagnostic.enable(false, { bufnr = args.buf })
+    elseif vim.b[args.buf].conflict_diagnostics_off then
+      vim.b[args.buf].conflict_diagnostics_off = nil
+      vim.diagnostic.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
 -- Toggle conform's format on save
 vim.keymap.set("n", "<leader>sd", function()
   vim.g.disable_autoformat = not vim.g.disable_autoformat
