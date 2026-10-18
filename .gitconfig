@@ -120,6 +120,7 @@
 	lgt = log --tags --simplify-by-decoration --pretty=format:'%Cred%ai%Creset %C(yellow)%d%Creset'
 	ma = merge --abort
 	mc = merge --continue
+	mt = mergetool
 	p = push
 	pf = push -f
 	po = push origin
