@@ -31,6 +31,9 @@ vim.opt.smartcase = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = "yes"
 
+-- Hatch the filler lines of diffs
+vim.opt.fillchars:append({ diff = "╱" })
+
 -- Decrease update time
 vim.opt.updatetime = 250
 
