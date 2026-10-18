@@ -5,6 +5,7 @@
 local M = function(h, c)
   h.Visual = { bg = c.bg_visual, bold = true }
   h.CursorLine = { bg = c.bg_cursor_line }
+  h.Folded = { fg = c.comment, bg = c.bg_dark2 }
   h.ErrorMsg = {
     bg = c.bg_dark,
     fg = c.red,
