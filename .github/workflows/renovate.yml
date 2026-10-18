@@ -26,7 +26,7 @@ jobs:
           permission-contents: write
           permission-issues: write
           permission-pull-requests: write
-          permission-statuses: read
+          permission-statuses: write
           permission-workflows: write
       - uses: renovatebot/github-action@230ce922b08968d0a4f6f70f295601daff09ef1d # v46.3.7
         with:
