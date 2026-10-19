@@ -470,6 +470,41 @@ document() {
   run ! grep -q '```' "$OPX_TEST_DIR/config.yml"
 }
 
+@test "fetch_config validates once per config content" {
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output != *"validation skipped"* ]]
+  cmp -s "$OPX_TEST_DIR/config.yml" "$OPX_TEST_DIR/config.yml.valid"
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"validation skipped"* ]]
+}
+
+@test "fetch_config validates a changed config again" {
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid configuration"* ]]
+}
+
 @test "fetch_config keeps the previous config when the note is broken YAML" {
   echo "previous: true" >"$OPX_TEST_DIR/config.yml"
   note <<-EOF
