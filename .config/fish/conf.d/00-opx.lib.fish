@@ -46,6 +46,7 @@
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
 # post_clean_cmds: []    # Commands to run after cleaning up
+# `opx-update --no-hooks` (or -H) skips post_fetch_cmds, `opx-clean --no-hooks` skips the clean ones.
 
 set -q OPX_MAX_JOBS; or set -g OPX_MAX_JOBS 10
 
@@ -329,6 +330,7 @@ function __opx-shred-files
 end
 
 function opx-fetch -d "Fetch 1password secrets"
+    argparse H/no-hooks -- $argv; or return 1
 
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -q OPX_CONFIG_REF; and set -e OPX_CONFIG_REF
@@ -354,15 +356,16 @@ function opx-fetch -d "Fetch 1password secrets"
 
     set -U OPX_INITIALIZED 1
 
-    __opx-exec .post_fetch_cmds
+    set -q _flag_no_hooks; or __opx-exec .post_fetch_cmds
 end
 
 function opx-update -d "Update 1password config & secrets"
+    argparse H/no-hooks -- $argv; or return 1
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -eU OPX_INITIALIZED
     end
     __opx_configure; or return 1
-    opx-fetch
+    opx-fetch $_flag_no_hooks
 end
 
 function opx-edit -d "Edit the 1password config note, validated before saving"
@@ -425,12 +428,13 @@ function opx-edit -d "Edit the 1password config note, validated before saving"
 end
 
 function opx-clean -d "Cleanup 1password secrets"
+    argparse H/no-hooks -- $argv; or return 1
     __opx_configure; or return 1
     __opx_check_config; or return 1
 
-    __opx-exec .pre_clean_cmds
+    set -q _flag_no_hooks; or __opx-exec .pre_clean_cmds
     __opx-shred-files
-    __opx-exec .post_clean_cmds
+    set -q _flag_no_hooks; or __opx-exec .post_clean_cmds
 
     if test -n "$OPX_RAMDISK"; and test -d $OPX_RAMDISK; and test (uname) = Darwin
         if hdiutil detach $OPX_RAMDISK

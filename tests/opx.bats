@@ -8,6 +8,7 @@ setup() {
   mkdir -p "$OPX_TEST_DIR/op" "$OPX_TEST_DIR/edits"
 }
 
+# Under --no-config fish has no universal variables: the set -U of opx-fetch lands in a global of this process
 opx() {
   fish --no-config -C "source $BATS_TEST_DIRNAME/opx-harness.fish" -c "$1"
 }
@@ -302,6 +303,82 @@ edit_note() {
   [ "$(printf '%s\n' "$notes" | sed '1d;$d' | yq -r '.secrets[0].env_key')" = "BAR" ]
   [ "$(jq -r '.fields[] | select(.id == "other").value' "$OPX_TEST_DIR/op/edited.json")" = "keep" ]
   [ ! -f "$OPX_TEST_DIR/edit.yml" ]
+}
+
+# opx-fetch and opx-update
+
+fetch_note() {
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+		post_fetch_cmds:
+		  - echo hello from the hook
+	EOF
+}
+
+@test "opx-fetch fetches the secrets then runs the post-fetch hooks" {
+  fetch_note
+  run opx "opx-fetch; and set -q OPX_INITIALIZED; and echo initialized"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/env.fish")" = "set -x FOO plain" ]
+  [[ $output == *"hello from the hook"* ]]
+  [[ $output == *"initialized"* ]]
+}
+
+@test "opx-update --no-hooks fetches without the hooks" {
+  fetch_note
+  run opx "opx-update --no-hooks"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/env.fish")" = "set -x FOO plain" ]
+  [[ $output != *"hello from the hook"* ]]
+}
+
+@test "opx-update -H is the short form of --no-hooks" {
+  fetch_note
+  run opx "opx-update -H"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/env.fish")" = "set -x FOO plain" ]
+  [[ $output != *"hello from the hook"* ]]
+}
+
+@test "opx-update refuses an unknown option" {
+  run opx "opx-update --bogus"
+  [ "$status" -eq 1 ]
+  [[ $output == *"opx-update: --bogus: unknown option"* ]]
+}
+
+# opx-clean
+
+clean_config() {
+  echo "set -x FOO plain" >"$OPX_TEST_DIR/env.fish"
+  config <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+		pre_clean_cmds:
+		  - echo hello from the pre-clean hook
+		post_clean_cmds:
+		  - echo hello from the post-clean hook
+	EOF
+}
+
+# No status check: the final set -eU of opx-clean fails under --no-config, where nothing is universal
+@test "opx-clean shreds the secrets between the clean hooks" {
+  clean_config
+  run opx "opx-clean"
+  [ ! -f "$OPX_TEST_DIR/env.fish" ]
+  [[ $output == *"hello from the pre-clean hook"* ]]
+  [[ $output == *"hello from the post-clean hook"* ]]
+}
+
+@test "opx-clean -H shreds the secrets without the hooks" {
+  clean_config
+  run opx "opx-clean -H"
+  [ ! -f "$OPX_TEST_DIR/env.fish" ]
+  [[ $output != *"hook"* ]]
 }
 
 # __opx-exec
