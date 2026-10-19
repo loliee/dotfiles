@@ -206,7 +206,14 @@ function __opx_fetch_config --argument-names reference file
         return 1
     end
     echo "✔  Fetching config >$OPX_CONFIG_PATH"
+    # Validated once per content: yamale is a Python start-up on every update otherwise
+    if cmp -s $file $file.valid
+        echo "✔  Config unchanged, validation skipped"
+        return 0
+    end
     __opx_check_config; or return 1
+    cp $file $file.valid
+    chmod 600 $file.valid
 end
 
 function __opx_append_env --argument-names file key val
