@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# Tests of .config/fish/conf.d/00-opx.lib.fish: op is never called, tests/opx-harness.fish stubs it
+# Tests of .config/fish/conf.d/00-opx.lib.fish: op is never called, tests/bin/op stubs it
 
 bats_require_minimum_version 1.5.0
 
@@ -161,6 +161,24 @@ note() {
   [ "$status" -eq 0 ]
   [ "$(cat "$OPX_TEST_DIR/env.fish")" = "set -x FOO s3cret" ]
   grep -q "^op read op://Private/FOO/password$" "$OPX_TEST_DIR/op.log"
+}
+
+@test "fetch_one_secret hides the Connect and service account vars from op, not from the shell" {
+  note <<-EOF
+		s3cret
+	EOF
+  config <<-EOF
+		secrets:
+		  - reference: op://Private/FOO/password
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "set -gx OP_CONNECT_HOST http://connect; set -gx OP_CONNECT_TOKEN t; set -gx OP_SERVICE_ACCOUNT_TOKEN s; \
+    __opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml; echo shell keeps \$OP_CONNECT_HOST \$OP_CONNECT_TOKEN \$OP_SERVICE_ACCOUNT_TOKEN"
+  [ "$status" -eq 0 ]
+  grep -q "^op read op://Private/FOO/password$" "$OPX_TEST_DIR/op.log"
+  [ ! -s "$OPX_TEST_DIR/op.vars" ]
+  [[ $output == *"shell keeps http://connect t s"* ]]
 }
 
 @test "fetch_one_secret skips an env key already present" {

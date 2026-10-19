@@ -126,10 +126,15 @@ function __opx_ramdisk
     end
 end
 
+# Hidden from op only, the shell keeps them: set, they send op to a Connect server or a service account without the items
+function __opx_op
+    env -u OP_CONNECT_HOST -u OP_CONNECT_TOKEN -u OP_SERVICE_ACCOUNT_TOKEN op $argv
+end
+
 function __opx_signin
-    op whoami &>/dev/null; and return 0
+    __opx_op whoami &>/dev/null; and return 0
     echo "[opx] 1Password CLI is not signed in, signing in…"
-    if not op signin
+    if not __opx_op signin
         print-err "[opx] cannot sign in: 1Password must be running, unlocked, with Settings > Developer > Integrate with 1Password CLI"
         return 1
     end
@@ -156,7 +161,7 @@ end
 function __opx_fetch_config --argument-names reference file
     set dir (dirname $file)
     test -d $dir; or mkdir -p $dir
-    set config_file (op read "$reference" | string collect)
+    set config_file (__opx_op read "$reference" | string collect)
     if test $status -eq 0 -a -n "$config_file"
         echo $config_file | __opx_normalize_config $file; or return 1
     else
@@ -182,7 +187,7 @@ function __opx_read_secret --argument-names reference value
     if test "$value" != null
         echo $value
     else
-        op read "$reference"
+        __opx_op read "$reference"
     end
 end
 
@@ -216,7 +221,7 @@ function __opx_fetch_one_secret --argument-names idx config
             return 1
         end
         if not string match -qr '^op://.*' $reference; and not test -f $dest
-            if op document get --force $reference -o $dest >/dev/null
+            if __opx_op document get --force $reference -o $dest >/dev/null
                 chmod 600 $dest
                 echo "✔ [$idx] Save document \"$reference\" > $dest"
             else
@@ -226,7 +231,7 @@ function __opx_fetch_one_secret --argument-names idx config
         else if not string match -qr '^op://.*' $reference; and test -f $dest
             print-warn "✔ [$idx] Document $reference exists in \"$dest\", skipping…"
         else if not test -f $dest
-            if op read -f "$reference" -o $dest
+            if __opx_op read -f "$reference" -o $dest
                 chmod 600 $dest
                 echo "✔ [$idx] Save file \"$reference\" > $dest"
             else
@@ -387,7 +392,7 @@ function opx-edit -d "Edit the 1password config note, validated before saving"
     set -l check $dir/edit.check.yml
     touch $note $orig $check
     chmod 600 $note $orig $check
-    op read $OPX_CONFIG_REF | sed -E '/^```(yaml)?$/d' >$note
+    __opx_op read $OPX_CONFIG_REF | sed -E '/^```(yaml)?$/d' >$note
     if test $pipestatus[1] -ne 0
         print-err "[opx] cannot read \"$OPX_CONFIG_REF\""
         shred -u $note $orig $check
@@ -415,9 +420,9 @@ function opx-edit -d "Edit the 1password config note, validated before saving"
     end
 
     # The note goes through stdin: command arguments are visible to other processes
-    op item get $item --vault $vault --format json \
+    __opx_op item get $item --vault $vault --format json \
         | jq --rawfile notes $note '(.fields[] | select(.id == "notesPlain")).value = "```yaml\n" + ($notes | rtrimstr("\n")) + "\n```\n"' \
-        | op item edit $item --vault $vault >/dev/null
+        | __opx_op item edit $item --vault $vault >/dev/null
     set -l saved $status
     shred -u $note $orig $check
     if test $saved -ne 0
