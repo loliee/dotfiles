@@ -209,6 +209,26 @@ document() {
   [ "$(stat -c %a "$OPX_TEST_DIR/bar" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/bar")" = "600" ]
 }
 
+@test "fetch_one_secret writes a multi-line value as a file, with its symlinks" {
+  config <<-EOF
+		secrets:
+		  - value: |
+		      line one
+
+		      line three
+		    as_file: true
+		    dest: $OPX_TEST_DIR/bar
+		    symlinks:
+		      - $OPX_TEST_DIR/links/one
+		      - $OPX_TEST_DIR/links/two
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/bar")" = "$(printf 'line one\n\nline three')" ]
+  [ "$(readlink "$OPX_TEST_DIR/links/one")" = "$OPX_TEST_DIR/bar" ]
+  [ "$(readlink "$OPX_TEST_DIR/links/two")" = "$OPX_TEST_DIR/bar" ]
+}
+
 @test "fetch_one_secret refuses a value without env_key or as_file" {
   config <<-EOF
 		secrets:
