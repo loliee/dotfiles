@@ -11,6 +11,8 @@
 #   - ~
 #
 # The note must contain valid YAML matching the specification in __opx_check_config.
+# Edit it with `opx-edit`: the ```yaml fences are stripped for the editor, the YAML is
+# validated, and the note is written back fenced.
 # Example configuration:
 # ---
 # secrets:
@@ -60,16 +62,17 @@ function __opx_configure
     mkdir -p $XDG_DATA_HOME/opx
 end
 
-function __opx_check_config
-    if ! test -f $OPX_CONFIG_PATH
-        print-err "[opx] OPX_CONFIG_PATH doesn't exists!"
+function __opx_check_config --argument-names path
+    test -n "$path"; or set path $OPX_CONFIG_PATH
+    if ! test -f $path
+        print-err "[opx] $path doesn't exists!"
         return 1
     end
     if not command -q yamale
         print-warn "[opx] yamale not found, validation skipped…"
         return 0
     end
-    set -l OPX_SCHEMA_PATH (dirname $OPX_CONFIG_PATH)/schema.yml
+    set -l OPX_SCHEMA_PATH (dirname $path)/schema.yml
     echo "
 ---
 secrets: list(any(include('reference'), include('value')))
@@ -92,13 +95,25 @@ value:
   env_key: str(required=False)
   symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
-    if not yamale -s $OPX_SCHEMA_PATH $OPX_CONFIG_PATH
+    if not yamale -s $OPX_SCHEMA_PATH $path
         print-err "[opx] invalid configuration!"
-        print-err (cat $OPX_CONFIG_PATH)
+        print-err (cat $path)
         return 1
     end
 
     return 0
+end
+
+# Reads the note on stdin; a command substitution would not see the function's stdin
+function __opx_normalize_config --argument-names dst
+    touch $dst.tmp
+    chmod 600 $dst.tmp
+    if not sed -E "s/```(yaml)?//g" | yq >$dst.tmp
+        print-err "[opx] invalid YAML config file!"
+        rm -f $dst.tmp
+        return 1
+    end
+    mv $dst.tmp $dst
 end
 
 function __opx_ramdisk
@@ -142,13 +157,7 @@ function __opx_fetch_config --argument-names reference file
     test -d $dir; or mkdir -p $dir
     set config_file (op read "$reference" | string collect)
     if test $status -eq 0 -a -n "$config_file"
-        if echo $config_file | sed -E "s/```(yaml)?//g" | yq >/dev/null
-            echo $config_file | sed -E "s/```(yaml)?//g" | yq >$file
-            chmod 600 $file
-        else
-            print-err "[opx] invalid YAML config file!"
-            return 1
-        end
+        echo $config_file | __opx_normalize_config $file; or return 1
     else
         print-err "[opx] cannot fetch secrets config file \"$reference\""
         return 1
@@ -354,6 +363,65 @@ function opx-update -d "Update 1password config & secrets"
     end
     __opx_configure; or return 1
     opx-fetch
+end
+
+function opx-edit -d "Edit the 1password config note, validated before saving"
+    __opx_signin; or return 1
+    __opx_configure; or return 1
+
+    set -l parts (string split / (string replace op:// '' $OPX_CONFIG_REF))
+    if test (count $parts) -ne 3
+        print-err "[opx] cannot parse vault and item from \"$OPX_CONFIG_REF\""
+        return 1
+    end
+    set -l vault $parts[1]
+    set -l item $parts[2]
+
+    set -l dir (dirname $OPX_CONFIG_PATH)
+    test -d $dir; or mkdir -p $dir
+    set -l note $dir/edit.yml
+    set -l orig $dir/edit.orig.yml
+    set -l check $dir/edit.check.yml
+    touch $note $orig $check
+    chmod 600 $note $orig $check
+    op read $OPX_CONFIG_REF | sed -E '/^```(yaml)?$/d' >$note
+    if test $pipestatus[1] -ne 0
+        print-err "[opx] cannot read \"$OPX_CONFIG_REF\""
+        shred -u $note $orig $check
+        return 1
+    end
+    cp $note $orig
+
+    set -l editor $EDITOR
+    test -n "$editor"; or set editor nvim
+    while true
+        $editor $note
+        if cmp -s $note $orig
+            echo "[opx] no change"
+            shred -u $note $orig $check
+            return 0
+        end
+        if __opx_normalize_config $check <$note; and __opx_check_config $check
+            break
+        end
+        read -l -P "[opx] invalid config, edit again? [Y/n] " answer
+        if test $status -ne 0; or string match -qir '^n' -- $answer
+            shred -u $note $orig $check
+            return 1
+        end
+    end
+
+    # The note goes through stdin: command arguments are visible to other processes
+    op item get $item --vault $vault --format json \
+        | jq --rawfile notes $note '(.fields[] | select(.id == "notesPlain")).value = "```yaml\n" + ($notes | rtrimstr("\n")) + "\n```\n"' \
+        | op item edit $item --vault $vault >/dev/null
+    set -l saved $status
+    shred -u $note $orig $check
+    if test $saved -ne 0
+        print-err "[opx] cannot update note \"$item\""
+        return 1
+    end
+    echo "✔  Note \"$item\" updated, run opx-update to apply"
 end
 
 function opx-clean -d "Cleanup 1password secrets"
