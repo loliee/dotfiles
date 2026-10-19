@@ -42,6 +42,10 @@
 #     env_key: "BAR"
 #     dest: "$HOME/.secrets/.bar"
 #
+#   # Save a secure note as a file, without its ```<type> fences when it has some
+#   - note: "op://Private/FOO/notesPlain"
+#     dest: "$HOME/.secrets/foo.yml"
+#
 # Optional command hooks:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
@@ -76,7 +80,7 @@ function __opx_check_config --argument-names path
     set -l OPX_SCHEMA_PATH (dirname $path)/schema.yml
     echo "
 ---
-secrets: list(any(include('reference'), include('value')))
+secrets: list(any(include('reference'), include('value'), include('note')))
 post_fetch_cmds: list(str(), required=False)
 pre_clean_cmds: list(str(), required=False)
 post_clean_cmds: list(str(), required=False)
@@ -94,6 +98,10 @@ value:
   as_file: bool(required=False)
   base64_decode: bool(required=False)
   env_key: str(required=False)
+  symlinks: list(str(), required=False)
+note:
+  note: str()
+  dest: str()
   symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
     if not yamale -s $OPX_SCHEMA_PATH $path
@@ -191,9 +199,26 @@ function __opx_read_secret --argument-names reference value
     end
 end
 
+# Drops an opening fence with or without a type (```yaml) and a closing one, spaces in them and blank lines around ignored
+function __opx_strip_fences --argument-names text
+    set -l lines (string split \n -- (string trim -c \n -- $text))
+    string match -qr '^```\s*\S*\s*$' -- $lines[1]; and set -e lines[1]
+    string match -qr '^```\s*$' -- $lines[-1]; and set -e lines[-1]
+    string join \n -- $lines
+end
+
+# The characters a secret reference accepts (1password.dev/cli/secret-reference-syntax); an item named with others goes by its ID
+function __opx_check_reference --argument-names idx reference
+    set -l seg '[A-Za-z0-9._ -]+'
+    string match -qr "^op://$seg/$seg/$seg(/$seg)?\$" -- $reference; and return 0
+    print-err "[opx][$idx] invalid reference \"$reference\": op://<vault>/<item>/[<section>/]<field>, letters, digits, spaces, - _ . only, or the item ID"
+    return 1
+end
+
 function __opx_fetch_one_secret --argument-names idx config
     set reference (yq -r ".secrets[$idx].reference" $config)
     set value (yq -r ".secrets[$idx].value" $config | string collect)
+    set note (yq -r ".secrets[$idx].note" $config)
     set dest_raw (yq -r ".secrets[$idx].dest" $config)
     set dest (__opx_expand_str $dest_raw)
     set env_key (yq -r ".secrets[$idx].env_key" $config)
@@ -205,17 +230,37 @@ function __opx_fetch_one_secret --argument-names idx config
         print-err "[opx][$idx] missing value: 'dest'"
         return 1
     end
-    if test "$reference" = null; and test "$value" = null
-        print-err "[opx][$idx] missing value: 'reference' or 'value'"
+    if test "$reference" = null; and test "$value" = null; and test "$note" = null
+        print-err "[opx][$idx] missing value: 'reference', 'value' or 'note'"
         return 1
     end
     set label $reference
     test "$value" != null; and set label value
+    test "$note" != null; and set label $note
+    if test "$note" != null
+        __opx_check_reference $idx $note; or return 1
+    else if string match -q 'op://*' -- $reference
+        __opx_check_reference $idx $reference; or return 1
+    end
 
     set dir (dirname $dest)
     test -d $dir; or mkdir -p $dir
 
-    if test "$env_key" = null; and test "$as_file" = null
+    if test "$note" != null
+        if not test -f $dest
+            set value (__opx_op read "$note" | string collect)
+            if test $status -eq 0 -a -n "$value"
+                __opx_strip_fences $value >$dest
+                chmod 600 $dest
+                echo "✔ [$idx] Save note \"$note\" > $dest"
+            else
+                print-err "[opx] cannot get 1password note \"$note\""
+                return 1
+            end
+        else
+            print-warn "✔ [$idx] Note file exists \"$dest\", skipping…"
+        end
+    else if test "$env_key" = null; and test "$as_file" = null
         if test "$value" != null
             print-err "[opx][$idx] 'value' needs 'env_key' or 'as_file: true'"
             return 1
