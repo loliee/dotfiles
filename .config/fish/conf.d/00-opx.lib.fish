@@ -23,8 +23,8 @@
 #       - /Dev/1/foo
 #       - /Dev/2/foo
 #
-#   # Save a document by its document ID
-#   - reference: "jfslnfjsi827nsj"
+#   # Save a document by its ID or title (a reference without op:// still does, with a warning)
+#   - document: "jfslnfjsi827nsj"
 #     dest: "$HOME/.secrets/bar.txt"
 #
 #   # Save a secret as a file
@@ -80,7 +80,7 @@ function __opx_check_config --argument-names path
     set -l OPX_SCHEMA_PATH (dirname $path)/schema.yml
     echo "
 ---
-secrets: list(any(include('reference'), include('value'), include('note')))
+secrets: list(any(include('reference'), include('value'), include('note'), include('document')))
 post_fetch_cmds: list(str(), required=False)
 pre_clean_cmds: list(str(), required=False)
 post_clean_cmds: list(str(), required=False)
@@ -101,6 +101,10 @@ value:
   symlinks: list(str(), required=False)
 note:
   note: str()
+  dest: str()
+  symlinks: list(str(), required=False)
+document:
+  document: str()
   dest: str()
   symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
@@ -219,6 +223,7 @@ function __opx_fetch_one_secret --argument-names idx config
     set reference (yq -r ".secrets[$idx].reference" $config)
     set value (yq -r ".secrets[$idx].value" $config | string collect)
     set note (yq -r ".secrets[$idx].note" $config)
+    set document (yq -r ".secrets[$idx].document" $config)
     set dest_raw (yq -r ".secrets[$idx].dest" $config)
     set dest (__opx_expand_str $dest_raw)
     set env_key (yq -r ".secrets[$idx].env_key" $config)
@@ -226,17 +231,25 @@ function __opx_fetch_one_secret --argument-names idx config
     set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
     set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
 
+    # Older configs: a reference without op:// is a document
+    if test "$reference" != null; and not string match -q 'op://*' -- $reference
+        print-warn "[opx][$idx] reference \"$reference\" is not op://, read as a document: prefer 'document:'"
+        set document $reference
+        set reference null
+    end
+
     if test "$dest_raw" = null
         print-err "[opx][$idx] missing value: 'dest'"
         return 1
     end
-    if test "$reference" = null; and test "$value" = null; and test "$note" = null
-        print-err "[opx][$idx] missing value: 'reference', 'value' or 'note'"
+    if test "$reference" = null; and test "$value" = null; and test "$note" = null; and test "$document" = null
+        print-err "[opx][$idx] missing value: 'reference', 'value', 'note' or 'document'"
         return 1
     end
     set label $reference
     test "$value" != null; and set label value
     test "$note" != null; and set label $note
+    test "$document" != null; and set label $document
     if test "$note" != null
         __opx_check_reference $idx $note; or return 1
     else if string match -q 'op://*' -- $reference
@@ -260,22 +273,24 @@ function __opx_fetch_one_secret --argument-names idx config
         else
             print-warn "✔ [$idx] Note file exists \"$dest\", skipping…"
         end
+    else if test "$document" != null
+        if not test -f $dest
+            if __opx_op document get --force $document -o $dest >/dev/null
+                chmod 600 $dest
+                echo "✔ [$idx] Save document \"$document\" > $dest"
+            else
+                print-err "[opx] cannot get 1password document \"$document\""
+                return 1
+            end
+        else
+            print-warn "✔ [$idx] Document $document exists in \"$dest\", skipping…"
+        end
     else if test "$env_key" = null; and test "$as_file" = null
         if test "$value" != null
             print-err "[opx][$idx] 'value' needs 'env_key' or 'as_file: true'"
             return 1
         end
-        if not string match -qr '^op://.*' $reference; and not test -f $dest
-            if __opx_op document get --force $reference -o $dest >/dev/null
-                chmod 600 $dest
-                echo "✔ [$idx] Save document \"$reference\" > $dest"
-            else
-                print-err "[opx] cannot get 1password document \"$reference\""
-                return 1
-            end
-        else if not string match -qr '^op://.*' $reference; and test -f $dest
-            print-warn "✔ [$idx] Document $reference exists in \"$dest\", skipping…"
-        else if not test -f $dest
+        if not test -f $dest
             if __opx_op read -f "$reference" -o $dest
                 chmod 600 $dest
                 echo "✔ [$idx] Save file \"$reference\" > $dest"
