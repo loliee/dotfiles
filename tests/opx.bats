@@ -21,6 +21,10 @@ note() {
   cat >"$OPX_TEST_DIR/op/read"
 }
 
+document() {
+  cat >"$OPX_TEST_DIR/op/document"
+}
+
 # __opx_expand_str
 
 @test "expand_str expands HOME" {
@@ -79,6 +83,16 @@ note() {
 		    dest: $OPX_TEST_DIR/int.secrets
 		    symlinks:
 		      - $OPX_TEST_DIR/links/int.secrets
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config accepts a document entry" {
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
 	EOF
   run opx "__opx_check_config"
   [ "$status" -eq 0 ]
@@ -289,6 +303,52 @@ note() {
   [ "$status" -eq 0 ]
   [[ $output == *"Note file exists"* ]]
   [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=old" ]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+}
+
+@test "fetch_one_secret saves a document through op" {
+  document <<-EOF
+		doc content
+	EOF
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  grep -q "^op document get --force jfslnfjsi827nsj -o $OPX_TEST_DIR/bar.txt$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "doc content" ]
+  [ "$(stat -c %a "$OPX_TEST_DIR/bar.txt" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/bar.txt")" = "600" ]
+}
+
+@test "fetch_one_secret reads a reference without op:// as a document, with a warning" {
+  document <<-EOF
+		doc content
+	EOF
+  config <<-EOF
+		secrets:
+		  - reference: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"prefer 'document:'"* ]]
+  grep -q "^op document get --force jfslnfjsi827nsj -o $OPX_TEST_DIR/bar.txt$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "doc content" ]
+}
+
+@test "fetch_one_secret skips a document already present" {
+  echo "old" >"$OPX_TEST_DIR/bar.txt"
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"Document jfslnfjsi827nsj exists"* ]]
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "old" ]
   [ ! -f "$OPX_TEST_DIR/op.log" ]
 }
 
