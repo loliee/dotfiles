@@ -1,0 +1,44 @@
+---
+name: Test
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+"on":
+  pull_request:
+    paths:
+      - .config/fish/conf.d/00-opx.lib.fish
+      - tests/**
+      - .github/workflows/test.yml
+  push:
+    branches: [main]
+    paths:
+      - .config/fish/conf.d/00-opx.lib.fish
+      - tests/**
+      - .github/workflows/test.yml
+
+permissions:
+  contents: read
+
+jobs:
+  opx:
+    runs-on: ubuntu-latest
+    env:
+      # The repo's mise.toml only: .config/mise/config.toml is the home config, not CI's
+      MISE_OVERRIDE_CONFIG_FILENAMES: mise.toml
+      MISE_LOCKED: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The opx lib needs fish 4; Ubuntu's own fish is 3.x
+      - name: Install fish
+        run: |
+          sudo add-apt-repository -y ppa:fish-shell/release-4
+          sudo apt-get update && sudo apt-get install -y fish
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
+        with:
+          version: 2026.10.8
+      - name: Run the opx tests
+        run: make test
