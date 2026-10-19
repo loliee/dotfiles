@@ -46,11 +46,18 @@
 #   - note: "op://Private/FOO/notesPlain"
 #     dest: "$HOME/.secrets/foo.yml"
 #
-# Optional command hooks:
+#   # Tag an entry: `opx-update prd` takes the entries tagged prd or all, `opx-clean prd` shreds the ones tagged prd
+#   - reference: "op://Private/FOOBAR/password"
+#     env_key: "FOO"
+#     dest: "$HOME/.secrets/.bar"
+#     tags: [prd, stg]
+#
+# Optional command hooks, a string for every environment or {cmd: "…", tags: [prd]}:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
 # post_clean_cmds: []    # Commands to run after cleaning up
 # `opx-update --no-hooks` (or -H) skips post_fetch_cmds, `opx-clean --no-hooks` skips the clean ones.
+# Without an environment, every entry and hook is taken, tags ignored.
 
 set -q OPX_MAX_JOBS; or set -g OPX_MAX_JOBS 10
 
@@ -81,9 +88,9 @@ function __opx_check_config --argument-names path
     echo "
 ---
 secrets: list(any(include('reference'), include('value'), include('note'), include('document')))
-post_fetch_cmds: list(str(), required=False)
-pre_clean_cmds: list(str(), required=False)
-post_clean_cmds: list(str(), required=False)
+post_fetch_cmds: list(any(str(), include('cmd')), required=False)
+pre_clean_cmds: list(any(str(), include('cmd')), required=False)
+post_clean_cmds: list(any(str(), include('cmd')), required=False)
 ---
 reference:
   reference: str()
@@ -92,6 +99,7 @@ reference:
   base64_decode: bool(required=False)
   env_key: str(required=False)
   symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
 value:
   value: str()
   dest: str()
@@ -99,14 +107,20 @@ value:
   base64_decode: bool(required=False)
   env_key: str(required=False)
   symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
 note:
   note: str()
   dest: str()
   symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
 document:
   document: str()
   dest: str()
-  symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
+  symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
+cmd:
+  cmd: str()
+  tags: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
     if not yamale -s $OPX_SCHEMA_PATH $path
         print-err "[opx] invalid configuration!"
@@ -349,7 +363,28 @@ function __opx_fetch_one_secret --argument-names idx config
     end
 end
 
-function __opx-exec --argument-names entry
+# Environment names land in a yq expression: letters, digits, - and _ only
+function __opx_check_envs
+    for env in $argv
+        if not string match -qr '^[A-Za-z0-9_-]+$' -- $env
+            print-err "[opx] invalid environment \"$env\": letters, digits, - and _ only"
+            return 1
+        end
+    end
+end
+
+# yq predicate on a secret or a hook: tagged with one of $argv, a plain string hook counting as all; true without $argv
+function __opx_tagged
+    if test (count $argv) -eq 0
+        echo true
+        return
+    end
+    set -l any (string join ' or ' (string replace -r '^(.*)$' '. == "$1"' -- $argv))
+    echo "((if tag == \"!!str\" then {\"tags\": [\"all\"]} else . end) | .tags // [] | map($any) | any)"
+end
+
+function __opx-exec --argument-names entry pred
+    test -n "$pred"; or set pred true
     set available_commands \
         clear \
         echo \
@@ -368,8 +403,8 @@ function __opx-exec --argument-names entry
     end
 
     set commands_regexp (string join "|" $available_commands)
-    set commands (yq eval "$entry  | .[]" $OPX_CONFIG_PATH)
-    if test "$commands" != null; and test -n "$commands"
+    set commands (yq -r "$entry // [] | map(select($pred)) | .[] | (if tag == \"!!str\" then . else .cmd end)" $OPX_CONFIG_PATH)
+    if test -n "$commands"
         echo "🐚 $entry commands…"
         for cmd in $commands
             if string match -qr "^(?:sudo\s+)?($commands_regexp)[-~/_\.\w+\s+\"'\$]*\$" $cmd
@@ -383,8 +418,9 @@ function __opx-exec --argument-names entry
     end
 end
 
-function __opx-shred-files
-    set secret_files (yq ".secrets[].dest" $OPX_CONFIG_PATH | sort -u)
+function __opx-shred-files --argument-names pred
+    test -n "$pred"; or set pred true
+    set secret_files (yq -r ".secrets | map(select($pred)) | .[].dest" $OPX_CONFIG_PATH | sort -u)
     for f in $secret_files
         set fpath (__opx_expand_str $f)
         if test -f $fpath
@@ -394,8 +430,11 @@ function __opx-shred-files
     end
 end
 
-function opx-fetch -d "Fetch 1password secrets"
+function opx-fetch -d "Fetch 1password secrets, all or of the given environments"
     argparse H/no-hooks -- $argv; or return 1
+    __opx_check_envs $argv; or return 1
+    set -l pred (__opx_tagged)
+    test (count $argv) -gt 0; and set pred (__opx_tagged $argv all)
 
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -q OPX_CONFIG_REF; and set -e OPX_CONFIG_REF
@@ -407,7 +446,7 @@ function opx-fetch -d "Fetch 1password secrets"
     __opx_configure; or return 1
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1
 
-    set indices (yq -r '.secrets | keys | .[]' $OPX_CONFIG_PATH)
+    set indices (yq -r ".secrets | to_entries | map(select(.value | $pred)) | .[].key" $OPX_CONFIG_PATH)
     set -l running 0
     for idx in $indices
         __opx_fetch_one_secret $idx $OPX_CONFIG_PATH $default_mode &
@@ -421,16 +460,16 @@ function opx-fetch -d "Fetch 1password secrets"
 
     set -U OPX_INITIALIZED 1
 
-    set -q _flag_no_hooks; or __opx-exec .post_fetch_cmds
+    set -q _flag_no_hooks; or __opx-exec .post_fetch_cmds $pred
 end
 
-function opx-update -d "Update 1password config & secrets"
+function opx-update -d "Update 1password config & secrets, all or of the given environments"
     argparse H/no-hooks -- $argv; or return 1
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -eU OPX_INITIALIZED
     end
     __opx_configure; or return 1
-    opx-fetch $_flag_no_hooks
+    opx-fetch $_flag_no_hooks $argv
 end
 
 function opx-edit -d "Edit the 1password config note, validated before saving"
@@ -492,15 +531,19 @@ function opx-edit -d "Edit the 1password config note, validated before saving"
     echo "✔  Note \"$item\" updated, run opx-update to apply"
 end
 
-function opx-clean -d "Cleanup 1password secrets"
+function opx-clean -d "Cleanup 1password secrets, all or of the given environments"
     argparse H/no-hooks -- $argv; or return 1
+    __opx_check_envs $argv; or return 1
+    set -l pred (__opx_tagged $argv)
     __opx_configure; or return 1
     __opx_check_config; or return 1
 
-    set -q _flag_no_hooks; or __opx-exec .pre_clean_cmds
-    __opx-shred-files
-    set -q _flag_no_hooks; or __opx-exec .post_clean_cmds
+    set -q _flag_no_hooks; or __opx-exec .pre_clean_cmds $pred
+    __opx-shred-files $pred
+    set -q _flag_no_hooks; or __opx-exec .post_clean_cmds $pred
 
+    # The other environments stay: only a full clean drops the ramdisk and the state
+    test (count $argv) -eq 0; or return 0
     if test -n "$OPX_RAMDISK"; and test -d $OPX_RAMDISK; and test (uname) = Darwin
         if hdiutil detach $OPX_RAMDISK
             echo "✔  unmount $OPX_RAMDISK"
@@ -511,5 +554,12 @@ function opx-clean -d "Cleanup 1password secrets"
     set -eU OPX_INITIALIZED OPX_RAMDISK OPX_CONFIG_PATH
 end
 
+# The environments: every tag of the config but all
+function __opx_envs
+    test -f "$OPX_CONFIG_PATH"; or return
+    yq -r '[.. | select(tag == "!!map" and has("tags")) | .tags[]] | unique | .[]' $OPX_CONFIG_PATH | string match -v all
+end
+
 complete -c opx-fetch -c opx-update -c opx-clean -c opx-edit -f
 complete -c opx-fetch -c opx-update -c opx-clean -s H -l no-hooks -d "Skip the command hooks of the note"
+complete -c opx-fetch -c opx-update -c opx-clean -a '(__opx_envs)'
