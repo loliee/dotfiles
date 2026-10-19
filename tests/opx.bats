@@ -114,6 +114,17 @@ document() {
   [ "$status" -eq 0 ]
 }
 
+@test "check_config accepts a persistent entry" {
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+		    persistent: true
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
 @test "check_config rejects a hook without cmd" {
   config <<-EOF
 		secrets: []
@@ -542,6 +553,7 @@ fetch_note() {
 		  - value: plain
 		    env_key: FOO
 		    dest: $OPX_TEST_DIR/env.fish
+		    tags: [all]
 		post_fetch_cmds:
 		  - echo hello from the hook
 	EOF
@@ -598,6 +610,11 @@ env_yaml() {
 		  - value: n
 		    env_key: NONE
 		    dest: $OPX_TEST_DIR/none.fish
+		  - value: k
+		    env_key: KEEP
+		    dest: $OPX_TEST_DIR/keep.fish
+		    tags: [stg]
+		    persistent: true
 		post_fetch_cmds:
 		  - echo fetch hook for every env
 		  - cmd: echo fetch hook for prd
@@ -632,6 +649,21 @@ env_files() {
   [[ $output == *"fetch hook for every env"* ]]
   [[ $output == *"fetch hook for prd"* ]]
   [[ $output == *"fetch hook for all"* ]]
+  [[ $output != *"fetch hook for stg"* ]]
+}
+
+@test "opx-fetch without an environment takes the entries tagged all and the persistent ones" {
+  env_yaml | note
+  run opx "opx-fetch"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/keep.fish" ]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+  [[ $output != *"fetch hook for prd"* ]]
   [[ $output != *"fetch hook for stg"* ]]
 }
 
@@ -692,6 +724,71 @@ env_files() {
   [[ $output == *"clean hook for every env"* ]]
   [[ $output == *"clean hook for prd"* ]]
   [[ $output == *"clean hook for all"* ]]
+}
+
+# Persistent entries and --force
+
+persistent_yaml() {
+  cat <<-EOF
+		secrets:
+		  - value: p
+		    env_key: PRD
+		    dest: $OPX_TEST_DIR/prd.fish
+		    tags: [prd]
+		  - value: k
+		    env_key: KEEP
+		    dest: $OPX_TEST_DIR/keep.fish
+		    tags: [prd]
+		    persistent: true
+		  - value: s
+		    env_key: STG
+		    dest: $OPX_TEST_DIR/stg.fish
+		    tags: [stg]
+	EOF
+}
+
+persistent_files() {
+  echo "set -x PRD old" >"$OPX_TEST_DIR/prd.fish"
+  echo "set -x KEEP old" >"$OPX_TEST_DIR/keep.fish"
+  echo "set -x STG old" >"$OPX_TEST_DIR/stg.fish"
+}
+
+@test "opx-clean keeps the persistent entries" {
+  persistent_yaml | config
+  persistent_files
+  run opx "opx-clean"
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP old" ]
+}
+
+@test "opx-update keeps an existing persistent entry without --force" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD old" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP old" ]
+}
+
+@test "opx-update --force prd shreds the prd entries, persistent included, then fetches them again" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update --force prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD p" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP k" ]
+  [ "$(cat "$OPX_TEST_DIR/stg.fish")" = "set -x STG old" ]
+}
+
+@test "opx-update -f is the short form of --force" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update -f"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD p" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP k" ]
+  [ "$(cat "$OPX_TEST_DIR/stg.fish")" = "set -x STG s" ]
 }
 
 @test "envs lists the tags of the config but all" {

@@ -52,12 +52,19 @@
 #     dest: "$HOME/.secrets/.bar"
 #     tags: [prd, stg]
 #
+#   # Keep a note of references on disk: never shredded by opx-clean, refreshed by `opx-update --force` only
+#   - note: "op://Private/INT - .envrc.secrets/notesPlain"
+#     dest: "$HOME/Dev/int/.envrc.secrets"
+#     persistent: true
+#
 # Optional command hooks, a string for every environment or {cmd: "…", tags: [prd]}:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
 # post_clean_cmds: []    # Commands to run after cleaning up
 # `opx-update --no-hooks` (or -H) skips post_fetch_cmds, `opx-clean --no-hooks` skips the clean ones.
-# Without an environment, every entry and hook is taken, tags ignored.
+# `opx-update` without an environment takes every entry and hook, tags ignored. `opx-fetch` without one, at session
+# start, takes the entries tagged all and the persistent ones, with the hooks tagged all.
+# `opx-update --force` (or -f) shreds the selected entries, persistent included, before fetching them again.
 
 set -q OPX_MAX_JOBS; or set -g OPX_MAX_JOBS 10
 
@@ -100,6 +107,7 @@ reference:
   env_key: str(required=False)
   symlinks: list(str(), required=False)
   tags: list(str(), required=False)
+  persistent: bool(required=False)
 value:
   value: str()
   dest: str()
@@ -108,16 +116,19 @@ value:
   env_key: str(required=False)
   symlinks: list(str(), required=False)
   tags: list(str(), required=False)
+  persistent: bool(required=False)
 note:
   note: str()
   dest: str()
   symlinks: list(str(), required=False)
   tags: list(str(), required=False)
+  persistent: bool(required=False)
 document:
   document: str()
   dest: str()
   symlinks: list(str(), required=False)
   tags: list(str(), required=False)
+  persistent: bool(required=False)
 cmd:
   cmd: str()
   tags: list(str(), required=False)" >$OPX_SCHEMA_PATH
@@ -373,14 +384,19 @@ function __opx_check_envs
     end
 end
 
-# yq predicate on a secret or a hook: tagged with one of $argv, a plain string hook counting as all; true without $argv
+# yq predicate on a secret or a hook: tagged with one of $argv, a plain string hook counting as all; true without $argv.
+# --persistent takes the persistent entries too
 function __opx_tagged
+    argparse p/persistent -- $argv
     if test (count $argv) -eq 0
         echo true
         return
     end
     set -l any (string join ' or ' (string replace -r '^(.*)$' '. == "$1"' -- $argv))
-    echo "((if tag == \"!!str\" then {\"tags\": [\"all\"]} else . end) | .tags // [] | map($any) | any)"
+    # No if/then/else: yq got it in 4.54 and the shell may run an older one; a string gets all appended to its tags
+    set -l match "(((.tags // []) + ([.] | map(select(tag == \"!!str\")) | map(\"all\"))) | map($any) | any)"
+    set -q _flag_persistent; and set match "($match or .persistent == true)"
+    echo $match
 end
 
 function __opx-exec --argument-names entry pred
@@ -403,7 +419,7 @@ function __opx-exec --argument-names entry pred
     end
 
     set commands_regexp (string join "|" $available_commands)
-    set commands (yq -r "$entry // [] | map(select($pred)) | .[] | (if tag == \"!!str\" then . else .cmd end)" $OPX_CONFIG_PATH)
+    set commands (yq -r "$entry // [] | map(select($pred)) | .[] | (.cmd // .)" $OPX_CONFIG_PATH)
     if test -n "$commands"
         echo "🐚 $entry commands…"
         for cmd in $commands
@@ -418,9 +434,12 @@ function __opx-exec --argument-names entry pred
     end
 end
 
-function __opx-shred-files --argument-names pred
+# The persistent entries stay unless $persistent is true
+function __opx-shred-files --argument-names pred persistent
     test -n "$pred"; or set pred true
-    set secret_files (yq -r ".secrets | map(select($pred)) | .[].dest" $OPX_CONFIG_PATH | sort -u)
+    set -l keep "and .persistent != true"
+    test "$persistent" = true; and set keep ""
+    set secret_files (yq -r ".secrets | map(select($pred $keep)) | .[].dest" $OPX_CONFIG_PATH | sort -u)
     for f in $secret_files
         set fpath (__opx_expand_str $f)
         if test -f $fpath
@@ -430,11 +449,13 @@ function __opx-shred-files --argument-names pred
     end
 end
 
-function opx-fetch -d "Fetch 1password secrets, all or of the given environments"
-    argparse H/no-hooks -- $argv; or return 1
+function opx-fetch -d "Fetch 1password secrets: the shared and persistent entries, the given environments, or all"
+    argparse H/no-hooks f/force a/all -- $argv; or return 1
     __opx_check_envs $argv; or return 1
-    set -l pred (__opx_tagged)
+    # At session start, without an environment: the entries tagged all and the persistent ones
+    set -l pred (__opx_tagged --persistent all)
     test (count $argv) -gt 0; and set pred (__opx_tagged $argv all)
+    set -q _flag_all; and set pred (__opx_tagged)
 
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -q OPX_CONFIG_REF; and set -e OPX_CONFIG_REF
@@ -445,6 +466,7 @@ function opx-fetch -d "Fetch 1password secrets, all or of the given environments
     __opx_ramdisk
     __opx_configure; or return 1
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1
+    set -q _flag_force; and __opx-shred-files $pred true
 
     set indices (yq -r ".secrets | to_entries | map(select(.value | $pred)) | .[].key" $OPX_CONFIG_PATH)
     set -l running 0
@@ -464,12 +486,14 @@ function opx-fetch -d "Fetch 1password secrets, all or of the given environments
 end
 
 function opx-update -d "Update 1password config & secrets, all or of the given environments"
-    argparse H/no-hooks -- $argv; or return 1
+    argparse H/no-hooks f/force -- $argv; or return 1
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -eU OPX_INITIALIZED
     end
     __opx_configure; or return 1
-    opx-fetch $_flag_no_hooks $argv
+    set -l all --all
+    test (count $argv) -gt 0; and set all
+    opx-fetch $_flag_no_hooks $_flag_force $all $argv
 end
 
 function opx-edit -d "Edit the 1password config note, validated before saving"
@@ -562,4 +586,6 @@ end
 
 complete -c opx-fetch -c opx-update -c opx-clean -c opx-edit -f
 complete -c opx-fetch -c opx-update -c opx-clean -s H -l no-hooks -d "Skip the command hooks of the note"
+complete -c opx-fetch -c opx-update -s f -l force -d "Shred the selected entries, persistent included, then fetch them again"
+complete -c opx-fetch -s a -l all -d "Every entry, tags ignored"
 complete -c opx-fetch -c opx-update -c opx-clean -a '(__opx_envs)'
