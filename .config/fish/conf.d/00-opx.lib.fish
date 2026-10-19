@@ -143,11 +143,11 @@ function __opx_expand_str --argument-names str
     set str (string replace -r '\$HOME' $HOME $str)
     set str (string replace -r '~' $HOME $str)
 
-    if string match -qr '\$OPX_RAMDISK' $OPX_RAMDIS; and test -z "$OPX_RAMDISK"
+    if string match -qr '\$OPX_RAMDISK' $str; and test -z "$OPX_RAMDISK"
         print-err '[opx] cannot expand $OPX_RAMDISK variable because not set!'
         return 1
     else
-        set str (string replace -r '\$OPX_RAMDISK' $OPX_RAMDISK $str)
+        set str (string replace -r '\$OPX_RAMDISK' "$OPX_RAMDISK" $str)
     end
     echo $str
 end
