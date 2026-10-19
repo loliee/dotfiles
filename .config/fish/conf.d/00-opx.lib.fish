@@ -35,6 +35,11 @@
 #     env_key: "FOO"
 #     dest: "$HOME/.secrets/.bar"
 #
+#   # Use a plain value instead of a 1Password reference (needs env_key or as_file)
+#   - value: "plain-text"
+#     env_key: "BAR"
+#     dest: "$HOME/.secrets/.bar"
+#
 # Optional command hooks:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
@@ -67,13 +72,20 @@ function __opx_check_config
     set -l OPX_SCHEMA_PATH (dirname $OPX_CONFIG_PATH)/schema.yml
     echo "
 ---
-secrets: list(str(), include('reference'))
+secrets: list(any(include('reference'), include('value')))
 post_fetch_cmds: list(str(), required=False)
 pre_clean_cmds: list(str(), required=False)
 post_clean_cmds: list(str(), required=False)
 ---
 reference:
   reference: str()
+  dest: str()
+  as_file: bool(required=False)
+  base64_decode: bool(required=False)
+  env_key: str(required=False)
+  symlinks: list(str(), required=False)
+value:
+  value: str()
   dest: str()
   as_file: bool(required=False)
   base64_decode: bool(required=False)
@@ -156,8 +168,17 @@ function __opx_append_env --argument-names file key val
     chmod 600 $file
 end
 
+function __opx_read_secret --argument-names reference value
+    if test "$value" != null
+        echo $value
+    else
+        op read "$reference"
+    end
+end
+
 function __opx_fetch_one_secret --argument-names idx config
     set reference (yq -r ".secrets[$idx].reference" $config)
+    set value (yq -r ".secrets[$idx].value" $config | string collect)
     set dest_raw (yq -r ".secrets[$idx].dest" $config)
     set dest (__opx_expand_str $dest_raw)
     set env_key (yq -r ".secrets[$idx].env_key" $config)
@@ -165,18 +186,25 @@ function __opx_fetch_one_secret --argument-names idx config
     set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
     set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
 
-    for vname in reference dest
-        set vval (eval echo \$$vname)
-        if test "$vval" = null
-            print-err "[opx][$idx] missing value: '$vname'"
-            return 1
-        end
+    if test "$dest_raw" = null
+        print-err "[opx][$idx] missing value: 'dest'"
+        return 1
     end
+    if test "$reference" = null; and test "$value" = null
+        print-err "[opx][$idx] missing value: 'reference' or 'value'"
+        return 1
+    end
+    set label $reference
+    test "$value" != null; and set label value
 
     set dir (dirname $dest)
     test -d $dir; or mkdir -p $dir
 
     if test "$env_key" = null; and test "$as_file" = null
+        if test "$value" != null
+            print-err "[opx][$idx] 'value' needs 'env_key' or 'as_file: true'"
+            return 1
+        end
         if not string match -qr '^op://.*' $reference; and not test -f $dest
             if op document get --force $reference -o $dest >/dev/null
                 chmod 600 $dest
@@ -200,7 +228,7 @@ function __opx_fetch_one_secret --argument-names idx config
         end
     else if test "$as_file" != null; and test $as_file = true
         if not test -f $dest
-            set value (op read "$reference"| string collect)
+            set value (__opx_read_secret $reference $value | string collect)
             if test $status -eq 0 -a -n "$value"
                 if test "$base64_decode" != null; and test $base64_decode = true
                     echo $value | base64 -d >$dest
@@ -208,9 +236,9 @@ function __opx_fetch_one_secret --argument-names idx config
                     echo $value >$dest
                 end
                 chmod 600 $dest
-                echo "✔ [$idx] $reference as file →  ($dest)"
+                echo "✔ [$idx] $label as file →  ($dest)"
             else
-                print-err "[opx] cannot get 1password secret \"$reference\""
+                print-err "[opx] cannot get 1password secret \"$label\""
                 return 1
             end
         else if test -f $dest
@@ -218,12 +246,12 @@ function __opx_fetch_one_secret --argument-names idx config
         end
     else if test "$env_key" != null
         if not test -f $dest; or not grep -q -E "^(export|set -x) $env_key(=|\s+)" $dest
-            set value (op read "$reference")
+            set value (__opx_read_secret $reference $value)
             if test $status -eq 0 -a -n "$value"
                 __opx_append_env $dest $env_key $value
-                echo "✔ [$idx] $reference → env $env_key ($dest)"
+                echo "✔ [$idx] $label → env $env_key ($dest)"
             else
-                print-err "[opx] cannot get 1password secret \"$reference\""
+                print-err "[opx] cannot get 1password secret \"$label\""
                 return 1
             end
         else if grep -q -E "^export $env_key=" $dest
