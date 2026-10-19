@@ -245,16 +245,18 @@ function __opx_check_reference --argument-names idx reference
 end
 
 function __opx_fetch_one_secret --argument-names idx config
-    set reference (yq -r ".secrets[$idx].reference" $config)
-    set value (yq -r ".secrets[$idx].value" $config | string collect)
-    set note (yq -r ".secrets[$idx].note" $config)
-    set document (yq -r ".secrets[$idx].document" $config)
-    set dest_raw (yq -r ".secrets[$idx].dest" $config)
+    # One yq for the entry: the single-line fields first, the symlinks joined by a tab, the multi-line value last
+    set -l f (yq -r ".secrets[$idx] | (.reference, .note, .document, .dest, .env_key, .as_file, .base64_decode, (.symlinks // [] | join(\"\t\")), .value)" $config)
+    set reference $f[1]
+    set note $f[2]
+    set document $f[3]
+    set dest_raw $f[4]
     set dest (__opx_expand_str $dest_raw)
-    set env_key (yq -r ".secrets[$idx].env_key" $config)
-    set as_file (yq -r ".secrets[$idx].as_file" $config)
-    set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
-    set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
+    set env_key $f[5]
+    set as_file $f[6]
+    set base64_decode $f[7]
+    set symlinks (string split \t -- $f[8] | string match -v '')
+    set value (string join \n -- $f[9..] | string collect)
 
     # Older configs: a reference without op:// is a document
     if test "$reference" != null; and not string match -q 'op://*' -- $reference
