@@ -41,6 +41,7 @@ end
 
 abbr --add B --position anywhere --set-cursor "| base64 %"
 abbr --add D --position anywhere --set-cursor "| base64 -d %"
+abbr --add F --position anywhere --set-cursor "| fzf %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
 abbr --add P --position anywhere --set-cursor "| pbcopy %"
