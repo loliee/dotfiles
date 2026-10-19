@@ -72,6 +72,29 @@ note() {
   [ "$status" -eq 0 ]
 }
 
+@test "check_config accepts a note entry" {
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/INT - .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/int.secrets
+		    symlinks:
+		      - $OPX_TEST_DIR/links/int.secrets
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config rejects a note entry with env_key" {
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 1 ]
+}
+
 @test "check_config rejects an entry with neither reference nor value" {
   config <<-EOF
 		secrets:
@@ -179,6 +202,108 @@ note() {
   grep -q "^op read op://Private/FOO/password$" "$OPX_TEST_DIR/op.log"
   [ ! -s "$OPX_TEST_DIR/op.vars" ]
   [[ $output == *"shell keeps http://connect t s"* ]]
+}
+
+@test "fetch_one_secret writes a note without its fences and type" {
+  note <<-EOF
+		\`\`\`yaml
+		export FOO=bar
+		export BAZ=qux
+		\`\`\`
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/INT - .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/int.secrets
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  grep -q "^op read op://Private/INT - .envrc.secrets/notesPlain$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/int.secrets")" = "$(printf 'export FOO=bar\nexport BAZ=qux')" ]
+  [ "$(stat -c %a "$OPX_TEST_DIR/int.secrets" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/int.secrets")" = "600" ]
+}
+
+@test "fetch_one_secret refuses a note reference with forbidden characters" {
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/[INT] .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid reference"* ]]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+  [ ! -f "$OPX_TEST_DIR/foo" ]
+}
+
+@test "fetch_one_secret drops an opening fence without a closing one" {
+  note <<-EOF
+		\`\`\`
+		export FOO=bar
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=bar" ]
+}
+
+@test "fetch_one_secret drops the fences of a note with blank lines and spaces around them" {
+  printf "\n\n\`\`\`fish \nexport FOO=bar\n\`\`\` \n\n" | note
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=bar" ]
+}
+
+@test "fetch_one_secret writes a note without fences as it is" {
+  note <<-EOF
+		export FOO=bar
+		export BAZ=qux
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "$(printf 'export FOO=bar\nexport BAZ=qux')" ]
+}
+
+@test "fetch_one_secret skips a note file already present" {
+  echo "export FOO=old" >"$OPX_TEST_DIR/foo"
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"Note file exists"* ]]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=old" ]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+}
+
+@test "fetch_one_secret refuses a reference with forbidden characters" {
+  config <<-EOF
+		secrets:
+		  - reference: "op://Private/[INT] foo/password"
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid reference"* ]]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+  [ ! -f "$OPX_TEST_DIR/env.fish" ]
 }
 
 @test "fetch_one_secret skips an env key already present" {
