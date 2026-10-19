@@ -98,6 +98,32 @@ document() {
   [ "$status" -eq 0 ]
 }
 
+@test "check_config accepts tags on entries and hooks" {
+  config <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+		    tags: [prd, stg]
+		post_fetch_cmds:
+		  - echo every env
+		  - cmd: echo prd
+		    tags: [prd]
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config rejects a hook without cmd" {
+  config <<-EOF
+		secrets: []
+		post_fetch_cmds:
+		  - tags: [prd]
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 1 ]
+}
+
 @test "check_config rejects a note entry with env_key" {
   config <<-EOF
 		secrets:
@@ -550,6 +576,129 @@ fetch_note() {
   run opx "opx-update --bogus"
   [ "$status" -eq 1 ]
   [[ $output == *"opx-update: --bogus: unknown option"* ]]
+}
+
+# Environments
+
+env_yaml() {
+  cat <<-EOF
+		secrets:
+		  - value: p
+		    env_key: PRD
+		    dest: $OPX_TEST_DIR/prd.fish
+		    tags: [prd]
+		  - value: s
+		    env_key: STG
+		    dest: $OPX_TEST_DIR/stg.fish
+		    tags: [stg]
+		  - value: a
+		    env_key: ALL
+		    dest: $OPX_TEST_DIR/all.fish
+		    tags: [all]
+		  - value: n
+		    env_key: NONE
+		    dest: $OPX_TEST_DIR/none.fish
+		post_fetch_cmds:
+		  - echo fetch hook for every env
+		  - cmd: echo fetch hook for prd
+		    tags: [prd]
+		  - cmd: echo fetch hook for stg
+		    tags: [stg]
+		  - cmd: echo fetch hook for all
+		    tags: [all]
+		pre_clean_cmds:
+		  - echo clean hook for every env
+		  - cmd: echo clean hook for prd
+		    tags: [prd]
+		  - cmd: echo clean hook for all
+		    tags: [all]
+	EOF
+}
+
+env_files() {
+  for f in prd stg all none; do
+    echo "set -x X x" >"$OPX_TEST_DIR/$f.fish"
+  done
+}
+
+@test "opx-update prd fetches the entries tagged prd or all, with their hooks" {
+  env_yaml | note
+  run opx "opx-update prd"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for prd"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+  [[ $output != *"fetch hook for stg"* ]]
+}
+
+@test "opx-update prd stg fetches both environments" {
+  env_yaml | note
+  run opx "opx-update prd stg"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+}
+
+@test "opx-update without an environment fetches everything, tags ignored" {
+  env_yaml | note
+  run opx "opx-update"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for prd"* ]]
+  [[ $output == *"fetch hook for stg"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+}
+
+@test "opx-update refuses an environment name with other characters" {
+  env_yaml | note
+  run opx "opx-update 'prd; rm'"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid environment"* ]]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+}
+
+@test "opx-clean prd shreds the entries tagged prd only, with the prd hooks only" {
+  env_yaml | config
+  env_files
+  run opx "opx-clean prd"
+  [ "$status" -eq 0 ]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"clean hook for prd"* ]]
+  [[ $output != *"clean hook for every env"* ]]
+  [[ $output != *"clean hook for all"* ]]
+}
+
+@test "opx-clean without an environment shreds everything, with every hook" {
+  env_yaml | config
+  env_files
+  run opx "opx-clean"
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"clean hook for every env"* ]]
+  [[ $output == *"clean hook for prd"* ]]
+  [[ $output == *"clean hook for all"* ]]
+}
+
+@test "envs lists the tags of the config but all" {
+  env_yaml | config
+  run opx "__opx_envs"
+  [ "$status" -eq 0 ]
+  [ "$output" = "$(printf 'prd\nstg')" ]
 }
 
 # opx-clean
