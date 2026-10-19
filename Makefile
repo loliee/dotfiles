@@ -1,6 +1,6 @@
 DOTFILES_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 OS = $(shell uname)
-SHELL := /usr/bin/env bash
+SHELL := bash
 PATH := $(HOME)/.local/share/mise/shims:/opt/homebrew/bin/:$(PATH)
 # macOS starts shells at 256 open files, too few for parallel mise installs; the macOS make 3.81 runs each line in its own shell
 RAISE_NOFILE := ulimit -S -n 10240 &&
@@ -16,6 +16,9 @@ help:
 		| awk 'BEGIN { FS = ":.*?## " }; { printf "\033[36m%-30s\033[0m %s\n", $$1, $$2 }'
 
 install: brew-install dotfiles-install git-hooks-install ## Full install
+
+test: ## Run the tests of the fish libs
+	bats tests
 
 brew-install: # Install brew and packages
 	./.brew

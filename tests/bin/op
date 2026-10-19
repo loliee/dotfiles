@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# op stub for tests/opx.bats, on the PATH of tests/opx-harness.fish: logs every call, answers read and item get with
+# files under $OPX_TEST_DIR/op, fails on anything else.
+set -euo pipefail
+
+main() {
+  echo "op $*" >>"${OPX_TEST_DIR}/op.log"
+  # The lib must hide these from op: any still set lands in op.vars
+  printenv OP_CONNECT_HOST OP_CONNECT_TOKEN OP_SERVICE_ACCOUNT_TOKEN >>"${OPX_TEST_DIR}/op.vars" || true
+  case "${1-} ${2-}" in
+    "whoami "*) return 0 ;;
+    "read "*)
+      [[ -f ${OPX_TEST_DIR}/op/read ]] || return 1
+      cat "${OPX_TEST_DIR}/op/read"
+      ;;
+    "item get") cat "${OPX_TEST_DIR}/op/item.json" ;;
+    "item edit") cat >"${OPX_TEST_DIR}/op/edited.json" ;;
+    *) return 1 ;;
+  esac
+}
+
+main "$@"
