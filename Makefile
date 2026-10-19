@@ -17,6 +17,9 @@ help:
 
 install: brew-install dotfiles-install git-hooks-install ## Full install
 
+test: ## Run the tests of the fish libs
+	bats tests
+
 brew-install: # Install brew and packages
 	./.brew
 
