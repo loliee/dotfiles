@@ -33,7 +33,11 @@ abbr --add reload 'exec $SHELL -l'
 
 abbr --add rms shred --remove
 
-command -q op; and abbr --add o op run --
+# 1password
+if command -q op
+    abbr --add o op run --
+    abbr --add opr op run --no-masking -- printenv
+end
 
 abbr --add B --position anywhere --set-cursor "| base64 %"
 abbr --add D --position anywhere --set-cursor "| base64 -d %"
