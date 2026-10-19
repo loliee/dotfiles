@@ -445,3 +445,6 @@ function opx-clean -d "Cleanup 1password secrets"
     end
     set -eU OPX_INITIALIZED OPX_RAMDISK OPX_CONFIG_PATH
 end
+
+complete -c opx-fetch -c opx-update -c opx-clean -c opx-edit -f
+complete -c opx-fetch -c opx-update -c opx-clean -s H -l no-hooks -d "Skip the command hooks of the note"
