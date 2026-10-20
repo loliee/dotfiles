@@ -76,6 +76,8 @@ abbr --add rma 'ls ~/.ssh/* | rg $USER@ | xargs -I % rm -f %'
 
 abbr --add dns-flushcache "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
+command -q oxipng; and abbr --add oxipng oxipng -o max -z --fast -s -r
+
 if test -f /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-status "sudo launchctl print system/local.coredns | rg -e 'state =' -e 'pid =' -e 'runs =' -e 'last exit code'"
     abbr --add coredns-restart sudo launchctl kickstart -k system/local.coredns
