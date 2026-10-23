@@ -133,6 +133,15 @@ brew install ${1+"$@"} --appdir /Applications \
   1password-cli \
   ollama-app
 
+# Homebrew installs a cask only from a tap, so the casks kept in .brew-casks go to a local one
+cask_tap="$(brew --repository local/tap)"
+if [[ ! -d ${cask_tap} ]]; then
+  brew tap-new --no-git local/tap
+fi
+mkdir -p "${cask_tap}/Casks"
+install -m 0644 "$(dirname "${BASH_SOURCE[0]}")"/.brew-casks/*.rb "${cask_tap}/Casks/"
+brew install ${1+"$@"} --cask local/tap/mdv
+
 # Configure languagetool
 brew services start languagetool
 

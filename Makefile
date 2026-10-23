@@ -36,6 +36,7 @@ stow: ## Stow dotfiles
 	stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.brew' \
+		--ignore='^\.brew-casks$$' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.github' \
