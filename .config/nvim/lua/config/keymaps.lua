@@ -106,3 +106,19 @@ vim.keymap.set("n", "<leader>t", function()
   -- An argument list, not :terminal, which hands the line to a shell: a file name stays a file name
   vim.fn.jobstart(filename ~= "" and { "tig", filename } or { "tig" }, { term = true })
 end, { desc = "Open tig on current file (or repo)", noremap = true, silent = true })
+
+-- Open and quit MDV
+vim.keymap.set("n", "<leader>m", function()
+  local filename = vim.api.nvim_buf_get_name(0)
+  if filename == "" then
+    vim.fn.jobstart({ "mdv" })
+    return
+  end
+  -- MDV reads the file from disk, not the buffer
+  vim.cmd.update()
+  vim.fn.jobstart({ "mdv", "--", filename })
+end, { desc = "Save and open current file in MDV", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>mc", function()
+  -- "is running" first: telling a closed app to quit launches it
+  vim.fn.jobstart({ "osascript", "-e", 'if application "MDV" is running then quit app "MDV"' })
+end, { desc = "Quit MDV", noremap = true, silent = true })
