@@ -21,9 +21,6 @@ done 2>/dev/null &
 #sudo scutil --set HostName "0x6D746873"
 #sudo scutil --set LocalHostName "0x6D746873"
 #sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "0x6D746873"
-if [ "$SHELL" != "/bin/zsh" ]; then
-  chsh -s /bin/zsh "$USERNAME"
-fi
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
