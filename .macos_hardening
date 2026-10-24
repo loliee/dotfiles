@@ -3,7 +3,6 @@
 # MacOs Hardening:
 #
 #  - Ensure FileVault is enabled
-#  - Enforce Firewall settings
 #  - Consolidate my /etc/hosts
 #  - Manage my Network locations:
 #    * Automatic: follow DHCP instructions
@@ -65,28 +64,6 @@ security -q authorizationdb read system.preferences >/tmp/system.preferences.pli
 # shellcheck disable=SC2024
 sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
 rm '/tmp/system.preferences.plist'
-
-# Enable the firewall
-/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-
-# Enable logging
-/usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-
-# Enable stealth mode
-/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-
-# Prevent built-in software as well as code-signed, downloaded software from
-# being whitelisted automatically
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-
-# Configure the firewall to block all incoming traffic
-/usr/libexec/ApplicationFirewall/socketfilterfw --setblockall on
-
-sudo pkill -HUP socketfilterfw || true
-
-# Disabled allow signed downloaded applications automatically
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 
 # Set the screen to lock as soon as the screensaver starts
 defaults write com.apple.screensaver askForPassword -int 1
