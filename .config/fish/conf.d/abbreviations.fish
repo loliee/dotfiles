@@ -47,6 +47,7 @@ abbr --add L --position anywhere --set-cursor "% | less"
 abbr --add P --position anywhere --set-cursor "| pbcopy %"
 
 command -q aws; and abbr --add aws3 aws s3api
+command -q betterleaks; and abbr --add bl betterleaks dir --no-banner -v
 command -q direnv; and abbr --add da direnv allow
 
 command -q rg; and abbr --add rga rg --hidden --no-ignore
