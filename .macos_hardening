@@ -3,7 +3,6 @@
 # MacOs Hardening:
 #
 #  - Ensure FileVault is enabled
-#  - Ensure firmware password is enabled
 #  - Enforce Firewall settings
 #  - Consolidate my /etc/hosts
 #  - Manage my Network locations:
@@ -44,35 +43,12 @@ if ! fdesetup status | grep -q 'FileVault is On.'; then
   # sudo fdesetup enable -user $USER > $HOME/FileVault_recovery_key.txt
 fi
 
-# Check firmware password
-if ! sudo firmwarepasswd -check | grep -q 'Password Enabled: Yes'; then
-  # shellcheck disable=SC1003
-  echo 1>&2 '/!\ firmware password is not set /!\'
-  echo 1>&2 'Hint: "sudo firmwarepasswd -setpasswd"'
-  exit 1
-fi
-
-# Check firmware password mode
-if ! sudo firmwarepasswd -mode | grep -q 'Mode: full'; then
-  # shellcheck disable=SC1003
-  echo 1>&2 '/!\ firmware password is not required on all startups /!\'
-  echo 1>&2 'Hint: "sudo firmwarepasswd -setmode full"'
-  exit 1
-fi
-
 # Check System Integrity Protection
 if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; then
   # shellcheck disable=SC1003
   echo 1>&2 '/!\ System Integrity protection is disabled /!\'
   echo 1>&2 'Hint: "sudo csrutil enable"'
   exit 1
-fi
-
-# check EFI Firmware Integrity
-if system_profiler SPiBridgeDataType | grep 'T2'; then
-  echo "T2 Present, efi integrity check skipped"
-else
-  /usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
 fi
 
 # Enable Gatekeeper
