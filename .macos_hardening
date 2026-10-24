@@ -65,8 +65,8 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable Bonjour multicast advertisements
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
-# Set AirDrop Discoverability to 'Contacts Only'
-defaults write com.apple.sharingd DiscoverableMode -string 'Contacts Only'
+# Set AirDrop Discoverability to 'No One'
+defaults write com.apple.sharingd DiscoverableMode -string 'Off'
 sudo killall -HUP sharingd
 
 # Check and download updates, install security responses and XProtect data automatically
