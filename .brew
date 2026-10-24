@@ -164,18 +164,15 @@ curl --fail --silent --show-error --proto =https --tlsv1.2 \
   awk '$1 == "0.0.0.0" && $2 != "0.0.0.0" { print "0.0.0.0", $2 }' | sudo tee /etc/coredns/blocklist.hosts >/dev/null
 sudo install -o root -g wheel -m 0644 "$(dirname "${BASH_SOURCE[0]}")/.coredns.plist" \
   /Library/LaunchDaemons/local.coredns.plist
-if ! sudo test -e /etc/coredns/Corefile && [[ -f /opt/homebrew/etc/coredns/Corefile ]]; then
-  sudo install -o root -g wheel -m 0644 /opt/homebrew/etc/coredns/Corefile /etc/coredns/Corefile
+# Only when missing: a default without internal zones, until coredns-install puts the one from opx
+if ! sudo test -e /etc/coredns/Corefile; then
+  sudo install -o root -g wheel -m 0644 "$(dirname "${BASH_SOURCE[0]}")/.coredns/Corefile" /etc/coredns/Corefile
 fi
-if sudo test -e /etc/coredns/Corefile; then
-  # bootstrap refuses a job already loaded, and bootout can return before launchd has removed it
-  if sudo launchctl print system/local.coredns &>/dev/null; then
-    sudo launchctl bootout system/local.coredns
-    while sudo launchctl print system/local.coredns &>/dev/null; do
-      sleep 0.1
-    done
-  fi
-  sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
-else
-  echo "--> No Corefile: write /etc/coredns/Corefile with sudo -e, then run .brew again"
+# bootstrap refuses a job already loaded, and bootout can return before launchd has removed it
+if sudo launchctl print system/local.coredns &>/dev/null; then
+  sudo launchctl bootout system/local.coredns
+  while sudo launchctl print system/local.coredns &>/dev/null; do
+    sleep 0.1
+  done
 fi
+sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist

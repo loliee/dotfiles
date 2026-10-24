@@ -1,0 +1,15 @@
+. {
+    bind 127.0.0.1
+    hosts /etc/coredns/blocklist.hosts {
+        # 127.0.0.1 mylaptop.me
+
+        ttl 60
+        fallthrough
+    }
+    forward . tls://9.9.9.9%dns.quad9.net tls://1.1.1.1%cloudflare-dns.com {
+        policy sequential
+        failover SERVFAIL REFUSED
+    }
+    cache
+    errors
+}
