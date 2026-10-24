@@ -36,6 +36,9 @@ defaults write NSGlobalDomain KeyRepeat -int 0
 # Disable transparency in the menu bar and elsewhere on Yosemite
 defaults write com.apple.universalaccess reduceTransparency -bool true
 
+# Reduce motion in the interface
+defaults write com.apple.universalaccess reduceMotion -bool true
+
 # Set highlight color to green
 defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
@@ -392,7 +395,7 @@ defaults write com.apple.dock show-process-indicators -bool true
 defaults write com.apple.dock launchanim -bool false
 
 # Speed up Mission Control animations
-defaults write com.apple.dock expose-animation-duration -float 0.1
+defaults write com.apple.dock expose-animation-duration -float 0
 
 # Don’t group windows by application in Mission Control
 # (i.e. use the old Exposé behavior instead)
@@ -844,28 +847,5 @@ defaults write com.twitter.twitter-mac HideInBackground -bool true
 
 # Disable Captive Portal
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
-
-###############################################################################
-# Reduce motions                                                              #
-###############################################################################
-# https://github.com/734MNOOB/Disable-Mac-Animations
-defaults write NSAutomaticWindowAnimationsEnabled -bool false
-defaults write NSScrollAnimationEnabled -bool false
-defaults write NSWindowResizeTime -float 0.001
-defaults write QLPanelAnimationDuration -float 0
-defaults write NSScrollViewRubberbanding -bool false
-defaults write NSDocumentRevisionsWindowTransformAnimation -bool false
-defaults write NSToolbarFullScreenAnimationDuration -float 0
-defaults write NSBrowserColumnAnimationSpeedMultiplier -float 0
-defaults write com.apple.dock autohide-time-modifier -float 0
-defaults write com.apple.dock autohide-delay -float 0
-defaults write com.apple.dock expose-animation-duration -float 0
-defaults write com.apple.dock springboard-show-duration -float 0
-defaults write com.apple.dock springboard-hide-duration -float 0
-defaults write com.apple.dock springboard-page-duration -float 0
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.Mail DisableSendAnimations -bool true
-defaults write com.apple.Mail DisableReplyAnimations -bool true
-defaults write com.apple.universalaccess reduceMotion -bool true
 
 echo "Done. Note that some of these changes require a logout/restart to take effect."
