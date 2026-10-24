@@ -82,5 +82,6 @@ if test -f /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-stop sudo launchctl bootout system/local.coredns
     abbr --add coredns-start sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-edit "sudo -e /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
+    abbr --add coredns-install "sudo install -o root -g wheel -m 0644 /opt/homebrew/etc/coredns/Corefile /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
     abbr --add coredns-logs tail -f /var/log/coredns.log
 end
