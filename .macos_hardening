@@ -3,7 +3,6 @@
 # MacOs Hardening:
 #
 #  - Ensure FileVault is enabled
-#  - Consolidate my /etc/hosts
 #  - Manage my Network locations:
 #    * Automatic: follow DHCP instructions
 #    * Public Network: Local DNS resolver + Tor
@@ -114,11 +113,6 @@ sudo defaults write /Library/Preferences/org.mozilla.firefox EnterprisePoliciesE
 sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Enabled -bool false
 sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Locked -bool true
 sudo defaults write /Library/Preferences/org.mozilla.firefox DisableTelemetry -bool true
-
-# Consolidate my /etc/hosts too just in case I don't use my DNS, eg: automatic
-# network profile
-curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' |
-  sudo tee '/etc/hosts'
 
 # Shutdown Wi-Fi
 sudo networksetup -setairportpower airport off
