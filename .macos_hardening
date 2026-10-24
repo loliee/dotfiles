@@ -59,11 +59,12 @@ if ! spctl --status | grep -q 'assessments enabled'; then
 fi
 
 # Require an administrator password to access system-wide preferences
-security -q authorizationdb read system.preferences >/tmp/system.preferences.plist
-/usr/libexec/PlistBuddy -c 'Set :shared false' /tmp/system.preferences.plist
+preferences_plist="$(mktemp)"
+security -q authorizationdb read system.preferences >"${preferences_plist}"
+/usr/libexec/PlistBuddy -c 'Set :shared false' "${preferences_plist}"
 # shellcheck disable=SC2024
-sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
-rm '/tmp/system.preferences.plist'
+sudo security -q authorizationdb write system.preferences <"${preferences_plist}"
+rm "${preferences_plist}"
 
 # Require the password as soon as the screensaver starts or the display sleeps
 sysadminctl -screenLock immediate -password -
