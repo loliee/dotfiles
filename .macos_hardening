@@ -51,8 +51,13 @@ if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; th
   exit 1
 fi
 
-# Enable Gatekeeper
-sudo spctl --master-enable
+# Check Gatekeeper
+if ! spctl --status | grep -q 'assessments enabled'; then
+  # shellcheck disable=SC1003
+  echo 1>&2 '/!\ Gatekeeper is disabled /!\'
+  echo 1>&2 'Hint: System Settings > Privacy & Security > Allow applications from "App Store & Known Developers"'
+  exit 1
+fi
 
 # Require an administrator password to access system-wide preferences
 security -q authorizationdb read system.preferences >/tmp/system.preferences.plist
