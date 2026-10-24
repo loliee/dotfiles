@@ -65,9 +65,8 @@ security -q authorizationdb read system.preferences >/tmp/system.preferences.pli
 sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
 rm '/tmp/system.preferences.plist'
 
-# Set the screen to lock as soon as the screensaver starts
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+# Require the password as soon as the screensaver starts or the display sleeps
+sysadminctl -screenLock immediate -password -
 
 # Expose hidden files and Library folder in Finder
 defaults write com.apple.finder AppleShowAllFiles -bool true
