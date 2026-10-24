@@ -114,19 +114,6 @@ sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Enabl
 sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Locked -bool true
 sudo defaults write /Library/Preferences/org.mozilla.firefox DisableTelemetry -bool true
 
-# You may wish to enforce hibernation and evict FileVault keys from memory
-# instead of traditional sleep to memory
-sudo pmset -a destroyfvkeyonstandby 1
-sudo pmset -a hibernatemode 25
-
-# If you choose to evict FileVault keys in standby mode, you should also modify
-# your standby and power nap settings. Otherwise, your machine may wake while
-# in standby mode and then power off due to the absence of the FileVault key
-sudo pmset -a powernap 0
-sudo pmset -a standby 0
-sudo pmset -a standbydelay 0
-sudo pmset -a autopoweroff 0
-
 # Consolidate my /etc/hosts too just in case I don't use my DNS, eg: automatic
 # network profile
 curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' |
