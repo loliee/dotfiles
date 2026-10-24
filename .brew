@@ -162,7 +162,7 @@ sudo install -o root -g wheel -m 0755 "$(dirname "${BASH_SOURCE[0]}")/.coredns/c
 curl --fail --silent --show-error --proto =https --tlsv1.2 \
   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts |
   awk '$1 == "0.0.0.0" && $2 != "0.0.0.0" { print "0.0.0.0", $2 }' | sudo tee /etc/coredns/blocklist.hosts >/dev/null
-sudo install -o root -g wheel -m 0644 "$(dirname "${BASH_SOURCE[0]}")/.coredns.plist" \
+sudo install -o root -g wheel -m 0644 "$(dirname "${BASH_SOURCE[0]}")/.coredns/local.coredns.plist" \
   /Library/LaunchDaemons/local.coredns.plist
 # Only when missing: a default without internal zones, until coredns-install puts the one from opx
 if ! sudo test -e /etc/coredns/Corefile; then

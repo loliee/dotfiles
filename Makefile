@@ -47,8 +47,6 @@ stow: ## Stow dotfiles
 		--ignore='.mdlrc' \
 		--ignore='.mdl_style.rb' \
 		--ignore='^\.coredns$$' \
-		--ignore='^\.coredns\.plist$$' \
-		--ignore='^\.coredns-start$$' \
 		--ignore='^\.opx-net-down$$' \
 		--ignore='.pre-commit-config.yaml' \
 		--ignore='.ssh' \
