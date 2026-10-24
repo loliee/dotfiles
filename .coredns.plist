@@ -6,9 +6,7 @@
     <string>local.coredns</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/usr/local/libexec/coredns</string>
-      <string>-conf</string>
-      <string>/etc/coredns/Corefile</string>
+      <string>/usr/local/libexec/coredns-start</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/etc/coredns</string>

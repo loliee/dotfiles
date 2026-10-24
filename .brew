@@ -153,10 +153,11 @@ if ! echo "${sudoers_rule}" | sudo cmp -s - "/etc/sudoers.d/${USER}"; then
   sudo mv "/etc/sudoers.d/${USER}.new" "/etc/sudoers.d/${USER}"
 fi
 
-# CoreDNS needs root for port 53, so root runs root-owned copies of its binary, Corefile and blocklist
+# CoreDNS needs root for port 53, so root runs root-owned copies of its binary, start script, Corefile and blocklist
 echo "--> Setup CoreDNS on port 53, requires root permission!"
 sudo install -d -o root -g wheel -m 0755 /usr/local/libexec /etc/coredns
 sudo install -o root -g wheel -m 0755 "$(brew --prefix coredns)/bin/coredns" /usr/local/libexec/coredns
+sudo install -o root -g wheel -m 0755 "$(dirname "${BASH_SOURCE[0]}")/.coredns/coredns-start" /usr/local/libexec/coredns-start
 # A hosts list that names each subdomain, as CoreDNS hosts matches exact names; only 0.0.0.0 lines: it never redirects
 curl --fail --silent --show-error --proto =https --tlsv1.2 \
   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts |

@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Start CoreDNS for launchd, and point every network service at it once it answers.
+
+# /bin/bash and a system PATH, as in .opx-net-down: root runs only root-owned code
+set -euo pipefail
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+readonly COREDNS=/usr/local/libexec/coredns
+readonly COREFILE=/etc/coredns/Corefile
+readonly BLOCKLIST=/etc/coredns/blocklist.hosts
+
+# A blocklisted name gets its answer from CoreDNS itself, so the probe needs no network
+coredns_answers() {
+  local probe
+  probe="$(awk 'NR == 1 { print $2 }' "${BLOCKLIST}")"
+  [[ $(dig @127.0.0.1 +short +time=1 +tries=1 "${probe}") == 0.0.0.0 ]]
+}
+
+use_coredns() {
+  local service _
+  for _ in {1..20}; do
+    if coredns_answers; then
+      # A disabled service is listed with a leading *
+      while IFS= read -r service; do
+        networksetup -setdnsservers "${service#\*}" 127.0.0.1
+      done < <(networksetup -listallnetworkservices | tail -n +2)
+      return 0
+    fi
+    sleep 0.5
+  done
+  echo "CoreDNS does not answer: DNS servers left as they are" >&2
+  return 1
+}
+
+main() {
+  # launchd watches the PID it started: exec keeps CoreDNS on it, and the DNS step runs beside
+  use_coredns &
+  exec "${COREDNS}" -conf "${COREFILE}"
+}
+
+main "$@"
