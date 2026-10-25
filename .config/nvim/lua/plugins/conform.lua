@@ -16,7 +16,8 @@ return { -- Autoformat
   opts = {
     notify_on_error = true,
     format_on_save = function(bufnr)
-      if vim.g.disable_autoformat then
+      -- prettier can drop a #@ annotation that sits before ---, which changes what ytt renders
+      if vim.g.disable_autoformat or vim.b[bufnr].ytt then
         return
       end
       -- Disable "format_on_save lsp_fallback" for languages that don't
