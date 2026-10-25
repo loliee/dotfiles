@@ -28,6 +28,8 @@ return { -- Highlight, edit, and navigate code
       "html",
       "http",
       "javascript",
+      "jinja",
+      "jinja_inline",
       "jq",
       "json",
       "just",
