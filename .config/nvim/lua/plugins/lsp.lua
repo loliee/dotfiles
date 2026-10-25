@@ -62,7 +62,10 @@ return {
         settings = { telemetry = { telemetryLevel = "off" } },
       },
       fish_lsp = {},
-      jinja_lsp = {},
+      jinja_lsp = {
+        -- Ansible variables live in inventories and vars files it never reads; init_options also skip jinja-lsp.toml
+        init_options = { hide_undefined = true },
+      },
       jsonls = {
         settings = {
           json = {
