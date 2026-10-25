@@ -50,6 +50,7 @@ return { -- Highlight, edit, and navigate code
       "rust",
       "sql",
       "ssh_config",
+      "starlark",
       "strace",
       "toml",
       "twig",
