@@ -28,6 +28,10 @@ local M = function(h, c)
   h["@constructor"] = {
     fg = c.yellow,
   }
+  -- Not built in: queries/*/highlights.scm capture { } with it, yellow like Lua's table braces (@constructor)
+  h["@punctuation.brace"] = {
+    fg = c.yellow,
+  }
   h["@keyword"] = {
     fg = c.yellow,
   }
