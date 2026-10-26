@@ -40,4 +40,6 @@ jobs:
           RENOVATE_ALLOWED_UNSAFE_EXECUTIONS: '["mise"]'
           # The repo's mise.toml only: from the clone, the home config's locked = true locks mise.toml too
           RENOVATE_CUSTOM_ENV_VARIABLES: '{"MISE_OVERRIDE_CONFIG_FILENAMES":"mise.toml"}'
+          # The home config's lock, run by renovate.json's postUpgradeTasks
+          RENOVATE_ALLOWED_COMMANDS: '["^[.]github/scripts/mise-lock-home [-.:/@a-zA-Z0-9_]+$"]'
           RENOVATE_PLATFORM_COMMIT: enabled
