@@ -61,7 +61,12 @@ return {
       docker_compose_language_service = {
         settings = { telemetry = { telemetryLevel = "off" } },
       },
-      fish_lsp = {},
+      fish_lsp = {
+        on_attach = function(client, _)
+          -- Its tokens only recolor keywords over treesitter, unlike the snacks preview, which runs no LSP
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
+      },
       jinja_lsp = {
         -- Ansible variables live in inventories and vars files it never reads; init_options also skip jinja-lsp.toml
         init_options = { hide_undefined = true },
