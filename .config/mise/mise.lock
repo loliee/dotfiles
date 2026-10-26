@@ -14,15 +14,15 @@ url_api = "https://api.github.com/repos/FiloSottile/age/releases/assets/53554189
 provenance = "github-attestations"
 
 [[tools."aqua:github/copilot-cli"]]
-version = "1.0.98"
+version = "1.0.100"
 backend = "aqua:github/copilot-cli"
-specifiers = ["1.0.98"]
+specifiers = ["1.0.100"]
 
 [tools."aqua:github/copilot-cli"."platforms.macos-arm64"]
-checksum = "sha256:a87018a0194789313c979906e45e8874699fee50549ea11d0be7bdde88b6b3c8"
+checksum = "sha256:4af0815e798158641bdd8e76e622fee0975e24ef91c5f0daf9ada4d9e0eac5a0"
 checksum_source = "mise-versions"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.98/copilot-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/641478157"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.100/copilot-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/657112181"
 
 [[tools."aqua:kyverno/chainsaw"]]
 version = "0.2.15"
