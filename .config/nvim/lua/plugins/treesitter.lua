@@ -62,6 +62,13 @@ return { -- Highlight, edit, and navigate code
       "yaml",
     })
 
+    -- For queries/yaml/highlights.scm: #offset! moves a capture's ends, it cannot cut it down to the #@ of ytt
+    vim.treesitter.query.add_directive("ytt-marker!", function(match, _, _, pred, metadata)
+      local id = pred[2]
+      local row, col = match[id][1]:start()
+      metadata[id] = vim.tbl_extend("force", metadata[id] or {}, { range = { row, col, row, col + 2 } })
+    end, { force = true })
+
     vim.api.nvim_create_autocmd("FileType", {
       callback = function(args)
         local buf = args.buf

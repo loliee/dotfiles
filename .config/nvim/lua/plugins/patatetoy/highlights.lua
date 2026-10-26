@@ -458,6 +458,10 @@ local M = function(h, c)
   h["@punctuation.special.yaml"] = {
     fg = c.comment,
   }
+  -- Not built in: queries/yaml/highlights.scm marks the #@ of ytt annotations with it
+  h["@ytt.marker"] = {
+    fg = c.orange,
+  }
   -- ansiblels tokens win over treesitter: plain keys, modules (only when it finds ansible-core) and their options
   h["@lsp.type.property.yaml"] = {
     fg = c.fg,
