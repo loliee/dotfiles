@@ -290,10 +290,10 @@ backend = "npm:eslint"
 specifiers = ["10.12.0"]
 
 [[tools."npm:fish-lsp"]]
-version = "1.1.4"
-aube = { path = "locks/npm-fish-lsp/1.1.4", digest = "sha256:344922743f91cd4529700ed91b232d4e74880bc96ff06ce49588f5f2cfee80f6" }
+version = "1.1.5"
+aube = { path = "locks/npm-fish-lsp/1.1.5", digest = "sha256:f55b9eff4741777ce69fa550eeed79ca67f46f71b9cf81c2fd6491b92321b061" }
 backend = "npm:fish-lsp"
-specifiers = ["1.1.4"]
+specifiers = ["1.1.5"]
 
 [[tools."npm:prettier"]]
 version = "3.9.9"

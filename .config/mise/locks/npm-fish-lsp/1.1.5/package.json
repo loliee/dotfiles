@@ -2,6 +2,6 @@
   "name": "mise-npm-install",
   "private": true,
   "dependencies": {
-    "fish-lsp": "1.1.4"
+    "fish-lsp": "1.1.5"
   }
 }
