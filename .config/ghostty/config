@@ -36,6 +36,9 @@ keybind = cmd+u=text:ɔu
 keybind = cmd+@=text:ɔ@
 keybind = cmd+&=text:ɔ&
 
+# Tmux
+keybind = cmd+f=csi:9999~
+
 # Beginning / end of line
 keybind = alt+h=text:^
 keybind = alt+l=text:$
