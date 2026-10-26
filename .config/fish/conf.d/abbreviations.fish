@@ -45,6 +45,7 @@ abbr --add F --position anywhere --set-cursor "| fzf %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
 abbr --add P --position anywhere --set-cursor "| pbcopy %"
+abbr --add \$? --position anywhere --set-cursor \$pipestatus
 
 command -q aws; and abbr --add aws3 aws s3api
 command -q betterleaks; and abbr --add bl betterleaks dir --no-banner -v
