@@ -31,16 +31,16 @@ vim.keymap.set("v", "<leader>p", '"_c<Esc>p', { desc = "Paste without register."
 vim.keymap.set("v", "Ï", ":m '>+1<CR>gv=gv", { desc = "Move up visual selection.", noremap = true, silent = true })
 vim.keymap.set("v", "È", ":m '<-2<CR>gv=gv", { desc = "Move down visual selection.", noremap = true, silent = true })
 
--- Special Keybinds prefixed by "ɔ"
+-- Cmd keybinds, sent by Ghostty as Ctrl-Alt-Shift F5 to F10
 --
 --  Save with Cmd-s
-vim.keymap.set("n", "ɔs", function()
+vim.keymap.set("n", "<C-M-S-F7>", function()
   if vim.bo.buftype == "" then
     vim.cmd("w")
   end
 end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
 
-vim.keymap.set({ "i", "c", "v" }, "ɔs", function()
+vim.keymap.set({ "i", "c", "v" }, "<C-M-S-F7>", function()
   if vim.bo.buftype == "" then
     vim.cmd("stopinsert")
     vim.cmd("w")
@@ -48,12 +48,12 @@ vim.keymap.set({ "i", "c", "v" }, "ɔs", function()
 end, { desc = "Save with Cmd-s.", noremap = true, silent = true })
 
 -- Undo with Cmd-u
-vim.keymap.set({ "n", "i", "c" }, "ɔu", "<Esc>u", { desc = "Undo with Cmd-u.", noremap = true, silent = true })
+vim.keymap.set({ "n", "i", "c" }, "<C-M-S-F8>", "<Esc>u", { desc = "Undo with Cmd-u.", noremap = true, silent = true })
 
 -- Split window
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "ɔ&",
+  "<C-M-S-F10>",
   "<Esc><C-w>v<C-w>l",
   { desc = "Move to next tab.", noremap = true, silent = true }
 )
@@ -70,19 +70,19 @@ end, { desc = "Go to right window, resize to 45% width, then return.", noremap =
 -- Tabs management
 vim.keymap.set(
   { "n", "i", "c", "v" },
-  "ɔ@",
+  "<C-M-S-F9>",
   "<Esc><cmd>tabnew<CR>",
   { desc = "Open new tab.", noremap = true, silent = true }
 )
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "ɔn",
+  "<C-M-S-F6>",
   "<Esc><cmd>:tabnext<CR>",
   { desc = "Move to next tab.", noremap = true, silent = true }
 )
 vim.keymap.set(
   { "n", "i", "v", "c" },
-  "ɔp",
+  "<C-M-S-F5>",
   "<Esc><cmd>:tabprevious<CR>",
   { desc = "Move to previous tab.", noremap = true, silent = true }
 )
