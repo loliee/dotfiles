@@ -39,6 +39,6 @@ jobs:
           sudo apt-get update && sudo apt-get install -y fish
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
-          version: 2026.10.8
+          version: 2026.10.15
       - name: Run the opx tests
         run: make test
