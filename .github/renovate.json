@@ -5,9 +5,24 @@
   "minimumReleaseAge": "7 days",
   "packageRules": [
     {
-      "description": "The home config: make mise-upgrade-home bumps it and locks it from $HOME",
-      "matchFileNames": [".config/mise/**"],
-      "enabled": false
+      "description": "Repo mise.toml, named apart from the home config",
+      "matchManagers": ["mise"],
+      "matchFileNames": ["mise.toml"],
+      "additionalBranchPrefix": "mise-repo-",
+      "commitMessageTopic": "repo mise tool {{depName}}"
+    },
+    {
+      "description": "Home config: the script locks it as global, as in the clone mise.toml shadows shared tools",
+      "matchManagers": ["mise"],
+      "matchFileNames": [".config/mise/config.toml"],
+      "additionalBranchPrefix": "mise-home-",
+      "commitMessageTopic": "home mise tool {{depName}}",
+      "skipArtifactsUpdate": true,
+      "postUpgradeTasks": {
+        "commands": [".github/scripts/mise-lock-home {{{depName}}}"],
+        "fileFilters": [".config/mise/mise.lock", ".config/mise/locks/**"],
+        "installTools": { "mise": {} }
+      }
     }
   ],
   "pre-commit": {

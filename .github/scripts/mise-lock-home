@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Lock the home mise config in Renovate's clone, as make mise-lock-home does from $HOME
+set -euo pipefail
+
+main() {
+  # From /, as in the clone mise.toml shadows the tools both configs declare
+  # Unlocked, as locked mode refuses a version missing from the lockfile
+  MISE_GLOBAL_CONFIG_FILE="${PWD}/.config/mise/config.toml" MISE_LOCKED=false mise -C / lock --global "$@"
+}
+
+main "$@"
