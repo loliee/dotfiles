@@ -1,14 +1,19 @@
 ---
 extends: default
 
+# prettier's style, so files formatted by hand (ytt templates) end up like the formatted ones
 rules:
   braces:
-    min-spaces-inside: 0
+    min-spaces-inside: 1
     max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
   comments-indentation: disable
   comments:
     require-starting-space: false
     min-spaces-from-content: 1
+  empty-lines:
+    max: 1
   indentation:
     spaces: 2
   line-length:
@@ -17,6 +22,11 @@ rules:
   octal-values:
     forbid-implicit-octal: true
     forbid-explicit-octal: true
+  # Stricter than prettier, which never removes a quote
+  quoted-strings:
+    quote-type: double
+    required: only-when-needed
+    allow-quoted-quotes: true
   truthy:
     allowed-values:
       - "true"

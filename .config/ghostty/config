@@ -28,13 +28,16 @@ keybind = ctrl+j=csi:B
 keybind = ctrl+k=csi:A
 keybind = ctrl+l=csi:C
 
-# Vim
-keybind = cmd+p=text:ɔp
-keybind = cmd+n=text:ɔn
-keybind = cmd+s=text:ɔs
-keybind = cmd+u=text:ɔu
-keybind = cmd+@=text:ɔ@
-keybind = cmd+&=text:ɔ&
+# Vim: Ctrl-Alt-Shift F5 to F10, which no terminfo names and shells ignore
+keybind = cmd+p=csi:15;8~
+keybind = cmd+n=csi:17;8~
+keybind = cmd+s=csi:18;8~
+keybind = cmd+u=csi:19;8~
+keybind = cmd+@=csi:20;8~
+keybind = cmd+digit_1=csi:21;8~
+
+# Tmux
+keybind = cmd+f=csi:9999~
 
 # Beginning / end of line
 keybind = alt+h=text:^

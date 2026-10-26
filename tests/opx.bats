@@ -21,6 +21,10 @@ note() {
   cat >"$OPX_TEST_DIR/op/read"
 }
 
+document() {
+  cat >"$OPX_TEST_DIR/op/document"
+}
+
 # __opx_expand_str
 
 @test "expand_str expands HOME" {
@@ -70,6 +74,76 @@ note() {
 	EOF
   run opx "__opx_check_config"
   [ "$status" -eq 0 ]
+}
+
+@test "check_config accepts a note entry" {
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/INT - .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/int.secrets
+		    symlinks:
+		      - $OPX_TEST_DIR/links/int.secrets
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config accepts a document entry" {
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config accepts tags on entries and hooks" {
+  config <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+		    tags: [prd, stg]
+		post_fetch_cmds:
+		  - echo every env
+		  - cmd: echo prd
+		    tags: [prd]
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config accepts a persistent entry" {
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+		    persistent: true
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 0 ]
+}
+
+@test "check_config rejects a hook without cmd" {
+  config <<-EOF
+		secrets: []
+		post_fetch_cmds:
+		  - tags: [prd]
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 1 ]
+}
+
+@test "check_config rejects a note entry with env_key" {
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_check_config"
+  [ "$status" -eq 1 ]
 }
 
 @test "check_config rejects an entry with neither reference nor value" {
@@ -135,6 +209,26 @@ note() {
   [ "$(stat -c %a "$OPX_TEST_DIR/bar" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/bar")" = "600" ]
 }
 
+@test "fetch_one_secret writes a multi-line value as a file, with its symlinks" {
+  config <<-EOF
+		secrets:
+		  - value: |
+		      line one
+
+		      line three
+		    as_file: true
+		    dest: $OPX_TEST_DIR/bar
+		    symlinks:
+		      - $OPX_TEST_DIR/links/one
+		      - $OPX_TEST_DIR/links/two
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/bar")" = "$(printf 'line one\n\nline three')" ]
+  [ "$(readlink "$OPX_TEST_DIR/links/one")" = "$OPX_TEST_DIR/bar" ]
+  [ "$(readlink "$OPX_TEST_DIR/links/two")" = "$OPX_TEST_DIR/bar" ]
+}
+
 @test "fetch_one_secret refuses a value without env_key or as_file" {
   config <<-EOF
 		secrets:
@@ -179,6 +273,154 @@ note() {
   grep -q "^op read op://Private/FOO/password$" "$OPX_TEST_DIR/op.log"
   [ ! -s "$OPX_TEST_DIR/op.vars" ]
   [[ $output == *"shell keeps http://connect t s"* ]]
+}
+
+@test "fetch_one_secret writes a note without its fences and type" {
+  note <<-EOF
+		\`\`\`yaml
+		export FOO=bar
+		export BAZ=qux
+		\`\`\`
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/INT - .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/int.secrets
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  grep -q "^op read op://Private/INT - .envrc.secrets/notesPlain$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/int.secrets")" = "$(printf 'export FOO=bar\nexport BAZ=qux')" ]
+  [ "$(stat -c %a "$OPX_TEST_DIR/int.secrets" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/int.secrets")" = "600" ]
+}
+
+@test "fetch_one_secret refuses a note reference with forbidden characters" {
+  config <<-EOF
+		secrets:
+		  - note: "op://Private/[INT] .envrc.secrets/notesPlain"
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid reference"* ]]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+  [ ! -f "$OPX_TEST_DIR/foo" ]
+}
+
+@test "fetch_one_secret drops an opening fence without a closing one" {
+  note <<-EOF
+		\`\`\`
+		export FOO=bar
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=bar" ]
+}
+
+@test "fetch_one_secret drops the fences of a note with blank lines and spaces around them" {
+  printf "\n\n\`\`\`fish \nexport FOO=bar\n\`\`\` \n\n" | note
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=bar" ]
+}
+
+@test "fetch_one_secret writes a note without fences as it is" {
+  note <<-EOF
+		export FOO=bar
+		export BAZ=qux
+	EOF
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "$(printf 'export FOO=bar\nexport BAZ=qux')" ]
+}
+
+@test "fetch_one_secret skips a note file already present" {
+  echo "export FOO=old" >"$OPX_TEST_DIR/foo"
+  config <<-EOF
+		secrets:
+		  - note: op://Private/FOO/notesPlain
+		    dest: $OPX_TEST_DIR/foo
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"Note file exists"* ]]
+  [ "$(cat "$OPX_TEST_DIR/foo")" = "export FOO=old" ]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+}
+
+@test "fetch_one_secret saves a document through op" {
+  document <<-EOF
+		doc content
+	EOF
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  grep -q "^op document get --force jfslnfjsi827nsj -o $OPX_TEST_DIR/bar.txt$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "doc content" ]
+  [ "$(stat -c %a "$OPX_TEST_DIR/bar.txt" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/bar.txt")" = "600" ]
+}
+
+@test "fetch_one_secret reads a reference without op:// as a document, with a warning" {
+  document <<-EOF
+		doc content
+	EOF
+  config <<-EOF
+		secrets:
+		  - reference: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"prefer 'document:'"* ]]
+  grep -q "^op document get --force jfslnfjsi827nsj -o $OPX_TEST_DIR/bar.txt$" "$OPX_TEST_DIR/op.log"
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "doc content" ]
+}
+
+@test "fetch_one_secret skips a document already present" {
+  echo "old" >"$OPX_TEST_DIR/bar.txt"
+  config <<-EOF
+		secrets:
+		  - document: jfslnfjsi827nsj
+		    dest: $OPX_TEST_DIR/bar.txt
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"Document jfslnfjsi827nsj exists"* ]]
+  [ "$(cat "$OPX_TEST_DIR/bar.txt")" = "old" ]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+}
+
+@test "fetch_one_secret refuses a reference with forbidden characters" {
+  config <<-EOF
+		secrets:
+		  - reference: "op://Private/[INT] foo/password"
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid reference"* ]]
+  [ ! -f "$OPX_TEST_DIR/op.log" ]
+  [ ! -f "$OPX_TEST_DIR/env.fish" ]
 }
 
 @test "fetch_one_secret skips an env key already present" {
@@ -226,6 +468,41 @@ note() {
   [ "$status" -eq 0 ]
   [ "$(yq -r '.secrets[0].env_key' "$OPX_TEST_DIR/config.yml")" = "FOO" ]
   run ! grep -q '```' "$OPX_TEST_DIR/config.yml"
+}
+
+@test "fetch_config validates once per config content" {
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output != *"validation skipped"* ]]
+  cmp -s "$OPX_TEST_DIR/config.yml" "$OPX_TEST_DIR/config.yml.valid"
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [[ $output == *"validation skipped"* ]]
+}
+
+@test "fetch_config validates a changed config again" {
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  note <<-EOF
+		secrets:
+		  - value: plain
+		    env_key: FOO
+	EOF
+  run opx "__opx_fetch_config op://Private/testitem/notesPlain $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid configuration"* ]]
 }
 
 @test "fetch_config keeps the previous config when the note is broken YAML" {
@@ -331,6 +608,7 @@ fetch_note() {
 		  - value: plain
 		    env_key: FOO
 		    dest: $OPX_TEST_DIR/env.fish
+		    tags: [all]
 		post_fetch_cmds:
 		  - echo hello from the hook
 	EOF
@@ -365,6 +643,214 @@ fetch_note() {
   run opx "opx-update --bogus"
   [ "$status" -eq 1 ]
   [[ $output == *"opx-update: --bogus: unknown option"* ]]
+}
+
+# Environments
+
+env_yaml() {
+  cat <<-EOF
+		secrets:
+		  - value: p
+		    env_key: PRD
+		    dest: $OPX_TEST_DIR/prd.fish
+		    tags: [prd]
+		  - value: s
+		    env_key: STG
+		    dest: $OPX_TEST_DIR/stg.fish
+		    tags: [stg]
+		  - value: a
+		    env_key: ALL
+		    dest: $OPX_TEST_DIR/all.fish
+		    tags: [all]
+		  - value: n
+		    env_key: NONE
+		    dest: $OPX_TEST_DIR/none.fish
+		  - value: k
+		    env_key: KEEP
+		    dest: $OPX_TEST_DIR/keep.fish
+		    tags: [stg]
+		    persistent: true
+		post_fetch_cmds:
+		  - echo fetch hook for every env
+		  - cmd: echo fetch hook for prd
+		    tags: [prd]
+		  - cmd: echo fetch hook for stg
+		    tags: [stg]
+		  - cmd: echo fetch hook for all
+		    tags: [all]
+		pre_clean_cmds:
+		  - echo clean hook for every env
+		  - cmd: echo clean hook for prd
+		    tags: [prd]
+		  - cmd: echo clean hook for all
+		    tags: [all]
+	EOF
+}
+
+env_files() {
+  for f in prd stg all none; do
+    echo "set -x X x" >"$OPX_TEST_DIR/$f.fish"
+  done
+}
+
+@test "opx-update prd fetches the entries tagged prd or all, with their hooks" {
+  env_yaml | note
+  run opx "opx-update prd"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for prd"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+  [[ $output != *"fetch hook for stg"* ]]
+}
+
+@test "opx-fetch without an environment takes the entries tagged all and the persistent ones" {
+  env_yaml | note
+  run opx "opx-fetch"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/keep.fish" ]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+  [[ $output != *"fetch hook for prd"* ]]
+  [[ $output != *"fetch hook for stg"* ]]
+}
+
+@test "opx-update prd stg fetches both environments" {
+  env_yaml | note
+  run opx "opx-update prd stg"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+}
+
+@test "opx-update without an environment fetches everything, tags ignored" {
+  env_yaml | note
+  run opx "opx-update"
+  [ "$status" -eq 0 ]
+  [ -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"fetch hook for every env"* ]]
+  [[ $output == *"fetch hook for prd"* ]]
+  [[ $output == *"fetch hook for stg"* ]]
+  [[ $output == *"fetch hook for all"* ]]
+}
+
+@test "opx-update refuses an environment name with other characters" {
+  env_yaml | note
+  run opx "opx-update 'prd; rm'"
+  [ "$status" -eq 1 ]
+  [[ $output == *"invalid environment"* ]]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+}
+
+@test "opx-clean prd shreds the entries tagged prd only, with the prd hooks only" {
+  env_yaml | config
+  env_files
+  run opx "opx-clean prd"
+  [ "$status" -eq 0 ]
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ -f "$OPX_TEST_DIR/stg.fish" ]
+  [ -f "$OPX_TEST_DIR/all.fish" ]
+  [ -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"clean hook for prd"* ]]
+  [[ $output != *"clean hook for every env"* ]]
+  [[ $output != *"clean hook for all"* ]]
+}
+
+@test "opx-clean without an environment shreds everything, with every hook" {
+  env_yaml | config
+  env_files
+  run opx "opx-clean"
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ ! -f "$OPX_TEST_DIR/all.fish" ]
+  [ ! -f "$OPX_TEST_DIR/none.fish" ]
+  [[ $output == *"clean hook for every env"* ]]
+  [[ $output == *"clean hook for prd"* ]]
+  [[ $output == *"clean hook for all"* ]]
+}
+
+# Persistent entries and --force
+
+persistent_yaml() {
+  cat <<-EOF
+		secrets:
+		  - value: p
+		    env_key: PRD
+		    dest: $OPX_TEST_DIR/prd.fish
+		    tags: [prd]
+		  - value: k
+		    env_key: KEEP
+		    dest: $OPX_TEST_DIR/keep.fish
+		    tags: [prd]
+		    persistent: true
+		  - value: s
+		    env_key: STG
+		    dest: $OPX_TEST_DIR/stg.fish
+		    tags: [stg]
+	EOF
+}
+
+persistent_files() {
+  echo "set -x PRD old" >"$OPX_TEST_DIR/prd.fish"
+  echo "set -x KEEP old" >"$OPX_TEST_DIR/keep.fish"
+  echo "set -x STG old" >"$OPX_TEST_DIR/stg.fish"
+}
+
+@test "opx-clean keeps the persistent entries" {
+  persistent_yaml | config
+  persistent_files
+  run opx "opx-clean"
+  [ ! -f "$OPX_TEST_DIR/prd.fish" ]
+  [ ! -f "$OPX_TEST_DIR/stg.fish" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP old" ]
+}
+
+@test "opx-update keeps an existing persistent entry without --force" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD old" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP old" ]
+}
+
+@test "opx-update --force prd shreds the prd entries, persistent included, then fetches them again" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update --force prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD p" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP k" ]
+  [ "$(cat "$OPX_TEST_DIR/stg.fish")" = "set -x STG old" ]
+}
+
+@test "opx-update -f is the short form of --force" {
+  persistent_yaml | note
+  persistent_files
+  run opx "opx-update -f"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/prd.fish")" = "set -x PRD p" ]
+  [ "$(cat "$OPX_TEST_DIR/keep.fish")" = "set -x KEEP k" ]
+  [ "$(cat "$OPX_TEST_DIR/stg.fish")" = "set -x STG s" ]
+}
+
+@test "envs lists the tags of the config but all" {
+  env_yaml | config
+  run opx "__opx_envs"
+  [ "$status" -eq 0 ]
+  [ "$output" = "$(printf 'prd\nstg')" ]
 }
 
 # opx-clean

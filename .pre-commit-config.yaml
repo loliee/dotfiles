@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -19,11 +19,12 @@ repos:
       - id: requirements-txt-fixer
       - id: trailing-whitespace
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: v1.38.0
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530 # frozen: v1.38.0
     hooks:
       - id: yamllint
+        exclude: ^\.config/mise/locks/
   - repo: https://github.com/codespell-project/codespell
-    rev: 57b21406f092110c18776e39b0bda50d37c945c8  # frozen: v2.4.3
+    rev: 57b21406f092110c18776e39b0bda50d37c945c8 # frozen: v2.4.3
     hooks:
       - id: codespell
         # Generated lockfiles: base64 integrity hashes read as misspellings

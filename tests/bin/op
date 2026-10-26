@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# op stub for tests/opx.bats, on the PATH of tests/opx-harness.fish: logs every call, answers read and item get with
-# files under $OPX_TEST_DIR/op, fails on anything else.
+# op stub for tests/opx.bats, on the PATH of tests/opx-harness.fish: logs every call, answers read, item get and
+# document get with files under $OPX_TEST_DIR/op, fails on anything else.
 set -euo pipefail
 
 main() {
@@ -16,6 +16,7 @@ main() {
       ;;
     "item get") cat "${OPX_TEST_DIR}/op/item.json" ;;
     "item edit") cat >"${OPX_TEST_DIR}/op/edited.json" ;;
+    "document get") cp "${OPX_TEST_DIR}/op/document" "${@: -1}" ;;
     *) return 1 ;;
   esac
 }

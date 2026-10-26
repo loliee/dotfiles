@@ -36,6 +36,7 @@ stow: ## Stow dotfiles
 	stow -S . -t "$(HOME)" -v \
 		--ignore='.DS_Store' \
 		--ignore='.brew' \
+		--ignore='^\.brew-casks$$' \
 		--ignore='.fzf_history' \
 		--ignore='.git' \
 		--ignore='.github' \
@@ -46,7 +47,7 @@ stow: ## Stow dotfiles
 		--ignore='.macos_hardening' \
 		--ignore='.mdlrc' \
 		--ignore='.mdl_style.rb' \
-		--ignore='^\.coredns\.plist$$' \
+		--ignore='^\.coredns$$' \
 		--ignore='^\.opx-net-down$$' \
 		--ignore='.pre-commit-config.yaml' \
 		--ignore='.ssh' \

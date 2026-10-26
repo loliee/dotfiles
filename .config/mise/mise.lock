@@ -34,6 +34,16 @@ url = "https://github.com/kyverno/chainsaw/releases/download/v0.2.15/chainsaw_da
 url_api = "https://api.github.com/repos/kyverno/chainsaw/releases/assets/413798810"
 provenance = "cosign"
 
+[[tools."aqua:oxipng/oxipng"]]
+version = "10.2.1"
+backend = "aqua:oxipng/oxipng"
+specifiers = ["10.2.1"]
+
+[tools."aqua:oxipng/oxipng"."platforms.macos-arm64"]
+checksum = "sha256:7039fcfc78e8aa1ed2b57d848057a0296f082e92b3e1807ac65402d10d926764"
+url = "https://github.com/oxipng/oxipng/releases/download/v10.2.1/oxipng-10.2.1-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxipng/oxipng/releases/assets/541682884"
+
 [[tools.ast-grep]]
 version = "0.45.3"
 backend = "aqua:ast-grep/ast-grep"

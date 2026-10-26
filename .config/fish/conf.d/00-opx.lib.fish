@@ -23,8 +23,8 @@
 #       - /Dev/1/foo
 #       - /Dev/2/foo
 #
-#   # Save a document by its document ID
-#   - reference: "jfslnfjsi827nsj"
+#   # Save a document by its ID or title (a reference without op:// still does, with a warning)
+#   - document: "jfslnfjsi827nsj"
 #     dest: "$HOME/.secrets/bar.txt"
 #
 #   # Save a secret as a file
@@ -42,11 +42,29 @@
 #     env_key: "BAR"
 #     dest: "$HOME/.secrets/.bar"
 #
-# Optional command hooks:
+#   # Save a secure note as a file, without its ```<type> fences when it has some
+#   - note: "op://Private/FOO/notesPlain"
+#     dest: "$HOME/.secrets/foo.yml"
+#
+#   # Tag an entry: `opx-update prd` takes the entries tagged prd or all, `opx-clean prd` shreds the ones tagged prd
+#   - reference: "op://Private/FOOBAR/password"
+#     env_key: "FOO"
+#     dest: "$HOME/.secrets/.bar"
+#     tags: [prd, stg]
+#
+#   # Keep a note of references on disk: never shredded by opx-clean, refreshed by `opx-update --force` only
+#   - note: "op://Private/INT - .envrc.secrets/notesPlain"
+#     dest: "$HOME/Dev/int/.envrc.secrets"
+#     persistent: true
+#
+# Optional command hooks, a string for every environment or {cmd: "…", tags: [prd]}:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
 # post_clean_cmds: []    # Commands to run after cleaning up
 # `opx-update --no-hooks` (or -H) skips post_fetch_cmds, `opx-clean --no-hooks` skips the clean ones.
+# `opx-update` without an environment takes every entry and hook, tags ignored. `opx-fetch` without one, at session
+# start, takes the entries tagged all and the persistent ones, with the hooks tagged all.
+# `opx-update --force` (or -f) shreds the selected entries, persistent included, before fetching them again.
 
 set -q OPX_MAX_JOBS; or set -g OPX_MAX_JOBS 10
 
@@ -76,10 +94,10 @@ function __opx_check_config --argument-names path
     set -l OPX_SCHEMA_PATH (dirname $path)/schema.yml
     echo "
 ---
-secrets: list(any(include('reference'), include('value')))
-post_fetch_cmds: list(str(), required=False)
-pre_clean_cmds: list(str(), required=False)
-post_clean_cmds: list(str(), required=False)
+secrets: list(any(include('reference'), include('value'), include('note'), include('document')))
+post_fetch_cmds: list(any(str(), include('cmd')), required=False)
+pre_clean_cmds: list(any(str(), include('cmd')), required=False)
+post_clean_cmds: list(any(str(), include('cmd')), required=False)
 ---
 reference:
   reference: str()
@@ -88,13 +106,32 @@ reference:
   base64_decode: bool(required=False)
   env_key: str(required=False)
   symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
+  persistent: bool(required=False)
 value:
   value: str()
   dest: str()
   as_file: bool(required=False)
   base64_decode: bool(required=False)
   env_key: str(required=False)
-  symlinks: list(str(), required=False)" >$OPX_SCHEMA_PATH
+  symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
+  persistent: bool(required=False)
+note:
+  note: str()
+  dest: str()
+  symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
+  persistent: bool(required=False)
+document:
+  document: str()
+  dest: str()
+  symlinks: list(str(), required=False)
+  tags: list(str(), required=False)
+  persistent: bool(required=False)
+cmd:
+  cmd: str()
+  tags: list(str(), required=False)" >$OPX_SCHEMA_PATH
 
     if not yamale -s $OPX_SCHEMA_PATH $path
         print-err "[opx] invalid configuration!"
@@ -169,7 +206,14 @@ function __opx_fetch_config --argument-names reference file
         return 1
     end
     echo "✔  Fetching config >$OPX_CONFIG_PATH"
+    # Validated once per content: yamale is a Python start-up on every update otherwise
+    if cmp -s $file $file.valid
+        echo "✔  Config unchanged, validation skipped"
+        return 0
+    end
     __opx_check_config; or return 1
+    cp $file $file.valid
+    chmod 600 $file.valid
 end
 
 function __opx_append_env --argument-names file key val
@@ -191,46 +235,96 @@ function __opx_read_secret --argument-names reference value
     end
 end
 
+# Drops an opening fence with or without a type (```yaml) and a closing one, spaces in them and blank lines around ignored
+function __opx_strip_fences --argument-names text
+    set -l lines (string split \n -- (string trim -c \n -- $text))
+    string match -qr '^```\s*\S*\s*$' -- $lines[1]; and set -e lines[1]
+    string match -qr '^```\s*$' -- $lines[-1]; and set -e lines[-1]
+    string join \n -- $lines
+end
+
+# The characters a secret reference accepts (1password.dev/cli/secret-reference-syntax); an item named with others goes by its ID
+function __opx_check_reference --argument-names idx reference
+    set -l seg '[A-Za-z0-9._ -]+'
+    string match -qr "^op://$seg/$seg/$seg(/$seg)?\$" -- $reference; and return 0
+    print-err "[opx][$idx] invalid reference \"$reference\": op://<vault>/<item>/[<section>/]<field>, letters, digits, spaces, - _ . only, or the item ID"
+    return 1
+end
+
 function __opx_fetch_one_secret --argument-names idx config
-    set reference (yq -r ".secrets[$idx].reference" $config)
-    set value (yq -r ".secrets[$idx].value" $config | string collect)
-    set dest_raw (yq -r ".secrets[$idx].dest" $config)
+    # One yq for the entry: the single-line fields first, the symlinks joined by a tab, the multi-line value last
+    set -l f (yq -r ".secrets[$idx] | (.reference, .note, .document, .dest, .env_key, .as_file, .base64_decode, (.symlinks // [] | join(\"\t\")), .value)" $config)
+    set reference $f[1]
+    set note $f[2]
+    set document $f[3]
+    set dest_raw $f[4]
     set dest (__opx_expand_str $dest_raw)
-    set env_key (yq -r ".secrets[$idx].env_key" $config)
-    set as_file (yq -r ".secrets[$idx].as_file" $config)
-    set base64_decode (yq -r ".secrets[$idx].base64_decode" $config)
-    set symlinks (yq -r ".secrets[$idx].symlinks | .[]" $config)
+    set env_key $f[5]
+    set as_file $f[6]
+    set base64_decode $f[7]
+    set symlinks (string split \t -- $f[8] | string match -v '')
+    set value (string join \n -- $f[9..] | string collect)
+
+    # Older configs: a reference without op:// is a document
+    if test "$reference" != null; and not string match -q 'op://*' -- $reference
+        print-warn "[opx][$idx] reference \"$reference\" is not op://, read as a document: prefer 'document:'"
+        set document $reference
+        set reference null
+    end
 
     if test "$dest_raw" = null
         print-err "[opx][$idx] missing value: 'dest'"
         return 1
     end
-    if test "$reference" = null; and test "$value" = null
-        print-err "[opx][$idx] missing value: 'reference' or 'value'"
+    if test "$reference" = null; and test "$value" = null; and test "$note" = null; and test "$document" = null
+        print-err "[opx][$idx] missing value: 'reference', 'value', 'note' or 'document'"
         return 1
     end
     set label $reference
     test "$value" != null; and set label value
+    test "$note" != null; and set label $note
+    test "$document" != null; and set label $document
+    if test "$note" != null
+        __opx_check_reference $idx $note; or return 1
+    else if string match -q 'op://*' -- $reference
+        __opx_check_reference $idx $reference; or return 1
+    end
 
     set dir (dirname $dest)
     test -d $dir; or mkdir -p $dir
 
-    if test "$env_key" = null; and test "$as_file" = null
+    if test "$note" != null
+        if not test -f $dest
+            set value (__opx_op read "$note" | string collect)
+            if test $status -eq 0 -a -n "$value"
+                __opx_strip_fences $value >$dest
+                chmod 600 $dest
+                echo "✔ [$idx] Save note \"$note\" > $dest"
+            else
+                print-err "[opx] cannot get 1password note \"$note\""
+                return 1
+            end
+        else
+            print-warn "✔ [$idx] Note file exists \"$dest\", skipping…"
+        end
+    else if test "$document" != null
+        if not test -f $dest
+            if __opx_op document get --force $document -o $dest >/dev/null
+                chmod 600 $dest
+                echo "✔ [$idx] Save document \"$document\" > $dest"
+            else
+                print-err "[opx] cannot get 1password document \"$document\""
+                return 1
+            end
+        else
+            print-warn "✔ [$idx] Document $document exists in \"$dest\", skipping…"
+        end
+    else if test "$env_key" = null; and test "$as_file" = null
         if test "$value" != null
             print-err "[opx][$idx] 'value' needs 'env_key' or 'as_file: true'"
             return 1
         end
-        if not string match -qr '^op://.*' $reference; and not test -f $dest
-            if __opx_op document get --force $reference -o $dest >/dev/null
-                chmod 600 $dest
-                echo "✔ [$idx] Save document \"$reference\" > $dest"
-            else
-                print-err "[opx] cannot get 1password document \"$reference\""
-                return 1
-            end
-        else if not string match -qr '^op://.*' $reference; and test -f $dest
-            print-warn "✔ [$idx] Document $reference exists in \"$dest\", skipping…"
-        else if not test -f $dest
+        if not test -f $dest
             if __opx_op read -f "$reference" -o $dest
                 chmod 600 $dest
                 echo "✔ [$idx] Save file \"$reference\" > $dest"
@@ -289,7 +383,33 @@ function __opx_fetch_one_secret --argument-names idx config
     end
 end
 
-function __opx-exec --argument-names entry
+# Environment names land in a yq expression: letters, digits, - and _ only
+function __opx_check_envs
+    for env in $argv
+        if not string match -qr '^[A-Za-z0-9_-]+$' -- $env
+            print-err "[opx] invalid environment \"$env\": letters, digits, - and _ only"
+            return 1
+        end
+    end
+end
+
+# yq predicate on a secret or a hook: tagged with one of $argv, a plain string hook counting as all; true without $argv.
+# --persistent takes the persistent entries too
+function __opx_tagged
+    argparse p/persistent -- $argv
+    if test (count $argv) -eq 0
+        echo true
+        return
+    end
+    set -l any (string join ' or ' (string replace -r '^(.*)$' '. == "$1"' -- $argv))
+    # No if/then/else: yq got it in 4.54 and the shell may run an older one; a string gets all appended to its tags
+    set -l match "(((.tags // []) + ([.] | map(select(tag == \"!!str\")) | map(\"all\"))) | map($any) | any)"
+    set -q _flag_persistent; and set match "($match or .persistent == true)"
+    echo $match
+end
+
+function __opx-exec --argument-names entry pred
+    test -n "$pred"; or set pred true
     set available_commands \
         clear \
         echo \
@@ -308,8 +428,8 @@ function __opx-exec --argument-names entry
     end
 
     set commands_regexp (string join "|" $available_commands)
-    set commands (yq eval "$entry  | .[]" $OPX_CONFIG_PATH)
-    if test "$commands" != null; and test -n "$commands"
+    set commands (yq -r "$entry // [] | map(select($pred)) | .[] | (.cmd // .)" $OPX_CONFIG_PATH)
+    if test -n "$commands"
         echo "🐚 $entry commands…"
         for cmd in $commands
             if string match -qr "^(?:sudo\s+)?($commands_regexp)[-~/_\.\w+\s+\"'\$]*\$" $cmd
@@ -323,8 +443,12 @@ function __opx-exec --argument-names entry
     end
 end
 
-function __opx-shred-files
-    set secret_files (yq ".secrets[].dest" $OPX_CONFIG_PATH | sort -u)
+# The persistent entries stay unless $persistent is true
+function __opx-shred-files --argument-names pred persistent
+    test -n "$pred"; or set pred true
+    set -l keep "and .persistent != true"
+    test "$persistent" = true; and set keep ""
+    set secret_files (yq -r ".secrets | map(select($pred $keep)) | .[].dest" $OPX_CONFIG_PATH | sort -u)
     for f in $secret_files
         set fpath (__opx_expand_str $f)
         if test -f $fpath
@@ -334,8 +458,13 @@ function __opx-shred-files
     end
 end
 
-function opx-fetch -d "Fetch 1password secrets"
-    argparse H/no-hooks -- $argv; or return 1
+function opx-fetch -d "Fetch 1password secrets: the shared and persistent entries, the given environments, or all"
+    argparse H/no-hooks f/force a/all -- $argv; or return 1
+    __opx_check_envs $argv; or return 1
+    # At session start, without an environment: the entries tagged all and the persistent ones
+    set -l pred (__opx_tagged --persistent all)
+    test (count $argv) -gt 0; and set pred (__opx_tagged $argv all)
+    set -q _flag_all; and set pred (__opx_tagged)
 
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -q OPX_CONFIG_REF; and set -e OPX_CONFIG_REF
@@ -346,8 +475,9 @@ function opx-fetch -d "Fetch 1password secrets"
     __opx_ramdisk
     __opx_configure; or return 1
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1
+    set -q _flag_force; and __opx-shred-files $pred true
 
-    set indices (yq -r '.secrets | keys | .[]' $OPX_CONFIG_PATH)
+    set indices (yq -r ".secrets | to_entries | map(select(.value | $pred)) | .[].key" $OPX_CONFIG_PATH)
     set -l running 0
     for idx in $indices
         __opx_fetch_one_secret $idx $OPX_CONFIG_PATH $default_mode &
@@ -361,16 +491,18 @@ function opx-fetch -d "Fetch 1password secrets"
 
     set -U OPX_INITIALIZED 1
 
-    set -q _flag_no_hooks; or __opx-exec .post_fetch_cmds
+    set -q _flag_no_hooks; or __opx-exec .post_fetch_cmds $pred
 end
 
-function opx-update -d "Update 1password config & secrets"
-    argparse H/no-hooks -- $argv; or return 1
+function opx-update -d "Update 1password config & secrets, all or of the given environments"
+    argparse H/no-hooks f/force -- $argv; or return 1
     if test -n "$OPX_INITIALIZED"; and test $OPX_INITIALIZED = 1
         set -eU OPX_INITIALIZED
     end
     __opx_configure; or return 1
-    opx-fetch $_flag_no_hooks
+    set -l all --all
+    test (count $argv) -gt 0; and set all
+    opx-fetch $_flag_no_hooks $_flag_force $all $argv
 end
 
 function opx-edit -d "Edit the 1password config note, validated before saving"
@@ -432,15 +564,19 @@ function opx-edit -d "Edit the 1password config note, validated before saving"
     echo "✔  Note \"$item\" updated, run opx-update to apply"
 end
 
-function opx-clean -d "Cleanup 1password secrets"
+function opx-clean -d "Cleanup 1password secrets, all or of the given environments"
     argparse H/no-hooks -- $argv; or return 1
+    __opx_check_envs $argv; or return 1
+    set -l pred (__opx_tagged $argv)
     __opx_configure; or return 1
     __opx_check_config; or return 1
 
-    set -q _flag_no_hooks; or __opx-exec .pre_clean_cmds
-    __opx-shred-files
-    set -q _flag_no_hooks; or __opx-exec .post_clean_cmds
+    set -q _flag_no_hooks; or __opx-exec .pre_clean_cmds $pred
+    __opx-shred-files $pred
+    set -q _flag_no_hooks; or __opx-exec .post_clean_cmds $pred
 
+    # The other environments stay: only a full clean drops the ramdisk and the state
+    test (count $argv) -eq 0; or return 0
     if test -n "$OPX_RAMDISK"; and test -d $OPX_RAMDISK; and test (uname) = Darwin
         if hdiutil detach $OPX_RAMDISK
             echo "✔  unmount $OPX_RAMDISK"
@@ -451,5 +587,14 @@ function opx-clean -d "Cleanup 1password secrets"
     set -eU OPX_INITIALIZED OPX_RAMDISK OPX_CONFIG_PATH
 end
 
+# The environments: every tag of the config but all
+function __opx_envs
+    test -f "$OPX_CONFIG_PATH"; or return
+    yq -r '[.. | select(tag == "!!map" and has("tags")) | .tags[]] | unique | .[]' $OPX_CONFIG_PATH | string match -v all
+end
+
 complete -c opx-fetch -c opx-update -c opx-clean -c opx-edit -f
 complete -c opx-fetch -c opx-update -c opx-clean -s H -l no-hooks -d "Skip the command hooks of the note"
+complete -c opx-fetch -c opx-update -s f -l force -d "Shred the selected entries, persistent included, then fetch them again"
+complete -c opx-fetch -s a -l all -d "Every entry, tags ignored"
+complete -c opx-fetch -c opx-update -c opx-clean -a '(__opx_envs)'

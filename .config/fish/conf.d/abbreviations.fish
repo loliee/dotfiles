@@ -33,15 +33,22 @@ abbr --add reload 'exec $SHELL -l'
 
 abbr --add rms shred --remove
 
-command -q op; and abbr --add o op run --
+# 1password
+if command -q op
+    abbr --add o op run --
+    abbr --add opr op run --no-masking -- printenv
+end
 
 abbr --add B --position anywhere --set-cursor "| base64 %"
 abbr --add D --position anywhere --set-cursor "| base64 -d %"
+abbr --add F --position anywhere --set-cursor "| fzf %"
 abbr --add G --position anywhere --set-cursor "| rg %"
 abbr --add L --position anywhere --set-cursor "% | less"
 abbr --add P --position anywhere --set-cursor "| pbcopy %"
+abbr --add \$? --position anywhere --set-cursor \$pipestatus
 
 command -q aws; and abbr --add aws3 aws s3api
+command -q betterleaks; and abbr --add bl betterleaks dir --no-banner -v
 command -q direnv; and abbr --add da direnv allow
 
 command -q rg; and abbr --add rga rg --hidden --no-ignore
@@ -76,11 +83,14 @@ abbr --add rma 'ls ~/.ssh/* | rg $USER@ | xargs -I % rm -f %'
 
 abbr --add dns-flushcache "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 
+command -q oxipng; and abbr --add oxipng oxipng -o max -z --fast -s -r
+
 if test -f /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-status "sudo launchctl print system/local.coredns | rg -e 'state =' -e 'pid =' -e 'runs =' -e 'last exit code'"
     abbr --add coredns-restart sudo launchctl kickstart -k system/local.coredns
     abbr --add coredns-stop sudo launchctl bootout system/local.coredns
     abbr --add coredns-start sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-edit "sudo -e /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
+    abbr --add coredns-install "sudo install -o root -g wheel -m 0644 /opt/homebrew/etc/coredns/Corefile /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
     abbr --add coredns-logs tail -f /var/log/coredns.log
 end

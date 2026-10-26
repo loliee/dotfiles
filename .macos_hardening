@@ -3,14 +3,6 @@
 # MacOs Hardening:
 #
 #  - Ensure FileVault is enabled
-#  - Ensure firmware password is enabled
-#  - Enforce Firewall settings
-#  - Consolidate my /etc/hosts
-#  - Manage my Network locations:
-#    * Automatic: follow DHCP instructions
-#    * Public Network: Local DNS resolver + Tor
-#    * Office: Local DNS resolver
-#    * Home: follow DHCP instructions
 #
 # https://github.com/drduh/macOS-Security-and-Privacy-Guide
 # https://raw.githubusercontent.com/bdossantos/dotfiles/master/.macos_hardening
@@ -18,17 +10,6 @@
 set -o errexit
 set -o pipefail
 set -o nounset
-
-CURRENT_NETWORK_LOCATION="$(networksetup -getcurrentlocation)"
-
-export CURRENT_NETWORK_LOCATION
-
-function _clean() {
-  sudo networksetup -switchtolocation "$CURRENT_NETWORK_LOCATION"
-  sudo networksetup -setairportpower en0 on
-  sudo networksetup -deletelocation 'tmp' || true
-  echo 'Cleaned'
-}
 
 while true; do
   sudo -n true
@@ -44,22 +25,6 @@ if ! fdesetup status | grep -q 'FileVault is On.'; then
   # sudo fdesetup enable -user $USER > $HOME/FileVault_recovery_key.txt
 fi
 
-# Check firmware password
-if ! sudo firmwarepasswd -check | grep -q 'Password Enabled: Yes'; then
-  # shellcheck disable=SC1003
-  echo 1>&2 '/!\ firmware password is not set /!\'
-  echo 1>&2 'Hint: "sudo firmwarepasswd -setpasswd"'
-  exit 1
-fi
-
-# Check firmware password mode
-if ! sudo firmwarepasswd -mode | grep -q 'Mode: full'; then
-  # shellcheck disable=SC1003
-  echo 1>&2 '/!\ firmware password is not required on all startups /!\'
-  echo 1>&2 'Hint: "sudo firmwarepasswd -setmode full"'
-  exit 1
-fi
-
 # Check System Integrity Protection
 if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; then
   # shellcheck disable=SC1003
@@ -68,48 +33,24 @@ if ! csrutil status | grep -q 'System Integrity Protection status: enabled.'; th
   exit 1
 fi
 
-# check EFI Firmware Integrity
-if system_profiler SPiBridgeDataType | grep 'T2'; then
-  echo "T2 Present, efi integrity check skipped"
-else
-  /usr/libexec/firmwarecheckers/eficheck/eficheck --integrity-check
+# Check Gatekeeper
+if ! spctl --status | grep -q 'assessments enabled'; then
+  # shellcheck disable=SC1003
+  echo 1>&2 '/!\ Gatekeeper is disabled /!\'
+  echo 1>&2 'Hint: System Settings > Privacy & Security > Allow applications from "App Store & Known Developers"'
+  exit 1
 fi
 
-# Enable Gatekeeper
-sudo spctl --master-enable
-
 # Require an administrator password to access system-wide preferences
-security -q authorizationdb read system.preferences >/tmp/system.preferences.plist
-/usr/libexec/PlistBuddy -c 'Set :shared false' /tmp/system.preferences.plist
+preferences_plist="$(mktemp)"
+security -q authorizationdb read system.preferences >"${preferences_plist}"
+/usr/libexec/PlistBuddy -c 'Set :shared false' "${preferences_plist}"
 # shellcheck disable=SC2024
-sudo security -q authorizationdb write system.preferences </tmp/system.preferences.plist
-rm '/tmp/system.preferences.plist'
+sudo security -q authorizationdb write system.preferences <"${preferences_plist}"
+rm "${preferences_plist}"
 
-# Enable the firewall
-/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-
-# Enable logging
-/usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-
-# Enable stealth mode
-/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-
-# Prevent built-in software as well as code-signed, downloaded software from
-# being whitelisted automatically
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-
-# Configure the firewall to block all incoming traffic
-/usr/libexec/ApplicationFirewall/socketfilterfw --setblockall on
-
-sudo pkill -HUP socketfilterfw || true
-
-# Disabled allow signed downloaded applications automatically
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-
-# Set the screen to lock as soon as the screensaver starts
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+# Require the password as soon as the screensaver starts or the display sleeps
+sysadminctl -screenLock immediate -password -
 
 # Expose hidden files and Library folder in Finder
 defaults write com.apple.finder AppleShowAllFiles -bool true
@@ -124,12 +65,15 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable Bonjour multicast advertisements
 sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool YES
 
-# Set AirDrop Discoverability to 'Contacts Only'
-defaults write com.apple.sharingd DiscoverableMode -string 'Contacts Only'
+# Set AirDrop Discoverability to 'No One'
+defaults write com.apple.sharingd DiscoverableMode -string 'Off'
 sudo killall -HUP sharingd
 
-# Set AppStore update check to every one (1) day
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+# Check and download updates, install security responses and XProtect data automatically
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate ConfigDataInstall -bool true
 
 # Captive portal
 sudo defaults write \
@@ -148,81 +92,8 @@ sudo systemsetup -f -setremotelogin off
 # Disable Safari Auto Open 'safe' Files
 defaults write -app safari AutoOpenSafeDownloads -bool false
 
-# You may wish to enforce hibernation and evict FileVault keys from memory
-# instead of traditional sleep to memory
-sudo pmset -a destroyfvkeyonstandby 1
-sudo pmset -a hibernatemode 25
-
-# If you choose to evict FileVault keys in standby mode, you should also modify
-# your standby and power nap settings. Otherwise, your machine may wake while
-# in standby mode and then power off due to the absence of the FileVault key
-sudo pmset -a powernap 0
-sudo pmset -a standby 0
-sudo pmset -a standbydelay 0
-sudo pmset -a autopoweroff 0
-
-# Consolidate my /etc/hosts too just in case I don't use my DNS, eg: automatic
-# network profile
-curl -s 'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling/hosts' |
-  sudo tee '/etc/hosts'
-
-# Shutdown Wi-Fi
-sudo networksetup -setairportpower airport off
-
-trap _clean INT TERM EXIT
-
-# Create a tmp location, before generate 'Automatic' location
-sudo networksetup -createlocation 'tmp' populate
-sudo networksetup -switchtolocation 'tmp'
-
-# Automatic
-sudo networksetup -deletelocation 'Automatic' || true
-sudo networksetup -createlocation 'Automatic' populate
-sudo networksetup -switchtolocation 'Automatic'
-
-# Public Network
-sudo networksetup -deletelocation 'Public Network' || true
-sudo networksetup -createlocation 'Public Network' populate
-sudo networksetup -switchtolocation 'Public Network'
-networksetup -listallnetworkservices | while read -r interface; do
-  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
-    sudo networksetup -setdnsservers "$interface" 127.0.0.1
-    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
-    sudo networksetup -setsocksfirewallproxy "$interface" 127.0.0.1 9050
-    sudo networksetup -setsocksfirewallproxystate "$interface" on
-    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
-    sudo networksetup -setwebproxystate "$interface" on
-    sudo networksetup -setsearchdomains "$interface" Empty
-  fi
-done
-
-# Office
-sudo networksetup -deletelocation 'Office' || true
-sudo networksetup -createlocation 'Office' populate
-sudo networksetup -switchtolocation 'Office'
-networksetup -listallnetworkservices | while read -r interface; do
-  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
-    sudo networksetup -setdnsservers "$interface" 127.0.0.1
-    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
-    sudo networksetup -setsocksfirewallproxystate "$interface" off
-    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
-    sudo networksetup -setwebproxystate "$interface" on
-    sudo networksetup -setsearchdomains "$interface" Empty
-  fi
-done
-
-# Home
-sudo networksetup -deletelocation 'Home' || true
-sudo networksetup -createlocation 'Home' populate
-sudo networksetup -switchtolocation 'Home'
-networksetup -listallnetworkservices | while read -r interface; do
-  if [[ $interface =~ LAN ]] || [[ $interface == Wi-Fi ]]; then
-    sudo networksetup -setdnsservers "$interface" 127.0.0.1
-    sudo networksetup -setproxybypassdomains "$interface" 'localhost' '127.0.0.0/8' '172.16.0.0/12' '192.168.0.0/16' '169.254/16' '*.local' '*.home'
-    sudo networksetup -setsocksfirewallproxy "$interface" Empty
-    sudo networksetup -setsocksfirewallproxystate "$interface" off
-    sudo networksetup -setwebproxy "$interface" 127.0.0.1 8118
-    sudo networksetup -setwebproxystate "$interface" on
-    sudo networksetup -setsearchdomains "$interface" Empty
-  fi
-done
+# Firefox policies, __ nests a key (policy-templates mac/README.md); DNS over HTTPS would bypass CoreDNS
+sudo defaults write /Library/Preferences/org.mozilla.firefox EnterprisePoliciesEnabled -bool true
+sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Enabled -bool false
+sudo defaults write /Library/Preferences/org.mozilla.firefox DNSOverHTTPS__Locked -bool true
+sudo defaults write /Library/Preferences/org.mozilla.firefox DisableTelemetry -bool true

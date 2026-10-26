@@ -28,6 +28,10 @@ local M = function(h, c)
   h["@constructor"] = {
     fg = c.yellow,
   }
+  -- Not built in: queries/*/highlights.scm capture { } with it, yellow like Lua's table braces (@constructor)
+  h["@punctuation.brace"] = {
+    fg = c.yellow,
+  }
   h["@keyword"] = {
     fg = c.yellow,
   }
@@ -437,6 +441,45 @@ local M = function(h, c)
   }
   h.LazyBorder = {
     fg = c.comment,
+  }
+  -- Neutral YAML keys and punctuation, so injected code stands out; the .yaml suffix leaves other languages alone
+  h["@property.yaml"] = {
+    fg = c.fg,
+  }
+  h["@constant.builtin.yaml"] = {
+    fg = "#9a9b94",
+  }
+  h["@punctuation.delimiter.yaml"] = {
+    fg = c.comment,
+  }
+  h["@punctuation.bracket.yaml"] = {
+    fg = c.comment,
+  }
+  h["@punctuation.special.yaml"] = {
+    fg = c.comment,
+  }
+  -- Not built in: queries/yaml/highlights.scm marks the #@ of ytt annotations with it
+  h["@ytt.marker"] = {
+    fg = c.orange,
+  }
+  -- ansiblels tokens win over treesitter: plain keys, modules (only when it finds ansible-core) and their options
+  h["@lsp.type.property.yaml"] = {
+    fg = c.fg,
+  }
+  h["@lsp.type.class.yaml"] = {
+    fg = c.blue_bright,
+  }
+  h["@lsp.type.method.yaml"] = {
+    fg = c.fg,
+  }
+  h["@keyword.directive.jinja"] = {
+    fg = c.magenta,
+  }
+  h["@variable.jinja"] = {
+    fg = c.blue,
+  }
+  h["@variable.member.jinja"] = {
+    fg = c.blue_bright,
   }
 end
 

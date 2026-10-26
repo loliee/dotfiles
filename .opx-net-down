@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Stop every wg-quick tunnel and reset DNS for opx-clean, through a NOPASSWD sudoers rule installed by .brew.
+# Stop every wg-quick tunnel for opx-clean, through a NOPASSWD sudoers rule installed by .brew.
 
 # /bin/bash and a system PATH, not env: sudo keeps the caller's PATH, and Homebrew's bash belongs to the user
 set -euo pipefail
@@ -23,7 +23,6 @@ wg_down() {
     fi
     rm -f "${name_file}"
   done
-  # The route monitors restore their DNS as they exit: dns_reset must come after them, 5 s at most
   local _
   for _ in {1..50}; do
     pgrep -f 'wg-quick up' >/dev/null || break
@@ -31,22 +30,8 @@ wg_down() {
   done
 }
 
-dns_reset() {
-  local service rc=0
-  # Not a pipe into while: rc must outlive the loop, and one failing service must not stop the others
-  while IFS= read -r service; do
-    service="${service#\*}"
-    networksetup -setdnsservers "${service}" Empty || rc=1
-    networksetup -setsearchdomains "${service}" Empty || rc=1
-  done < <(networksetup -listallnetworkservices | tail -n +2)
-  dscacheutil -flushcache
-  killall -HUP mDNSResponder
-  return "${rc}"
-}
-
 main() {
   wg_down
-  dns_reset
 }
 
 main "$@"
