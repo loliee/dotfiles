@@ -3,6 +3,7 @@
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
   "enabledManagers": ["github-actions", "mise", "pre-commit"],
   "minimumReleaseAge": "7 days",
+  "rebaseWhen": "behind-base-branch",
   "packageRules": [
     {
       "description": "Repo mise.toml, named apart from the home config",
