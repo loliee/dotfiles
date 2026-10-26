@@ -120,13 +120,13 @@ url = "https://github.com/uros-5/jinja-lsp/releases/download/v0.2.3/jinja-lsp-aa
 url_api = "https://api.github.com/repos/uros-5/jinja-lsp/releases/assets/463667478"
 
 [[tools.go]]
-version = "1.27.1"
+version = "1.27.2"
 backend = "core:go"
-specifiers = ["1.27.1"]
+specifiers = ["1.27.2"]
 
 [tools.go."platforms.macos-arm64"]
-checksum = "sha256:ee215d57e0ec269c60cc9ceca68e6bda321ba9ee5afe24f4b0988703c2d87d12"
-url = "https://dl.google.com/go/go1.27.1.darwin-arm64.tar.gz"
+checksum = "sha256:76812b213b1b2302c978d28fa52fa92d541704b9e7d9d5db8002c50e4018c4c5"
+url = "https://dl.google.com/go/go1.27.2.darwin-arm64.tar.gz"
 
 [[tools.hadolint]]
 version = "2.15.1"
