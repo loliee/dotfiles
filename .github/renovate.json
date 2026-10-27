@@ -6,18 +6,16 @@
   "rebaseWhen": "behind-base-branch",
   "packageRules": [
     {
-      "description": "Repo mise.toml, named apart from the home config",
+      "description": "Repo mise.toml, in one PR as its tools share mise.lock",
       "matchManagers": ["mise"],
       "matchFileNames": ["mise.toml"],
-      "additionalBranchPrefix": "mise-repo-",
-      "commitMessageTopic": "repo mise tool {{depName}}"
+      "groupName": "repo mise tools"
     },
     {
       "description": "Home config: the script locks it as global, as in the clone mise.toml shadows shared tools",
       "matchManagers": ["mise"],
       "matchFileNames": [".config/mise/config.toml"],
-      "additionalBranchPrefix": "mise-home-",
-      "commitMessageTopic": "home mise tool {{depName}}",
+      "groupName": "home mise tools",
       "skipArtifactsUpdate": true,
       "postUpgradeTasks": {
         "commands": [".github/scripts/mise-lock-home {{{depName}}}"],
