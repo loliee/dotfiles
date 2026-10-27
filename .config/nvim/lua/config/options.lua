@@ -72,6 +72,9 @@ vim.opt.directory = XDG_DATA_HOME .. "/nvim/swap//"
 vim.opt.backupdir = XDG_DATA_HOME .. "/nvim/backup//"
 vim.opt.undodir = XDG_DATA_HOME .. "/nvim/undo//"
 
+-- lua/languagetool: no automatic check above `pause_pieces` pieces to send, on battery or at `pause_load` per core
+vim.g.languagetool = { pause_pieces = 100, pause_load = 1 }
+
 -- No plugin is a remote plugin: Neovim never looks for an interpreter, which a project's PATH could supply
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
