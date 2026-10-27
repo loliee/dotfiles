@@ -132,8 +132,12 @@ local M = function(h, c)
   h.DiagnosticError = {
     fg = c.red,
   }
-  h.DiagnosticHint = {
+  -- Not the grey of DiagnosticHint: the message of a hint stays easy to read in the float
+  h.DiagnosticFloatingHint = {
     fg = c.fg,
+  }
+  h.DiagnosticHint = {
+    fg = c.comment,
   }
   h.DiagnosticInfo = {
     fg = c.blue_bright,
@@ -143,7 +147,7 @@ local M = function(h, c)
     undercurl = true,
   }
   h.DiagnosticUnderlineHint = {
-    sp = c.blue,
+    sp = c.comment,
     undercurl = true,
   }
   h.DiagnosticUnderlineInfo = {
@@ -163,7 +167,7 @@ local M = function(h, c)
   }
   h.DiagnosticVirtualTextHint = {
     bg = c.bg_dark,
-    fg = c.green,
+    fg = c.comment,
   }
   h.DiagnosticVirtualTextInfo = {
     bg = c.bg_dark,
