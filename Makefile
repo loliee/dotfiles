@@ -53,6 +53,8 @@ stow: ## Stow dotfiles
 		--ignore='Makefile' \
 		--ignore='mise.toml' \
 		--ignore='^mise\.lock$$' \
+		--ignore='^\.mise$$' \
+		--ignore='^tests$$' \
 		--ignore='^\.claude$$' \
 		--ignore='README.md'
 
