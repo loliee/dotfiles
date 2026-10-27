@@ -28,9 +28,9 @@ Dotfiles and packages are managed using `make` and `stow`.
 
 ### Common Commands
 
-- **make install**: Installs all required packages and dotfiles. On a new Mac, see [First install](#first-install).
-- **make dotfiles-install**: Installs only the dotfiles, skipping packages.
-- **make help**: Lists all available `make` commands with descriptions.
+- **`make install`**: Installs all required packages and dotfiles. On a new Mac, see [First install](#first-install).
+- **`make dotfiles-install`**: Installs only the dotfiles, skipping packages.
+- **`make help`**: Lists all available `make` commands with descriptions.
 
 ### First install
 
