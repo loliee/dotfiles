@@ -14,6 +14,10 @@ repos:
       - id: debug-statements
       - id: detect-private-key
       - id: end-of-file-fixer
+      - id: file-contents-sorter
+        files: ^\.config/nvim/spell/words\.add$
+        # Not --ignore-case: the hook refuses it with --unique
+        args: [--unique]
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: requirements-txt-fixer
