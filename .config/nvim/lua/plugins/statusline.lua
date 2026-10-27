@@ -18,10 +18,15 @@ return {
           local fileinfo = statusline.section_fileinfo({ trunc_width = 120 })
           local location = statusline.section_location({ trunc_width = 75 })
           local search = statusline.section_searchcount({ trunc_width = 75 })
+          -- LanguageTool, see lua/languagetool/init.lua: automatic checks paused on a busy machine, or file disabled
+          local languagetool_paused = vim.b.languagetool_paused and require("languagetool").icon or ""
+          local languagetool_disabled = vim.b.languagetool_disabled and require("languagetool").icon or ""
 
           return statusline.combine_groups({
             { hl = mode_hl, strings = { mode } },
             { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
+            { hl = "LanguageToolPaused", strings = { languagetool_paused } },
+            { hl = "LanguageToolDisabled", strings = { languagetool_disabled } },
             "%<", -- Mark general truncate point
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=", -- End left alignment
