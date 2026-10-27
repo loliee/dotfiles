@@ -7,3 +7,6 @@ trustedRegistries:
   - docker.io
   - gcr.io
   - eu.gcr.io
+  - ghcr.io
+  - quay.io
+  - registry.k8s.io
