@@ -42,6 +42,12 @@ return {
       eslint = { condition = trusted },
       -- .golangci.yml can load Go plugins
       golangcilint = { condition = trusted },
+      -- LanguageTool checks Markdown prose and commits: codespell would report the same typos twice
+      codespell = {
+        condition = function()
+          return vim.bo.filetype ~= "markdown" and vim.bo.filetype ~= "gitcommit"
+        end,
+      },
       mdl = {
         -- .mdlrc can point to a style file, which is Ruby
         condition = trusted,
