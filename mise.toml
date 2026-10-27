@@ -1,10 +1,12 @@
 [tools]
 "gem:mdl" = "0.18.1"
+"npm:prettier" = "3.9.9"
 "pypi:yamale" = "6.1.0"
 actionlint = "1.7.12"
 bats = "1.14.0"
 betterleaks = "1.9.0"
 jq = "1.8.2"
+node = "24.21.0"
 pinact = "5.0.0"
 prek = "0.5.5"
 ruby = "4.0.7"
