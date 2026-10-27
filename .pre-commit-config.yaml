@@ -22,13 +22,13 @@ repos:
     rev: cba56bcde1fdd01c1deb3f945e69764c291a6530 # frozen: v1.38.0
     hooks:
       - id: yamllint
-        exclude: ^\.config/mise/locks/
+        exclude: ^(\.config/mise|\.mise)/locks/
   - repo: https://github.com/codespell-project/codespell
     rev: 57b21406f092110c18776e39b0bda50d37c945c8 # frozen: v2.4.3
     hooks:
       - id: codespell
         # Generated lockfiles: base64 integrity hashes read as misspellings
-        exclude: ^\.config/mise/locks/
+        exclude: ^(\.config/mise|\.mise)/locks/
         # Vim's :enew, not a typo of "new"
         args: [--ignore-words-list=enew]
   - repo: local
@@ -120,3 +120,11 @@ repos:
         types: [markdown]
         pass_filenames: true
         description: Custom hook to run markdownlint
+      - id: prettier
+        name: Run prettier --check
+        entry: prettier --check
+        language: system
+        types_or: [markdown, yaml]
+        exclude: ^(\.config/mise|\.mise)/locks/
+        pass_filenames: true
+        description: Custom hook to check Markdown and YAML formatting using prettier
