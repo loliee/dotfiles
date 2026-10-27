@@ -196,6 +196,15 @@ local M = function(h, c)
     bg = c.bg_dark,
     fg = c.fg,
   }
+  -- Not built in: lua/plugins/statusline.lua marks the paused or disabled LanguageTool checks with these
+  h.LanguageToolPaused = {
+    bg = c.bg_dark,
+    fg = c.yellow,
+  }
+  h.LanguageToolDisabled = {
+    bg = c.bg_dark,
+    fg = c.comment,
+  }
   h.MiniStatuslineFileinfo = {
     bg = c.bg_dark,
     fg = c.fg,
