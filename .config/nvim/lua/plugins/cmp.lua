@@ -1,4 +1,5 @@
 local source_priority = {
+  languagetool = 50,
   snippets = 40,
   lsp = 30,
   path = 20,
@@ -76,7 +77,10 @@ return {
       preset = "luasnip",
     },
     sources = {
-      default = { "snippets", "lsp", "path", "buffer" },
+      default = { "languagetool", "snippets", "lsp", "path", "buffer" },
+      providers = {
+        languagetool = { name = "LanguageTool", module = "languagetool.blink" },
+      },
     },
     appearance = {
       nerd_font_variant = "mono",
