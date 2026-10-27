@@ -130,6 +130,26 @@ return {
       end
     end
 
+    -- nvim-lint signals no end of linter: fidget follows get_running, polled as in the statusline example of its README
+    local progress, poll = {}, vim.uv.new_timer()
+    function M.progress()
+      local running = {}
+      for _, name in ipairs(lint.get_running()) do
+        running[name] = true
+        progress[name] = progress[name]
+          or require("fidget.progress").handle.create({ lsp_client = { name = "nvim-lint" }, title = name })
+      end
+      for name, handle in pairs(progress) do
+        if not running[name] then
+          handle:finish()
+          progress[name] = nil
+        end
+      end
+      if not next(progress) then
+        poll:stop()
+      end
+    end
+
     function M.lint()
       -- Use nvim-lint's logic first:
       -- * checks if linters exist for the full filetype first
@@ -164,6 +184,8 @@ return {
       -- Run linters.
       if #names > 0 then
         lint.try_lint(names)
+        -- Only the linters still running after 0.5 s: the fast ones would flash at every InsertLeave
+        poll:start(500, 200, vim.schedule_wrap(M.progress))
       end
     end
 
