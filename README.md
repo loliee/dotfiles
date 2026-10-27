@@ -3,8 +3,8 @@
 [![Lint](https://github.com/loliee/dotfiles/actions/workflows/lint.yml/badge.svg)](https://github.com/loliee/dotfiles/actions/workflows/lint.yml)
 [![Test](https://github.com/loliee/dotfiles/actions/workflows/test.yml/badge.svg)](https://github.com/loliee/dotfiles/actions/workflows/test.yml)
 
-This repository contains my personal configuration files and setup scripts.
-Feel free to browse for inspiration, but these are tailored for my workflow and environment.
+This repository contains my personal configuration files and setup scripts. Feel free to browse for inspiration, but
+these are tailored for my workflow and environment.
 
 ## Getting Started
 
@@ -101,5 +101,5 @@ chsh -s "$(brew --prefix)/bin/fish"
 
 ---
 
-> **Note:** These dotfiles are not intended as a plug-and-play solution for others.
-> Please review and modify for your own needs before using.
+> **Note:** These dotfiles are not intended as a plug-and-play solution for others. Please review and modify for your
+> own needs before using.
