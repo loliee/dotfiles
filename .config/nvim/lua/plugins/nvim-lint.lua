@@ -4,6 +4,18 @@ local function trusted(ctx)
   return security.trusted(ctx.filename) and security.trusted(vim.fn.getcwd())
 end
 
+-- Linters turned off per file by :Lint disable, by real path; out of the repositories, like vim.secure's trust file
+local state = vim.fs.joinpath(vim.fn.stdpath("state"), "lint.json")
+
+local function disabled_linters()
+  return vim.fn.filereadable(state) == 1 and vim.json.decode(table.concat(vim.fn.readfile(state), "\n")) or {}
+end
+
+local function real_path(buf)
+  local name = vim.api.nvim_buf_get_name(buf)
+  return name ~= "" and (vim.uv.fs_realpath(name) or name) or nil
+end
+
 return {
   -- Cf. https://www.lazyvim.org/plugins/linting
   "mfussenegger/nvim-lint",
@@ -152,7 +164,7 @@ return {
       end
     end
 
-    function M.lint()
+    function M.linters()
       -- Use nvim-lint's logic first:
       -- * checks if linters exist for the full filetype first
       -- * otherwise will split filetype by "." and add all those linters
@@ -182,6 +194,19 @@ return {
         ---@diagnostic disable-next-line
         return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
       end, names)
+      return names
+    end
+
+    function M.disabled()
+      local path = real_path(0)
+      return path and disabled_linters()[path] or {}
+    end
+
+    function M.lint()
+      local disabled = M.disabled()
+      local names = vim.tbl_filter(function(name)
+        return not vim.list_contains(disabled, name)
+      end, M.linters())
 
       -- Run linters.
       if #names > 0 then
@@ -191,9 +216,61 @@ return {
       end
     end
 
+    -- Kept across sessions; disabling also clears what the linter reported on the buffer
+    function M.set_enabled(name, enabled)
+      local path = real_path(0)
+      if not path then
+        vim.notify("nvim-lint: the buffer has no file to keep its linters", vim.log.levels.ERROR)
+        return
+      end
+      local all = disabled_linters()
+      local names = vim.tbl_filter(function(other)
+        return other ~= name
+      end, all[path] or {})
+      if not enabled then
+        table.insert(names, name)
+      end
+      all[path] = #names > 0 and names or nil
+      vim.fn.mkdir(vim.fs.dirname(state), "p")
+      vim.fn.writefile({ vim.json.encode(all) }, state)
+      if enabled then
+        M.lint()
+      else
+        vim.diagnostic.reset(lint.get_namespace(name), 0)
+      end
+    end
+
     vim.api.nvim_create_autocmd(opts.events, {
       group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
       callback = M.debounce(100, M.lint),
+    })
+
+    vim.api.nvim_create_user_command("Lint", function(args)
+      local action, name = args.fargs[1], args.fargs[2]
+      local linters = M.linters()
+      if action == nil then
+        local disabled = M.disabled()
+        local list = vim.tbl_map(function(linter)
+          return vim.list_contains(disabled, linter) and linter .. " (disabled)" or linter
+        end, linters)
+        vim.notify("nvim-lint: " .. (#list > 0 and table.concat(list, ", ") or "no linter"))
+      elseif (action == "disable" or action == "enable") and vim.list_contains(linters, name) then
+        M.set_enabled(name, action == "enable")
+      else
+        local message = "nvim-lint: disable or enable one of " .. table.concat(linters, ", ")
+        vim.notify(message, vim.log.levels.ERROR)
+      end
+    end, {
+      nargs = "*",
+      complete = function(arglead, line)
+        -- The words before the one being completed
+        local words = vim.split(line:sub(1, -#arglead - 1), "%s+", { trimempty = true })
+        local candidates = #words == 1 and { "disable", "enable" } or #words == 2 and M.linters() or {}
+        return vim.tbl_filter(function(candidate)
+          return vim.startswith(candidate, arglead)
+        end, candidates)
+      end,
+      desc = "List the linters of the buffer, or disable or enable one for its file",
     })
   end,
 }
