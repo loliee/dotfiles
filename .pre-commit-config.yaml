@@ -33,8 +33,8 @@ repos:
       - id: codespell
         # Generated lockfiles: base64 integrity hashes read as misspellings
         exclude: ^(\.config/mise|\.mise)/locks/
-        # Vim's :enew, not a typo of "new"
-        args: [--ignore-words-list=enew]
+        # The words added with zg in Neovim, :enew among them
+        args: [--ignore-words=.config/nvim/spell/words.add]
   - repo: local
     hooks:
       - id: betterleaks
