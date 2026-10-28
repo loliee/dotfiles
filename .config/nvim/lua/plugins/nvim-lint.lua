@@ -44,6 +44,8 @@ return {
       golangcilint = { condition = trusted },
       -- LanguageTool checks Markdown prose and commits: codespell would report the same typos twice
       codespell = {
+        -- The words added with `zg`, as the prek hook reads them
+        prepend_args = { "--ignore-words=" .. vim.o.spellfile },
         condition = function()
           return vim.bo.filetype ~= "markdown" and vim.bo.filetype ~= "gitcommit"
         end,
