@@ -139,7 +139,9 @@ return {
     {
       "<leader>i",
       function()
-        Snacks.picker.lines({ layout = "select" })
+        Snacks.picker.lines({
+          layout = { preset = "select", layout = { width = 0.9, height = 0.7 } },
+        })
       end,
       desc = "Current Buffer",
     },
