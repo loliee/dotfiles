@@ -114,6 +114,51 @@ if type -q ollama
     set -x OLLAMA_CONTEXT_LENGTH 32768
 end
 
+# rclone.conf has no global section: shared settings go through environment variables.
+#   RCLONE_<FLAG>            global option              (--transfers → RCLONE_TRANSFERS)
+#   RCLONE_<BACKEND>_<OPT>   every remote of that type  (--s3-chunk-size → RCLONE_S3_CHUNK_SIZE)
+# Precedence: command-line flag > remote option in rclone.conf > these variables.
+#
+# Peak memory ≈ transfers × (buffer_size + s3_chunk_size × s3_upload_concurrency)
+#             ≈ 8 × (32M + 16M × 4) ≈ 768 MB. Lower transfers on small machines.
+
+# ── Parallelism ───────────────────────────────────────────────────────
+set -x RCLONE_TRANSFERS 8 # default 4: files transferred in parallel
+set -x RCLONE_CHECKERS 16 # default 8: parallel comparisons
+set -x RCLONE_BUFFER_SIZE 32M # default 16M: in-memory buffer per file
+set -x RCLONE_MULTI_THREAD_STREAMS 8 # default 4: parallel chunks for large files
+
+# ── Listing ───────────────────────────────────────────────────────────
+# One recursive request instead of one per directory: much faster and cheaper
+# on S3/R2/B2. Ignored by backends that don't support it.
+# Cost: the whole listing is held in memory (an issue past a few million objects).
+set -x RCLONE_FAST_LIST true
+
+# ── Resilience ────────────────────────────────────────────────────────
+set -x RCLONE_RETRIES 5 # default 3: retries of the whole operation
+set -x RCLONE_RETRIES_SLEEP 10s # default 0: pause between retries
+set -x RCLONE_USE_MMAP true # returns memory to the OS sooner
+
+# ── Output ────────────────────────────────────────────────────────────
+set -x RCLONE_STATS_ONE_LINE true # compact stats (with -P or --stats)
+
+# ── Shared filters (macOS/Windows system files) ───────────────────────
+set -x RCLONE_EXCLUDE_FROM $HOME/.config/rclone/exclude.txt
+
+# ── Backends ──────────────────────────────────────────────────────────
+# S3 and compatibles (AWS, R2, Wasabi, MinIO…)
+set -x RCLONE_S3_CHUNK_SIZE 16M # default 5M: fewer requests per large file
+
+# SFTP: larger packets, accepted by OpenSSH
+# (revert to 32k if an unusual server returns errors)
+set -x RCLONE_SFTP_CHUNK_SIZE 255k # default 32k
+
+# ── Mounts (rclone mount / serve), no effect on copy/sync ─────────────
+set -x RCLONE_VFS_CACHE_MODE writes # required by many apps that write files
+set -x RCLONE_VFS_CACHE_MAX_SIZE 10G
+set -x RCLONE_VFS_CACHE_MAX_AGE 24h
+set -x RCLONE_DIR_CACHE_TIME 5m
+
 if test -f ~/.env.local.fish
     source ~/.env.local.fish
 end
