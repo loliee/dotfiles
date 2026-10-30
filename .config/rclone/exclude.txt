@@ -1,0 +1,18 @@
+# ~/.config/rclone/exclude.txt
+# Files never transferred, whatever the remote.
+# One pattern per line, rclone filter syntax.
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100/**
+.Trashes/**
+.fseventsd/**
+.TemporaryItems/**
+.DocumentRevisions-V100/**
+Icon?
+
+# Editor temp files
+~$*
+*.swp
+.~lock.*#
