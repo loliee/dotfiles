@@ -20,6 +20,7 @@ use_versions_host_track = false
 "aqua:github/copilot-cli" = "1.0.100"
 "aqua:kyverno/chainsaw" = "0.2.15"
 "aqua:oxipng/oxipng" = "10.2.1"
+"aqua:rclone/rclone" = "1.75.2"
 "gem:mdl" = "0.18.1"
 "github:uros-5/jinja-lsp" = "0.2.3"
 "npm:@ansible/ansible-language-server" = "26.6.0"
