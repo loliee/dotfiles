@@ -143,7 +143,11 @@ install -m 0644 "$(dirname "${BASH_SOURCE[0]}")"/.brew-casks/*.rb "${cask_tap}/C
 brew install ${1+"$@"} --cask local/tap/mdv
 
 # Configure languagetool
-brew services start languagetool
+# Without it, each French check rebuilds its pipeline: 650 ms instead of 10 to 70 ms, measured in 2026-10
+echo 'pipelineCaching=true' >"$(brew --prefix)/etc/languagetool/server.properties"
+# For all languages together: at the default 5, Neovim's 4 parallel checks in French and English evict French pipelines
+echo 'maxPipelinePoolSize=8' >>"$(brew --prefix)/etc/languagetool/server.properties"
+brew services restart languagetool
 
 # Without a password root runs only root-owned code: /opt/homebrew and ~/.config belong to the user
 echo "--> Setup opx-net-down, requires root permission!"
