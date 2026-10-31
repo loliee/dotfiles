@@ -84,7 +84,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.cmd([[
           syntax match gitComment "^'.*"
           highlight link gitComment Comment
-          setlocal spell
         ]])
     -- Groups of their own: highlight is global, so redefining DiffAdd or DiffChange here changes every diff
     vim.cmd("highlight gitMessageAdded guifg=#82c476 guibg=NONE")
