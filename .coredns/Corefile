@@ -6,7 +6,7 @@
         ttl 60
         fallthrough
     }
-    forward . tls://9.9.9.9%dns.quad9.net tls://1.1.1.1%cloudflare-dns.com {
+    forward . tls://86.54.11.1%protective.joindns4.eu tls://86.54.11.201%protective.joindns4.eu tls://1.1.1.1%cloudflare-dns.com {
         policy sequential
         failover SERVFAIL REFUSED
     }
