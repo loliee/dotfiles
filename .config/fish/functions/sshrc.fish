@@ -51,5 +51,6 @@ function sshrc
         popd &>/dev/null
     end
 
-    ssh -qt $filtered_args "tmux new-session -A -s main &>/dev/null || bash"
+    # Interactive, so that .bashrc exports THEME_COLOR before tmux reads .tmux.conf
+    ssh -qt $filtered_args "bash -ic 'tmux new-session -A -s main' &>/dev/null || bash"
 end
