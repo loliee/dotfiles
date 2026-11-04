@@ -94,3 +94,22 @@ if test -f /Library/LaunchDaemons/local.coredns.plist
     abbr --add coredns-install "sudo install -o root -g wheel -m 0644 /opt/homebrew/etc/coredns/Corefile /etc/coredns/Corefile; and sudo launchctl kickstart -k system/local.coredns"
     abbr --add coredns-logs tail -f /var/log/coredns.log
 end
+
+# Timewarrior, conventions in ~/.dotfiles.priv/docs/timewarrior/README.md
+if command -q timew
+    abbr --add tw timew
+    abbr --add tws --set-cursor 'timew start with:%'
+    abbr --add twp timew stop
+    abbr --add twc timew continue
+    abbr --add twa --set-cursor "timew annotate '%'"
+    abbr --add twt timew tag
+    abbr --add twk --set-cursor 'timew track % with:'
+    abbr --add twd timew summary :ids :annotations
+    abbr --add tww timew summary :week :ids :annotations
+    abbr --add twm timew summary :month
+    abbr --add twg timew week
+    abbr --add twgm timew month
+    abbr --add twx timew export
+    abbr --add twcsv --set-cursor=! 'timew export ! | jq -r \'def t: strptime("%Y%m%dT%H%M%SZ") | mktime; ["date", "debut", "fin", "heures", "interlocuteur", "taches", "annotation"], (.[] | select(.end) | {s: (.start | t), e: (.end | t), tags, annotation} | [(.s | strflocaltime("%F")), (.s | strflocaltime("%R")), (.e | strflocaltime("%R")), ((.e - .s) / 36 | round / 100), (.tags | map(select(startswith("with:")) | ltrimstr("with:")) | join(" ")), (.tags | map(select(startswith("with:") | not)) | join(" ")), .annotation // ""]) | @csv\''
+    abbr --add twu timew undo
+end
