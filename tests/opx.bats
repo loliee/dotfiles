@@ -275,6 +275,21 @@ document() {
   [[ $output == *"shell keeps http://connect t s"* ]]
 }
 
+@test "fetch_one_secret leaves OP_ACCOUNT to op" {
+  note <<-EOF
+		s3cret
+	EOF
+  config <<-EOF
+		secrets:
+		  - reference: op://Private/FOO/password
+		    env_key: FOO
+		    dest: $OPX_TEST_DIR/env.fish
+	EOF
+  run opx "set -gx OP_ACCOUNT example.1password.com; __opx_fetch_one_secret 0 $OPX_TEST_DIR/config.yml"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/op.account")" = "example.1password.com" ]
+}
+
 @test "fetch_one_secret writes a note without its fences and type" {
   note <<-EOF
 		\`\`\`yaml
