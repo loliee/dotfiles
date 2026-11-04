@@ -117,3 +117,6 @@ end
 if test -f ~/.env.local.fish
     source ~/.env.local.fish
 end
+
+# For pinentry-op: gpg forwards PINENTRY_USER_DATA with each request, OP_ACCOUNT only if gpg-agent started with it
+set -q OP_ACCOUNT; and set -x PINENTRY_USER_DATA $OP_ACCOUNT
