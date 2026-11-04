@@ -7,6 +7,11 @@ if [[ -n ${CLAUDECODE:-} ]]; then
   return
 fi
 
+# Nor do non-interactive shells: Debian's bash reads this file for ssh commands, whose output Ansible parses
+if [[ $- != *i* ]]; then
+  return
+fi
+
 # vi mode
 set -o vi
 
