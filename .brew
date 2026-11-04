@@ -104,6 +104,7 @@ brew install ${1+"$@"} \
   stow \
   the-unarchiver \
   tig \
+  timewarrior \
   tmux \
   tor-browser \
   transmission \
