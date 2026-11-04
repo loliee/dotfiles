@@ -191,7 +191,12 @@ send = function(request)
         if result.code ~= 0 then
           progress:report({ message = "failed" })
           progress:cancel()
-          return vim.notify("ai: " .. request.cli .. " failed: " .. result.stderr, vim.log.levels.ERROR)
+          -- Claude prints its error on stdout, and on stderr a warning for each questionable permission rule
+          local errors = vim.tbl_filter(function(line)
+            return not line:match("^Permission %a+ rule %(")
+          end, vim.split(result.stdout .. "\n" .. result.stderr, "\n", { trimempty = true }))
+          -- On one line: the first line of the notice is the only one left on screen
+          return vim.notify("ai: " .. request.cli .. " failed: " .. table.concat(errors, " "), vim.log.levels.ERROR)
         end
         progress:finish()
         local output = result.stdout:gsub("\n+$", "")
