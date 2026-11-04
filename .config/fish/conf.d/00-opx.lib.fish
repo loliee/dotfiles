@@ -5,6 +5,9 @@
 # To specify the config file location, set:
 #   set -g OPX_CONFIG_REF "op://Private/[Entry]/notesPlain"
 #
+# To use the laptop's main 1Password account when it has several, set in ~/.env.local.fish (op reads it itself):
+#   set -x OP_ACCOUNT "example.1password.com"
+#
 # Expandable variables in config:
 #   - $OPX_RAMDISK
 #   - $HOME

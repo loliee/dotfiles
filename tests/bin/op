@@ -8,6 +8,8 @@ main() {
   echo "op $*" >>"${OPX_TEST_DIR}/op.log"
   # The lib must hide these from op: any still set lands in op.vars
   printenv OP_CONNECT_HOST OP_CONNECT_TOKEN OP_SERVICE_ACCOUNT_TOKEN >>"${OPX_TEST_DIR}/op.vars" || true
+  # The lib must leave OP_ACCOUNT to op: it lands in op.account
+  printenv OP_ACCOUNT >>"${OPX_TEST_DIR}/op.account" || true
   case "${1-} ${2-}" in
     "whoami "*) return 0 ;;
     "read "*)
