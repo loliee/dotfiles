@@ -17,6 +17,59 @@ color() {
   fish --no-config -c "set_color $1"
 }
 
+# print-err
+
+@test "print-err joins its arguments with spaces" {
+  run --separate-stderr print_fn print-err hello world
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "hello world" ]
+}
+
+@test "print-err writes a message that starts with a dash" {
+  run --separate-stderr print_fn print-err "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "- x" ]
+}
+
+@test "print-err writes a message that is an echo option" {
+  run --separate-stderr print_fn print-err -n
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "-n" ]
+}
+
+@test "print-err writes a message that starts with a dash in red when CLICOLOR is 1" {
+  CLICOLOR=1 run --separate-stderr print_fn print-err "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "$(color red)- x$(color normal)" ]
+}
+
+# print-success
+
+@test "print-success writes a message that starts with a dash" {
+  run --separate-stderr print_fn print-success "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "- x" ]
+  [ "$stderr" = "" ]
+}
+
+@test "print-success writes a message that is an echo option" {
+  run --separate-stderr print_fn print-success -n
+  [ "$status" -eq 0 ]
+  [ "$output" = "-n" ]
+  [ "$stderr" = "" ]
+}
+
+@test "print-success writes a message that starts with a dash in green when CLICOLOR is 1" {
+  CLICOLOR=1 run --separate-stderr print_fn print-success "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "$(color green)- x$(color normal)" ]
+  [ "$stderr" = "" ]
+}
+
 # print-warn
 
 @test "print-warn writes the message to stderr when CLICOLOR is unset" {
@@ -31,4 +84,25 @@ color() {
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
   [ "$stderr" = "$(color yellow)hello$(color normal)" ]
+}
+
+@test "print-warn writes a message that starts with a dash" {
+  run --separate-stderr print_fn print-warn "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "- x" ]
+}
+
+@test "print-warn writes a message that is an echo option" {
+  run --separate-stderr print_fn print-warn -n
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "-n" ]
+}
+
+@test "print-warn writes a message that starts with a dash in yellow when CLICOLOR is 1" {
+  CLICOLOR=1 run --separate-stderr print_fn print-warn "- x"
+  [ "$status" -eq 0 ]
+  [ "$output" = "" ]
+  [ "$stderr" = "$(color yellow)- x$(color normal)" ]
 }
