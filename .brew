@@ -90,6 +90,7 @@ brew install ${1+"$@"} \
   moreutils \
   mozjpeg \
   neovim \
+  nss \
   openssh \
   openssl \
   pv \
