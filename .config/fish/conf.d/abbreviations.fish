@@ -113,3 +113,20 @@ if command -q timew
     abbr --add twcsv --set-cursor=! 'timew export ! | jq -r \'def t: strptime("%Y%m%dT%H%M%SZ") | mktime; ["date", "debut", "fin", "heures", "interlocuteur", "taches", "annotation"], (.[] | select(.end) | {s: (.start | t), e: (.end | t), tags, annotation} | [(.s | strflocaltime("%F")), (.s | strflocaltime("%R")), (.e | strflocaltime("%R")), ((.e - .s) / 36 | round / 100), (.tags | map(select(startswith("with:")) | ltrimstr("with:")) | join(" ")), (.tags | map(select(startswith("with:") | not)) | join(" ")), .annotation // ""]) | @csv\''
     abbr --add twu timew undo
 end
+
+# rclone
+if command -q rclone
+    abbr --add rc rclone
+    abbr --add rcr rclone listremotes --long
+    abbr --add rcls rclone lsf
+    abbr --add rcld rclone lsd
+    abbr --add rcll rclone lsl --max-depth 1
+    abbr --add rct rclone tree --level 2
+    abbr --add rcdu rclone ncdu
+    abbr --add rcsz rclone size
+    abbr --add rcc rclone copy -P
+    abbr --add rcm rclone move -P
+    abbr --add rcs rclone sync -P --dry-run
+    abbr --add rcb rclone bisync -P --dry-run
+    abbr --add rck rclone check
+end
