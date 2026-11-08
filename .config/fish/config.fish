@@ -20,4 +20,5 @@ end
 # No mise activate: Homebrew's mise already activates itself in fish (vendor_conf.d)
 direnv hook fish | source
 starship init fish | source
+task --completion fish | source
 zoxide init fish --cmd j | source
