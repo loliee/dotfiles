@@ -113,3 +113,31 @@ if command -q timew
     abbr --add twcsv --set-cursor=! 'timew export ! | jq -r \'def t: strptime("%Y%m%dT%H%M%SZ") | mktime; ["date", "debut", "fin", "heures", "interlocuteur", "taches", "annotation"], (.[] | select(.end) | {s: (.start | t), e: (.end | t), tags, annotation} | [(.s | strflocaltime("%F")), (.s | strflocaltime("%R")), (.e | strflocaltime("%R")), ((.e - .s) / 36 | round / 100), (.tags | map(select(startswith("with:")) | ltrimstr("with:")) | join(" ")), (.tags | map(select(startswith("with:") | not)) | join(" ")), .annotation // ""]) | @csv\''
     abbr --add twu timew undo
 end
+
+# rclone
+if command -q rclone
+    # --description needs its =: a space makes the text the abbreviation's name
+    abbr --add --description='Cloud storage client' rc rclone
+    abbr --add --description='List remotes with their type' rcr rclone listremotes --long
+    abbr --add --description='List files and directories' rcls rclone lsf
+    abbr --add --description='List directories' rcld rclone lsd
+    abbr --add --description='List files with size and date' rcll rclone lsl --max-depth 1
+    abbr --add --description='Show the tree, two levels deep' rct rclone tree --level 2
+    abbr --add --description='Browse disk usage' rcdu rclone ncdu
+    abbr --add --description='Total size and object count' rcsz rclone size
+    abbr --add --description='Copy into a directory' rcc rclone copy -P
+    abbr --add --description='Move into a directory' rcm rclone move -P
+    abbr --add --description='Mirror source to destination, deleting extras' rcs rclone sync -P --dry-run
+    abbr --add --description='Sync both ways' rcb rclone bisync -P --dry-run
+    abbr --add --description='Compare source and destination' rck rclone check
+    abbr --add --description='Print an object' rccat rclone cat
+    abbr --add --description='Copy one file to an exact name' rccp rclone copyto -P
+    abbr --add --description='List all files recursively' rcf rclone lsf -R --files-only
+    abbr --add --description='Metadata of one object as JSON' rcst rclone lsjson --stat
+    abbr --add --description='Create a bucket or path' rcmk rclone mkdir
+    abbr --add --description='Delete one object' rcrm rclone deletefile
+    abbr --add --description='Delete the files under a path' rcrmr rclone delete --dry-run
+    abbr --add --description='Delete a path and all its contents' rcpu rclone purge --dry-run
+    abbr --add --description='Signed link, valid one hour' rclk rclone link --expire 1h
+    abbr --add --description='Clean up the remote, on S3 unfinished uploads' rccu rclone cleanup
+end
