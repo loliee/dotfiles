@@ -63,6 +63,7 @@ mise-install: mise-install-home mise-install-repo ## Install the tools pinned by
 mise-install-home: ## Install the tools pinned in mise's global config
 	$(info --> Install mise home tools)
 	$(RAISE_NOFILE) mise -C $(HOME) install
+	go telemetry off
 
 # The repo targets read mise.toml only, as CI does
 mise-install-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
