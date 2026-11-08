@@ -53,6 +53,10 @@ GitHub API only serves them to an authenticated user. Export a GitHub token firs
 `.brew` stops at once if the token is missing. Homebrew installs `gh` without checking it, since `gh` is what checks
 every other bottle.
 
+`.brew` ends with Xcode. Apple has no command to install it, so the first time `.brew` opens its App Store page and
+stops: install it, signed in to the App Store, then run `make install` again. The App Store then updates Xcode, as
+`make macos-setup` turns on its auto-update.
+
 Then set fish as the [default shell](#fish-shell), and export the token at each login.
 
 ### GitHub token
