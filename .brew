@@ -191,3 +191,15 @@ if sudo launchctl print system/local.coredns &>/dev/null; then
   done
 fi
 sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
+
+# Apple has no CLI to install Xcode, and the App Store keeps it up to date (AutoUpdate in .macos)
+readonly XCODE_APP=/Applications/Xcode.app
+if [[ ! -d ${XCODE_APP} ]]; then
+  echo '--> Install Xcode from the App Store, then run this script again'
+  open 'macappstore://apps.apple.com/app/id497799835'
+  exit 1
+fi
+sudo xcode-select --switch "${XCODE_APP}"
+# On every run, as each App Store update of Xcode brings a new license and new components
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch
