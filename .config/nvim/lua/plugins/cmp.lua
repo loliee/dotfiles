@@ -51,6 +51,7 @@ return {
     keymap = {
       preset = "default",
       ["<C-f>"] = { "accept", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
       ["<C-u>"] = { "scroll_documentation_up", "fallback" },
       ["<C-d>"] = { "scroll_documentation_down", "fallback" },
       ["<C-n>"] = { "snippet_forward", "fallback" },
