@@ -30,6 +30,9 @@ use_versions_host_track = false
 "npm:eslint" = "10.14.0"
 "npm:fish-lsp" = "1.1.5"
 "npm:prettier" = "3.9.10"
+# libzip 3.2.2 was published by hand without provenance, same files as 3.2.1 (yarnpkg/berry#7182)
+# re2's install script fetches its binary and checks it against the artifactHashes of its package.json
+"npm:renovate" = { version = "44.206.2", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"], allow_builds = ["re2"] }
 "npm:vscode-langservers-extracted" = "4.10.0"
 "npm:yaml-language-server" = "1.25.0"
 "pypi:bandit" = "1.9.4"
