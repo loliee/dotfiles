@@ -42,6 +42,7 @@ specifiers = ["10.2.1"]
 
 [tools."aqua:oxipng/oxipng"."platforms.macos-arm64"]
 checksum = "sha256:7039fcfc78e8aa1ed2b57d848057a0296f082e92b3e1807ac65402d10d926764"
+checksum_source = "mise-versions"
 url = "https://github.com/oxipng/oxipng/releases/download/v10.2.1/oxipng-10.2.1-aarch64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/oxipng/oxipng/releases/assets/541682884"
 
@@ -52,6 +53,7 @@ specifiers = ["1.75.2"]
 
 [tools."aqua:rclone/rclone"."platforms.macos-arm64"]
 checksum = "sha256:610ab7d48615135dfc60b763858b11a426a0d3d1160c1bb76fb0ae6011b02edd"
+checksum_source = "mise-versions"
 url = "https://github.com/rclone/rclone/releases/download/v1.75.2/rclone-v1.75.2-osx-arm64.zip"
 url_api = "https://api.github.com/repos/rclone/rclone/releases/assets/624713742"
 
@@ -72,6 +74,7 @@ backend = "aqua:bats-core/bats-core"
 specifiers = ["1.14.0"]
 
 [tools.bats."platforms.macos-arm64"]
+checksum = "sha256:bb537b70b15b732f6d8827dd6578e3d8ce166636ce1f18ea9a074184fcce9177"
 url = "https://github.com/bats-core/bats-core/archive/refs/tags/v1.14.0.tar.gz"
 url_api = "https://api.github.com/repos/bats-core/bats-core/tarball/v1.14.0"
 
@@ -102,6 +105,7 @@ specifiers = ["1.12.0"]
 
 [tools.dyff."platforms.macos-arm64"]
 checksum = "sha256:3c1bbefb44ec92675c9fc1349a102a41d2568f294fd1fd4e468dc0804944040f"
+checksum_source = "mise-versions"
 url = "https://github.com/homeport/dyff/releases/download/v1.12.0/dyff_1.12.0_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/homeport/dyff/releases/assets/406097911"
 
@@ -117,6 +121,7 @@ specifiers = ["2.14.2"]
 
 [tools.git-cliff."platforms.macos-arm64"]
 checksum = "sha256:a0be97e237d440d34c5e508ec21d070b2c85cbb8be48a46a56f9a4e8bd247f05"
+checksum_source = "mise-versions"
 url = "https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-aarch64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/orhun/git-cliff/releases/assets/573487203"
 
@@ -127,6 +132,7 @@ specifiers = ["0.2.3"]
 
 [tools."github:uros-5/jinja-lsp"."platforms.macos-arm64"]
 checksum = "sha256:c2ab977b5acac688955ea3c260fe444d049a695357c56b385c0806715360cd62"
+checksum_source = "mise-versions"
 url = "https://github.com/uros-5/jinja-lsp/releases/download/v0.2.3/jinja-lsp-aarch64-apple-darwin"
 url_api = "https://api.github.com/repos/uros-5/jinja-lsp/releases/assets/463667478"
 
@@ -166,6 +172,7 @@ specifiers = ["0.5.4"]
 
 [tools.helm-ls."platforms.macos-arm64"]
 checksum = "sha256:8d917fedac8aa7c0199bccb5fc54df68303d215d2c76a47b59094ea272e250c1"
+checksum_source = "mise-versions"
 url = "https://github.com/mrjosh/helm-ls/releases/download/v0.5.4/helm_ls_darwin_arm64"
 url_api = "https://api.github.com/repos/mrjosh/helm-ls/releases/assets/321167501"
 
@@ -203,6 +210,7 @@ specifiers = ["0.49.2"]
 
 [tools.kbld."platforms.macos-arm64"]
 checksum = "sha256:6c51db7c284d20baa78ac7f616dbbe2794b934659972618a3887bb5e234ad03e"
+checksum_source = "mise-versions"
 url = "https://github.com/carvel-dev/kbld/releases/download/v0.49.2/kbld-darwin-arm64"
 url_api = "https://api.github.com/repos/carvel-dev/kbld/releases/assets/598037539"
 
@@ -213,6 +221,7 @@ specifiers = ["0.5.0"]
 
 [tools.krew."platforms.macos-arm64"]
 checksum = "sha256:cd6e58b4e954e301abd19001d772846997216d696bcaa58f0bcf04708339ece3"
+checksum_source = "mise-versions"
 url = "https://github.com/kubernetes-sigs/krew/releases/download/v0.5.0/krew-darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/kubernetes-sigs/krew/releases/assets/362537139"
 
@@ -223,6 +232,7 @@ specifiers = ["0.8.0"]
 
 [tools.kubeconform."platforms.macos-arm64"]
 checksum = "sha256:f84f4dfbebf4a6b0b230385fa065a39ea35e02608c2b50d025dcf64775a69d67"
+checksum_source = "mise-versions"
 url = "https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform-darwin-arm64.tar.gz"
 url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612680"
 
@@ -407,6 +417,7 @@ specifiers = ["0.11.0"]
 
 [tools.shellcheck."platforms.macos-arm64"]
 checksum = "sha256:56affdd8de5527894dca6dc3d7e0a99a873b0f004d7aabc30ae407d3f48b0a79"
+checksum_source = "mise-versions"
 url = "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.darwin.aarch64.tar.xz"
 url_api = "https://api.github.com/repos/koalaman/shellcheck/releases/assets/279056932"
 
@@ -417,6 +428,7 @@ specifiers = ["3.14.1"]
 
 [tools.shfmt."platforms.macos-arm64"]
 checksum = "sha256:b7c872db63553ccffc7253aba3ed7d4885a27d83f1ba567b1138c6315a5847e5"
+checksum_source = "mise-versions"
 url = "https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_darwin_arm64"
 url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/547320930"
 
@@ -448,6 +460,7 @@ backend = "aqua:tamasfe/taplo"
 specifiers = ["0.10.0"]
 
 [tools.taplo."platforms.macos-arm64"]
+checksum = "sha256:713734314c3e71894b9e77513c5349835eefbd52908445a0d73b0c7dc469347d"
 url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-aarch64.gz"
 url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257323110"
 
@@ -458,6 +471,7 @@ specifiers = ["3.54.0"]
 
 [tools.task."platforms.macos-arm64"]
 checksum = "sha256:12a69fcf37bb8d5bc9150c44f9a936775b73e59ff044c2c245232f198c135637"
+checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090068"
 
