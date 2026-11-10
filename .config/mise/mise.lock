@@ -177,9 +177,15 @@ url = "https://github.com/mrjosh/helm-ls/releases/download/v0.5.4/helm_ls_darwin
 url_api = "https://api.github.com/repos/mrjosh/helm-ls/releases/assets/321167501"
 
 [[tools.imgpkg]]
-version = "0.49.1"
+version = "0.49.0"
 backend = "aqua:carvel-dev/imgpkg"
-specifiers = ["0.49.1"]
+specifiers = ["0.49.0"]
+
+[tools.imgpkg."platforms.macos-arm64"]
+checksum = "sha256:83add15b35fd1e1d032a9ad988225725c9a3ef30160363b9085f172863787df6"
+checksum_source = "mise-versions"
+url = "https://github.com/carvel-dev/imgpkg/releases/download/v0.49.0/imgpkg-darwin-arm64"
+url_api = "https://api.github.com/repos/carvel-dev/imgpkg/releases/assets/636773655"
 
 [[tools.jq]]
 version = "1.8.2"
