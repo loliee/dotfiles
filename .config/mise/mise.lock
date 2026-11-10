@@ -366,13 +366,13 @@ specifiers = ["1.38.0"]
 uv = { path = "locks/pypi-yamllint/1.38.0", digest = "sha256:83728cd22912c0db04a450cbdc1c76f9414b3dc37ab5460b72d5dee21f5dd2a0" }
 
 [[tools.python]]
-version = "3.15.2"
+version = "3.14.10"
 backend = "core:python"
-specifiers = ["3.15.2"]
+specifiers = ["3.14.10"]
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:1b1b03fca8aa351698403f3d100ee83db7a5d99748fc7707681ac31a6a846ad9"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:95eb8c87d16af37c54e9765e31d8c56c0d8ffa9968ea0f704f73a9b83f84e9f9"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.14.10+20261026-aarch64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.ruby]]
