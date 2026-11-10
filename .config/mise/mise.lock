@@ -324,6 +324,16 @@ aube = { path = "locks/npm-prettier/3.9.10", digest = "sha256:0a52cf3e98ebe971f9
 backend = "npm:prettier"
 specifiers = ["3.9.10"]
 
+[[tools."npm:renovate"]]
+version = "44.206.2"
+aube = { path = "locks/npm-renovate/44.206.2~026f02c4", digest = "sha256:d802114ff6917699fa3dac01ecfb9ef14ac69e91e17fcb5642bd701d31ede755" }
+backend = "npm:renovate"
+specifiers = ["44.206.2"]
+
+[tools."npm:renovate".options]
+allow_builds = '["re2"]'
+trust_policy_excludes = '["@yarnpkg/libzip@3.2.2"]'
+
 [[tools."npm:vscode-langservers-extracted"]]
 version = "4.10.0"
 aube = { path = "locks/npm-vscode-langservers-extracted/4.10.0", digest = "sha256:8c37c53ce46961037a4464ce307c15cfe5bd44479ea3b082d3412c0a27b760da" }
