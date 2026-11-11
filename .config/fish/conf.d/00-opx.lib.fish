@@ -60,6 +60,11 @@
 #     dest: "$HOME/Dev/int/.envrc.secrets"
 #     persistent: true
 #
+#   # Add a variable to that file: opx-clean removes its line only, the file stays
+#   - reference: "op://Private/FOOBAR/password"
+#     env_key: "FOO"
+#     dest: "$HOME/Dev/int/.envrc.secrets"
+#
 # Optional command hooks, a string for every environment or {cmd: "…", tags: [prd]}:
 # post_fetch_cmds: []    # Commands to run after fetching secrets
 # pre_clean_cmds: []     # Commands to run before cleaning up
@@ -446,17 +451,37 @@ function __opx-exec --argument-names entry pred
     end
 end
 
-# The persistent entries stay unless $persistent is true
+function __opx_strip_env --argument-names file key
+    set -l re "^(export|set -x) $key(=|\s+)"
+    grep -q -E $re $file; or return 0
+    touch $file.tmp
+    chmod 600 $file.tmp
+    grep -v -E $re $file >$file.tmp
+    shred -u $file
+    mv $file.tmp $file
+    echo "✔  $key removed from $file"
+end
+
+# The persistent entries stay unless $persistent is true; a file another entry still writes loses only the variables
 function __opx-shred-files --argument-names pred persistent
     test -n "$pred"; or set pred true
     set -l keep "and .persistent != true"
     test "$persistent" = true; and set keep ""
-    set secret_files (yq -r ".secrets | map(select($pred $keep)) | .[].dest" $OPX_CONFIG_PATH | sort -u)
-    for f in $secret_files
-        set fpath (__opx_expand_str $f)
-        if test -f $fpath
+    set -l kept
+    for d in (yq -r ".secrets | map(select(($pred $keep) | not)) | .[].dest" $OPX_CONFIG_PATH)
+        set -a kept (__opx_expand_str $d 2>/dev/null)
+    end
+    for entry in (yq -r ".secrets | map(select($pred $keep)) | .[] | .dest + \"\t\" + (.env_key // \"\")" $OPX_CONFIG_PATH)
+        set -l f (string split \t -- $entry)
+        set -l fpath (__opx_expand_str $f[1])
+        test -f "$fpath"; or continue
+        if not contains -- $fpath $kept
             shred -u $fpath
             echo "✔  $fpath deleted"
+        else if test -n "$f[2]"
+            __opx_strip_env $fpath $f[2]
+        else
+            print-warn "[opx] $fpath kept: other entries write to it"
         end
     end
 end
@@ -480,7 +505,8 @@ function opx-fetch -d "Fetch 1password secrets: the shared and persistent entrie
     __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH; or return 1
     set -q _flag_force; and __opx-shred-files $pred true
 
-    set indices (yq -r ".secrets | to_entries | map(select(.value | $pred)) | .[].key" $OPX_CONFIG_PATH)
+    # Whole files first: a variable fetched before would create the file, and the whole-file entry would skip it
+    set indices (yq -r ".secrets | to_entries | map(select(.value | $pred)) | sort_by(.value | has(\"env_key\")) | .[].key" $OPX_CONFIG_PATH)
     set -l running 0
     for idx in $indices
         __opx_fetch_one_secret $idx $OPX_CONFIG_PATH $default_mode &
