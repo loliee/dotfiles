@@ -900,6 +900,97 @@ clean_config() {
   [[ $output != *"hook"* ]]
 }
 
+# Variables in a shared file
+
+shared_yaml() {
+  cat <<-EOF
+		secrets:
+		  - value: set -x KEEP k
+		    as_file: true
+		    dest: $OPX_TEST_DIR/shared.fish
+		    persistent: true
+		  - value: n
+		    env_key: NEW
+		    dest: $OPX_TEST_DIR/shared.fish
+		    tags: [prd]
+	EOF
+}
+
+@test "opx-update adds a variable to a persistent file" {
+  shared_yaml | note
+  echo "set -x KEEP old" >"$OPX_TEST_DIR/shared.fish"
+  run opx "opx-update"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "$(printf 'set -x KEEP old\nset -x NEW n')" ]
+}
+
+@test "opx-clean removes the variable from a persistent file and keeps the file" {
+  shared_yaml | config
+  printf 'set -x KEEP old\nset -x NEW n\n' >"$OPX_TEST_DIR/shared.fish"
+  run opx "opx-clean"
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "set -x KEEP old" ]
+  [ "$(stat -c %a "$OPX_TEST_DIR/shared.fish" 2>/dev/null || stat -f %Lp "$OPX_TEST_DIR/shared.fish")" = "600" ]
+}
+
+@test "opx-update --force prd refreshes the variable of a persistent file and keeps the file" {
+  shared_yaml | note
+  printf 'set -x KEEP old\nset -x NEW old\n' >"$OPX_TEST_DIR/shared.fish"
+  run opx "opx-update --force prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "$(printf 'set -x KEEP old\nset -x NEW n')" ]
+}
+
+@test "opx-update writes a file whole before the variables added to it" {
+  note <<-EOF
+		secrets:
+		  - value: n
+		    env_key: NEW
+		    dest: $OPX_TEST_DIR/shared.fish
+		  - value: set -x KEEP k
+		    as_file: true
+		    dest: $OPX_TEST_DIR/shared.fish
+		    persistent: true
+	EOF
+  run opx "opx-update"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "$(printf 'set -x KEEP k\nset -x NEW n')" ]
+}
+
+@test "opx-clean prd removes the prd variable from a file shared with stg" {
+  config <<-EOF
+		secrets:
+		  - value: p
+		    env_key: PRD
+		    dest: $OPX_TEST_DIR/shared.fish
+		    tags: [prd]
+		  - value: s
+		    env_key: STG
+		    dest: $OPX_TEST_DIR/shared.fish
+		    tags: [stg]
+	EOF
+  printf 'set -x PRD p\nset -x STG s\n' >"$OPX_TEST_DIR/shared.fish"
+  run opx "opx-clean prd"
+  [ "$status" -eq 0 ]
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "set -x STG s" ]
+}
+
+@test "opx-clean keeps a shared file that a cleaned entry writes whole, with a warning" {
+  config <<-EOF
+		secrets:
+		  - value: k
+		    env_key: KEEP
+		    dest: $OPX_TEST_DIR/shared.fish
+		    persistent: true
+		  - value: set -x NEW n
+		    as_file: true
+		    dest: $OPX_TEST_DIR/shared.fish
+	EOF
+  echo "set -x KEEP k" >"$OPX_TEST_DIR/shared.fish"
+  run opx "opx-clean"
+  [ "$(cat "$OPX_TEST_DIR/shared.fish")" = "set -x KEEP k" ]
+  [[ $output == *"other entries write to it"* ]]
+}
+
 # __opx-exec
 
 @test "exec runs an allowed command" {
