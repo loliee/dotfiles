@@ -615,6 +615,24 @@ edit_note() {
   [ ! -f "$OPX_TEST_DIR/edit.yml" ]
 }
 
+@test "opx-edit fetches the config when it is absent" {
+  edit_note
+  run opx "opx-edit"
+  [ "$status" -eq 0 ]
+  [ "$(yq -r '.secrets[0].env_key' "$OPX_TEST_DIR/config.yml")" = "FOO" ]
+}
+
+@test "opx-edit opens a note that fails validation, with a warning" {
+  note <<-EOF
+		secrets:
+		  - env_key: FOO
+	EOF
+  run opx "set -gx EDITOR cat; opx-edit"
+  [ "$status" -eq 0 ]
+  [[ $output == *"editing the note anyway"* ]]
+  [[ $output == *"env_key: FOO"* ]]
+}
+
 # opx-fetch and opx-update
 
 fetch_note() {
