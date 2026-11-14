@@ -536,7 +536,13 @@ end
 
 function opx-edit -d "Edit the 1password config note, validated before saving"
     __opx_signin; or return 1
+    __opx_ramdisk
     __opx_configure; or return 1
+    if not test -f $OPX_CONFIG_PATH
+        # A note that fails here is the one to fix: the editor opens anyway
+        __opx_fetch_config $OPX_CONFIG_REF $OPX_CONFIG_PATH
+        or print-warn "[opx] cannot fetch the config, editing the note anyway"
+    end
 
     set -l parts (string split / (string replace op:// '' $OPX_CONFIG_REF))
     if test (count $parts) -ne 3
