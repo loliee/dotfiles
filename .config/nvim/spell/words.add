@@ -47,3 +47,4 @@ stg
 task
 virtualenv
 watermark
+json
