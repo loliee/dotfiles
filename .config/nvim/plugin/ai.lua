@@ -171,6 +171,28 @@ local function show_change(request, change)
   })
 end
 
+-- A terminal, not vim.system: claude auth login may ask to paste the code the browser shows
+local function login(request)
+  if vim.fn.confirm("ai: Claude needs a new login. Log in now?", "&Yes\n&No") ~= 1 then
+    return
+  end
+  vim.cmd("belowright new")
+  local terminal = vim.api.nvim_get_current_buf()
+  vim.fn.jobstart({ "claude", "auth", "login" }, {
+    term = true,
+    on_exit = function(_, code)
+      if code ~= 0 then
+        return
+      end
+      if vim.api.nvim_buf_is_valid(terminal) then
+        vim.api.nvim_buf_delete(terminal, { force = true })
+      end
+      send(request)
+    end,
+  })
+  vim.cmd.startinsert()
+end
+
 send = function(request)
   local prompt = build_prompt(request)
   require("security").leaks(prompt, function(leaks)
@@ -191,7 +213,17 @@ send = function(request)
         if result.code ~= 0 then
           progress:report({ message = "failed" })
           progress:cancel()
-          return vim.notify("ai: " .. request.cli .. " failed: " .. result.stderr, vim.log.levels.ERROR)
+          -- What Claude Code 2.1.309 prints on stdout for an expired and for a missing login
+          local auth = result.stdout:match("Failed to authenticate") or result.stdout:match("Not logged in")
+          if request.cli == "claude" and auth then
+            return login(request)
+          end
+          -- Claude prints its error on stdout, and on stderr a warning for each questionable permission rule
+          local errors = vim.tbl_filter(function(line)
+            return not line:match("^Permission %a+ rule %(")
+          end, vim.split(result.stdout .. "\n" .. result.stderr, "\n", { trimempty = true }))
+          -- On one line: the first line of the notice is the only one left on screen
+          return vim.notify("ai: " .. request.cli .. " failed: " .. table.concat(errors, " "), vim.log.levels.ERROR)
         end
         progress:finish()
         local output = result.stdout:gsub("\n+$", "")

@@ -22,6 +22,18 @@
         "fileFilters": [".config/mise/mise.lock", ".config/mise/locks/**"],
         "installTools": { "mise": {} }
       }
+    },
+    {
+      "description": "Python stays on 3.14 until pyyaml ships cp315 wheels: https://github.com/yaml/pyyaml/issues/951",
+      "matchManagers": ["mise"],
+      "matchDepNames": ["python"],
+      "allowedVersions": "<3.15"
+    },
+    {
+      "description": "imgpkg skips 0.49.1, a tag with no release or binaries: https://github.com/carvel-dev/imgpkg/releases",
+      "matchManagers": ["mise"],
+      "matchDepNames": ["imgpkg"],
+      "allowedVersions": "!/^0\\.49\\.1$/"
     }
   ],
   "pre-commit": {

@@ -9,12 +9,14 @@ concurrency:
   pull_request:
     paths:
       - .config/fish/conf.d/00-opx.lib.fish
+      - .config/fish/functions/print-*.fish
       - tests/**
       - .github/workflows/test.yml
   push:
     branches: [main]
     paths:
       - .config/fish/conf.d/00-opx.lib.fish
+      - .config/fish/functions/print-*.fish
       - tests/**
       - .github/workflows/test.yml
 
@@ -40,5 +42,5 @@ jobs:
       - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           version: 2026.10.15
-      - name: Run the opx tests
+      - name: Run the fish tests
         run: make test

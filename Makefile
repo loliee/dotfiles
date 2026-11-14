@@ -45,8 +45,6 @@ stow: ## Stow dotfiles
 		--ignore='.krew' \
 		--ignore='^\.macos$$' \
 		--ignore='.macos_hardening' \
-		--ignore='.mdlrc' \
-		--ignore='.mdl_style.rb' \
 		--ignore='^\.coredns$$' \
 		--ignore='^\.opx-net-down$$' \
 		--ignore='.pre-commit-config.yaml' \
@@ -55,6 +53,8 @@ stow: ## Stow dotfiles
 		--ignore='Makefile' \
 		--ignore='mise.toml' \
 		--ignore='^mise\.lock$$' \
+		--ignore='^\.mise$$' \
+		--ignore='^tests$$' \
 		--ignore='^\.claude$$' \
 		--ignore='README.md'
 
@@ -63,6 +63,7 @@ mise-install: mise-install-home mise-install-repo ## Install the tools pinned by
 mise-install-home: ## Install the tools pinned in mise's global config
 	$(info --> Install mise home tools)
 	$(RAISE_NOFILE) mise -C $(HOME) install
+	go telemetry off
 
 # The repo targets read mise.toml only, as CI does
 mise-install-repo: export MISE_OVERRIDE_CONFIG_FILENAMES := mise.toml
