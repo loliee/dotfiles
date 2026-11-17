@@ -361,25 +361,37 @@ provenance = "github-attestations"
 version = "1.9.4"
 backend = "pypi:bandit"
 specifiers = ["1.9.4"]
-uv = { path = "locks/pypi-bandit/1.9.4", digest = "sha256:0383c85398935d456289a3d54ecf356bbdee6d70a07ef5062f54b0177a8d3e01" }
+uv = { path = "locks/pypi-bandit/1.9.4~82d84824", digest = "sha256:1be0c7bb3e8511c660ffc5e26c4aa9cced1a35533b98a0554945982ce50f9498" }
+
+[tools."pypi:bandit".options]
+python = "3.14.10"
 
 [[tools."pypi:codespell"]]
 version = "2.4.3"
 backend = "pypi:codespell"
 specifiers = ["2.4.3"]
-uv = { path = "locks/pypi-codespell/2.4.3", digest = "sha256:eef9051c91b82bc682a4db0f8003685d681acb7cee886eac923eb3227fc62aab" }
+uv = { path = "locks/pypi-codespell/2.4.3~4d6a8ea4", digest = "sha256:802665194e4b7d99df0db8f02366944dde4fb799ca15920977c72e27e557fcfe" }
+
+[tools."pypi:codespell".options]
+python = "3.14.10"
 
 [[tools."pypi:yamale"]]
 version = "6.1.0"
 backend = "pypi:yamale"
 specifiers = ["6.1.0"]
-uv = { path = "locks/pypi-yamale/6.1.0", digest = "sha256:802c56fd42f1619fa7d2124c3e8c21e0e1876cc1ddebb39577d6191b377fab32" }
+uv = { path = "locks/pypi-yamale/6.1.0~c5e5ec59", digest = "sha256:3be1c1304284e8265bfda9199a4e19806215276c8a7ce07684ad2a074d9efd84" }
+
+[tools."pypi:yamale".options]
+python = "3.14.10"
 
 [[tools."pypi:yamllint"]]
 version = "1.38.0"
 backend = "pypi:yamllint"
 specifiers = ["1.38.0"]
-uv = { path = "locks/pypi-yamllint/1.38.0", digest = "sha256:83728cd22912c0db04a450cbdc1c76f9414b3dc37ab5460b72d5dee21f5dd2a0" }
+uv = { path = "locks/pypi-yamllint/1.38.0~6f7b3a20", digest = "sha256:69a5c14d1f4ae3a97636f548b814a23cc09ed52308de1bae01259839fe671237" }
+
+[tools."pypi:yamllint".options]
+python = "3.14.10"
 
 [[tools.python]]
 version = "3.14.10"
