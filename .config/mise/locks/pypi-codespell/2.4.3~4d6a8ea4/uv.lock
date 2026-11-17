@@ -1,9 +1,9 @@
 version = 1
 revision = 5
-requires-python = ">=3.9"
+requires-python = "==3.14.10"
 
 [options]
-exclude-newer = "2026-10-05T17:10:50.258227Z"
+exclude-newer = "2026-11-10T08:48:36.355842Z"
 
 [[package]]
 name = "codespell"

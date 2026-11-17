@@ -90,6 +90,7 @@ brew install ${1+"$@"} \
   moreutils \
   mozjpeg \
   neovim \
+  nss \
   openssh \
   openssl \
   pv \
@@ -104,6 +105,7 @@ brew install ${1+"$@"} \
   stow \
   the-unarchiver \
   tig \
+  timewarrior \
   tmux \
   tor-browser \
   transmission \
@@ -143,7 +145,11 @@ install -m 0644 "$(dirname "${BASH_SOURCE[0]}")"/.brew-casks/*.rb "${cask_tap}/C
 brew install ${1+"$@"} --cask local/tap/mdv
 
 # Configure languagetool
-brew services start languagetool
+# Without it, each French check rebuilds its pipeline: 650 ms instead of 10 to 70 ms, measured in 2026-10
+echo 'pipelineCaching=true' >"$(brew --prefix)/etc/languagetool/server.properties"
+# For all languages together: at the default 5, Neovim's 4 parallel checks in French and English evict French pipelines
+echo 'maxPipelinePoolSize=8' >>"$(brew --prefix)/etc/languagetool/server.properties"
+brew services restart languagetool
 
 # Without a password root runs only root-owned code: /opt/homebrew and ~/.config belong to the user
 echo "--> Setup opx-net-down, requires root permission!"
@@ -185,3 +191,15 @@ if sudo launchctl print system/local.coredns &>/dev/null; then
   done
 fi
 sudo launchctl bootstrap system /Library/LaunchDaemons/local.coredns.plist
+
+# Apple has no CLI to install Xcode, and the App Store keeps it up to date (AutoUpdate in .macos)
+readonly XCODE_APP=/Applications/Xcode.app
+if [[ ! -d ${XCODE_APP} ]]; then
+  echo '--> Install Xcode from the App Store, then run this script again'
+  open 'macappstore://apps.apple.com/app/id497799835'
+  exit 1
+fi
+sudo xcode-select --switch "${XCODE_APP}"
+# On every run, as each App Store update of Xcode brings a new license and new components
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch

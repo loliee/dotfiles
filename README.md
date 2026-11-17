@@ -3,8 +3,8 @@
 [![Lint](https://github.com/loliee/dotfiles/actions/workflows/lint.yml/badge.svg)](https://github.com/loliee/dotfiles/actions/workflows/lint.yml)
 [![Test](https://github.com/loliee/dotfiles/actions/workflows/test.yml/badge.svg)](https://github.com/loliee/dotfiles/actions/workflows/test.yml)
 
-This repository contains my personal configuration files and setup scripts.
-Feel free to browse for inspiration, but these are tailored for my workflow and environment.
+This repository contains my personal configuration files and setup scripts. Feel free to browse for inspiration, but
+these are tailored for my workflow and environment.
 
 ## Getting Started
 
@@ -28,9 +28,9 @@ Dotfiles and packages are managed using `make` and `stow`.
 
 ### Common Commands
 
-- **make install**: Installs all required packages and dotfiles. On a new Mac, see [First install](#first-install).
-- **make dotfiles-install**: Installs only the dotfiles, skipping packages.
-- **make help**: Lists all available `make` commands with descriptions.
+- **`make install`**: Installs all required packages and dotfiles. On a new Mac, see [First install](#first-install).
+- **`make dotfiles-install`**: Installs only the dotfiles, skipping packages.
+- **`make help`**: Lists all available `make` commands with descriptions.
 
 ### First install
 
@@ -52,6 +52,10 @@ GitHub API only serves them to an authenticated user. Export a GitHub token firs
 
 `.brew` stops at once if the token is missing. Homebrew installs `gh` without checking it, since `gh` is what checks
 every other bottle.
+
+`.brew` ends with Xcode. Apple has no command to install it, so the first time `.brew` opens its App Store page and
+stops: install it, signed in to the App Store, then run `make install` again. The App Store then updates Xcode, as
+`make macos-setup` turns on its auto-update.
 
 Then set fish as the [default shell](#fish-shell), and export the token at each login.
 
@@ -101,5 +105,5 @@ chsh -s "$(brew --prefix)/bin/fish"
 
 ---
 
-> **Note:** These dotfiles are not intended as a plug-and-play solution for others.
-> Please review and modify for your own needs before using.
+> **Note:** These dotfiles are not intended as a plug-and-play solution for others. Please review and modify for your
+> own needs before using.
