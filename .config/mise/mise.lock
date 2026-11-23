@@ -248,13 +248,13 @@ url = "https://github.com/LuaLS/lua-language-server/releases/download/3.19.2/lua
 url_api = "https://api.github.com/repos/LuaLS/lua-language-server/releases/assets/635852571"
 
 [[tools.node]]
-version = "24.22.2"
+version = "26.13.1"
 backend = "core:node"
-specifiers = ["24.22.2"]
+specifiers = ["26.13.1"]
 
 [tools.node."platforms.macos-arm64"]
-checksum = "sha256:aa9549349e47dffaa42dcf95d6e06ade8c4bdafc980979883b88767670df385a"
-url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-darwin-arm64.tar.gz"
+checksum = "sha256:aec2514ea1ceb2ba52455e9ec65986f6749a06dd759e5db2a72e6889668c9735"
+url = "https://nodejs.org/dist/v26.13.1/node-v26.13.1-darwin-arm64.tar.gz"
 
 [[tools."npm:@ansible/ansible-language-server"]]
 version = "26.6.0"
@@ -305,10 +305,10 @@ backend = "npm:vscode-langservers-extracted"
 specifiers = ["4.10.0"]
 
 [[tools."npm:yaml-language-server"]]
-version = "1.25.0"
-aube = { path = "locks/npm-yaml-language-server/1.25.0", digest = "sha256:c49a602343f1778c61a8c21e82d480062610654d6ba206a347d274d96e29a5b5" }
+version = "2.0.0"
+aube = { path = "locks/npm-yaml-language-server/2.0.0", digest = "sha256:c3af71936aec4dd7835182cd5072c200f346781557fafa6bc5b2eee0f4904a3a" }
 backend = "npm:yaml-language-server"
-specifiers = ["1.25.0"]
+specifiers = ["2.0.0"]
 
 [[tools.prek]]
 version = "0.5.9"
