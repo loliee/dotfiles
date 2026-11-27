@@ -1,9 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
-  "enabledManagers": ["github-actions", "mise", "pre-commit"],
+  "enabledManagers": ["custom.regex", "github-actions", "mise", "pre-commit"],
   "minimumReleaseAge": "7 days",
   "rebaseWhen": "behind-base-branch",
+  "customManagers": [
+    {
+      "description": "Python of the home pypi tools, looked up as the mise manager looks up python so both bump together",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.config/mise/config\\.toml$/"],
+      "matchStringsStrategy": "recursive",
+      "matchStrings": [
+        "\"(?<depName>pypi:[^\"]+)\" = \\{[^}\\n]*\\}",
+        "python = \"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-tags",
+      "packageNameTemplate": "python/cpython",
+      "extractVersionTemplate": "^v(?<version>\\S+)"
+    }
+  ],
   "packageRules": [
     {
       "description": "Repo mise.toml, in one PR as its tools share mise.lock",
@@ -13,7 +28,7 @@
     },
     {
       "description": "Home config: the script locks it as global, as in the clone mise.toml shadows shared tools",
-      "matchManagers": ["mise"],
+      "matchManagers": ["mise", "custom.regex"],
       "matchFileNames": [".config/mise/config.toml"],
       "groupName": "home mise tools",
       "skipArtifactsUpdate": true,
@@ -22,6 +37,17 @@
         "fileFilters": [".config/mise/mise.lock", ".config/mise/locks/**"],
         "installTools": { "mise": {} }
       }
+    },
+    {
+      "description": "Python stays on 3.14 until pyyaml ships cp315 wheels: https://github.com/yaml/pyyaml/issues/951",
+      "matchPackageNames": ["python/cpython"],
+      "allowedVersions": "<3.15"
+    },
+    {
+      "description": "imgpkg skips 0.49.1, a tag with no release or binaries: https://github.com/carvel-dev/imgpkg/releases",
+      "matchManagers": ["mise"],
+      "matchDepNames": ["imgpkg"],
+      "allowedVersions": "!/^0\\.49\\.1$/"
     }
   ],
   "pre-commit": {
